@@ -153,16 +153,3 @@ class User(AbstractUser):
             UserRole.PREMIUM,
         )
 
-    def save(self, *args, **kwargs):
-        """
-        Синхронизирует роль с правами Django.
-        """
-
-        self.is_staff = self.role in (
-            UserRole.MODERATOR,
-            UserRole.SUPERUSER,
-        )
-
-        self.is_superuser = self.role == UserRole.SUPERUSER
-
-        super().save(*args, **kwargs)
