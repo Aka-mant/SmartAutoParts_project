@@ -13,6 +13,7 @@ class UserAdmin(admin.ModelAdmin):
         'role',
         'is_staff',
         'is_superuser',
+        'is_active',
         'phone',
     )
     list_filter = (

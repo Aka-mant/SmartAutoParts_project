@@ -78,6 +78,11 @@ class User(AbstractUser):
         verbose_name=_("Updated at"),
     )
 
+    is_active = models.BooleanField(
+        default=True,
+        verbose_name=_('Is Active')
+    )
+
     USERNAME_FIELD = "email"
     REQUIRED_FIELDS = ["username"]
 
