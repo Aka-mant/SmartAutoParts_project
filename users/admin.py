@@ -4,6 +4,9 @@ from django.utils.translation import gettext_lazy as _
 
 @admin.register(User)
 class UserAdmin(admin.ModelAdmin):
+    """
+    Настройки отображения модели User в административной панели.
+    """
     list_display = (
         'id',
         'email',
