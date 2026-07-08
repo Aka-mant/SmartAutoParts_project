@@ -1,8 +1,7 @@
 from rest_framework import serializers
-from rest_framework import serializers
 from rest_framework_simplejwt.serializers import TokenObtainPairSerializer
 
-from .models import User
+from .models import User, Profile
 
 from .validators import PasswordValidator
 
@@ -40,3 +39,34 @@ class UserUpdateSerializer(serializers.ModelSerializer):
     class Meta:
         model = User
         fields = ('email', 'phone_number', 'is_active',)
+
+
+class ProfileSerializer(serializers.ModelSerializer):
+    """
+    Сериализатор профиля пользователя.
+    """
+
+    user_email = serializers.EmailField(
+        source="user.email",
+        read_only=True,
+    )
+
+    class Meta:
+        model = Profile
+        fields = (
+            "id",
+            "user",
+            "user_email",
+            "country",
+            "city",
+            "preferred_language",
+            "car_brand",
+            "car_model",
+            "car_year",
+            "bio",
+        )
+        read_only_fields = (
+            "id",
+            "user",
+            "user_email",
+        )
