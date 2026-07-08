@@ -2,7 +2,7 @@ from rest_framework import serializers
 from django.contrib.auth.password_validation import validate_password
 from rest_framework_simplejwt.serializers import TokenObtainPairSerializer
 
-from .models import User, Profile
+from .models import User, Profile, SearchHistory
 
 
 class UserSerializer(serializers.ModelSerializer):
@@ -138,4 +138,26 @@ class ProfileSerializer(serializers.ModelSerializer):
             "id",
             "user",
             "user_email",
+        )
+
+
+class SearchHistorySerializer(serializers.ModelSerializer):
+    """
+    Сериализатор истории поисковых запросов.
+    """
+
+    class Meta:
+        model = SearchHistory
+        fields = (
+            "id",
+            "user",
+            "original_number",
+            "search_query",
+            "result_found",
+            "searched_at",
+        )
+        read_only_fields = (
+            "id",
+            "user",
+            "searched_at",
         )
