@@ -1,5 +1,5 @@
 from django.contrib import admin
-from .models import User
+from .models import User, Profile
 from django.utils.translation import gettext_lazy as _
 
 @admin.register(User)
@@ -38,3 +38,98 @@ class UserAdmin(admin.ModelAdmin):
             'classes': ('collapse',),
         }),
     )
+
+@admin.register(Profile)
+class ProfileAdmin(admin.ModelAdmin):
+    """
+    Настройки отображения модели Profile в административной панели.
+    """
+
+    list_display = (
+        "id",
+        "user",
+        "country",
+        "city",
+        "preferred_language",
+        "car_brand",
+        "car_model",
+        "car_year",
+    )
+
+    list_display_links = (
+        "id",
+        "user",
+    )
+
+    search_fields = (
+        "user__email",
+        "user__username",
+        "country",
+        "city",
+        "car_brand",
+        "car_model",
+    )
+
+    list_filter = (
+        "country",
+        "city",
+        "preferred_language",
+        "car_brand",
+    )
+
+    ordering = (
+        "id",
+    )
+
+    autocomplete_fields = (
+        "user",
+    )
+
+    list_per_page = 25
+
+    fieldsets = (
+        (
+            _("User"),
+            {
+                "fields": (
+                    "user",
+                )
+            },
+        ),
+        (
+            _("Location"),
+            {
+                "fields": (
+                    "country",
+                    "city",
+                )
+            },
+        ),
+        (
+            _("Preferences"),
+            {
+                "fields": (
+                    "preferred_language",
+                )
+            },
+        ),
+        (
+            _("Car information"),
+            {
+                "fields": (
+                    "car_brand",
+                    "car_model",
+                    "car_year",
+                )
+            },
+        ),
+        (
+            _("Biography"),
+            {
+                "fields": (
+                    "bio",
+                )
+            },
+        ),
+    )
+
