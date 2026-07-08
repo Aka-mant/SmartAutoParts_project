@@ -158,3 +158,73 @@ class User(AbstractUser):
             UserRole.PREMIUM,
         )
 
+from django.conf import settings
+from django.db import models
+from django.utils.translation import gettext_lazy as _
+
+
+class Profile(models.Model):
+    """
+    Модель профиля пользователя.
+
+    Хранит дополнительную информацию о пользователе,
+    такую как место проживания, предпочитаемый язык,
+    сведения об автомобиле и краткую биографию.
+    """
+
+    user = models.OneToOneField(
+        settings.AUTH_USER_MODEL,
+        on_delete=models.CASCADE,
+        related_name="profile",
+        verbose_name=_("User"),
+    )
+
+    country = models.CharField(
+        max_length=255,
+        blank=True,
+        verbose_name=_("Country"),
+    )
+
+    city = models.CharField(
+        max_length=255,
+        blank=True,
+        verbose_name=_("City"),
+    )
+
+    preferred_language = models.CharField(
+        max_length=255,
+        blank=True,
+        verbose_name=_("Preferred language"),
+    )
+
+    car_brand = models.CharField(
+        max_length=255,
+        blank=True,
+        verbose_name=_("Car brand"),
+    )
+
+    car_model = models.CharField(
+        max_length=255,
+        blank=True,
+        verbose_name=_("Car model"),
+    )
+
+    car_year = models.PositiveIntegerField(
+        null=True,
+        blank=True,
+        verbose_name=_("Car year"),
+    )
+
+    bio = models.TextField(
+        blank=True,
+        verbose_name=_("Biography"),
+    )
+
+    class Meta:
+        db_table = "users_profile"
+        ordering = ("id",)
+        verbose_name = _("Profile")
+        verbose_name_plural = _("Profiles")
+
+    def __str__(self):
+        return f"{self.user.email} - {self.car_brand or _('No car')}"
