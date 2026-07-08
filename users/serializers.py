@@ -1,44 +1,113 @@
 from rest_framework import serializers
+from django.contrib.auth.password_validation import validate_password
 from rest_framework_simplejwt.serializers import TokenObtainPairSerializer
 
 from .models import User, Profile
 
-from .validators import PasswordValidator
-
 
 class UserSerializer(serializers.ModelSerializer):
+    """
+    Сериализатор пользователя.
+    """
+
     class Meta:
         model = User
-        fields = ('id', 'email', 'phone_number', 'is_active',)
+        fields = (
+            "id",
+            "email",
+            "username",
+            "first_name",
+            "last_name",
+            "phone",
+            "avatar",
+            "role",
+            "is_active",
+            "created_at",
+            "updated_at",
+        )
+        read_only_fields = (
+            "id",
+            "role",
+            "created_at",
+            "updated_at",
+        )
 
 
 class UserCreateSerializer(serializers.ModelSerializer):
-    password = serializers.CharField(write_only=True, required=True, min_length=0, max_length=16)
+    """
+    Сериализатор регистрации пользователя.
+    """
+    password = serializers.CharField(
+        write_only=True,
+        validators=[validate_password],
+        style={"input_type": "password"},
+    )
 
     class Meta:
         model = User
-        fields = ('email', 'password',)
-        validators = [PasswordValidator(field='password')]
+        fields = (
+            "email",
+            "username",
+            "password",
+            "first_name",
+            "last_name",
+            "phone",
+        )
 
     def create(self, validated_data):
-        user = User.objects.create(**validated_data)
-        user.set_password(user.password)
+        password = validated_data.pop("password")
+
+        user = User(**validated_data)
+        user.set_password(password)
         user.save()
+
         return user
 
 
 class UserTokenObtainSerializer(TokenObtainPairSerializer):
+    """
+    Сериализатор получения JWT-токенов.
+    """
+
     @classmethod
     def get_token(cls, user):
         token = super().get_token(user)
-        token['email'] = user.email
+
+        token["id"] = user.id
+        token["email"] = user.email
+        token["username"] = user.username
+        token["role"] = user.role
+
         return token
+
+    def validate(self, attrs):
+        data = super().validate(attrs)
+
+        data["user"] = {
+            "id": self.user.id,
+            "email": self.user.email,
+            "username": self.user.username,
+            "first_name": self.user.first_name,
+            "last_name": self.user.last_name,
+            "role": self.user.role,
+        }
+
+        return data
 
 
 class UserUpdateSerializer(serializers.ModelSerializer):
+    """
+    Сериализатор обновления данных пользователя.
+    """
+
     class Meta:
         model = User
-        fields = ('email', 'phone_number', 'is_active',)
+        fields = (
+            "first_name",
+            "last_name",
+            "phone",
+            "avatar",
+        )
 
 
 class ProfileSerializer(serializers.ModelSerializer):
