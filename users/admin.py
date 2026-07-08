@@ -1,5 +1,5 @@
 from django.contrib import admin
-from .models import User, Profile
+from .models import User, Profile, SearchHistory
 from django.utils.translation import gettext_lazy as _
 
 @admin.register(User)
@@ -136,3 +136,80 @@ class ProfileAdmin(admin.ModelAdmin):
         ),
     )
 
+@admin.register(SearchHistory)
+class SearchHistoryAdmin(admin.ModelAdmin):
+    """
+    Настройки отображения модели SearchHistory
+    в административной панели.
+    """
+
+    list_display = (
+        "id",
+        "user",
+        "original_number",
+        "search_query",
+        "result_found",
+        "searched_at",
+    )
+
+    list_display_links = (
+        "id",
+        "search_query",
+    )
+
+    search_fields = (
+        "user__email",
+        "user__username",
+        "original_number",
+        "search_query",
+    )
+
+    list_filter = (
+        "result_found",
+        "searched_at",
+    )
+
+    ordering = (
+        "-searched_at",
+    )
+
+    readonly_fields = (
+        "searched_at",
+    )
+
+    autocomplete_fields = (
+        "user",
+    )
+
+    list_per_page = 25
+
+    date_hierarchy = "searched_at"
+
+    fieldsets = (
+        (
+            _("User"),
+            {
+                "fields": (
+                    "user",
+                ),
+            },
+        ),
+        (
+            _("Search information"),
+            {
+                "fields": (
+                    "original_number",
+                    "search_query",
+                    "result_found",
+                ),
+            },
+        ),
+        (
+            _("Service information"),
+            {
+                "fields": (
+                    "searched_at",
+                ),
+            },
+        ),
+    )
