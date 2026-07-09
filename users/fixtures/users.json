@@ -1,0 +1,282 @@
+[
+{
+    "model": "users.user",
+    "pk": 1,
+    "fields": {
+        "password": "pbkdf2_sha256$1200000$TZB1ufMNSBX0eXj2PfEwAJ$73clBiHiO2uAGuok1VfvaZtWpFMY838swJqfdVDxea4=",
+        "last_login": null,
+        "is_superuser": false,
+        "is_staff": false,
+        "date_joined": "2026-07-09T17:41:49.537Z",
+        "email": "guest@example.com",
+        "username": "guest",
+        "first_name": "",
+        "last_name": "",
+        "phone": "",
+        "avatar": "",
+        "role": "guest",
+        "created_at": "2026-07-09T17:41:49.537Z",
+        "updated_at": "2026-07-09T17:41:49.968Z",
+        "is_active": true,
+        "groups": [],
+        "user_permissions": []
+    }
+},
+{
+    "model": "users.user",
+    "pk": 2,
+    "fields": {
+        "password": "pbkdf2_sha256$1200000$EcJe02G3Qx65vrmbBNIiEq$7sKsWSBUNxyEzJwTWuX0/EWrxg0ZdFDdfIyfrJv0l3g=",
+        "last_login": null,
+        "is_superuser": false,
+        "is_staff": false,
+        "date_joined": "2026-07-09T17:41:49.985Z",
+        "email": "user@example.com",
+        "username": "user",
+        "first_name": "",
+        "last_name": "",
+        "phone": "",
+        "avatar": "",
+        "role": "user",
+        "created_at": "2026-07-09T17:41:49.985Z",
+        "updated_at": "2026-07-09T17:41:50.424Z",
+        "is_active": true,
+        "groups": [],
+        "user_permissions": []
+    }
+},
+{
+    "model": "users.user",
+    "pk": 3,
+    "fields": {
+        "password": "pbkdf2_sha256$1200000$jLlWn58j0Fy1OYQgmnK95A$mQ8GK9BCWy1UnQigHIetZDjF24PiQ45tJR2/+02DFLk=",
+        "last_login": null,
+        "is_superuser": false,
+        "is_staff": false,
+        "date_joined": "2026-07-09T17:41:50.434Z",
+        "email": "premium@example.com",
+        "username": "premium",
+        "first_name": "",
+        "last_name": "",
+        "phone": "",
+        "avatar": "",
+        "role": "premium",
+        "created_at": "2026-07-09T17:41:50.434Z",
+        "updated_at": "2026-07-09T17:41:50.860Z",
+        "is_active": true,
+        "groups": [],
+        "user_permissions": []
+    }
+},
+{
+    "model": "users.user",
+    "pk": 4,
+    "fields": {
+        "password": "pbkdf2_sha256$1200000$dFMPscl6FjnPFqg99WaxUs$MVoO8N7Ujg8aJ6zZRJyMfgAXeo3NPi1aFUOOilS0Q6k=",
+        "last_login": null,
+        "is_superuser": false,
+        "is_staff": false,
+        "date_joined": "2026-07-09T17:41:50.869Z",
+        "email": "moderator@example.com",
+        "username": "moderator",
+        "first_name": "",
+        "last_name": "",
+        "phone": "",
+        "avatar": "",
+        "role": "moderator",
+        "created_at": "2026-07-09T17:41:50.869Z",
+        "updated_at": "2026-07-09T17:41:51.311Z",
+        "is_active": true,
+        "groups": [],
+        "user_permissions": []
+    }
+},
+{
+    "model": "users.profile",
+    "pk": 1,
+    "fields": {
+        "user": 1,
+        "country": "Germany",
+        "city": "Berlin",
+        "preferred_language": "de",
+        "car_brand": "",
+        "car_model": "",
+        "car_year": null,
+        "bio": "Гостевой профиль."
+    }
+},
+{
+    "model": "users.profile",
+    "pk": 2,
+    "fields": {
+        "user": 2,
+        "country": "Ukraine",
+        "city": "Kyiv",
+        "preferred_language": "uk",
+        "car_brand": "Toyota",
+        "car_model": "Corolla",
+        "car_year": 2020,
+        "bio": "Стандартный профиль пользователя."
+    }
+},
+{
+    "model": "users.profile",
+    "pk": 3,
+    "fields": {
+        "user": 3,
+        "country": "Poland",
+        "city": "Warsaw",
+        "preferred_language": "pl",
+        "car_brand": "BMW",
+        "car_model": "X5",
+        "car_year": 2022,
+        "bio": "Премиум-пользователь."
+    }
+},
+{
+    "model": "users.profile",
+    "pk": 4,
+    "fields": {
+        "user": 4,
+        "country": "Netherlands",
+        "city": "Amsterdam",
+        "preferred_language": "en",
+        "car_brand": "Audi",
+        "car_model": "A6",
+        "car_year": 2021,
+        "bio": "Профиль модератора."
+    }
+},
+{
+    "model": "users.searchhistory",
+    "pk": 1,
+    "fields": {
+        "user": 1,
+        "original_number": "06A115561B",
+        "search_query": "06A115561B",
+        "result_found": true,
+        "searched_at": "2026-07-09T17:41:49.983Z"
+    }
+},
+{
+    "model": "users.searchhistory",
+    "pk": 2,
+    "fields": {
+        "user": 1,
+        "original_number": "8K0615301",
+        "search_query": "8K0615301",
+        "result_found": true,
+        "searched_at": "2026-07-09T17:41:49.983Z"
+    }
+},
+{
+    "model": "users.searchhistory",
+    "pk": 3,
+    "fields": {
+        "user": 1,
+        "original_number": "TEST-0001",
+        "search_query": "TEST-0001",
+        "result_found": false,
+        "searched_at": "2026-07-09T17:41:49.983Z"
+    }
+},
+{
+    "model": "users.searchhistory",
+    "pk": 4,
+    "fields": {
+        "user": 2,
+        "original_number": "06A115561B",
+        "search_query": "06A115561B",
+        "result_found": true,
+        "searched_at": "2026-07-09T17:41:50.432Z"
+    }
+},
+{
+    "model": "users.searchhistory",
+    "pk": 5,
+    "fields": {
+        "user": 2,
+        "original_number": "8K0615301",
+        "search_query": "8K0615301",
+        "result_found": true,
+        "searched_at": "2026-07-09T17:41:50.432Z"
+    }
+},
+{
+    "model": "users.searchhistory",
+    "pk": 6,
+    "fields": {
+        "user": 2,
+        "original_number": "TEST-0001",
+        "search_query": "TEST-0001",
+        "result_found": false,
+        "searched_at": "2026-07-09T17:41:50.432Z"
+    }
+},
+{
+    "model": "users.searchhistory",
+    "pk": 7,
+    "fields": {
+        "user": 3,
+        "original_number": "06A115561B",
+        "search_query": "06A115561B",
+        "result_found": true,
+        "searched_at": "2026-07-09T17:41:50.867Z"
+    }
+},
+{
+    "model": "users.searchhistory",
+    "pk": 8,
+    "fields": {
+        "user": 3,
+        "original_number": "8K0615301",
+        "search_query": "8K0615301",
+        "result_found": true,
+        "searched_at": "2026-07-09T17:41:50.867Z"
+    }
+},
+{
+    "model": "users.searchhistory",
+    "pk": 9,
+    "fields": {
+        "user": 3,
+        "original_number": "TEST-0001",
+        "search_query": "TEST-0001",
+        "result_found": false,
+        "searched_at": "2026-07-09T17:41:50.867Z"
+    }
+},
+{
+    "model": "users.searchhistory",
+    "pk": 10,
+    "fields": {
+        "user": 4,
+        "original_number": "06A115561B",
+        "search_query": "06A115561B",
+        "result_found": true,
+        "searched_at": "2026-07-09T17:41:51.319Z"
+    }
+},
+{
+    "model": "users.searchhistory",
+    "pk": 11,
+    "fields": {
+        "user": 4,
+        "original_number": "8K0615301",
+        "search_query": "8K0615301",
+        "result_found": true,
+        "searched_at": "2026-07-09T17:41:51.319Z"
+    }
+},
+{
+    "model": "users.searchhistory",
+    "pk": 12,
+    "fields": {
+        "user": 4,
+        "original_number": "TEST-0001",
+        "search_query": "TEST-0001",
+        "result_found": false,
+        "searched_at": "2026-07-09T17:41:51.319Z"
+    }
+}
+]
