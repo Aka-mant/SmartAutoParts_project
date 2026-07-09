@@ -140,6 +140,23 @@ class ProfileSerializer(serializers.ModelSerializer):
             "user_email",
         )
 
+class ProfileUpdateSerializer(serializers.ModelSerializer):
+    """
+    Сериализатор обновления профиля пользователя.
+    """
+
+    class Meta:
+        model = Profile
+        fields = (
+            "country",
+            "city",
+            "preferred_language",
+            "car_brand",
+            "car_model",
+            "car_year",
+            "bio",
+        )
+
 
 class SearchHistorySerializer(serializers.ModelSerializer):
     """

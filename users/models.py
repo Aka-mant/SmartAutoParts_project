@@ -13,7 +13,7 @@ class UserRole(models.TextChoices):
     USER = "user", _("Пользователь")
     PREMIUM = "premium", _("Премиум")
     MODERATOR = "moderator", _("Модератор")
-    SUPERUSER = "superuser", _("Суперпользователь")
+
 
 
 class User(AbstractUser):
@@ -96,68 +96,32 @@ class User(AbstractUser):
     def __str__(self):
         return self.email
 
-    @property
-    def is_guest(self) -> bool:
-        """Является гостем."""
-        return self.role == UserRole.GUEST
-
-    @property
-    def is_user(self) -> bool:
-        """Является обычным пользователем."""
-        return self.role == UserRole.USER
-
-    @property
-    def is_premium(self) -> bool:
-        """Является премиум-пользователем."""
-        return self.role == UserRole.PREMIUM
-
-    @property
-    def is_moderator(self) -> bool:
-        """Является модератором."""
-        return self.role == UserRole.MODERATOR
-
-    @property
-    def is_role_superuser(self) -> bool:
-        """Является суперпользователем согласно ролевой модели."""
-        return self.role == UserRole.SUPERUSER
-
-    @property
-    def is_staff_role(self) -> bool:
-        """Имеет служебную роль."""
-        return self.role in (
-            UserRole.MODERATOR,
-            UserRole.SUPERUSER,
-        )
 
     @property
     def has_paid_access(self) -> bool:
-        """Имеет доступ к платным функциям."""
-        return self.role in (
+        """
+        Имеет доступ к платным функциям.
+        """
+
+        return (
+                self.role in (
             UserRole.PREMIUM,
             UserRole.MODERATOR,
-            UserRole.SUPERUSER,
+        )
+                or self.is_superuser
         )
 
     @property
     def can_moderate(self) -> bool:
-        """Может модерировать контент."""
-        return self.role in (
-            UserRole.MODERATOR,
-            UserRole.SUPERUSER,
+        """
+        Может модерировать контент.
+        """
+
+        return (
+                self.role == UserRole.MODERATOR
+                or self.is_superuser
         )
 
-    @property
-    def can_manage_users(self) -> bool:
-        """Может управлять пользователями."""
-        return self.role == UserRole.SUPERUSER
-
-    @property
-    def is_regular(self) -> bool:
-        """Является обычным зарегистрированным пользователем."""
-        return self.role in (
-            UserRole.USER,
-            UserRole.PREMIUM,
-        )
 
 
 class Profile(models.Model):
@@ -274,5 +238,5 @@ class SearchHistory(models.Model):
         verbose_name_plural = _("Search history")
 
     def __str__(self):
-        return f"{self.search_query} ({self.searched_at:%d.%m.%Y %H:%M})"
+        return f"{self.search_query} ({self.searched_at: %d.%m.%Y  %H:%M})"
 

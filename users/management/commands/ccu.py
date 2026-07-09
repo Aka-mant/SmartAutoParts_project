@@ -1,132 +1,149 @@
-import os
-
+from django.contrib.auth import get_user_model
 from django.core.management.base import BaseCommand
+from django.utils.translation import gettext_lazy as _
 
-from users.models import User, UserRole
+from users.models import Profile, SearchHistory, UserRole
+
+
+User = get_user_model()
 
 
 class Command(BaseCommand):
     """
-    Создание пользователей всех ролей по умолчанию.
+    Создание тестовых пользователей, профилей
+    и истории поиска.
     """
 
-    help = "Создание пользователей всех ролей"
-
+    help = _("Создание тестовых пользователей, профилей и истории поиска")
 
     def handle(self, *args, **options):
+        profiles = {
+            UserRole.GUEST: {
+                "country": "Germany",
+                "city": "Berlin",
+                "preferred_language": "de",
+                "car_brand": "",
+                "car_model": "",
+                "car_year": None,
+                "bio": _("Гостевой профиль."),
+            },
+            UserRole.USER: {
+                "country": "Ukraine",
+                "city": "Kyiv",
+                "preferred_language": "uk",
+                "car_brand": "Toyota",
+                "car_model": "Corolla",
+                "car_year": 2020,
+                "bio": _("Стандартный профиль пользователя."),
+            },
+            UserRole.PREMIUM: {
+                "country": "Poland",
+                "city": "Warsaw",
+                "preferred_language": "pl",
+                "car_brand": "BMW",
+                "car_model": "X5",
+                "car_year": 2022,
+                "bio": _("Премиум-пользователь."),
+            },
+            UserRole.MODERATOR: {
+                "country": "Netherlands",
+                "city": "Amsterdam",
+                "preferred_language": "en",
+                "car_brand": "Audi",
+                "car_model": "A6",
+                "car_year": 2021,
+                "bio": _("Профиль модератора."),
+            },
+        }
 
         users = [
             {
                 "email": "guest@example.com",
-                "password": os.getenv(
-                    "GUEST_PASSWORD",
-                    "12345678",
-                ),
                 "username": "guest",
-                "first_name": "Guest",
-                "last_name": "User",
+                "password": "guest12345",
                 "role": UserRole.GUEST,
-                "is_staff": False,
-                "is_superuser": False,
             },
             {
                 "email": "user@example.com",
-                "password": os.getenv(
-                    "USER_PASSWORD",
-                    "12345678",
-                ),
                 "username": "user",
-                "first_name": "Regular",
-                "last_name": "User",
+                "password": "user12345",
                 "role": UserRole.USER,
-                "is_staff": False,
-                "is_superuser": False,
             },
             {
                 "email": "premium@example.com",
-                "password": os.getenv(
-                    "PREMIUM_PASSWORD",
-                    "12345678",
-                ),
                 "username": "premium",
-                "first_name": "Premium",
-                "last_name": "User",
+                "password": "premium12345",
                 "role": UserRole.PREMIUM,
-                "is_staff": False,
-                "is_superuser": False,
             },
             {
                 "email": "moderator@example.com",
-                "password": os.getenv(
-                    "MODERATOR_PASSWORD",
-                    "12345678",
-                ),
                 "username": "moderator",
-                "first_name": "Moderator",
-                "last_name": "User",
+                "password": "moderator12345",
                 "role": UserRole.MODERATOR,
-                "is_staff": True,
-                "is_superuser": False,
-            },
-            {
-                "email": "admin@example.com",
-                "password": os.getenv(
-                    "ADMIN_PASSWORD",
-                    "12345678",
-                ),
-                "username": "admin",
-                "first_name": "Super",
-                "last_name": "Admin",
-                "role": UserRole.SUPERUSER,
-                "is_staff": True,
-                "is_superuser": True,
             },
         ]
 
+        created_users = 0
+        created_profiles = 0
+        created_history = 0
 
-        for user_data in users:
+        for data in users:
+            user, user_created = User.objects.get_or_create(
+                email=data["email"],
+                defaults={
+                    "username": data["username"],
+                    "role": data["role"],
+                },
+            )
 
-            email = user_data["email"]
+            if user_created:
+                user.set_password(data["password"])
+                user.save()
+                created_users += 1
 
-            if User.objects.filter(email=email).exists():
+            profile, profile_created = Profile.objects.get_or_create(
+                user=user,
+                defaults=profiles[user.role],
+            )
 
-                self.stdout.write(
-                    self.style.WARNING(
-                        f'Пользователь "{email}" уже существует.'
-                    )
+            if profile_created:
+                created_profiles += 1
+
+            if not SearchHistory.objects.filter(user=user).exists():
+                SearchHistory.objects.bulk_create(
+                    [
+                        SearchHistory(
+                            user=user,
+                            original_number="06A115561B",
+                            search_query="06A115561B",
+                            result_found=True,
+                        ),
+                        SearchHistory(
+                            user=user,
+                            original_number="8K0615301",
+                            search_query="8K0615301",
+                            result_found=True,
+                        ),
+                        SearchHistory(
+                            user=user,
+                            original_number="TEST-0001",
+                            search_query="TEST-0001",
+                            result_found=False,
+                        ),
+                    ]
                 )
+                created_history += 3
 
-                continue
-
-
-            if user_data["is_superuser"]:
-
-                user = User.objects.create_superuser(
-                    email=email,
-                    username=user_data["username"],
-                    password=user_data["password"],
-                    first_name=user_data["first_name"],
-                    last_name=user_data["last_name"],
-                    role=user_data["role"],
-                )
-
-            else:
-
-                user = User.objects.create_user(
-                    email=email,
-                    username=user_data["username"],
-                    password=user_data["password"],
-                    first_name=user_data["first_name"],
-                    last_name=user_data["last_name"],
-                    role=user_data["role"],
-                    is_staff=user_data["is_staff"],
-                    is_active=True,
-                )
-
-
-            self.stdout.write(
-                self.style.SUCCESS(
-                    f'Создан пользователь: {user.email} '
-                    f'({user.get_role_display()})'
+        self.stdout.write(
+            self.style.SUCCESS(
+                _(
+                    "Создано пользователей: {}\n"
+                    "Создано профилей: {}\n"
+                    "Создано записей истории: {}"
+                ).format(
+                    created_users,
+                    created_profiles,
+                    created_history,
                 )
             )
+        )
