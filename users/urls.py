@@ -107,3 +107,4 @@ urlpatterns = [
         name="repair_history_delete",
     ),
 ]
+

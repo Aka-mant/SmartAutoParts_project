@@ -1,6 +1,10 @@
 from django.contrib import admin
-from .models import User, Profile, SearchHistory, RepairHistory
+
 from django.utils.translation import gettext_lazy as _
+
+from apps.instructions.models import Instruction
+from .models import User, Profile, SearchHistory, RepairHistory
+
 
 @admin.register(User)
 class UserAdmin(admin.ModelAdmin):
@@ -287,3 +291,119 @@ class RepairHistoryAdmin(admin.ModelAdmin):
             },
         ),
     )
+
+
+@admin.register(Instruction)
+class InstructionAdmin(admin.ModelAdmin):
+    """
+    Административная панель инструкций по ремонту.
+    """
+
+    list_display = (
+        "id",
+        "title",
+        "part",
+        "difficulty",
+        "estimated_time",
+        "premium_only",
+        "version",
+        "created_by",
+        "created_at",
+        "updated_at",
+    )
+
+    list_display_links = (
+        "id",
+        "title",
+    )
+
+    list_filter = (
+        "premium_only",
+        "difficulty",
+        "created_at",
+        "updated_at",
+        "version",
+    )
+
+    search_fields = (
+        "title",
+        "slug",
+        "short_description",
+        "content",
+        "part__name",
+        "created_by__email",
+        "created_by__username",
+    )
+
+    readonly_fields = (
+        "version",
+        "created_at",
+        "updated_at",
+    )
+
+    autocomplete_fields = (
+        "part",
+        "created_by",
+    )
+
+    prepopulated_fields = {
+        "slug": (
+            "title",
+        ),
+    }
+
+    ordering = (
+        "title",
+    )
+
+    fieldsets = (
+        (
+            _("Main information"),
+            {
+                "fields": (
+                    "part",
+                    "title",
+                    "slug",
+                    "short_description",
+                    "content",
+                )
+            },
+        ),
+        (
+            _("Repair parameters"),
+            {
+                "fields": (
+                    "difficulty",
+                    "estimated_time",
+                    "premium_only",
+                    "version",
+                )
+            },
+        ),
+        (
+            _("Author and dates"),
+            {
+                "fields": (
+                    "created_by",
+                    "created_at",
+                    "updated_at",
+                )
+            },
+        ),
+    )
+
+    def save_model(self, request, obj, form, change):
+        """
+        Автоматически назначает автора
+        при создании инструкции.
+        """
+        if not obj.created_by:
+            obj.created_by = request.user
+
+        super().save_model(
+            request,
+            obj,
+            form,
+            change,
+        )
+
