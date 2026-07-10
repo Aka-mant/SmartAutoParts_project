@@ -240,3 +240,54 @@ class SearchHistory(models.Model):
     def __str__(self):
         return f"{self.search_query} ({self.searched_at: %d.%m.%Y  %H:%M})"
 
+
+class RepairHistory(models.Model):
+    """
+    Модель истории выполненных ремонтов.
+
+    Хранит информацию о прохождении пользователем инструкций
+    по ремонту или обслуживанию автомобиля. Позволяет отслеживать
+    статус выполнения, сохранять заметки пользователя и дату
+    выполнения работ.
+    """
+
+    user = models.ForeignKey(
+        settings.AUTH_USER_MODEL,
+        on_delete=models.CASCADE,
+        related_name="repair_history",
+        verbose_name=_("User"),
+    )
+
+    instruction = models.ForeignKey(
+        Instruction,
+        on_delete=models.CASCADE,
+        related_name="repair_history",
+        verbose_name=_("Instruction"),
+    )
+
+    completed = models.BooleanField(
+        default=False,
+        verbose_name=_("Completed"),
+    )
+
+    notes = models.TextField(
+        blank=True,
+        verbose_name=_("Notes"),
+        help_text=_("User notes about the completed repair."),
+    )
+
+    created_at = models.DateTimeField(
+        auto_now_add=True,
+        verbose_name=_("Created at"),
+    )
+
+    class Meta:
+        db_table = "users_repairhistory"
+        ordering = ("-created_at",)
+        verbose_name = _("Repair history")
+        verbose_name_plural = _("Repair history")
+
+    def __str__(self):
+        status = _("Completed") if self.completed else _("In progress")
+        return f"{self.user.email} — {self.instruction.title} ({status})"
+

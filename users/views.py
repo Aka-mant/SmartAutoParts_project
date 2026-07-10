@@ -8,22 +8,36 @@ from rest_framework.generics import (
 from rest_framework.permissions import AllowAny, IsAuthenticated
 from rest_framework_simplejwt.views import TokenObtainPairView
 
-from .models import User, Profile, SearchHistory
-from .permissions import IsModerator, IsSuperuser
+from .mixins.mixins import UserOwnedQuerySetMixin
+from .models import (
+    Profile,
+    RepairHistory,
+    SearchHistory,
+    User,
+)
+from .permissions import (
+    IsModerator,
+    IsOwner,
+    IsSuperuser,
+)
 from .serializers import (
+    ProfileSerializer,
+    ProfileUpdateSerializer,
+    RepairHistoryCreateSerializer,
+    RepairHistorySerializer,
+    RepairHistoryUpdateSerializer,
+    SearchHistorySerializer,
     UserCreateSerializer,
     UserSerializer,
     UserTokenObtainSerializer,
     UserUpdateSerializer,
-    ProfileSerializer,
-    ProfileUpdateSerializer,
-    SearchHistorySerializer,
 )
 
 
 class UserListAPIView(ListAPIView):
     """
-    API-представление для получения списка пользователей.
+    API-представление для получения
+    списка пользователей.
 
     Доступно модераторам и
     суперпользователям Django.
@@ -31,7 +45,10 @@ class UserListAPIView(ListAPIView):
 
     queryset = User.objects.all()
     serializer_class = UserSerializer
-    permission_classes = [IsAuthenticated, IsModerator | IsSuperuser]
+    permission_classes = [
+        IsAuthenticated,
+        IsModerator | IsSuperuser,
+    ]
 
 
 class UserCreateAPIView(CreateAPIView):
@@ -44,7 +61,9 @@ class UserCreateAPIView(CreateAPIView):
 
     queryset = User.objects.all()
     serializer_class = UserCreateSerializer
-    permission_classes = [AllowAny]
+    permission_classes = [
+        AllowAny,
+    ]
 
 
 class UserRetrieveAPIView(RetrieveAPIView):
@@ -52,33 +71,39 @@ class UserRetrieveAPIView(RetrieveAPIView):
     API-представление для получения
     информации о пользователе.
 
-    Доступно авторизованным
-    пользователям.
+    Пользователь может просматривать
+    только собственную учетную запись.
+
+    Суперпользователь может
+    просматривать любую учетную запись.
     """
 
     queryset = User.objects.all()
     serializer_class = UserSerializer
-    permission_classes = [IsAuthenticated]
+    permission_classes = [
+        IsAuthenticated,
+        IsOwner,
+    ]
 
 
 class UserUpdateAPIView(UpdateAPIView):
     """
     API-представление для обновления
-    данных текущего пользователя.
+    данных пользователя.
 
     Пользователь может изменять
     только собственную учетную запись.
+
+    Суперпользователь может изменять
+    любую учетную запись.
     """
 
+    queryset = User.objects.all()
     serializer_class = UserUpdateSerializer
-    permission_classes = [IsAuthenticated]
-
-    def get_object(self):
-        """
-        Возвращает текущего
-        авторизованного пользователя.
-        """
-        return self.request.user
+    permission_classes = [
+        IsAuthenticated,
+        IsOwner,
+    ]
 
 
 class UserDeleteAPIView(DestroyAPIView):
@@ -91,7 +116,9 @@ class UserDeleteAPIView(DestroyAPIView):
     """
 
     queryset = User.objects.all()
-    permission_classes = [IsSuperuser]
+    permission_classes = [
+        IsSuperuser,
+    ]
 
 
 class UserTokenObtainPairView(TokenObtainPairView):
@@ -101,74 +128,199 @@ class UserTokenObtainPairView(TokenObtainPairView):
     """
 
     serializer_class = UserTokenObtainSerializer
-    permission_classes = [AllowAny]
+    permission_classes = [
+        AllowAny,
+    ]
 
     def post(self, request, *args, **kwargs):
         """
         Выполняет аутентификацию
-        пользователя и выдает JWT-токены.
+        пользователя и выдает
+        JWT-токены.
         """
-        return super().post(request, *args, **kwargs)
+        return super().post(
+            request,
+            *args,
+            **kwargs,
+        )
 
-
-class ProfileRetrieveAPIView(RetrieveAPIView):
+class ProfileRetrieveAPIView(
+    UserOwnedQuerySetMixin,
+    RetrieveAPIView,
+):
     """
     API-представление для получения
-    профиля текущего пользователя.
+    профиля пользователя.
 
-    Доступно только авторизованным
-    пользователям.
+    Пользователь может просматривать
+    только собственный профиль.
+
+    Суперпользователь может
+    просматривать любой профиль.
     """
 
+    queryset = Profile.objects.all()
     serializer_class = ProfileSerializer
-    permission_classes = [IsAuthenticated]
-
-    def get_object(self):
-        """
-        Возвращает профиль текущего
-        авторизованного пользователя.
-        """
-        return self.request.user.profile
+    permission_classes = [
+        IsAuthenticated,
+        IsOwner,
+    ]
 
 
-class ProfileUpdateAPIView(UpdateAPIView):
+class ProfileUpdateAPIView(
+    UserOwnedQuerySetMixin,
+    UpdateAPIView,
+):
     """
     API-представление для изменения
-    профиля текущего пользователя.
+    профиля пользователя.
 
     Пользователь может изменять
     только собственный профиль.
+
+    Суперпользователь может
+    изменять любой профиль.
     """
 
+    queryset = Profile.objects.all()
     serializer_class = ProfileUpdateSerializer
-    permission_classes = [IsAuthenticated]
-
-    def get_object(self):
-        """
-        Возвращает профиль текущего
-        авторизованного пользователя.
-        """
-        return self.request.user.profile
+    permission_classes = [
+        IsAuthenticated,
+        IsOwner,
+    ]
 
 
-class SearchHistoryListAPIView(ListAPIView):
+class SearchHistoryListAPIView(
+    UserOwnedQuerySetMixin,
+    ListAPIView,
+):
     """
     API-представление для получения
-    истории поисковых запросов
-    текущего пользователя.
+    истории поисковых запросов.
+
+    Пользователь может просматривать
+    только собственную историю.
+
+    Суперпользователь может
+    просматривать всю историю.
+    """
+
+    queryset = SearchHistory.objects.all()
+    serializer_class = SearchHistorySerializer
+    permission_classes = [
+        IsAuthenticated,
+    ]
+
+
+class RepairHistoryListAPIView(
+    UserOwnedQuerySetMixin,
+    ListAPIView,
+):
+    """
+    API-представление для получения
+    истории ремонтов.
+
+    Пользователь может просматривать
+    только собственную историю.
+
+    Суперпользователь может
+    просматривать всю историю.
+    """
+
+    queryset = RepairHistory.objects.all()
+    serializer_class = RepairHistorySerializer
+    permission_classes = [
+        IsAuthenticated,
+    ]
+
+
+class RepairHistoryCreateAPIView(CreateAPIView):
+    """
+    API-представление для создания
+    записи истории ремонта.
 
     Доступно только авторизованным
     пользователям.
     """
 
-    serializer_class = SearchHistorySerializer
-    permission_classes = [IsAuthenticated]
+    serializer_class = RepairHistoryCreateSerializer
+    permission_classes = [
+        IsAuthenticated,
+    ]
 
-    def get_queryset(self):
+    def perform_create(self, serializer):
         """
-        Возвращает историю поиска
-        текущего пользователя.
+        Создает запись истории
+        ремонта для текущего
+        пользователя.
         """
-        return SearchHistory.objects.filter(
-            user=self.request.user
+        serializer.save(
+            user=self.request.user,
         )
+
+class RepairHistoryRetrieveAPIView(
+    UserOwnedQuerySetMixin,
+    RetrieveAPIView,
+):
+    """
+    API-представление для получения
+    записи истории ремонта.
+
+    Пользователь может просматривать
+    только собственные записи.
+
+    Суперпользователь может
+    просматривать любые записи.
+    """
+
+    queryset = RepairHistory.objects.all()
+    serializer_class = RepairHistorySerializer
+    permission_classes = [
+        IsAuthenticated,
+        IsOwner,
+    ]
+
+
+class RepairHistoryUpdateAPIView(
+    UserOwnedQuerySetMixin,
+    UpdateAPIView,
+):
+    """
+    API-представление для изменения
+    записи истории ремонта.
+
+    Пользователь может изменять
+    только собственные записи.
+
+    Суперпользователь может
+    изменять любые записи.
+    """
+
+    queryset = RepairHistory.objects.all()
+    serializer_class = RepairHistoryUpdateSerializer
+    permission_classes = [
+        IsAuthenticated,
+        IsOwner,
+    ]
+
+
+class RepairHistoryDeleteAPIView(
+    UserOwnedQuerySetMixin,
+    DestroyAPIView,
+):
+    """
+    API-представление для удаления
+    записи истории ремонта.
+
+    Пользователь может удалять
+    только собственные записи.
+
+    Суперпользователь может
+    удалять любые записи.
+    """
+
+    queryset = RepairHistory.objects.all()
+    permission_classes = [
+        IsAuthenticated,
+        IsOwner,
+    ]

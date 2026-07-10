@@ -1,3 +1,4 @@
+from django.contrib.auth.models import User
 from django.utils.translation import gettext_lazy as _
 
 from rest_framework.permissions import BasePermission
@@ -78,15 +79,33 @@ class IsOwner(BasePermission):
     Разрешает доступ только владельцу объекта.
 
     Используется для проверки объектных
-    разрешений моделей, имеющих поле
-    ``user``.
+    разрешений моделей пользователя.
+
+    Системный суперпользователь Django
+    имеет доступ ко всем объектам.
     """
 
-    message = _("Вы можете выполнять это действие только для собственных данных.")
+    message = _(
+        "Вы можете выполнять это действие только для собственных данных."
+    )
 
     def has_object_permission(self, request, view, obj):
-        return (
-            request.user.is_authenticated
-            and hasattr(obj, "user")
-            and obj.user == request.user
-        )
+        """
+        Проверяет, является ли текущий
+        пользователь владельцем объекта.
+        """
+        if (
+            not request.user.is_authenticated
+        ):
+            return False
+
+        if request.user.is_superuser:
+            return True
+
+        if isinstance(obj, User):
+            return obj == request.user
+
+        if hasattr(obj, "user"):
+            return obj.user == request.user
+
+        return False

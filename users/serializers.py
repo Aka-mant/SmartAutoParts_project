@@ -2,7 +2,7 @@ from rest_framework import serializers
 from django.contrib.auth.password_validation import validate_password
 from rest_framework_simplejwt.serializers import TokenObtainPairSerializer
 
-from .models import User, Profile, SearchHistory
+from .models import User, Profile, SearchHistory, RepairHistory
 
 
 class UserSerializer(serializers.ModelSerializer):
@@ -177,4 +177,55 @@ class SearchHistorySerializer(serializers.ModelSerializer):
             "id",
             "user",
             "searched_at",
+        )
+
+
+class RepairHistorySerializer(serializers.ModelSerializer):
+    """
+    Сериализатор истории ремонтов.
+    """
+
+    class Meta:
+        model = RepairHistory
+        fields = (
+            "id",
+            "user",
+            "instruction",
+            "completed",
+            "notes",
+            "created_at",
+        )
+        read_only_fields = (
+            "id",
+            "created_at",
+        )
+
+
+class RepairHistoryCreateSerializer(serializers.ModelSerializer):
+    """
+    Сериализатор создания записи
+    истории ремонта.
+    """
+
+    class Meta:
+        model = RepairHistory
+        fields = (
+            "user",
+            "instruction",
+            "completed",
+            "notes",
+        )
+
+
+class RepairHistoryUpdateSerializer(serializers.ModelSerializer):
+    """
+    Сериализатор обновления записи
+    истории ремонта.
+    """
+
+    class Meta:
+        model = RepairHistory
+        fields = (
+            "completed",
+            "notes",
         )

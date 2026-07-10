@@ -1,5 +1,5 @@
 from django.contrib import admin
-from .models import User, Profile, SearchHistory
+from .models import User, Profile, SearchHistory, RepairHistory
 from django.utils.translation import gettext_lazy as _
 
 @admin.register(User)
@@ -210,6 +210,80 @@ class SearchHistoryAdmin(admin.ModelAdmin):
                 "fields": (
                     "searched_at",
                 ),
+            },
+        ),
+    )
+
+
+@admin.register(RepairHistory)
+class RepairHistoryAdmin(admin.ModelAdmin):
+    """
+    Административная панель модели истории ремонтов.
+    """
+
+    list_display = (
+        "id",
+        "user",
+        "instruction",
+        "completed",
+        "created_at",
+    )
+
+    list_display_links = (
+        "id",
+        "instruction",
+    )
+
+    list_filter = (
+        "completed",
+        "created_at",
+    )
+
+    search_fields = (
+        "user__email",
+        "user__username",
+        "instruction__title",
+        "notes",
+    )
+
+    readonly_fields = (
+        "created_at",
+    )
+
+    autocomplete_fields = (
+        "user",
+        "instruction",
+    )
+
+    ordering = (
+        "-created_at",
+    )
+
+    fieldsets = (
+        (
+            None,
+            {
+                "fields": (
+                    "user",
+                    "instruction",
+                    "completed",
+                )
+            },
+        ),
+        (
+            _("Additional information"),
+            {
+                "fields": (
+                    "notes",
+                )
+            },
+        ),
+        (
+            _("System information"),
+            {
+                "fields": (
+                    "created_at",
+                )
             },
         ),
     )
