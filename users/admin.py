@@ -407,3 +407,117 @@ class InstructionAdmin(admin.ModelAdmin):
             change,
         )
 
+@admin.register(Part)
+class PartAdmin(admin.ModelAdmin):
+    """
+    Административная панель автомобильных запчастей.
+    """
+
+    list_display = (
+        "id",
+        "name",
+        "original_number",
+        "manufacturer",
+        "category",
+        "weight",
+        "is_active",
+        "created_at",
+        "updated_at",
+    )
+
+    list_display_links = (
+        "id",
+        "name",
+    )
+
+    list_filter = (
+        "is_active",
+        "manufacturer",
+        "category",
+        "created_at",
+        "updated_at",
+    )
+
+    search_fields = (
+        "name",
+        "original_number",
+        "slug",
+        "manufacturer",
+        "description",
+        "category__name",
+    )
+
+    readonly_fields = (
+        "created_at",
+        "updated_at",
+    )
+
+    autocomplete_fields = (
+        "category",
+    )
+
+    prepopulated_fields = {
+        "slug": (
+            "name",
+        ),
+    }
+
+    ordering = (
+        "name",
+    )
+
+    list_editable = (
+        "is_active",
+    )
+
+    fieldsets = (
+        (
+            _("Main information"),
+            {
+                "fields": (
+                    "category",
+                    "name",
+                    "slug",
+                    "original_number",
+                    "manufacturer",
+                    "description",
+                )
+            },
+        ),
+        (
+            _("SEO information"),
+            {
+                "fields": (
+                    "seo_title",
+                    "seo_description",
+                    "seo_keywords",
+                )
+            },
+        ),
+        (
+            _("Physical parameters"),
+            {
+                "fields": (
+                    "weight",
+                    "dimensions",
+                )
+            },
+        ),
+        (
+            _("Status"),
+            {
+                "fields": (
+                    "is_active",
+                )
+            },
+        ),
+        (
+            _("System information"),
+            {
+                "fields": (
+                    "created_at",
+                    "updated_at",
+                )
+            },
+        ),
+    )
