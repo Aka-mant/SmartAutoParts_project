@@ -7,11 +7,11 @@ from rest_framework.generics import (
 )
 from rest_framework.permissions import IsAuthenticated
 
-from .models import Part
+from .models import Part, PartCategory
 from .serializers import (
     PartSerializer,
     PartCreateSerializer,
-    PartUpdateSerializer,
+    PartUpdateSerializer, PartCategoryCreateSerializer, PartCategorySerializer, PartCategoryUpdateSerializer,
 )
 
 from users.permissions import (
@@ -110,3 +110,78 @@ class PartDeleteAPIView(DestroyAPIView):
         IsSuperuser,
     ]
 
+
+class PartCategoryListAPIView(ListAPIView):
+    """
+    API-представление для получения списка
+    категорий запчастей.
+
+    Доступно авторизованным пользователям.
+    """
+
+    queryset = PartCategory.objects.all()
+    serializer_class = PartCategorySerializer
+    permission_classes = [IsAuthenticated]
+
+
+class PartCategoryCreateAPIView(CreateAPIView):
+    """
+    API-представление для создания
+    категории запчастей.
+
+    Доступно модераторам и
+    суперпользователям Django.
+    """
+
+    queryset = PartCategory.objects.all()
+    serializer_class = PartCategoryCreateSerializer
+    permission_classes = [
+        IsAuthenticated,
+        IsModerator | IsSuperuser,
+    ]
+
+
+class PartCategoryRetrieveAPIView(RetrieveAPIView):
+    """
+    API-представление для получения
+    информации о категории запчастей.
+
+    Доступно авторизованным пользователям.
+    """
+
+    queryset = PartCategory.objects.all()
+    serializer_class = PartCategorySerializer
+    permission_classes = [IsAuthenticated]
+
+
+class PartCategoryUpdateAPIView(UpdateAPIView):
+    """
+    API-представление для обновления
+    категории запчастей.
+
+    Доступно модераторам и
+    суперпользователям Django.
+    """
+
+    queryset = PartCategory.objects.all()
+    serializer_class = PartCategoryUpdateSerializer
+    permission_classes = [
+        IsAuthenticated,
+        IsModerator | IsSuperuser,
+    ]
+
+
+class PartCategoryDeleteAPIView(DestroyAPIView):
+    """
+    API-представление для удаления
+    категории запчастей.
+
+    Доступно только системным
+    суперпользователям Django.
+    """
+
+    queryset = PartCategory.objects.all()
+    permission_classes = [
+        IsAuthenticated,
+        IsSuperuser,
+    ]

@@ -40,6 +40,7 @@ urlpatterns = [
     # my apps
     path('users/', include('users.urls'), name='users'),
     path('api/instructions/', include('apps.instructions.urls'), name='instructions'),
+    path('api/parts/', include('apps.parts.urls'), name='parts'),
 
     #
 

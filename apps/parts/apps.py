@@ -2,4 +2,4 @@ from django.apps import AppConfig
 
 
 class PartsConfig(AppConfig):
-    name = 'parts'
+    name = 'apps.parts'

@@ -3,6 +3,7 @@ from django.contrib import admin
 from django.utils.translation import gettext_lazy as _
 
 from apps.instructions.models import Instruction
+from apps.parts.models import Part, PartCategory
 from .models import User, Profile, SearchHistory, RepairHistory
 
 
@@ -517,6 +518,52 @@ class PartAdmin(admin.ModelAdmin):
                 "fields": (
                     "created_at",
                     "updated_at",
+                )
+            },
+        ),
+    )
+
+@admin.register(PartCategory)
+class PartCategoryAdmin(admin.ModelAdmin):
+    """
+    Административная панель категорий запчастей.
+    """
+
+    list_display = (
+        "id",
+        "name",
+        "slug",
+    )
+
+    list_display_links = (
+        "id",
+        "name",
+    )
+
+    search_fields = (
+        "name",
+        "slug",
+        "description",
+    )
+
+    ordering = (
+        "name",
+    )
+
+    prepopulated_fields = {
+        "slug": (
+            "name",
+        ),
+    }
+
+    fieldsets = (
+        (
+            _("Main information"),
+            {
+                "fields": (
+                    "name",
+                    "slug",
+                    "description",
                 )
             },
         ),

@@ -139,7 +139,7 @@ class Part(models.Model):
         indexes = [
             models.Index(
                 fields=["original_number"],
-                name="parts_part_index_for_original_number",
+                name='part_original_oem_idx',
             ),
         ]
 
