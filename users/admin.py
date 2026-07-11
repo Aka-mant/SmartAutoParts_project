@@ -2,7 +2,7 @@ from django.contrib import admin
 
 from django.utils.translation import gettext_lazy as _
 
-from apps.instructions.models import Instruction
+from apps.instructions.models import Instruction, InstructionVersion, InstructionStep, InstructionImage, InstructionTool
 from apps.parts.models import Part, PartCategory
 from .models import User, Profile, SearchHistory, RepairHistory
 
@@ -407,6 +407,210 @@ class InstructionAdmin(admin.ModelAdmin):
             form,
             change,
         )
+
+@admin.register(InstructionVersion)
+class InstructionVersionAdmin(admin.ModelAdmin):
+    """
+    Административная панель версий инструкций.
+    """
+
+    list_display = (
+        "id",
+        "instruction",
+        "version_number",
+        "created_at",
+    )
+
+    list_display_links = (
+        "id",
+        "instruction",
+    )
+
+    list_filter = (
+        "created_at",
+    )
+
+    search_fields = (
+        "instruction__title",
+        "content",
+        "changelog",
+    )
+
+    ordering = (
+        "-version_number",
+    )
+
+    readonly_fields = (
+        "created_at",
+    )
+
+    autocomplete_fields = (
+        "instruction",
+    )
+
+    fieldsets = (
+        (
+            _("Version information"),
+            {
+                "fields": (
+                    "instruction",
+                    "version_number",
+                    "content",
+                    "changelog",
+                )
+            },
+        ),
+        (
+            _("System information"),
+            {
+                "fields": (
+                    "created_at",
+                )
+            },
+        ),
+    )
+
+
+@admin.register(InstructionStep)
+class InstructionStepAdmin(admin.ModelAdmin):
+    """
+    Административная панель шагов инструкции.
+    """
+
+    list_display = (
+        "id",
+        "instruction",
+        "step_number",
+        "title",
+        "estimated_minutes",
+    )
+
+    list_display_links = (
+        "id",
+        "title",
+    )
+
+    list_filter = (
+        "instruction",
+    )
+
+    search_fields = (
+        "instruction__title",
+        "title",
+        "description",
+        "warning",
+    )
+
+    ordering = (
+        "instruction",
+        "step_number",
+    )
+
+    autocomplete_fields = (
+        "instruction",
+    )
+
+    fieldsets = (
+        (
+            _("Step information"),
+            {
+                "fields": (
+                    "instruction",
+                    "step_number",
+                    "title",
+                    "description",
+                    "warning",
+                    "estimated_minutes",
+                )
+            },
+        ),
+    )
+
+
+@admin.register(InstructionImage)
+class InstructionImageAdmin(admin.ModelAdmin):
+    """
+    Административная панель изображений инструкции.
+    """
+
+    list_display = (
+        "id",
+        "instruction",
+        "image",
+    )
+
+    list_display_links = (
+        "id",
+        "instruction",
+    )
+
+    search_fields = (
+        "instruction__title",
+        "description",
+    )
+
+    autocomplete_fields = (
+        "instruction",
+    )
+
+    fieldsets = (
+        (
+            _("Image information"),
+            {
+                "fields": (
+                    "instruction",
+                    "image",
+                    "description",
+                )
+            },
+        ),
+    )
+
+
+@admin.register(InstructionTool)
+class InstructionToolAdmin(admin.ModelAdmin):
+    """
+    Административная панель инструментов инструкции.
+    """
+
+    list_display = (
+        "id",
+        "instruction",
+        "tool",
+    )
+
+    list_display_links = (
+        "id",
+        "instruction",
+    )
+
+    list_filter = (
+        "tool",
+    )
+
+    search_fields = (
+        "instruction__title",
+        "tool__name",
+        "usage_description",
+    )
+
+    autocomplete_fields = (
+        "instruction",
+        "tool",
+    )
+
+    fieldsets = (
+        (
+            _("Tool information"),
+            {
+                "fields": (
+                    "instruction",
+                    "tool",
+                    "usage_description",
+                )
+            },
+        ),
+    )
 
 @admin.register(Part)
 class PartAdmin(admin.ModelAdmin):

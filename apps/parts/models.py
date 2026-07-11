@@ -147,3 +147,179 @@ class Part(models.Model):
         return f"{self.name} ({self.original_number})"
 
 
+class OEMNumber(models.Model):
+    """
+    Модель OEM-номера запчасти.
+
+    Хранит оригинальные номера производителей (OEM),
+    соответствующие конкретной запчасти. Одна запчасть
+    может иметь несколько OEM-номеров.
+    """
+
+    part = models.ForeignKey(
+        Part,
+        on_delete=models.CASCADE,
+        related_name="oem_numbers",
+        verbose_name=_("Part"),
+    )
+
+    number = models.CharField(
+        max_length=255,
+        unique=True,
+        verbose_name=_("OEM number"),
+    )
+
+    manufacturer = models.CharField(
+        max_length=255,
+        blank=True,
+        verbose_name=_("Manufacturer"),
+    )
+
+    class Meta:
+        db_table = "parts_oemnumber"
+        ordering = ("number",)
+        verbose_name = _("OEM number")
+        verbose_name_plural = _("OEM numbers")
+        constraints = [
+            models.UniqueConstraint(
+                fields=["part", "number"],
+                name="parts_oemnumber_index_0",
+            ),
+        ]
+
+    def __str__(self):
+        return self.number
+
+class Compatibility(models.Model):
+    """
+    Модель совместимости запчасти.
+
+    Хранит информацию о совместимости запчасти с различными
+    автомобилями. Позволяет определить, для каких марок,
+    моделей, поколений, двигателей и годов выпуска подходит
+    конкретная запчасть.
+    """
+
+    part = models.ForeignKey(
+        Part,
+        on_delete=models.CASCADE,
+        related_name="compatibilities",
+        verbose_name=_("Part"),
+    )
+
+    brand = models.CharField(
+        max_length=255,
+        blank=True,
+        verbose_name=_("Brand"),
+    )
+
+    model = models.CharField(
+        max_length=255,
+        blank=True,
+        verbose_name=_("Model"),
+    )
+
+    generation = models.CharField(
+        max_length=255,
+        blank=True,
+        verbose_name=_("Generation"),
+    )
+
+    engine = models.CharField(
+        max_length=255,
+        blank=True,
+        verbose_name=_("Engine"),
+    )
+
+    year_from = models.PositiveIntegerField(
+        null=True,
+        blank=True,
+        verbose_name=_("Year from"),
+    )
+
+    year_to = models.PositiveIntegerField(
+        null=True,
+        blank=True,
+        verbose_name=_("Year to"),
+    )
+
+    class Meta:
+        db_table = "parts_compatibility"
+        ordering = (
+            "brand",
+            "model",
+            "generation",
+            "year_from",
+        )
+        verbose_name = _("Compatibility")
+        verbose_name_plural = _("Compatibilities")
+
+    def __str__(self):
+        years = ""
+
+        if self.year_from and self.year_to:
+            years = f" ({self.year_from}-{self.year_to})"
+        elif self.year_from:
+            years = f" (с {self.year_from})"
+        elif self.year_to:
+            years = f" (до {self.year_to})"
+
+        return (
+            f"{self.brand} "
+            f"{self.model} "
+            f"{self.generation}"
+            f"{years}"
+        ).strip()
+
+
+class PartImage(models.Model):
+    """
+    Модель изображения запчасти.
+
+    Хранит изображения, относящиеся к конкретной запчасти.
+    Позволяет хранить несколько изображений для одной
+    запчасти, при этом одно из них может быть отмечено
+    как основное.
+    """
+
+    part = models.ForeignKey(
+        Part,
+        on_delete=models.CASCADE,
+        related_name="images",
+        verbose_name=_("Part"),
+    )
+
+    image = models.ImageField(
+        upload_to="parts/images/",
+        verbose_name=_("Image"),
+    )
+
+    alt_text = models.CharField(
+        max_length=255,
+        blank=True,
+        verbose_name=_("Alternative text"),
+        help_text=_("Alternative text for SEO and accessibility."),
+    )
+
+    is_main = models.BooleanField(
+        default=False,
+        verbose_name=_("Main image"),
+        help_text=_("Indicates whether this image is the primary image for the part."),
+    )
+
+    uploaded_at = models.DateTimeField(
+        auto_now_add=True,
+        verbose_name=_("Uploaded at"),
+    )
+
+    class Meta:
+        db_table = "parts_partimage"
+        ordering = ("-is_main", "id")
+        verbose_name = _("Part image")
+        verbose_name_plural = _("Part images")
+
+    def __str__(self):
+        return (
+            f"{self.part.name} "
+            f"{_('(main)') if self.is_main else ''}"
+        ).strip()

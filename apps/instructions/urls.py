@@ -2,18 +2,48 @@ from django.urls import path
 
 from .apps import InstructionsConfig
 from .views import (
+    # Instruction
     InstructionListAPIView,
     InstructionCreateAPIView,
     InstructionRetrieveAPIView,
     InstructionUpdateAPIView,
     InstructionDeleteAPIView,
+
+    # InstructionVersion
+    InstructionVersionListAPIView,
+    InstructionVersionCreateAPIView,
+    InstructionVersionRetrieveAPIView,
+    InstructionVersionUpdateAPIView,
+    InstructionVersionDeleteAPIView,
+
+    # InstructionStep
+    InstructionStepListAPIView,
+    InstructionStepCreateAPIView,
+    InstructionStepRetrieveAPIView,
+    InstructionStepUpdateAPIView,
+    InstructionStepDeleteAPIView,
+
+    # InstructionImage
+    InstructionImageListAPIView,
+    InstructionImageCreateAPIView,
+    InstructionImageRetrieveAPIView,
+    InstructionImageUpdateAPIView,
+    InstructionImageDeleteAPIView,
+
+    # InstructionTool
+    InstructionToolListAPIView,
+    InstructionToolCreateAPIView,
+    InstructionToolRetrieveAPIView,
+    InstructionToolUpdateAPIView,
+    InstructionToolDeleteAPIView,
 )
 
 app_name = InstructionsConfig.name
 
-
 urlpatterns = [
-    # Инструкции
+    # ==========================
+    # Instructions
+    # ==========================
     path(
         "",
         InstructionListAPIView.as_view(),
@@ -39,5 +69,120 @@ urlpatterns = [
         InstructionDeleteAPIView.as_view(),
         name="instruction_delete",
     ),
-]
 
+    # ==========================
+    # Instruction versions
+    # ==========================
+    path(
+        "versions/",
+        InstructionVersionListAPIView.as_view(),
+        name="instruction_version_list",
+    ),
+    path(
+        "versions/create/",
+        InstructionVersionCreateAPIView.as_view(),
+        name="instruction_version_create",
+    ),
+    path(
+        "versions/<int:pk>/",
+        InstructionVersionRetrieveAPIView.as_view(),
+        name="instruction_version_detail",
+    ),
+    path(
+        "versions/<int:pk>/update/",
+        InstructionVersionUpdateAPIView.as_view(),
+        name="instruction_version_update",
+    ),
+    path(
+        "versions/<int:pk>/delete/",
+        InstructionVersionDeleteAPIView.as_view(),
+        name="instruction_version_delete",
+    ),
+
+    # ==========================
+    # Instruction steps
+    # ==========================
+    path(
+        "steps/",
+        InstructionStepListAPIView.as_view(),
+        name="instruction_step_list",
+    ),
+    path(
+        "steps/create/",
+        InstructionStepCreateAPIView.as_view(),
+        name="instruction_step_create",
+    ),
+    path(
+        "steps/<int:pk>/",
+        InstructionStepRetrieveAPIView.as_view(),
+        name="instruction_step_detail",
+    ),
+    path(
+        "steps/<int:pk>/update/",
+        InstructionStepUpdateAPIView.as_view(),
+        name="instruction_step_update",
+    ),
+    path(
+        "steps/<int:pk>/delete/",
+        InstructionStepDeleteAPIView.as_view(),
+        name="instruction_step_delete",
+    ),
+
+    # ==========================
+    # Instruction images
+    # ==========================
+    path(
+        "images/",
+        InstructionImageListAPIView.as_view(),
+        name="instruction_image_list",
+    ),
+    path(
+        "images/create/",
+        InstructionImageCreateAPIView.as_view(),
+        name="instruction_image_create",
+    ),
+    path(
+        "images/<int:pk>/",
+        InstructionImageRetrieveAPIView.as_view(),
+        name="instruction_image_detail",
+    ),
+    path(
+        "images/<int:pk>/update/",
+        InstructionImageUpdateAPIView.as_view(),
+        name="instruction_image_update",
+    ),
+    path(
+        "images/<int:pk>/delete/",
+        InstructionImageDeleteAPIView.as_view(),
+        name="instruction_image_delete",
+    ),
+
+    # ==========================
+    # Instruction tools
+    # ==========================
+    path(
+        "tools/",
+        InstructionToolListAPIView.as_view(),
+        name="instruction_tool_list",
+    ),
+    path(
+        "tools/create/",
+        InstructionToolCreateAPIView.as_view(),
+        name="instruction_tool_create",
+    ),
+    path(
+        "tools/<int:pk>/",
+        InstructionToolRetrieveAPIView.as_view(),
+        name="instruction_tool_detail",
+    ),
+    path(
+        "tools/<int:pk>/update/",
+        InstructionToolUpdateAPIView.as_view(),
+        name="instruction_tool_update",
+    ),
+    path(
+        "tools/<int:pk>/delete/",
+        InstructionToolDeleteAPIView.as_view(),
+        name="instruction_tool_delete",
+    ),
+]
