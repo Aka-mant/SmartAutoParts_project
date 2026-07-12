@@ -1,10 +1,6 @@
 from django.db import models
 from django.utils.translation import gettext_lazy as _
 
-
-from django.db import models
-from django.utils.translation import gettext_lazy as _
-
 from apps.parts.models import Part
 
 
@@ -100,10 +96,6 @@ class Tool(models.Model):
 
     def __str__(self):
         return self.name
-
-
-from django.db import models
-from django.utils.translation import gettext_lazy as _
 
 
 class PartTool(models.Model):

@@ -1,7 +1,9 @@
-from django.contrib.auth.models import User
+from django.contrib.auth import get_user_model
 from django.utils.translation import gettext_lazy as _
 
 from rest_framework.permissions import BasePermission
+
+User = get_user_model()
 
 
 class IsModerator(BasePermission):
@@ -78,25 +80,32 @@ class IsOwner(BasePermission):
     """
     Разрешает доступ только владельцу объекта.
 
-    Используется для проверки объектных
-    разрешений моделей пользователя.
-
-    Системный суперпользователь Django
-    имеет доступ ко всем объектам.
+    Поддерживает:
+    - объекты пользователя;
+    - модели с полем user;
+    - модели, владелец которых определяется
+      через связанный AI-запрос;
+    - системных суперпользователей Django.
     """
 
     message = _(
-        "Вы можете выполнять это действие только для собственных данных."
+        "Вы можете выполнять это действие "
+        "только для собственных данных."
     )
+
+    def has_permission(self, request, view):
+        """
+        Разрешает проверку объектных прав
+        только авторизованным пользователям.
+        """
+        return request.user.is_authenticated
 
     def has_object_permission(self, request, view, obj):
         """
         Проверяет, является ли текущий
         пользователь владельцем объекта.
         """
-        if (
-            not request.user.is_authenticated
-        ):
+        if not request.user.is_authenticated:
             return False
 
         if request.user.is_superuser:
@@ -107,5 +116,12 @@ class IsOwner(BasePermission):
 
         if hasattr(obj, "user"):
             return obj.user == request.user
+
+        if (
+            hasattr(obj, "ai_request")
+            and obj.ai_request
+            and hasattr(obj.ai_request, "user")
+        ):
+            return obj.ai_request.user == request.user
 
         return False

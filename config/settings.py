@@ -52,6 +52,7 @@ INSTALLED_APPS = [
     'apps.parts',
     'apps.tools',
     'apps.subscriptions',
+    'apps.AI',
 ]
 
 MIDDLEWARE = [

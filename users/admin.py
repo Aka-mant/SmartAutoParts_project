@@ -2,6 +2,7 @@ from django.contrib import admin
 
 from django.utils.translation import gettext_lazy as _
 
+from apps.AI.models import AIImageAnalysis, AIGeneratedInstruction, AIRequest
 from apps.instructions.models import Instruction, InstructionVersion, InstructionStep, InstructionImage, InstructionTool
 from apps.parts.models import Part, PartCategory
 from apps.tools.models import PartTool, Tool, ToolCategory
@@ -1211,6 +1212,224 @@ class SubscriptionPaymentAdmin(admin.ModelAdmin):
                 "fields": (
                     "status",
                     "paid_at",
+                ),
+            },
+        ),
+    )
+
+@admin.register(AIRequest)
+class AIRequestAdmin(admin.ModelAdmin):
+    """
+    Административная панель
+    запросов к AI.
+    """
+
+    list_display = (
+        "id",
+        "user",
+        "part",
+        "request_type",
+        "tokens_used",
+        "created_at",
+    )
+
+    list_display_links = (
+        "id",
+        "user",
+    )
+
+    list_filter = (
+        "request_type",
+        "created_at",
+    )
+
+    search_fields = (
+        "user__email",
+        "user__username",
+        "prompt",
+        "response",
+        "part__name",
+        "part__original_number",
+    )
+
+    readonly_fields = (
+        "created_at",
+    )
+
+    autocomplete_fields = (
+        "user",
+        "part",
+    )
+
+    ordering = (
+        "-created_at",
+    )
+
+    fieldsets = (
+        (
+            _("Request information"),
+            {
+                "fields": (
+                    "user",
+                    "part",
+                    "request_type",
+                ),
+            },
+        ),
+        (
+            _("AI request"),
+            {
+                "fields": (
+                    "prompt",
+                    "response",
+                    "tokens_used",
+                ),
+            },
+        ),
+        (
+            _("System information"),
+            {
+                "fields": (
+                    "created_at",
+                ),
+            },
+        ),
+    )
+
+
+@admin.register(AIGeneratedInstruction)
+class AIGeneratedInstructionAdmin(admin.ModelAdmin):
+    """
+    Административная панель
+    AI-сгенерированных инструкций.
+    """
+
+    list_display = (
+        "id",
+        "ai_request",
+        "instruction",
+        "created_at",
+    )
+
+    list_display_links = (
+        "id",
+        "ai_request",
+    )
+
+    list_filter = (
+        "created_at",
+    )
+
+    search_fields = (
+        "ai_request__user__email",
+        "ai_request__prompt",
+        "instruction__title",
+    )
+
+    readonly_fields = (
+        "created_at",
+    )
+
+    autocomplete_fields = (
+        "ai_request",
+        "instruction",
+    )
+
+    ordering = (
+        "-created_at",
+    )
+
+    fieldsets = (
+        (
+            _("Generated instruction"),
+            {
+                "fields": (
+                    "ai_request",
+                    "instruction",
+                    "generated_content",
+                ),
+            },
+        ),
+        (
+            _("System information"),
+            {
+                "fields": (
+                    "created_at",
+                ),
+            },
+        ),
+    )
+
+
+@admin.register(AIImageAnalysis)
+class AIImageAnalysisAdmin(admin.ModelAdmin):
+    """
+    Административная панель
+    анализа изображений AI.
+    """
+
+    list_display = (
+        "id",
+        "user",
+        "detected_part",
+        "confidence_score",
+        "created_at",
+    )
+
+    list_display_links = (
+        "id",
+        "user",
+    )
+
+    list_filter = (
+        "created_at",
+    )
+
+    search_fields = (
+        "user__email",
+        "user__username",
+        "detected_part__name",
+        "detected_part__original_number",
+    )
+
+    readonly_fields = (
+        "created_at",
+    )
+
+    autocomplete_fields = (
+        "user",
+        "detected_part",
+    )
+
+    ordering = (
+        "-created_at",
+    )
+
+    fieldsets = (
+        (
+            _("Image"),
+            {
+                "fields": (
+                    "user",
+                    "image",
+                    "detected_part",
+                ),
+            },
+        ),
+        (
+            _("Analysis result"),
+            {
+                "fields": (
+                    "confidence_score",
+                    "analysis_result",
+                ),
+            },
+        ),
+        (
+            _("System information"),
+            {
+                "fields": (
+                    "created_at",
                 ),
             },
         ),
