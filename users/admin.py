@@ -5,6 +5,7 @@ from django.utils.translation import gettext_lazy as _
 from apps.instructions.models import Instruction, InstructionVersion, InstructionStep, InstructionImage, InstructionTool
 from apps.parts.models import Part, PartCategory
 from apps.tools.models import PartTool, Tool, ToolCategory
+from apps.subscriptions.models import SubscriptionPayment, UserSubscription, SubscriptionPlan
 from .models import User, Profile, SearchHistory, RepairHistory
 
 
@@ -973,6 +974,243 @@ class PartToolAdmin(admin.ModelAdmin):
                     "part",
                     "tool",
                     "required",
+                ),
+            },
+        ),
+    )
+
+@admin.register(SubscriptionPlan)
+class SubscriptionPlanAdmin(admin.ModelAdmin):
+    """
+    Административная панель
+    тарифных планов подписки.
+    """
+
+    list_display = (
+        "id",
+        "name",
+        "price",
+        "duration_days",
+        "max_ai_requests",
+        "has_chat_access",
+        "has_image_analysis",
+        "created_at",
+    )
+
+    list_display_links = (
+        "id",
+        "name",
+    )
+
+    list_filter = (
+        "has_chat_access",
+        "has_image_analysis",
+        "created_at",
+    )
+
+    search_fields = (
+        "name",
+        "description",
+    )
+
+    readonly_fields = (
+        "created_at",
+    )
+
+    ordering = (
+        "price",
+    )
+
+    fieldsets = (
+        (
+            _("General information"),
+            {
+                "fields": (
+                    "name",
+                    "description",
+                ),
+            },
+        ),
+        (
+            _("Subscription settings"),
+            {
+                "fields": (
+                    "price",
+                    "duration_days",
+                    "max_ai_requests",
+                ),
+            },
+        ),
+        (
+            _("Features"),
+            {
+                "fields": (
+                    "has_chat_access",
+                    "has_image_analysis",
+                ),
+            },
+        ),
+        (
+            _("System information"),
+            {
+                "fields": (
+                    "created_at",
+                ),
+            },
+        ),
+    )
+
+
+@admin.register(UserSubscription)
+class UserSubscriptionAdmin(admin.ModelAdmin):
+    """
+    Административная панель
+    пользовательских подписок.
+    """
+
+    list_display = (
+        "id",
+        "user",
+        "plan",
+        "start_date",
+        "end_date",
+        "is_active",
+        "auto_renew",
+    )
+
+    list_display_links = (
+        "id",
+        "user",
+    )
+
+    list_filter = (
+        "is_active",
+        "auto_renew",
+        "plan",
+        "start_date",
+        "end_date",
+    )
+
+    search_fields = (
+        "user__email",
+        "user__username",
+        "plan__name",
+    )
+
+    autocomplete_fields = (
+        "user",
+        "plan",
+    )
+
+    ordering = (
+        "-end_date",
+    )
+
+    fieldsets = (
+        (
+            _("Subscription"),
+            {
+                "fields": (
+                    "user",
+                    "plan",
+                ),
+            },
+        ),
+        (
+            _("Period"),
+            {
+                "fields": (
+                    "start_date",
+                    "end_date",
+                ),
+            },
+        ),
+        (
+            _("Status"),
+            {
+                "fields": (
+                    "is_active",
+                    "auto_renew",
+                ),
+            },
+        ),
+    )
+
+
+@admin.register(SubscriptionPayment)
+class SubscriptionPaymentAdmin(admin.ModelAdmin):
+    """
+    Административная панель
+    платежей за подписки.
+    """
+
+    list_display = (
+        "id",
+        "user",
+        "subscription",
+        "provider",
+        "amount",
+        "currency",
+        "status",
+        "paid_at",
+    )
+
+    list_display_links = (
+        "id",
+        "user",
+    )
+
+    list_filter = (
+        "provider",
+        "status",
+        "currency",
+        "paid_at",
+    )
+
+    search_fields = (
+        "user__email",
+        "user__username",
+        "provider",
+        "external_payment_id",
+    )
+
+    autocomplete_fields = (
+        "user",
+        "subscription",
+    )
+
+    ordering = (
+        "-paid_at",
+        "-id",
+    )
+
+    fieldsets = (
+        (
+            _("Payment information"),
+            {
+                "fields": (
+                    "user",
+                    "subscription",
+                    "provider",
+                    "external_payment_id",
+                ),
+            },
+        ),
+        (
+            _("Amount"),
+            {
+                "fields": (
+                    "amount",
+                    "currency",
+                ),
+            },
+        ),
+        (
+            _("Status"),
+            {
+                "fields": (
+                    "status",
+                    "paid_at",
                 ),
             },
         ),

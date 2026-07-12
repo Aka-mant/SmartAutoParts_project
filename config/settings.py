@@ -45,11 +45,13 @@ INSTALLED_APPS = [
     'rest_framework',
     'django_filters',
     'drf_yasg',
+    
     #appa
     'users',
     'apps.instructions',
     'apps.parts',
     'apps.tools',
+    'apps.subscriptions',
 ]
 
 MIDDLEWARE = [
