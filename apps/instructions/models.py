@@ -3,6 +3,7 @@ from django.db import models
 from django.utils.translation import gettext_lazy as _
 
 from apps.parts.models import Part
+from apps.tools.models import Tool
 
 
 class Instruction(models.Model):

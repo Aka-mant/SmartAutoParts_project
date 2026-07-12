@@ -4,6 +4,7 @@ from django.utils.translation import gettext_lazy as _
 
 from apps.instructions.models import Instruction, InstructionVersion, InstructionStep, InstructionImage, InstructionTool
 from apps.parts.models import Part, PartCategory
+from apps.tools.models import PartTool, Tool, ToolCategory
 from .models import User, Profile, SearchHistory, RepairHistory
 
 
@@ -769,6 +770,210 @@ class PartCategoryAdmin(admin.ModelAdmin):
                     "slug",
                     "description",
                 )
+            },
+        ),
+    )
+
+@admin.register(ToolCategory)
+class ToolCategoryAdmin(admin.ModelAdmin):
+    """
+    Административная панель категорий
+    инструментов.
+    """
+
+    list_display = (
+        "id",
+        "name",
+        "slug",
+    )
+
+    list_display_links = (
+        "id",
+        "name",
+    )
+
+    search_fields = (
+        "name",
+        "slug",
+    )
+
+    ordering = (
+        "name",
+    )
+
+    prepopulated_fields = {
+        "slug": (
+            "name",
+        ),
+    }
+
+    fieldsets = (
+        (
+            _("Main information"),
+            {
+                "fields": (
+                    "name",
+                    "slug",
+                ),
+            },
+        ),
+    )
+
+
+@admin.register(Tool)
+class ToolAdmin(admin.ModelAdmin):
+    """
+    Административная панель
+    автомобильных инструментов.
+    """
+
+    list_display = (
+        "id",
+        "name",
+        "category",
+        "size",
+        "has_image",
+        "has_amazon_url",
+        "created_at",
+    )
+
+    list_display_links = (
+        "id",
+        "name",
+    )
+
+    list_filter = (
+        "category",
+        "created_at",
+    )
+
+    search_fields = (
+        "name",
+        "description",
+        "size",
+        "category__name",
+    )
+
+    readonly_fields = (
+        "created_at",
+    )
+
+    autocomplete_fields = (
+        "category",
+    )
+
+    ordering = (
+        "name",
+    )
+
+    fieldsets = (
+        (
+            _("Main information"),
+            {
+                "fields": (
+                    "category",
+                    "name",
+                    "description",
+                    "size",
+                ),
+            },
+        ),
+        (
+            _("Image and external link"),
+            {
+                "fields": (
+                    "image",
+                    "amazon_url",
+                ),
+            },
+        ),
+        (
+            _("System information"),
+            {
+                "fields": (
+                    "created_at",
+                ),
+            },
+        ),
+    )
+
+    @admin.display(
+        boolean=True,
+        description=_("Image"),
+    )
+    def has_image(self, obj):
+        """
+        Показывает наличие изображения
+        инструмента.
+        """
+        return bool(obj.image)
+
+    @admin.display(
+        boolean=True,
+        description=_("Amazon URL"),
+    )
+    def has_amazon_url(self, obj):
+        """
+        Показывает наличие ссылки
+        на Amazon.
+        """
+        return bool(obj.amazon_url)
+
+
+@admin.register(PartTool)
+class PartToolAdmin(admin.ModelAdmin):
+    """
+    Административная панель связей
+    между запчастями и инструментами.
+    """
+
+    list_display = (
+        "id",
+        "part",
+        "tool",
+        "required",
+    )
+
+    list_display_links = (
+        "id",
+        "part",
+    )
+
+    list_filter = (
+        "required",
+        "tool",
+        "part",
+    )
+
+    search_fields = (
+        "part__name",
+        "part__original_number",
+        "tool__name",
+    )
+
+    autocomplete_fields = (
+        "part",
+        "tool",
+    )
+
+    list_editable = (
+        "required",
+    )
+
+    ordering = (
+        "part",
+        "tool",
+    )
+
+    fieldsets = (
+        (
+            _("Part and tool"),
+            {
+                "fields": (
+                    "part",
+                    "tool",
+                    "required",
+                ),
             },
         ),
     )

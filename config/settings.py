@@ -49,6 +49,7 @@ INSTALLED_APPS = [
     'users',
     'apps.instructions',
     'apps.parts',
+    'apps.tools',
 ]
 
 MIDDLEWARE = [

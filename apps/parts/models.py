@@ -323,3 +323,4 @@ class PartImage(models.Model):
             f"{self.part.name} "
             f"{_('(main)') if self.is_main else ''}"
         ).strip()
+
