@@ -193,6 +193,12 @@ class InstructionStep(models.Model):
         ordering = ("instruction", "step_number")
         verbose_name = _("Instruction step")
         verbose_name_plural = _("Instruction steps")
+        constraints = [
+            models.UniqueConstraint(
+                fields=["instruction", "step_number"],
+                name="instructions_step_instruction_number_uniq",
+            )
+        ]
 
     def __str__(self):
         return (
