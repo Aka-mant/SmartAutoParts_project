@@ -1,5 +1,3 @@
-
-
 from django.contrib import admin
 from django.urls import path, include
 from django.conf.urls.static import static
@@ -10,13 +8,6 @@ from drf_yasg import openapi
 from drf_yasg.views import get_schema_view
 
 from rest_framework import permissions
-
-
-
-
-
-
-
 
 schema_view = get_schema_view(
     openapi.Info(
@@ -41,6 +32,11 @@ urlpatterns = [
     path('users/', include('users.urls'), name='users'),
     path('api/instructions/', include('apps.instructions.urls'), name='instructions'),
     path('api/parts/', include('apps.parts.urls'), name='parts'),
+    path('api/tools/', include('apps.tools.urls'), name='tools'),
+    path('api/subscriptions/', include('apps.subscriptions.urls'), name='subscriptions'),
+    path('api/AI/', include('apps.AI.urls'), name='AI'),
+    path('api/chat/', include('apps.chat.urls'), name='chat'),
+    path('api/analytics/', include('apps.analytics.urls'), name='analytics'),
 
     #
 

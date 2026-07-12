@@ -1,6 +1,6 @@
 from django.urls import path
 
-from .apps import AIConfig
+from .apps import AiConfig
 from .views import (
     # AIRequest
     AIRequestListAPIView,
@@ -24,7 +24,7 @@ from .views import (
     AIImageAnalysisDeleteAPIView,
 )
 
-app_name = AIConfig.name
+app_name = AiConfig.name
 
 urlpatterns = [
     # ==========================

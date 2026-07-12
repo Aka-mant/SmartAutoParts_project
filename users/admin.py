@@ -2,6 +2,7 @@ from django.contrib import admin
 
 from django.utils.translation import gettext_lazy as _
 
+from apps.analytics.models import UserActivity, SearchLog, PopularPart
 from apps.AI.models import AIImageAnalysis, AIGeneratedInstruction, AIRequest
 from apps.instructions.models import Instruction, InstructionVersion, InstructionStep, InstructionImage, InstructionTool
 from apps.parts.models import Part, PartCategory
@@ -1660,3 +1661,252 @@ class ChatMessageAdmin(admin.ModelAdmin):
             return f"{obj.message[:50]}..."
 
         return obj.message
+
+
+@admin.register(UserActivity)
+class UserActivityAdmin(admin.ModelAdmin):
+    """
+    Административная панель
+    активности пользователей.
+    """
+
+    list_display = (
+        "id",
+        "user",
+        "action",
+        "short_metadata",
+        "created_at",
+    )
+
+    list_display_links = (
+        "id",
+        "user",
+    )
+
+    list_filter = (
+        "action",
+        "created_at",
+    )
+
+    search_fields = (
+        "user__email",
+        "user__username",
+        "action",
+    )
+
+    readonly_fields = (
+        "created_at",
+    )
+
+    autocomplete_fields = (
+        "user",
+    )
+
+    ordering = (
+        "-created_at",
+    )
+
+    date_hierarchy = "created_at"
+
+    fieldsets = (
+        (
+            _("User activity"),
+            {
+                "fields": (
+                    "user",
+                    "action",
+                    "metadata",
+                ),
+            },
+        ),
+        (
+            _("System information"),
+            {
+                "fields": (
+                    "created_at",
+                ),
+            },
+        ),
+    )
+
+    @admin.display(
+        description=_("Metadata"),
+    )
+    def short_metadata(self, obj):
+        """
+        Возвращает сокращенное представление
+        дополнительных данных активности.
+        """
+        if not obj.metadata:
+            return "—"
+
+        metadata = str(obj.metadata)
+
+        if len(metadata) > 80:
+            return f"{metadata[:80]}..."
+
+        return metadata
+
+
+@admin.register(SearchLog)
+class SearchLogAdmin(admin.ModelAdmin):
+    """
+    Административная панель
+    журнала поисковых запросов.
+    """
+
+    list_display = (
+        "id",
+        "user",
+        "query",
+        "results_count",
+        "ip_address",
+        "created_at",
+    )
+
+    list_display_links = (
+        "id",
+        "query",
+    )
+
+    list_filter = (
+        "created_at",
+        "results_count",
+    )
+
+    search_fields = (
+        "query",
+        "user__email",
+        "user__username",
+        "ip_address",
+    )
+
+    readonly_fields = (
+        "created_at",
+    )
+
+    autocomplete_fields = (
+        "user",
+    )
+
+    ordering = (
+        "-created_at",
+    )
+
+    date_hierarchy = "created_at"
+
+    fieldsets = (
+        (
+            _("Search information"),
+            {
+                "fields": (
+                    "user",
+                    "query",
+                    "results_count",
+                ),
+            },
+        ),
+        (
+            _("Client information"),
+            {
+                "fields": (
+                    "ip_address",
+                ),
+            },
+        ),
+        (
+            _("System information"),
+            {
+                "fields": (
+                    "created_at",
+                ),
+            },
+        ),
+    )
+
+
+@admin.register(PopularPart)
+class PopularPartAdmin(admin.ModelAdmin):
+    """
+    Административная панель
+    статистики популярных запчастей.
+    """
+
+    list_display = (
+        "id",
+        "part",
+        "part_original_number",
+        "searches_count",
+        "views_count",
+        "updated_at",
+    )
+
+    list_display_links = (
+        "id",
+        "part",
+    )
+
+    list_filter = (
+        "updated_at",
+    )
+
+    search_fields = (
+        "part__name",
+        "part__original_number",
+        "part__manufacturer",
+    )
+
+    readonly_fields = (
+        "updated_at",
+    )
+
+    autocomplete_fields = (
+        "part",
+    )
+
+    ordering = (
+        "-searches_count",
+        "-views_count",
+    )
+
+    date_hierarchy = "updated_at"
+
+    fieldsets = (
+        (
+            _("Part"),
+            {
+                "fields": (
+                    "part",
+                ),
+            },
+        ),
+        (
+            _("Popularity statistics"),
+            {
+                "fields": (
+                    "searches_count",
+                    "views_count",
+                ),
+            },
+        ),
+        (
+            _("System information"),
+            {
+                "fields": (
+                    "updated_at",
+                ),
+            },
+        ),
+    )
+
+    @admin.display(
+        description=_("Original number"),
+        ordering="part__original_number",
+    )
+    def part_original_number(self, obj):
+        """
+        Возвращает оригинальный номер
+        автомобильной запчасти.
+        """
+        return obj.part.original_number
+
