@@ -2320,10 +2320,7 @@ class Command(BaseCommand):
                 )
 
             image = self.create_test_image(
-                filename=(
-                    f"ai_analysis_{index}_"
-                    f"{self.unique_suffix()}.png"
-                ),
+                filename=f"{self.unique_suffix()}.png",
                 width=800,
                 height=600,
             )

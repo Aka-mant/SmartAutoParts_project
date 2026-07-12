@@ -1,0 +1,1084 @@
+[
+{
+    "model": "tools.toolcategory",
+    "pk": 1,
+    "fields": {
+        "name": "Гаечные ключи 1",
+        "slug": "гаечные-ключи-1-247a8755800a"
+    }
+},
+{
+    "model": "tools.toolcategory",
+    "pk": 2,
+    "fields": {
+        "name": "Режущие инструменты 2",
+        "slug": "режущие-инструменты-2-49c65c4ac0ac"
+    }
+},
+{
+    "model": "tools.toolcategory",
+    "pk": 3,
+    "fields": {
+        "name": "Отвертки 3",
+        "slug": "отвертки-3-1f57978466f8"
+    }
+},
+{
+    "model": "tools.toolcategory",
+    "pk": 4,
+    "fields": {
+        "name": "Ударные инструменты 4",
+        "slug": "ударные-инструменты-4-8c761850581f"
+    }
+},
+{
+    "model": "tools.toolcategory",
+    "pk": 5,
+    "fields": {
+        "name": "Инструменты для электрики 5",
+        "slug": "инструменты-для-электрики-5-552a41d85ff6"
+    }
+},
+{
+    "model": "tools.toolcategory",
+    "pk": 6,
+    "fields": {
+        "name": "Торцевые головки 6",
+        "slug": "торцевые-головки-6-0d9d61ce572f"
+    }
+},
+{
+    "model": "tools.toolcategory",
+    "pk": 7,
+    "fields": {
+        "name": "Электроинструменты 7",
+        "slug": "электроинструменты-7-2d85939c0666"
+    }
+},
+{
+    "model": "tools.toolcategory",
+    "pk": 8,
+    "fields": {
+        "name": "Инструменты для подвески 8",
+        "slug": "инструменты-для-подвески-8-a66aa30b2493"
+    }
+},
+{
+    "model": "tools.toolcategory",
+    "pk": 9,
+    "fields": {
+        "name": "Оборудование для шиномонтажа 9",
+        "slug": "оборудование-для-шиномонтажа-9-c8463f98cb0c"
+    }
+},
+{
+    "model": "tools.toolcategory",
+    "pk": 10,
+    "fields": {
+        "name": "Торцевые головки 10",
+        "slug": "торцевые-головки-10-8fc988bdc616"
+    }
+},
+{
+    "model": "tools.toolcategory",
+    "pk": 11,
+    "fields": {
+        "name": "Гаечные ключи 11",
+        "slug": "гаечные-ключи-11-531abd117732"
+    }
+},
+{
+    "model": "tools.toolcategory",
+    "pk": 12,
+    "fields": {
+        "name": "Инструменты для электрики 12",
+        "slug": "инструменты-для-электрики-12-2909720147f3"
+    }
+},
+{
+    "model": "tools.toolcategory",
+    "pk": 13,
+    "fields": {
+        "name": "Специальные ключи 13",
+        "slug": "специальные-ключи-13-5291dc5dd228"
+    }
+},
+{
+    "model": "tools.toolcategory",
+    "pk": 14,
+    "fields": {
+        "name": "Монтажные инструменты 14",
+        "slug": "монтажные-инструменты-14-d88e4246995b"
+    }
+},
+{
+    "model": "tools.toolcategory",
+    "pk": 15,
+    "fields": {
+        "name": "Съемники 15",
+        "slug": "съемники-15-8d8c33acdb77"
+    }
+},
+{
+    "model": "tools.toolcategory",
+    "pk": 16,
+    "fields": {
+        "name": "Специальные ключи 16",
+        "slug": "специальные-ключи-16-1fc65dc655f6"
+    }
+},
+{
+    "model": "tools.toolcategory",
+    "pk": 17,
+    "fields": {
+        "name": "Оборудование для шиномонтажа 17",
+        "slug": "оборудование-для-шиномонтажа-17-1a6e1edc0fda"
+    }
+},
+{
+    "model": "tools.toolcategory",
+    "pk": 18,
+    "fields": {
+        "name": "Торцевые головки 18",
+        "slug": "торцевые-головки-18-cae80cdc056e"
+    }
+},
+{
+    "model": "tools.toolcategory",
+    "pk": 19,
+    "fields": {
+        "name": "Специальные ключи 19",
+        "slug": "специальные-ключи-19-4c587e1fa748"
+    }
+},
+{
+    "model": "tools.toolcategory",
+    "pk": 20,
+    "fields": {
+        "name": "Инструменты для тормозной системы 20",
+        "slug": "инструменты-для-тормозной-системы-20-23bad450130c"
+    }
+},
+{
+    "model": "tools.toolcategory",
+    "pk": 21,
+    "fields": {
+        "name": "Пассатижи и клещи 21",
+        "slug": "пассатижи-и-клещи-21-d254082f9bc4"
+    }
+},
+{
+    "model": "tools.toolcategory",
+    "pk": 22,
+    "fields": {
+        "name": "Оборудование для шиномонтажа 22",
+        "slug": "оборудование-для-шиномонтажа-22-6bb915555e4f"
+    }
+},
+{
+    "model": "tools.toolcategory",
+    "pk": 23,
+    "fields": {
+        "name": "Инструменты для подвески 23",
+        "slug": "инструменты-для-подвески-23-2612f9a9f095"
+    }
+},
+{
+    "model": "tools.toolcategory",
+    "pk": 24,
+    "fields": {
+        "name": "Гаечные ключи 24",
+        "slug": "гаечные-ключи-24-dc8eea7b5dae"
+    }
+},
+{
+    "model": "tools.toolcategory",
+    "pk": 25,
+    "fields": {
+        "name": "Инструменты для двигателя 25",
+        "slug": "инструменты-для-двигателя-25-9775e26a8db7"
+    }
+},
+{
+    "model": "tools.toolcategory",
+    "pk": 26,
+    "fields": {
+        "name": "Режущие инструменты 26",
+        "slug": "режущие-инструменты-26-fd5be089a967"
+    }
+},
+{
+    "model": "tools.toolcategory",
+    "pk": 27,
+    "fields": {
+        "name": "Инструменты для тормозной системы 27",
+        "slug": "инструменты-для-тормозной-системы-27-b410e7df6ba3"
+    }
+},
+{
+    "model": "tools.toolcategory",
+    "pk": 28,
+    "fields": {
+        "name": "Диагностическое оборудование 28",
+        "slug": "диагностическое-оборудование-28-01853c91f7e1"
+    }
+},
+{
+    "model": "tools.toolcategory",
+    "pk": 29,
+    "fields": {
+        "name": "Инструменты для замены масла 29",
+        "slug": "инструменты-для-замены-масла-29-e504562962bf"
+    }
+},
+{
+    "model": "tools.toolcategory",
+    "pk": 30,
+    "fields": {
+        "name": "Режущие инструменты 30",
+        "slug": "режущие-инструменты-30-ee7ea6740c41"
+    }
+},
+{
+    "model": "tools.toolcategory",
+    "pk": 31,
+    "fields": {
+        "name": "Диагностическое оборудование 31",
+        "slug": "диагностическое-оборудование-31-71b24ce600c4"
+    }
+},
+{
+    "model": "tools.toolcategory",
+    "pk": 32,
+    "fields": {
+        "name": "Оборудование для шиномонтажа 32",
+        "slug": "оборудование-для-шиномонтажа-32-6f2d7f6847c0"
+    }
+},
+{
+    "model": "tools.toolcategory",
+    "pk": 33,
+    "fields": {
+        "name": "Диагностическое оборудование 33",
+        "slug": "диагностическое-оборудование-33-5c9177180227"
+    }
+},
+{
+    "model": "tools.toolcategory",
+    "pk": 34,
+    "fields": {
+        "name": "Пассатижи и клещи 34",
+        "slug": "пассатижи-и-клещи-34-efa0f7c62021"
+    }
+},
+{
+    "model": "tools.toolcategory",
+    "pk": 35,
+    "fields": {
+        "name": "Ударные инструменты 35",
+        "slug": "ударные-инструменты-35-9a3618f74ec6"
+    }
+},
+{
+    "model": "tools.toolcategory",
+    "pk": 36,
+    "fields": {
+        "name": "Электроинструменты 36",
+        "slug": "электроинструменты-36-725105097b68"
+    }
+},
+{
+    "model": "tools.toolcategory",
+    "pk": 37,
+    "fields": {
+        "name": "Инструменты для тормозной системы 37",
+        "slug": "инструменты-для-тормозной-системы-37-41b90734a1a5"
+    }
+},
+{
+    "model": "tools.toolcategory",
+    "pk": 38,
+    "fields": {
+        "name": "Измерительные инструменты 38",
+        "slug": "измерительные-инструменты-38-6806675ce80c"
+    }
+},
+{
+    "model": "tools.toolcategory",
+    "pk": 39,
+    "fields": {
+        "name": "Инструменты для замены масла 39",
+        "slug": "инструменты-для-замены-масла-39-bd8471a5a29d"
+    }
+},
+{
+    "model": "tools.toolcategory",
+    "pk": 40,
+    "fields": {
+        "name": "Инструменты для тормозной системы 40",
+        "slug": "инструменты-для-тормозной-системы-40-82f8f7ab33d3"
+    }
+},
+{
+    "model": "tools.toolcategory",
+    "pk": 41,
+    "fields": {
+        "name": "Электроинструменты 41",
+        "slug": "электроинструменты-41-c78bb1357fc1"
+    }
+},
+{
+    "model": "tools.toolcategory",
+    "pk": 42,
+    "fields": {
+        "name": "Торцевые головки 42",
+        "slug": "торцевые-головки-42-5a556a74e337"
+    }
+},
+{
+    "model": "tools.toolcategory",
+    "pk": 43,
+    "fields": {
+        "name": "Торцевые головки 43",
+        "slug": "торцевые-головки-43-a104ce7310b0"
+    }
+},
+{
+    "model": "tools.toolcategory",
+    "pk": 44,
+    "fields": {
+        "name": "Инструменты для замены масла 44",
+        "slug": "инструменты-для-замены-масла-44-b7dda7835eb4"
+    }
+},
+{
+    "model": "tools.toolcategory",
+    "pk": 45,
+    "fields": {
+        "name": "Инструменты для электрики 45",
+        "slug": "инструменты-для-электрики-45-83686690a791"
+    }
+},
+{
+    "model": "tools.toolcategory",
+    "pk": 46,
+    "fields": {
+        "name": "Монтажные инструменты 46",
+        "slug": "монтажные-инструменты-46-e1e759c18723"
+    }
+},
+{
+    "model": "tools.toolcategory",
+    "pk": 47,
+    "fields": {
+        "name": "Монтажные инструменты 47",
+        "slug": "монтажные-инструменты-47-face19e80b92"
+    }
+},
+{
+    "model": "tools.toolcategory",
+    "pk": 48,
+    "fields": {
+        "name": "Монтажные инструменты 48",
+        "slug": "монтажные-инструменты-48-352534fe2c1e"
+    }
+},
+{
+    "model": "tools.toolcategory",
+    "pk": 49,
+    "fields": {
+        "name": "Пассатижи и клещи 49",
+        "slug": "пассатижи-и-клещи-49-d64cb7fd85f7"
+    }
+},
+{
+    "model": "tools.toolcategory",
+    "pk": 50,
+    "fields": {
+        "name": "Измерительные инструменты 50",
+        "slug": "измерительные-инструменты-50-62a76f1ac15b"
+    }
+},
+{
+    "model": "tools.tool",
+    "pk": 1,
+    "fields": {
+        "category": 50,
+        "name": "Шестигранный ключ 12 мм #1",
+        "description": "Тестовый инструмент «Шестигранный ключ 12 мм #1». Используется при ремонте и техническом обслуживании автомобиля.",
+        "size": "12 мм",
+        "image": "",
+        "amazon_url": "https://www.amazon.com/s?k=",
+        "created_at": "2026-07-12T20:10:16.975Z"
+    }
+},
+{
+    "model": "tools.tool",
+    "pk": 2,
+    "fields": {
+        "category": 18,
+        "name": "Домкрат 14 мм #2",
+        "description": "Тестовый инструмент «Домкрат 14 мм #2». Используется при ремонте и техническом обслуживании автомобиля.",
+        "size": "14 мм",
+        "image": "",
+        "amazon_url": "https://www.amazon.com/s?k=",
+        "created_at": "2026-07-12T20:10:16.976Z"
+    }
+},
+{
+    "model": "tools.tool",
+    "pk": 3,
+    "fields": {
+        "category": 24,
+        "name": "Домкрат 1/4 дюйма #3",
+        "description": "Тестовый инструмент «Домкрат 1/4 дюйма #3». Используется при ремонте и техническом обслуживании автомобиля.",
+        "size": "1/4 дюйма",
+        "image": "",
+        "amazon_url": "https://www.amazon.com/s?k=",
+        "created_at": "2026-07-12T20:10:16.976Z"
+    }
+},
+{
+    "model": "tools.tool",
+    "pk": 4,
+    "fields": {
+        "category": 14,
+        "name": "Диагностический сканер 22 мм #4",
+        "description": "Тестовый инструмент «Диагностический сканер 22 мм #4». Используется при ремонте и техническом обслуживании автомобиля.",
+        "size": "22 мм",
+        "image": "",
+        "amazon_url": "https://www.amazon.com/s?k=",
+        "created_at": "2026-07-12T20:10:16.976Z"
+    }
+},
+{
+    "model": "tools.tool",
+    "pk": 5,
+    "fields": {
+        "category": 9,
+        "name": "Набор головок 14 мм #5",
+        "description": "Тестовый инструмент «Набор головок 14 мм #5». Используется при ремонте и техническом обслуживании автомобиля.",
+        "size": "14 мм",
+        "image": "",
+        "amazon_url": "https://www.amazon.com/s?k=",
+        "created_at": "2026-07-12T20:10:16.976Z"
+    }
+},
+{
+    "model": "tools.tool",
+    "pk": 6,
+    "fields": {
+        "category": 23,
+        "name": "Мультиметр Универсальный #6",
+        "description": "Тестовый инструмент «Мультиметр Универсальный #6». Используется при ремонте и техническом обслуживании автомобиля.",
+        "size": "Универсальный",
+        "image": "",
+        "amazon_url": "https://www.amazon.com/s?k=",
+        "created_at": "2026-07-12T20:10:16.976Z"
+    }
+},
+{
+    "model": "tools.tool",
+    "pk": 7,
+    "fields": {
+        "category": 39,
+        "name": "Пассатижи 14 мм #7",
+        "description": "Тестовый инструмент «Пассатижи 14 мм #7». Используется при ремонте и техническом обслуживании автомобиля.",
+        "size": "14 мм",
+        "image": "",
+        "amazon_url": "https://www.amazon.com/s?k=",
+        "created_at": "2026-07-12T20:10:16.976Z"
+    }
+},
+{
+    "model": "tools.tool",
+    "pk": 8,
+    "fields": {
+        "category": 8,
+        "name": "Трещотка 21 мм #8",
+        "description": "Тестовый инструмент «Трещотка 21 мм #8». Используется при ремонте и техническом обслуживании автомобиля.",
+        "size": "21 мм",
+        "image": "",
+        "amazon_url": "https://www.amazon.com/s?k=",
+        "created_at": "2026-07-12T20:10:16.977Z"
+    }
+},
+{
+    "model": "tools.tool",
+    "pk": 9,
+    "fields": {
+        "category": 37,
+        "name": "Диагностический сканер 3/8 дюйма #9",
+        "description": "Тестовый инструмент «Диагностический сканер 3/8 дюйма #9». Используется при ремонте и техническом обслуживании автомобиля.",
+        "size": "3/8 дюйма",
+        "image": "",
+        "amazon_url": "https://www.amazon.com/s?k=",
+        "created_at": "2026-07-12T20:10:16.977Z"
+    }
+},
+{
+    "model": "tools.tool",
+    "pk": 10,
+    "fields": {
+        "category": 21,
+        "name": "Диагностический сканер Универсальный #10",
+        "description": "Тестовый инструмент «Диагностический сканер Универсальный #10». Используется при ремонте и техническом обслуживании автомобиля.",
+        "size": "Универсальный",
+        "image": "",
+        "amazon_url": "https://www.amazon.com/s?k=",
+        "created_at": "2026-07-12T20:10:16.977Z"
+    }
+},
+{
+    "model": "tools.tool",
+    "pk": 11,
+    "fields": {
+        "category": 37,
+        "name": "Пассатижи 17 мм #11",
+        "description": "Тестовый инструмент «Пассатижи 17 мм #11». Используется при ремонте и техническом обслуживании автомобиля.",
+        "size": "17 мм",
+        "image": "",
+        "amazon_url": "https://www.amazon.com/s?k=",
+        "created_at": "2026-07-12T20:10:16.977Z"
+    }
+},
+{
+    "model": "tools.tool",
+    "pk": 12,
+    "fields": {
+        "category": 8,
+        "name": "Монтажная лопатка 8 мм #12",
+        "description": "Тестовый инструмент «Монтажная лопатка 8 мм #12». Используется при ремонте и техническом обслуживании автомобиля.",
+        "size": "8 мм",
+        "image": "",
+        "amazon_url": "https://www.amazon.com/s?k=",
+        "created_at": "2026-07-12T20:10:16.977Z"
+    }
+},
+{
+    "model": "tools.tool",
+    "pk": 13,
+    "fields": {
+        "category": 26,
+        "name": "Молоток 14 мм #13",
+        "description": "Тестовый инструмент «Молоток 14 мм #13». Используется при ремонте и техническом обслуживании автомобиля.",
+        "size": "14 мм",
+        "image": "",
+        "amazon_url": "https://www.amazon.com/s?k=",
+        "created_at": "2026-07-12T20:10:16.977Z"
+    }
+},
+{
+    "model": "tools.tool",
+    "pk": 14,
+    "fields": {
+        "category": 21,
+        "name": "Диагностический сканер 6 мм #14",
+        "description": "Тестовый инструмент «Диагностический сканер 6 мм #14». Используется при ремонте и техническом обслуживании автомобиля.",
+        "size": "6 мм",
+        "image": "",
+        "amazon_url": "https://www.amazon.com/s?k=",
+        "created_at": "2026-07-12T20:10:16.977Z"
+    }
+},
+{
+    "model": "tools.tool",
+    "pk": 15,
+    "fields": {
+        "category": 50,
+        "name": "Шестигранный ключ 6 мм #15",
+        "description": "Тестовый инструмент «Шестигранный ключ 6 мм #15». Используется при ремонте и техническом обслуживании автомобиля.",
+        "size": "6 мм",
+        "image": "",
+        "amazon_url": "https://www.amazon.com/s?k=",
+        "created_at": "2026-07-12T20:10:16.977Z"
+    }
+},
+{
+    "model": "tools.tool",
+    "pk": 16,
+    "fields": {
+        "category": 41,
+        "name": "Трещотка 19 мм #16",
+        "description": "Тестовый инструмент «Трещотка 19 мм #16». Используется при ремонте и техническом обслуживании автомобиля.",
+        "size": "19 мм",
+        "image": "",
+        "amazon_url": "https://www.amazon.com/s?k=",
+        "created_at": "2026-07-12T20:10:16.978Z"
+    }
+},
+{
+    "model": "tools.tool",
+    "pk": 17,
+    "fields": {
+        "category": 2,
+        "name": "Отвертка 3/8 дюйма #17",
+        "description": "Тестовый инструмент «Отвертка 3/8 дюйма #17». Используется при ремонте и техническом обслуживании автомобиля.",
+        "size": "3/8 дюйма",
+        "image": "",
+        "amazon_url": "https://www.amazon.com/s?k=",
+        "created_at": "2026-07-12T20:10:16.978Z"
+    }
+},
+{
+    "model": "tools.tool",
+    "pk": 18,
+    "fields": {
+        "category": 25,
+        "name": "Монтажная лопатка 17 мм #18",
+        "description": "Тестовый инструмент «Монтажная лопатка 17 мм #18». Используется при ремонте и техническом обслуживании автомобиля.",
+        "size": "17 мм",
+        "image": "",
+        "amazon_url": "https://www.amazon.com/s?k=",
+        "created_at": "2026-07-12T20:10:16.978Z"
+    }
+},
+{
+    "model": "tools.tool",
+    "pk": 19,
+    "fields": {
+        "category": 27,
+        "name": "Шестигранный ключ 3/8 дюйма #19",
+        "description": "Тестовый инструмент «Шестигранный ключ 3/8 дюйма #19». Используется при ремонте и техническом обслуживании автомобиля.",
+        "size": "3/8 дюйма",
+        "image": "",
+        "amazon_url": "https://www.amazon.com/s?k=",
+        "created_at": "2026-07-12T20:10:16.978Z"
+    }
+},
+{
+    "model": "tools.tool",
+    "pk": 20,
+    "fields": {
+        "category": 27,
+        "name": "Набор головок 10 мм #20",
+        "description": "Тестовый инструмент «Набор головок 10 мм #20». Используется при ремонте и техническом обслуживании автомобиля.",
+        "size": "10 мм",
+        "image": "",
+        "amazon_url": "https://www.amazon.com/s?k=",
+        "created_at": "2026-07-12T20:10:16.978Z"
+    }
+},
+{
+    "model": "tools.tool",
+    "pk": 21,
+    "fields": {
+        "category": 46,
+        "name": "Компрессометр 21 мм #21",
+        "description": "Тестовый инструмент «Компрессометр 21 мм #21». Используется при ремонте и техническом обслуживании автомобиля.",
+        "size": "21 мм",
+        "image": "",
+        "amazon_url": "https://www.amazon.com/s?k=",
+        "created_at": "2026-07-12T20:10:16.978Z"
+    }
+},
+{
+    "model": "tools.tool",
+    "pk": 22,
+    "fields": {
+        "category": 40,
+        "name": "Ключ для масляного фильтра 21 мм #22",
+        "description": "Тестовый инструмент «Ключ для масляного фильтра 21 мм #22». Используется при ремонте и техническом обслуживании автомобиля.",
+        "size": "21 мм",
+        "image": "",
+        "amazon_url": "https://www.amazon.com/s?k=",
+        "created_at": "2026-07-12T20:10:16.978Z"
+    }
+},
+{
+    "model": "tools.parttool",
+    "pk": 1,
+    "fields": {
+        "part": 3,
+        "tool": 14,
+        "required": true
+    }
+},
+{
+    "model": "tools.parttool",
+    "pk": 2,
+    "fields": {
+        "part": 28,
+        "tool": 4,
+        "required": true
+    }
+},
+{
+    "model": "tools.parttool",
+    "pk": 3,
+    "fields": {
+        "part": 20,
+        "tool": 12,
+        "required": true
+    }
+},
+{
+    "model": "tools.parttool",
+    "pk": 4,
+    "fields": {
+        "part": 8,
+        "tool": 18,
+        "required": true
+    }
+},
+{
+    "model": "tools.parttool",
+    "pk": 5,
+    "fields": {
+        "part": 36,
+        "tool": 16,
+        "required": true
+    }
+},
+{
+    "model": "tools.parttool",
+    "pk": 6,
+    "fields": {
+        "part": 6,
+        "tool": 10,
+        "required": false
+    }
+},
+{
+    "model": "tools.parttool",
+    "pk": 7,
+    "fields": {
+        "part": 5,
+        "tool": 1,
+        "required": true
+    }
+},
+{
+    "model": "tools.parttool",
+    "pk": 8,
+    "fields": {
+        "part": 19,
+        "tool": 13,
+        "required": false
+    }
+},
+{
+    "model": "tools.parttool",
+    "pk": 9,
+    "fields": {
+        "part": 17,
+        "tool": 14,
+        "required": true
+    }
+},
+{
+    "model": "tools.parttool",
+    "pk": 10,
+    "fields": {
+        "part": 38,
+        "tool": 22,
+        "required": true
+    }
+},
+{
+    "model": "tools.parttool",
+    "pk": 11,
+    "fields": {
+        "part": 21,
+        "tool": 21,
+        "required": true
+    }
+},
+{
+    "model": "tools.parttool",
+    "pk": 12,
+    "fields": {
+        "part": 24,
+        "tool": 1,
+        "required": true
+    }
+},
+{
+    "model": "tools.parttool",
+    "pk": 13,
+    "fields": {
+        "part": 17,
+        "tool": 5,
+        "required": true
+    }
+},
+{
+    "model": "tools.parttool",
+    "pk": 14,
+    "fields": {
+        "part": 40,
+        "tool": 11,
+        "required": true
+    }
+},
+{
+    "model": "tools.parttool",
+    "pk": 15,
+    "fields": {
+        "part": 13,
+        "tool": 17,
+        "required": true
+    }
+},
+{
+    "model": "tools.parttool",
+    "pk": 16,
+    "fields": {
+        "part": 9,
+        "tool": 20,
+        "required": true
+    }
+},
+{
+    "model": "tools.parttool",
+    "pk": 17,
+    "fields": {
+        "part": 36,
+        "tool": 4,
+        "required": false
+    }
+},
+{
+    "model": "tools.parttool",
+    "pk": 18,
+    "fields": {
+        "part": 28,
+        "tool": 21,
+        "required": false
+    }
+},
+{
+    "model": "tools.parttool",
+    "pk": 19,
+    "fields": {
+        "part": 14,
+        "tool": 17,
+        "required": true
+    }
+},
+{
+    "model": "tools.parttool",
+    "pk": 20,
+    "fields": {
+        "part": 27,
+        "tool": 19,
+        "required": true
+    }
+},
+{
+    "model": "tools.parttool",
+    "pk": 21,
+    "fields": {
+        "part": 18,
+        "tool": 2,
+        "required": true
+    }
+},
+{
+    "model": "tools.parttool",
+    "pk": 22,
+    "fields": {
+        "part": 7,
+        "tool": 13,
+        "required": true
+    }
+},
+{
+    "model": "tools.parttool",
+    "pk": 23,
+    "fields": {
+        "part": 18,
+        "tool": 15,
+        "required": false
+    }
+},
+{
+    "model": "tools.parttool",
+    "pk": 24,
+    "fields": {
+        "part": 8,
+        "tool": 20,
+        "required": false
+    }
+},
+{
+    "model": "tools.parttool",
+    "pk": 25,
+    "fields": {
+        "part": 32,
+        "tool": 6,
+        "required": false
+    }
+},
+{
+    "model": "tools.parttool",
+    "pk": 26,
+    "fields": {
+        "part": 9,
+        "tool": 12,
+        "required": false
+    }
+},
+{
+    "model": "tools.parttool",
+    "pk": 27,
+    "fields": {
+        "part": 37,
+        "tool": 16,
+        "required": true
+    }
+},
+{
+    "model": "tools.parttool",
+    "pk": 28,
+    "fields": {
+        "part": 24,
+        "tool": 7,
+        "required": true
+    }
+},
+{
+    "model": "tools.parttool",
+    "pk": 29,
+    "fields": {
+        "part": 5,
+        "tool": 8,
+        "required": true
+    }
+},
+{
+    "model": "tools.parttool",
+    "pk": 30,
+    "fields": {
+        "part": 9,
+        "tool": 5,
+        "required": true
+    }
+},
+{
+    "model": "tools.parttool",
+    "pk": 31,
+    "fields": {
+        "part": 9,
+        "tool": 7,
+        "required": false
+    }
+},
+{
+    "model": "tools.parttool",
+    "pk": 32,
+    "fields": {
+        "part": 10,
+        "tool": 8,
+        "required": true
+    }
+},
+{
+    "model": "tools.parttool",
+    "pk": 33,
+    "fields": {
+        "part": 1,
+        "tool": 1,
+        "required": true
+    }
+},
+{
+    "model": "tools.parttool",
+    "pk": 34,
+    "fields": {
+        "part": 24,
+        "tool": 6,
+        "required": true
+    }
+},
+{
+    "model": "tools.parttool",
+    "pk": 35,
+    "fields": {
+        "part": 33,
+        "tool": 2,
+        "required": false
+    }
+},
+{
+    "model": "tools.parttool",
+    "pk": 36,
+    "fields": {
+        "part": 32,
+        "tool": 19,
+        "required": false
+    }
+},
+{
+    "model": "tools.parttool",
+    "pk": 37,
+    "fields": {
+        "part": 38,
+        "tool": 3,
+        "required": true
+    }
+},
+{
+    "model": "tools.parttool",
+    "pk": 38,
+    "fields": {
+        "part": 3,
+        "tool": 12,
+        "required": true
+    }
+},
+{
+    "model": "tools.parttool",
+    "pk": 39,
+    "fields": {
+        "part": 3,
+        "tool": 11,
+        "required": true
+    }
+},
+{
+    "model": "tools.parttool",
+    "pk": 40,
+    "fields": {
+        "part": 37,
+        "tool": 9,
+        "required": false
+    }
+},
+{
+    "model": "tools.parttool",
+    "pk": 41,
+    "fields": {
+        "part": 29,
+        "tool": 17,
+        "required": false
+    }
+},
+{
+    "model": "tools.parttool",
+    "pk": 42,
+    "fields": {
+        "part": 15,
+        "tool": 14,
+        "required": false
+    }
+},
+{
+    "model": "tools.parttool",
+    "pk": 43,
+    "fields": {
+        "part": 38,
+        "tool": 18,
+        "required": true
+    }
+},
+{
+    "model": "tools.parttool",
+    "pk": 44,
+    "fields": {
+        "part": 10,
+        "tool": 17,
+        "required": true
+    }
+}
+]

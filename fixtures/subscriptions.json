@@ -1,0 +1,1456 @@
+[
+{
+    "model": "subscriptions.subscriptionplan",
+    "pk": 1,
+    "fields": {
+        "name": "Premium 1",
+        "description": "Тестовый тарифный план «Premium 1». Предоставляет доступ к дополнительным функциям сервиса SmartAutoParts.",
+        "price": "61.48",
+        "duration_days": 30,
+        "max_ai_requests": 737,
+        "has_chat_access": true,
+        "has_image_analysis": false,
+        "created_at": "2026-07-12T20:10:17.329Z"
+    }
+},
+{
+    "model": "subscriptions.subscriptionplan",
+    "pk": 2,
+    "fields": {
+        "name": "Expert 2",
+        "description": "Тестовый тарифный план «Expert 2». Предоставляет доступ к дополнительным функциям сервиса SmartAutoParts.",
+        "price": "9.03",
+        "duration_days": 30,
+        "max_ai_requests": 848,
+        "has_chat_access": true,
+        "has_image_analysis": false,
+        "created_at": "2026-07-12T20:10:17.330Z"
+    }
+},
+{
+    "model": "subscriptions.subscriptionplan",
+    "pk": 3,
+    "fields": {
+        "name": "Start 3",
+        "description": "Тестовый тарифный план «Start 3». Предоставляет доступ к дополнительным функциям сервиса SmartAutoParts.",
+        "price": "37.77",
+        "duration_days": 90,
+        "max_ai_requests": 848,
+        "has_chat_access": false,
+        "has_image_analysis": false,
+        "created_at": "2026-07-12T20:10:17.330Z"
+    }
+},
+{
+    "model": "subscriptions.subscriptionplan",
+    "pk": 4,
+    "fields": {
+        "name": "Start 4",
+        "description": "Тестовый тарифный план «Start 4». Предоставляет доступ к дополнительным функциям сервиса SmartAutoParts.",
+        "price": "60.07",
+        "duration_days": 90,
+        "max_ai_requests": 920,
+        "has_chat_access": true,
+        "has_image_analysis": true,
+        "created_at": "2026-07-12T20:10:17.330Z"
+    }
+},
+{
+    "model": "subscriptions.subscriptionplan",
+    "pk": 5,
+    "fields": {
+        "name": "Standard 5",
+        "description": "Тестовый тарифный план «Standard 5». Предоставляет доступ к дополнительным функциям сервиса SmartAutoParts.",
+        "price": "30.10",
+        "duration_days": 7,
+        "max_ai_requests": 891,
+        "has_chat_access": true,
+        "has_image_analysis": true,
+        "created_at": "2026-07-12T20:10:17.330Z"
+    }
+},
+{
+    "model": "subscriptions.subscriptionplan",
+    "pk": 6,
+    "fields": {
+        "name": "Pro 6",
+        "description": "Тестовый тарифный план «Pro 6». Предоставляет доступ к дополнительным функциям сервиса SmartAutoParts.",
+        "price": "69.36",
+        "duration_days": 90,
+        "max_ai_requests": 835,
+        "has_chat_access": true,
+        "has_image_analysis": true,
+        "created_at": "2026-07-12T20:10:17.330Z"
+    }
+},
+{
+    "model": "subscriptions.subscriptionplan",
+    "pk": 7,
+    "fields": {
+        "name": "Start 7",
+        "description": "Тестовый тарифный план «Start 7». Предоставляет доступ к дополнительным функциям сервиса SmartAutoParts.",
+        "price": "43.23",
+        "duration_days": 7,
+        "max_ai_requests": 203,
+        "has_chat_access": true,
+        "has_image_analysis": true,
+        "created_at": "2026-07-12T20:10:17.330Z"
+    }
+},
+{
+    "model": "subscriptions.subscriptionplan",
+    "pk": 8,
+    "fields": {
+        "name": "Basic 8",
+        "description": "Тестовый тарифный план «Basic 8». Предоставляет доступ к дополнительным функциям сервиса SmartAutoParts.",
+        "price": "43.84",
+        "duration_days": 30,
+        "max_ai_requests": 560,
+        "has_chat_access": true,
+        "has_image_analysis": true,
+        "created_at": "2026-07-12T20:10:17.330Z"
+    }
+},
+{
+    "model": "subscriptions.subscriptionplan",
+    "pk": 9,
+    "fields": {
+        "name": "Pro 9",
+        "description": "Тестовый тарифный план «Pro 9». Предоставляет доступ к дополнительным функциям сервиса SmartAutoParts.",
+        "price": "62.88",
+        "duration_days": 30,
+        "max_ai_requests": 332,
+        "has_chat_access": false,
+        "has_image_analysis": true,
+        "created_at": "2026-07-12T20:10:17.331Z"
+    }
+},
+{
+    "model": "subscriptions.subscriptionplan",
+    "pk": 10,
+    "fields": {
+        "name": "Start 10",
+        "description": "Тестовый тарифный план «Start 10». Предоставляет доступ к дополнительным функциям сервиса SmartAutoParts.",
+        "price": "92.32",
+        "duration_days": 90,
+        "max_ai_requests": 584,
+        "has_chat_access": true,
+        "has_image_analysis": false,
+        "created_at": "2026-07-12T20:10:17.331Z"
+    }
+},
+{
+    "model": "subscriptions.subscriptionplan",
+    "pk": 11,
+    "fields": {
+        "name": "Basic 11",
+        "description": "Тестовый тарифный план «Basic 11». Предоставляет доступ к дополнительным функциям сервиса SmartAutoParts.",
+        "price": "84.11",
+        "duration_days": 7,
+        "max_ai_requests": 821,
+        "has_chat_access": false,
+        "has_image_analysis": true,
+        "created_at": "2026-07-12T20:10:17.331Z"
+    }
+},
+{
+    "model": "subscriptions.subscriptionplan",
+    "pk": 12,
+    "fields": {
+        "name": "Standard 12",
+        "description": "Тестовый тарифный план «Standard 12». Предоставляет доступ к дополнительным функциям сервиса SmartAutoParts.",
+        "price": "24.69",
+        "duration_days": 90,
+        "max_ai_requests": 856,
+        "has_chat_access": true,
+        "has_image_analysis": false,
+        "created_at": "2026-07-12T20:10:17.331Z"
+    }
+},
+{
+    "model": "subscriptions.subscriptionplan",
+    "pk": 13,
+    "fields": {
+        "name": "Garage 13",
+        "description": "Тестовый тарифный план «Garage 13». Предоставляет доступ к дополнительным функциям сервиса SmartAutoParts.",
+        "price": "73.97",
+        "duration_days": 7,
+        "max_ai_requests": 957,
+        "has_chat_access": false,
+        "has_image_analysis": true,
+        "created_at": "2026-07-12T20:10:17.331Z"
+    }
+},
+{
+    "model": "subscriptions.subscriptionplan",
+    "pk": 14,
+    "fields": {
+        "name": "Standard 14",
+        "description": "Тестовый тарифный план «Standard 14». Предоставляет доступ к дополнительным функциям сервиса SmartAutoParts.",
+        "price": "85.88",
+        "duration_days": 90,
+        "max_ai_requests": 860,
+        "has_chat_access": false,
+        "has_image_analysis": false,
+        "created_at": "2026-07-12T20:10:17.331Z"
+    }
+},
+{
+    "model": "subscriptions.subscriptionplan",
+    "pk": 15,
+    "fields": {
+        "name": "Garage 15",
+        "description": "Тестовый тарифный план «Garage 15». Предоставляет доступ к дополнительным функциям сервиса SmartAutoParts.",
+        "price": "92.49",
+        "duration_days": 14,
+        "max_ai_requests": 786,
+        "has_chat_access": true,
+        "has_image_analysis": false,
+        "created_at": "2026-07-12T20:10:17.331Z"
+    }
+},
+{
+    "model": "subscriptions.subscriptionplan",
+    "pk": 16,
+    "fields": {
+        "name": "Premium 16",
+        "description": "Тестовый тарифный план «Premium 16». Предоставляет доступ к дополнительным функциям сервиса SmartAutoParts.",
+        "price": "19.03",
+        "duration_days": 14,
+        "max_ai_requests": 474,
+        "has_chat_access": false,
+        "has_image_analysis": false,
+        "created_at": "2026-07-12T20:10:17.331Z"
+    }
+},
+{
+    "model": "subscriptions.subscriptionplan",
+    "pk": 17,
+    "fields": {
+        "name": "Diagnostic 17",
+        "description": "Тестовый тарифный план «Diagnostic 17». Предоставляет доступ к дополнительным функциям сервиса SmartAutoParts.",
+        "price": "54.84",
+        "duration_days": 180,
+        "max_ai_requests": 744,
+        "has_chat_access": true,
+        "has_image_analysis": true,
+        "created_at": "2026-07-12T20:10:17.332Z"
+    }
+},
+{
+    "model": "subscriptions.subscriptionplan",
+    "pk": 18,
+    "fields": {
+        "name": "Workshop 18",
+        "description": "Тестовый тарифный план «Workshop 18». Предоставляет доступ к дополнительным функциям сервиса SmartAutoParts.",
+        "price": "25.52",
+        "duration_days": 90,
+        "max_ai_requests": 102,
+        "has_chat_access": true,
+        "has_image_analysis": true,
+        "created_at": "2026-07-12T20:10:17.332Z"
+    }
+},
+{
+    "model": "subscriptions.subscriptionplan",
+    "pk": 19,
+    "fields": {
+        "name": "Basic 19",
+        "description": "Тестовый тарифный план «Basic 19». Предоставляет доступ к дополнительным функциям сервиса SmartAutoParts.",
+        "price": "67.39",
+        "duration_days": 180,
+        "max_ai_requests": 342,
+        "has_chat_access": false,
+        "has_image_analysis": false,
+        "created_at": "2026-07-12T20:10:17.332Z"
+    }
+},
+{
+    "model": "subscriptions.subscriptionplan",
+    "pk": 20,
+    "fields": {
+        "name": "Premium 20",
+        "description": "Тестовый тарифный план «Premium 20». Предоставляет доступ к дополнительным функциям сервиса SmartAutoParts.",
+        "price": "29.49",
+        "duration_days": 180,
+        "max_ai_requests": 482,
+        "has_chat_access": true,
+        "has_image_analysis": true,
+        "created_at": "2026-07-12T20:10:17.332Z"
+    }
+},
+{
+    "model": "subscriptions.subscriptionplan",
+    "pk": 21,
+    "fields": {
+        "name": "Mechanic 21",
+        "description": "Тестовый тарифный план «Mechanic 21». Предоставляет доступ к дополнительным функциям сервиса SmartAutoParts.",
+        "price": "29.32",
+        "duration_days": 30,
+        "max_ai_requests": 706,
+        "has_chat_access": false,
+        "has_image_analysis": true,
+        "created_at": "2026-07-12T20:10:17.332Z"
+    }
+},
+{
+    "model": "subscriptions.subscriptionplan",
+    "pk": 22,
+    "fields": {
+        "name": "Premium 22",
+        "description": "Тестовый тарифный план «Premium 22». Предоставляет доступ к дополнительным функциям сервиса SmartAutoParts.",
+        "price": "41.20",
+        "duration_days": 30,
+        "max_ai_requests": 980,
+        "has_chat_access": true,
+        "has_image_analysis": true,
+        "created_at": "2026-07-12T20:10:17.332Z"
+    }
+},
+{
+    "model": "subscriptions.subscriptionplan",
+    "pk": 23,
+    "fields": {
+        "name": "Standard 23",
+        "description": "Тестовый тарифный план «Standard 23». Предоставляет доступ к дополнительным функциям сервиса SmartAutoParts.",
+        "price": "81.05",
+        "duration_days": 365,
+        "max_ai_requests": 90,
+        "has_chat_access": true,
+        "has_image_analysis": false,
+        "created_at": "2026-07-12T20:10:17.332Z"
+    }
+},
+{
+    "model": "subscriptions.subscriptionplan",
+    "pk": 24,
+    "fields": {
+        "name": "Workshop 24",
+        "description": "Тестовый тарифный план «Workshop 24». Предоставляет доступ к дополнительным функциям сервиса SmartAutoParts.",
+        "price": "76.63",
+        "duration_days": 14,
+        "max_ai_requests": 690,
+        "has_chat_access": false,
+        "has_image_analysis": true,
+        "created_at": "2026-07-12T20:10:17.332Z"
+    }
+},
+{
+    "model": "subscriptions.subscriptionplan",
+    "pk": 25,
+    "fields": {
+        "name": "Basic 25",
+        "description": "Тестовый тарифный план «Basic 25». Предоставляет доступ к дополнительным функциям сервиса SmartAutoParts.",
+        "price": "15.73",
+        "duration_days": 7,
+        "max_ai_requests": 328,
+        "has_chat_access": false,
+        "has_image_analysis": true,
+        "created_at": "2026-07-12T20:10:17.333Z"
+    }
+},
+{
+    "model": "subscriptions.subscriptionplan",
+    "pk": 26,
+    "fields": {
+        "name": "Standard 26",
+        "description": "Тестовый тарифный план «Standard 26». Предоставляет доступ к дополнительным функциям сервиса SmartAutoParts.",
+        "price": "97.38",
+        "duration_days": 365,
+        "max_ai_requests": 658,
+        "has_chat_access": false,
+        "has_image_analysis": true,
+        "created_at": "2026-07-12T20:10:17.333Z"
+    }
+},
+{
+    "model": "subscriptions.subscriptionplan",
+    "pk": 27,
+    "fields": {
+        "name": "Standard 27",
+        "description": "Тестовый тарифный план «Standard 27». Предоставляет доступ к дополнительным функциям сервиса SmartAutoParts.",
+        "price": "55.16",
+        "duration_days": 180,
+        "max_ai_requests": 114,
+        "has_chat_access": true,
+        "has_image_analysis": false,
+        "created_at": "2026-07-12T20:10:17.333Z"
+    }
+},
+{
+    "model": "subscriptions.subscriptionplan",
+    "pk": 28,
+    "fields": {
+        "name": "Expert 28",
+        "description": "Тестовый тарифный план «Expert 28». Предоставляет доступ к дополнительным функциям сервиса SmartAutoParts.",
+        "price": "55.60",
+        "duration_days": 365,
+        "max_ai_requests": 556,
+        "has_chat_access": true,
+        "has_image_analysis": true,
+        "created_at": "2026-07-12T20:10:17.333Z"
+    }
+},
+{
+    "model": "subscriptions.subscriptionplan",
+    "pk": 29,
+    "fields": {
+        "name": "Workshop 29",
+        "description": "Тестовый тарифный план «Workshop 29». Предоставляет доступ к дополнительным функциям сервиса SmartAutoParts.",
+        "price": "35.35",
+        "duration_days": 30,
+        "max_ai_requests": 909,
+        "has_chat_access": true,
+        "has_image_analysis": false,
+        "created_at": "2026-07-12T20:10:17.333Z"
+    }
+},
+{
+    "model": "subscriptions.subscriptionplan",
+    "pk": 30,
+    "fields": {
+        "name": "Garage 30",
+        "description": "Тестовый тарифный план «Garage 30». Предоставляет доступ к дополнительным функциям сервиса SmartAutoParts.",
+        "price": "57.23",
+        "duration_days": 14,
+        "max_ai_requests": 783,
+        "has_chat_access": true,
+        "has_image_analysis": false,
+        "created_at": "2026-07-12T20:10:17.333Z"
+    }
+},
+{
+    "model": "subscriptions.subscriptionplan",
+    "pk": 31,
+    "fields": {
+        "name": "Basic 31",
+        "description": "Тестовый тарифный план «Basic 31». Предоставляет доступ к дополнительным функциям сервиса SmartAutoParts.",
+        "price": "20.34",
+        "duration_days": 14,
+        "max_ai_requests": 497,
+        "has_chat_access": false,
+        "has_image_analysis": true,
+        "created_at": "2026-07-12T20:10:17.333Z"
+    }
+},
+{
+    "model": "subscriptions.subscriptionplan",
+    "pk": 32,
+    "fields": {
+        "name": "Basic 32",
+        "description": "Тестовый тарифный план «Basic 32». Предоставляет доступ к дополнительным функциям сервиса SmartAutoParts.",
+        "price": "75.03",
+        "duration_days": 14,
+        "max_ai_requests": 393,
+        "has_chat_access": false,
+        "has_image_analysis": true,
+        "created_at": "2026-07-12T20:10:17.333Z"
+    }
+},
+{
+    "model": "subscriptions.subscriptionplan",
+    "pk": 33,
+    "fields": {
+        "name": "Premium 33",
+        "description": "Тестовый тарифный план «Premium 33». Предоставляет доступ к дополнительным функциям сервиса SmartAutoParts.",
+        "price": "10.47",
+        "duration_days": 30,
+        "max_ai_requests": 448,
+        "has_chat_access": false,
+        "has_image_analysis": false,
+        "created_at": "2026-07-12T20:10:17.334Z"
+    }
+},
+{
+    "model": "subscriptions.subscriptionplan",
+    "pk": 34,
+    "fields": {
+        "name": "Premium 34",
+        "description": "Тестовый тарифный план «Premium 34». Предоставляет доступ к дополнительным функциям сервиса SmartAutoParts.",
+        "price": "65.74",
+        "duration_days": 365,
+        "max_ai_requests": 989,
+        "has_chat_access": false,
+        "has_image_analysis": true,
+        "created_at": "2026-07-12T20:10:17.334Z"
+    }
+},
+{
+    "model": "subscriptions.subscriptionplan",
+    "pk": 35,
+    "fields": {
+        "name": "Expert 35",
+        "description": "Тестовый тарифный план «Expert 35». Предоставляет доступ к дополнительным функциям сервиса SmartAutoParts.",
+        "price": "32.83",
+        "duration_days": 7,
+        "max_ai_requests": 637,
+        "has_chat_access": true,
+        "has_image_analysis": true,
+        "created_at": "2026-07-12T20:10:17.334Z"
+    }
+},
+{
+    "model": "subscriptions.subscriptionplan",
+    "pk": 36,
+    "fields": {
+        "name": "Garage 36",
+        "description": "Тестовый тарифный план «Garage 36». Предоставляет доступ к дополнительным функциям сервиса SmartAutoParts.",
+        "price": "60.18",
+        "duration_days": 180,
+        "max_ai_requests": 202,
+        "has_chat_access": false,
+        "has_image_analysis": false,
+        "created_at": "2026-07-12T20:10:17.334Z"
+    }
+},
+{
+    "model": "subscriptions.subscriptionplan",
+    "pk": 37,
+    "fields": {
+        "name": "Expert 37",
+        "description": "Тестовый тарифный план «Expert 37». Предоставляет доступ к дополнительным функциям сервиса SmartAutoParts.",
+        "price": "41.17",
+        "duration_days": 30,
+        "max_ai_requests": 424,
+        "has_chat_access": true,
+        "has_image_analysis": false,
+        "created_at": "2026-07-12T20:10:17.334Z"
+    }
+},
+{
+    "model": "subscriptions.subscriptionplan",
+    "pk": 38,
+    "fields": {
+        "name": "Expert 38",
+        "description": "Тестовый тарифный план «Expert 38». Предоставляет доступ к дополнительным функциям сервиса SmartAutoParts.",
+        "price": "85.14",
+        "duration_days": 30,
+        "max_ai_requests": 727,
+        "has_chat_access": true,
+        "has_image_analysis": true,
+        "created_at": "2026-07-12T20:10:17.334Z"
+    }
+},
+{
+    "model": "subscriptions.subscriptionplan",
+    "pk": 39,
+    "fields": {
+        "name": "Standard 39",
+        "description": "Тестовый тарифный план «Standard 39». Предоставляет доступ к дополнительным функциям сервиса SmartAutoParts.",
+        "price": "28.50",
+        "duration_days": 90,
+        "max_ai_requests": 870,
+        "has_chat_access": true,
+        "has_image_analysis": true,
+        "created_at": "2026-07-12T20:10:17.335Z"
+    }
+},
+{
+    "model": "subscriptions.subscriptionplan",
+    "pk": 40,
+    "fields": {
+        "name": "Standard 40",
+        "description": "Тестовый тарифный план «Standard 40». Предоставляет доступ к дополнительным функциям сервиса SmartAutoParts.",
+        "price": "70.28",
+        "duration_days": 180,
+        "max_ai_requests": 916,
+        "has_chat_access": false,
+        "has_image_analysis": true,
+        "created_at": "2026-07-12T20:10:17.335Z"
+    }
+},
+{
+    "model": "subscriptions.subscriptionplan",
+    "pk": 41,
+    "fields": {
+        "name": "Expert 41",
+        "description": "Тестовый тарифный план «Expert 41». Предоставляет доступ к дополнительным функциям сервиса SmartAutoParts.",
+        "price": "72.83",
+        "duration_days": 90,
+        "max_ai_requests": 954,
+        "has_chat_access": true,
+        "has_image_analysis": true,
+        "created_at": "2026-07-12T20:10:17.335Z"
+    }
+},
+{
+    "model": "subscriptions.subscriptionplan",
+    "pk": 42,
+    "fields": {
+        "name": "Mechanic 42",
+        "description": "Тестовый тарифный план «Mechanic 42». Предоставляет доступ к дополнительным функциям сервиса SmartAutoParts.",
+        "price": "80.07",
+        "duration_days": 180,
+        "max_ai_requests": 559,
+        "has_chat_access": false,
+        "has_image_analysis": false,
+        "created_at": "2026-07-12T20:10:17.335Z"
+    }
+},
+{
+    "model": "subscriptions.subscriptionplan",
+    "pk": 43,
+    "fields": {
+        "name": "Pro 43",
+        "description": "Тестовый тарифный план «Pro 43». Предоставляет доступ к дополнительным функциям сервиса SmartAutoParts.",
+        "price": "9.86",
+        "duration_days": 365,
+        "max_ai_requests": 10,
+        "has_chat_access": false,
+        "has_image_analysis": true,
+        "created_at": "2026-07-12T20:10:17.335Z"
+    }
+},
+{
+    "model": "subscriptions.usersubscription",
+    "pk": 1,
+    "fields": {
+        "user": [
+            "user_5625accb5129@example.com"
+        ],
+        "plan": 14,
+        "start_date": "2026-03-03T16:48:17.335Z",
+        "end_date": "2026-06-01T16:48:17.335Z",
+        "is_active": false,
+        "auto_renew": true
+    }
+},
+{
+    "model": "subscriptions.usersubscription",
+    "pk": 2,
+    "fields": {
+        "user": [
+            "user_310001fd8758@example.com"
+        ],
+        "plan": 14,
+        "start_date": "2025-09-08T15:30:17.336Z",
+        "end_date": "2025-12-07T15:30:17.336Z",
+        "is_active": false,
+        "auto_renew": false
+    }
+},
+{
+    "model": "subscriptions.usersubscription",
+    "pk": 3,
+    "fields": {
+        "user": [
+            "user_310001fd8758@example.com"
+        ],
+        "plan": 33,
+        "start_date": "2026-04-25T00:19:17.336Z",
+        "end_date": "2026-05-25T00:19:17.336Z",
+        "is_active": false,
+        "auto_renew": true
+    }
+},
+{
+    "model": "subscriptions.usersubscription",
+    "pk": 4,
+    "fields": {
+        "user": [
+            "user_fcbdfd93de78@example.com"
+        ],
+        "plan": 1,
+        "start_date": "2025-09-01T01:34:17.336Z",
+        "end_date": "2025-10-01T01:34:17.336Z",
+        "is_active": false,
+        "auto_renew": false
+    }
+},
+{
+    "model": "subscriptions.usersubscription",
+    "pk": 5,
+    "fields": {
+        "user": [
+            "user_90487c60c37e@example.com"
+        ],
+        "plan": 43,
+        "start_date": "2026-01-10T13:30:17.336Z",
+        "end_date": "2027-01-10T13:30:17.336Z",
+        "is_active": true,
+        "auto_renew": true
+    }
+},
+{
+    "model": "subscriptions.usersubscription",
+    "pk": 6,
+    "fields": {
+        "user": [
+            "user_a66bf97989e2@example.com"
+        ],
+        "plan": 39,
+        "start_date": "2026-06-24T17:31:17.336Z",
+        "end_date": "2026-09-22T17:31:17.336Z",
+        "is_active": true,
+        "auto_renew": false
+    }
+},
+{
+    "model": "subscriptions.usersubscription",
+    "pk": 7,
+    "fields": {
+        "user": [
+            "user_6ba052529349@example.com"
+        ],
+        "plan": 26,
+        "start_date": "2026-07-02T08:34:17.337Z",
+        "end_date": "2027-07-02T08:34:17.337Z",
+        "is_active": false,
+        "auto_renew": true
+    }
+},
+{
+    "model": "subscriptions.usersubscription",
+    "pk": 8,
+    "fields": {
+        "user": [
+            "user_2bcdf32f261a@example.com"
+        ],
+        "plan": 42,
+        "start_date": "2026-04-19T00:50:17.337Z",
+        "end_date": "2026-10-16T00:50:17.337Z",
+        "is_active": true,
+        "auto_renew": false
+    }
+},
+{
+    "model": "subscriptions.usersubscription",
+    "pk": 9,
+    "fields": {
+        "user": [
+            "user_cce2a2ff5bc1@example.com"
+        ],
+        "plan": 40,
+        "start_date": "2026-06-17T07:16:17.337Z",
+        "end_date": "2026-12-14T07:16:17.337Z",
+        "is_active": true,
+        "auto_renew": false
+    }
+},
+{
+    "model": "subscriptions.usersubscription",
+    "pk": 10,
+    "fields": {
+        "user": [
+            "user_3a2f5c2fb68b@example.com"
+        ],
+        "plan": 19,
+        "start_date": "2026-02-21T13:41:17.337Z",
+        "end_date": "2026-08-20T13:41:17.337Z",
+        "is_active": true,
+        "auto_renew": true
+    }
+},
+{
+    "model": "subscriptions.usersubscription",
+    "pk": 11,
+    "fields": {
+        "user": [
+            "user_5625accb5129@example.com"
+        ],
+        "plan": 39,
+        "start_date": "2026-03-15T18:57:17.337Z",
+        "end_date": "2026-06-13T18:57:17.337Z",
+        "is_active": false,
+        "auto_renew": false
+    }
+},
+{
+    "model": "subscriptions.usersubscription",
+    "pk": 12,
+    "fields": {
+        "user": [
+            "user_d2e4d1b1ad33@example.com"
+        ],
+        "plan": 29,
+        "start_date": "2026-02-04T07:48:17.337Z",
+        "end_date": "2026-03-06T07:48:17.337Z",
+        "is_active": false,
+        "auto_renew": false
+    }
+},
+{
+    "model": "subscriptions.usersubscription",
+    "pk": 13,
+    "fields": {
+        "user": [
+            "user_a66bf97989e2@example.com"
+        ],
+        "plan": 34,
+        "start_date": "2026-03-24T10:30:17.338Z",
+        "end_date": "2027-03-24T10:30:17.338Z",
+        "is_active": false,
+        "auto_renew": true
+    }
+},
+{
+    "model": "subscriptions.usersubscription",
+    "pk": 14,
+    "fields": {
+        "user": [
+            "user_4293c88e5487@example.com"
+        ],
+        "plan": 28,
+        "start_date": "2026-07-09T23:26:17.338Z",
+        "end_date": "2027-07-09T23:26:17.338Z",
+        "is_active": true,
+        "auto_renew": false
+    }
+},
+{
+    "model": "subscriptions.usersubscription",
+    "pk": 15,
+    "fields": {
+        "user": [
+            "user_fb5327008cf8@example.com"
+        ],
+        "plan": 32,
+        "start_date": "2026-06-09T02:49:17.338Z",
+        "end_date": "2026-06-23T02:49:17.338Z",
+        "is_active": false,
+        "auto_renew": true
+    }
+},
+{
+    "model": "subscriptions.usersubscription",
+    "pk": 16,
+    "fields": {
+        "user": [
+            "user_77c5830d6cfb@example.com"
+        ],
+        "plan": 16,
+        "start_date": "2025-08-26T03:25:17.338Z",
+        "end_date": "2025-09-09T03:25:17.338Z",
+        "is_active": false,
+        "auto_renew": true
+    }
+},
+{
+    "model": "subscriptions.usersubscription",
+    "pk": 17,
+    "fields": {
+        "user": [
+            "user_8b951cf972da@example.com"
+        ],
+        "plan": 28,
+        "start_date": "2026-05-06T07:37:17.338Z",
+        "end_date": "2027-05-06T07:37:17.338Z",
+        "is_active": false,
+        "auto_renew": false
+    }
+},
+{
+    "model": "subscriptions.usersubscription",
+    "pk": 18,
+    "fields": {
+        "user": [
+            "user_3a2f5c2fb68b@example.com"
+        ],
+        "plan": 39,
+        "start_date": "2025-12-19T04:02:17.338Z",
+        "end_date": "2026-03-19T04:02:17.338Z",
+        "is_active": false,
+        "auto_renew": true
+    }
+},
+{
+    "model": "subscriptions.usersubscription",
+    "pk": 19,
+    "fields": {
+        "user": [
+            "user_b09ae5f7dbfd@example.com"
+        ],
+        "plan": 18,
+        "start_date": "2025-08-16T01:14:17.338Z",
+        "end_date": "2025-11-14T01:14:17.338Z",
+        "is_active": false,
+        "auto_renew": true
+    }
+},
+{
+    "model": "subscriptions.usersubscription",
+    "pk": 20,
+    "fields": {
+        "user": [
+            "user_fb5327008cf8@example.com"
+        ],
+        "plan": 20,
+        "start_date": "2026-05-24T23:50:17.338Z",
+        "end_date": "2026-11-20T23:50:17.338Z",
+        "is_active": true,
+        "auto_renew": false
+    }
+},
+{
+    "model": "subscriptions.usersubscription",
+    "pk": 21,
+    "fields": {
+        "user": [
+            "user_b09ae5f7dbfd@example.com"
+        ],
+        "plan": 3,
+        "start_date": "2025-11-18T21:00:17.339Z",
+        "end_date": "2026-02-16T21:00:17.339Z",
+        "is_active": false,
+        "auto_renew": false
+    }
+},
+{
+    "model": "subscriptions.usersubscription",
+    "pk": 22,
+    "fields": {
+        "user": [
+            "user_f3bf3d77c2a3@example.com"
+        ],
+        "plan": 22,
+        "start_date": "2026-02-05T07:09:17.339Z",
+        "end_date": "2026-03-07T07:09:17.339Z",
+        "is_active": false,
+        "auto_renew": false
+    }
+},
+{
+    "model": "subscriptions.usersubscription",
+    "pk": 23,
+    "fields": {
+        "user": [
+            "user_24baaf72fc4b@example.com"
+        ],
+        "plan": 35,
+        "start_date": "2026-03-29T04:43:17.339Z",
+        "end_date": "2026-04-05T04:43:17.339Z",
+        "is_active": false,
+        "auto_renew": true
+    }
+},
+{
+    "model": "subscriptions.usersubscription",
+    "pk": 24,
+    "fields": {
+        "user": [
+            "user_f3bf3d77c2a3@example.com"
+        ],
+        "plan": 41,
+        "start_date": "2026-01-26T04:02:17.339Z",
+        "end_date": "2026-04-26T04:02:17.339Z",
+        "is_active": false,
+        "auto_renew": false
+    }
+},
+{
+    "model": "subscriptions.usersubscription",
+    "pk": 25,
+    "fields": {
+        "user": [
+            "user_502a9f12fe48@example.com"
+        ],
+        "plan": 30,
+        "start_date": "2026-05-06T05:35:17.339Z",
+        "end_date": "2026-05-20T05:35:17.339Z",
+        "is_active": false,
+        "auto_renew": false
+    }
+},
+{
+    "model": "subscriptions.usersubscription",
+    "pk": 26,
+    "fields": {
+        "user": [
+            "user_310001fd8758@example.com"
+        ],
+        "plan": 33,
+        "start_date": "2026-06-11T07:17:17.339Z",
+        "end_date": "2026-07-11T07:17:17.339Z",
+        "is_active": false,
+        "auto_renew": false
+    }
+},
+{
+    "model": "subscriptions.usersubscription",
+    "pk": 27,
+    "fields": {
+        "user": [
+            "user_e74b3c56ee90@example.com"
+        ],
+        "plan": 37,
+        "start_date": "2026-06-24T08:36:17.339Z",
+        "end_date": "2026-07-24T08:36:17.339Z",
+        "is_active": false,
+        "auto_renew": true
+    }
+},
+{
+    "model": "subscriptions.usersubscription",
+    "pk": 28,
+    "fields": {
+        "user": [
+            "user_3a2f5c2fb68b@example.com"
+        ],
+        "plan": 42,
+        "start_date": "2026-04-21T20:03:17.339Z",
+        "end_date": "2026-10-18T20:03:17.339Z",
+        "is_active": false,
+        "auto_renew": true
+    }
+},
+{
+    "model": "subscriptions.usersubscription",
+    "pk": 29,
+    "fields": {
+        "user": [
+            "user_d05a4118d83f@example.com"
+        ],
+        "plan": 10,
+        "start_date": "2025-08-14T18:20:17.340Z",
+        "end_date": "2025-11-12T18:20:17.340Z",
+        "is_active": false,
+        "auto_renew": false
+    }
+},
+{
+    "model": "subscriptions.usersubscription",
+    "pk": 30,
+    "fields": {
+        "user": [
+            "user_d2e4d1b1ad33@example.com"
+        ],
+        "plan": 35,
+        "start_date": "2026-01-30T11:48:17.340Z",
+        "end_date": "2026-02-06T11:48:17.340Z",
+        "is_active": false,
+        "auto_renew": true
+    }
+},
+{
+    "model": "subscriptions.subscriptionpayment",
+    "pk": 1,
+    "fields": {
+        "user": [
+            "user_3a2f5c2fb68b@example.com"
+        ],
+        "subscription": 28,
+        "provider": "PayPal",
+        "external_payment_id": "pay_2d22a1e47d4c",
+        "amount": "80.07",
+        "currency": "EUR",
+        "status": "paid",
+        "paid_at": "2025-12-31T20:22:17.340Z"
+    }
+},
+{
+    "model": "subscriptions.subscriptionpayment",
+    "pk": 2,
+    "fields": {
+        "user": [
+            "user_fcbdfd93de78@example.com"
+        ],
+        "subscription": 4,
+        "provider": "PayPal",
+        "external_payment_id": "pay_886465fe9ce0",
+        "amount": "61.48",
+        "currency": "RUB",
+        "status": "refunded",
+        "paid_at": "2026-06-06T17:56:17.341Z"
+    }
+},
+{
+    "model": "subscriptions.subscriptionpayment",
+    "pk": 3,
+    "fields": {
+        "user": [
+            "user_90487c60c37e@example.com"
+        ],
+        "subscription": 5,
+        "provider": "Adyen",
+        "external_payment_id": "pay_1bade09e2c56",
+        "amount": "9.86",
+        "currency": "RUB",
+        "status": "paid",
+        "paid_at": "2026-03-21T12:39:17.341Z"
+    }
+},
+{
+    "model": "subscriptions.subscriptionpayment",
+    "pk": 4,
+    "fields": {
+        "user": [
+            "user_d2e4d1b1ad33@example.com"
+        ],
+        "subscription": 12,
+        "provider": "CloudPayments",
+        "external_payment_id": "pay_091619c451b7",
+        "amount": "35.35",
+        "currency": "USD",
+        "status": "paid",
+        "paid_at": "2026-03-28T22:24:17.341Z"
+    }
+},
+{
+    "model": "subscriptions.subscriptionpayment",
+    "pk": 5,
+    "fields": {
+        "user": [
+            "user_3a2f5c2fb68b@example.com"
+        ],
+        "subscription": 10,
+        "provider": "CloudPayments",
+        "external_payment_id": "pay_46e8b5efd329",
+        "amount": "67.39",
+        "currency": "USD",
+        "status": "paid",
+        "paid_at": "2025-08-03T19:24:17.342Z"
+    }
+},
+{
+    "model": "subscriptions.subscriptionpayment",
+    "pk": 6,
+    "fields": {
+        "user": [
+            "user_fb5327008cf8@example.com"
+        ],
+        "subscription": 15,
+        "provider": "Adyen",
+        "external_payment_id": "pay_b64a0782b5a0",
+        "amount": "75.03",
+        "currency": "EUR",
+        "status": "paid",
+        "paid_at": "2026-07-05T11:23:17.342Z"
+    }
+},
+{
+    "model": "subscriptions.subscriptionpayment",
+    "pk": 7,
+    "fields": {
+        "user": [
+            "user_8b951cf972da@example.com"
+        ],
+        "subscription": 17,
+        "provider": "Stripe",
+        "external_payment_id": "pay_424117e75ded",
+        "amount": "55.60",
+        "currency": "EUR",
+        "status": "refunded",
+        "paid_at": "2026-02-01T16:57:17.342Z"
+    }
+},
+{
+    "model": "subscriptions.subscriptionpayment",
+    "pk": 8,
+    "fields": {
+        "user": [
+            "user_e74b3c56ee90@example.com"
+        ],
+        "subscription": 27,
+        "provider": "Adyen",
+        "external_payment_id": "pay_98b3bf5848b3",
+        "amount": "41.17",
+        "currency": "USD",
+        "status": "paid",
+        "paid_at": "2026-03-13T01:09:17.342Z"
+    }
+},
+{
+    "model": "subscriptions.subscriptionpayment",
+    "pk": 9,
+    "fields": {
+        "user": [
+            "user_f3bf3d77c2a3@example.com"
+        ],
+        "subscription": 24,
+        "provider": "Stripe",
+        "external_payment_id": "pay_ebd5ea3a0c69",
+        "amount": "72.83",
+        "currency": "GBP",
+        "status": "paid",
+        "paid_at": "2025-12-26T20:51:17.343Z"
+    }
+},
+{
+    "model": "subscriptions.subscriptionpayment",
+    "pk": 10,
+    "fields": {
+        "user": [
+            "user_e74b3c56ee90@example.com"
+        ],
+        "subscription": 27,
+        "provider": "YooKassa",
+        "external_payment_id": "pay_2c45221e6f36",
+        "amount": "41.17",
+        "currency": "GBP",
+        "status": "refunded",
+        "paid_at": "2026-06-05T12:26:17.343Z"
+    }
+},
+{
+    "model": "subscriptions.subscriptionpayment",
+    "pk": 11,
+    "fields": {
+        "user": [
+            "user_6ba052529349@example.com"
+        ],
+        "subscription": 7,
+        "provider": "Stripe",
+        "external_payment_id": "pay_7fb5a42bd32b",
+        "amount": "97.38",
+        "currency": "RUB",
+        "status": "failed",
+        "paid_at": null
+    }
+},
+{
+    "model": "subscriptions.subscriptionpayment",
+    "pk": 12,
+    "fields": {
+        "user": [
+            "user_310001fd8758@example.com"
+        ],
+        "subscription": 2,
+        "provider": "Adyen",
+        "external_payment_id": "pay_27a409230a27",
+        "amount": "85.88",
+        "currency": "EUR",
+        "status": "refunded",
+        "paid_at": "2025-10-24T23:55:17.343Z"
+    }
+},
+{
+    "model": "subscriptions.subscriptionpayment",
+    "pk": 13,
+    "fields": {
+        "user": [
+            "user_fb5327008cf8@example.com"
+        ],
+        "subscription": 20,
+        "provider": "Stripe",
+        "external_payment_id": "pay_dff835f11f2c",
+        "amount": "29.49",
+        "currency": "USD",
+        "status": "failed",
+        "paid_at": null
+    }
+},
+{
+    "model": "subscriptions.subscriptionpayment",
+    "pk": 14,
+    "fields": {
+        "user": [
+            "user_2bcdf32f261a@example.com"
+        ],
+        "subscription": 8,
+        "provider": "Adyen",
+        "external_payment_id": "pay_0e9e4fe44283",
+        "amount": "80.07",
+        "currency": "USD",
+        "status": "failed",
+        "paid_at": null
+    }
+},
+{
+    "model": "subscriptions.subscriptionpayment",
+    "pk": 15,
+    "fields": {
+        "user": [
+            "user_fb5327008cf8@example.com"
+        ],
+        "subscription": 20,
+        "provider": "PayPal",
+        "external_payment_id": "pay_8dcee382c9f4",
+        "amount": "29.49",
+        "currency": "GBP",
+        "status": "failed",
+        "paid_at": null
+    }
+},
+{
+    "model": "subscriptions.subscriptionpayment",
+    "pk": 16,
+    "fields": {
+        "user": [
+            "user_310001fd8758@example.com"
+        ],
+        "subscription": 2,
+        "provider": "CloudPayments",
+        "external_payment_id": "pay_71f84c9fbe7b",
+        "amount": "85.88",
+        "currency": "GBP",
+        "status": "pending",
+        "paid_at": null
+    }
+},
+{
+    "model": "subscriptions.subscriptionpayment",
+    "pk": 17,
+    "fields": {
+        "user": [
+            "user_f3bf3d77c2a3@example.com"
+        ],
+        "subscription": 24,
+        "provider": "Adyen",
+        "external_payment_id": "pay_e74bb715e52c",
+        "amount": "72.83",
+        "currency": "USD",
+        "status": "pending",
+        "paid_at": null
+    }
+},
+{
+    "model": "subscriptions.subscriptionpayment",
+    "pk": 18,
+    "fields": {
+        "user": [
+            "user_310001fd8758@example.com"
+        ],
+        "subscription": 3,
+        "provider": "CloudPayments",
+        "external_payment_id": "pay_f222ff77c6f8",
+        "amount": "10.47",
+        "currency": "GBP",
+        "status": "failed",
+        "paid_at": null
+    }
+},
+{
+    "model": "subscriptions.subscriptionpayment",
+    "pk": 19,
+    "fields": {
+        "user": [
+            "user_a66bf97989e2@example.com"
+        ],
+        "subscription": 6,
+        "provider": "PayPal",
+        "external_payment_id": "pay_7a4da572a668",
+        "amount": "28.50",
+        "currency": "GBP",
+        "status": "paid",
+        "paid_at": "2026-01-23T00:50:17.344Z"
+    }
+},
+{
+    "model": "subscriptions.subscriptionpayment",
+    "pk": 20,
+    "fields": {
+        "user": [
+            "user_3a2f5c2fb68b@example.com"
+        ],
+        "subscription": 28,
+        "provider": "YooKassa",
+        "external_payment_id": "pay_874a783c1cd0",
+        "amount": "80.07",
+        "currency": "USD",
+        "status": "paid",
+        "paid_at": "2026-01-16T06:21:17.344Z"
+    }
+},
+{
+    "model": "subscriptions.subscriptionpayment",
+    "pk": 21,
+    "fields": {
+        "user": [
+            "user_a66bf97989e2@example.com"
+        ],
+        "subscription": 6,
+        "provider": "YooKassa",
+        "external_payment_id": "pay_77a7cca06bbd",
+        "amount": "28.50",
+        "currency": "RUB",
+        "status": "pending",
+        "paid_at": null
+    }
+},
+{
+    "model": "subscriptions.subscriptionpayment",
+    "pk": 22,
+    "fields": {
+        "user": [
+            "user_f3bf3d77c2a3@example.com"
+        ],
+        "subscription": 22,
+        "provider": "YooKassa",
+        "external_payment_id": "pay_8eba61f40754",
+        "amount": "41.20",
+        "currency": "GBP",
+        "status": "refunded",
+        "paid_at": "2026-04-17T13:28:17.345Z"
+    }
+},
+{
+    "model": "subscriptions.subscriptionpayment",
+    "pk": 23,
+    "fields": {
+        "user": [
+            "user_3a2f5c2fb68b@example.com"
+        ],
+        "subscription": 28,
+        "provider": "Stripe",
+        "external_payment_id": "pay_aeedb2074ccf",
+        "amount": "80.07",
+        "currency": "USD",
+        "status": "pending",
+        "paid_at": null
+    }
+},
+{
+    "model": "subscriptions.subscriptionpayment",
+    "pk": 24,
+    "fields": {
+        "user": [
+            "user_3a2f5c2fb68b@example.com"
+        ],
+        "subscription": 10,
+        "provider": "Adyen",
+        "external_payment_id": "pay_1de17219e94e",
+        "amount": "67.39",
+        "currency": "USD",
+        "status": "refunded",
+        "paid_at": "2025-12-29T00:29:17.345Z"
+    }
+},
+{
+    "model": "subscriptions.subscriptionpayment",
+    "pk": 25,
+    "fields": {
+        "user": [
+            "user_310001fd8758@example.com"
+        ],
+        "subscription": 2,
+        "provider": "YooKassa",
+        "external_payment_id": "pay_91c861cbbbec",
+        "amount": "85.88",
+        "currency": "EUR",
+        "status": "refunded",
+        "paid_at": "2025-09-20T05:36:17.345Z"
+    }
+},
+{
+    "model": "subscriptions.subscriptionpayment",
+    "pk": 26,
+    "fields": {
+        "user": [
+            "user_e74b3c56ee90@example.com"
+        ],
+        "subscription": 27,
+        "provider": "CloudPayments",
+        "external_payment_id": "pay_51eb235e2304",
+        "amount": "41.17",
+        "currency": "USD",
+        "status": "failed",
+        "paid_at": null
+    }
+},
+{
+    "model": "subscriptions.subscriptionpayment",
+    "pk": 27,
+    "fields": {
+        "user": [
+            "user_77c5830d6cfb@example.com"
+        ],
+        "subscription": 16,
+        "provider": "CloudPayments",
+        "external_payment_id": "pay_cd129f8c7e8a",
+        "amount": "19.03",
+        "currency": "USD",
+        "status": "paid",
+        "paid_at": "2026-05-27T04:52:17.345Z"
+    }
+}
+]

@@ -1,0 +1,1163 @@
+[
+{
+    "model": "chat.chatroom",
+    "pk": 1,
+    "fields": {
+        "name": "Премиум-поддержка #1",
+        "is_private": false,
+        "created_by": [
+            "user_502a9f12fe48@example.com"
+        ],
+        "created_at": "2026-07-12T20:10:17.346Z"
+    }
+},
+{
+    "model": "chat.chatroom",
+    "pk": 2,
+    "fields": {
+        "name": "OEM-номера #2",
+        "is_private": false,
+        "created_by": [
+            "user_e443b5b9a2eb@example.com"
+        ],
+        "created_at": "2026-07-12T20:10:17.346Z"
+    }
+},
+{
+    "model": "chat.chatroom",
+    "pk": 3,
+    "fields": {
+        "name": "Диагностика #3",
+        "is_private": false,
+        "created_by": [
+            "user_4293c88e5487@example.com"
+        ],
+        "created_at": "2026-07-12T20:10:17.347Z"
+    }
+},
+{
+    "model": "chat.chatroom",
+    "pk": 4,
+    "fields": {
+        "name": "Автоэлектрика #4",
+        "is_private": false,
+        "created_by": [
+            "user_fb5327008cf8@example.com"
+        ],
+        "created_at": "2026-07-12T20:10:17.347Z"
+    }
+},
+{
+    "model": "chat.chatroom",
+    "pk": 5,
+    "fields": {
+        "name": "OEM-номера #5",
+        "is_private": false,
+        "created_by": [
+            "user_a66bf97989e2@example.com"
+        ],
+        "created_at": "2026-07-12T20:10:17.347Z"
+    }
+},
+{
+    "model": "chat.chatroom",
+    "pk": 6,
+    "fields": {
+        "name": "Общий чат #6",
+        "is_private": false,
+        "created_by": [
+            "user_fa1b23252885@example.com"
+        ],
+        "created_at": "2026-07-12T20:10:17.347Z"
+    }
+},
+{
+    "model": "chat.chatroom",
+    "pk": 7,
+    "fields": {
+        "name": "Инструменты #7",
+        "is_private": true,
+        "created_by": [
+            "user_81d5d64fe015@example.com"
+        ],
+        "created_at": "2026-07-12T20:10:17.347Z"
+    }
+},
+{
+    "model": "chat.chatroom",
+    "pk": 8,
+    "fields": {
+        "name": "OEM-номера #8",
+        "is_private": false,
+        "created_by": [
+            "user_24baaf72fc4b@example.com"
+        ],
+        "created_at": "2026-07-12T20:10:17.347Z"
+    }
+},
+{
+    "model": "chat.chatroom",
+    "pk": 9,
+    "fields": {
+        "name": "Общий чат #9",
+        "is_private": false,
+        "created_by": [
+            "user_e6ab75b7c0cc@example.com"
+        ],
+        "created_at": "2026-07-12T20:10:17.348Z"
+    }
+},
+{
+    "model": "chat.chatroom",
+    "pk": 10,
+    "fields": {
+        "name": "Подвеска автомобиля #10",
+        "is_private": false,
+        "created_by": [
+            "user_a66bf97989e2@example.com"
+        ],
+        "created_at": "2026-07-12T20:10:17.348Z"
+    }
+},
+{
+    "model": "chat.chatroom",
+    "pk": 11,
+    "fields": {
+        "name": "Подвеска автомобиля #11",
+        "is_private": false,
+        "created_by": [
+            "user_24baaf72fc4b@example.com"
+        ],
+        "created_at": "2026-07-12T20:10:17.348Z"
+    }
+},
+{
+    "model": "chat.chatroom",
+    "pk": 12,
+    "fields": {
+        "name": "Инструменты #12",
+        "is_private": false,
+        "created_by": [
+            "user_d2e4d1b1ad33@example.com"
+        ],
+        "created_at": "2026-07-12T20:10:17.348Z"
+    }
+},
+{
+    "model": "chat.chatroom",
+    "pk": 13,
+    "fields": {
+        "name": "Инструменты #13",
+        "is_private": false,
+        "created_by": [
+            "user_24baaf72fc4b@example.com"
+        ],
+        "created_at": "2026-07-12T20:10:17.348Z"
+    }
+},
+{
+    "model": "chat.chatroom",
+    "pk": 14,
+    "fields": {
+        "name": "Советы механиков #14",
+        "is_private": false,
+        "created_by": [
+            "user_be7e51452b07@example.com"
+        ],
+        "created_at": "2026-07-12T20:10:17.348Z"
+    }
+},
+{
+    "model": "chat.chatroom",
+    "pk": 15,
+    "fields": {
+        "name": "Ремонт двигателя #15",
+        "is_private": false,
+        "created_by": [
+            "user_502a9f12fe48@example.com"
+        ],
+        "created_at": "2026-07-12T20:10:17.349Z"
+    }
+},
+{
+    "model": "chat.chatroom",
+    "pk": 16,
+    "fields": {
+        "name": "Премиум-поддержка #16",
+        "is_private": true,
+        "created_by": [
+            "user_b09ae5f7dbfd@example.com"
+        ],
+        "created_at": "2026-07-12T20:10:17.349Z"
+    }
+},
+{
+    "model": "chat.chatroom",
+    "pk": 17,
+    "fields": {
+        "name": "Подвеска автомобиля #17",
+        "is_private": false,
+        "created_by": [
+            "user_e443b5b9a2eb@example.com"
+        ],
+        "created_at": "2026-07-12T20:10:17.349Z"
+    }
+},
+{
+    "model": "chat.chatroom",
+    "pk": 18,
+    "fields": {
+        "name": "Советы механиков #18",
+        "is_private": true,
+        "created_by": [
+            "user_fa2c7bc330b4@example.com"
+        ],
+        "created_at": "2026-07-12T20:10:17.349Z"
+    }
+},
+{
+    "model": "chat.chatroom",
+    "pk": 19,
+    "fields": {
+        "name": "Премиум-поддержка #19",
+        "is_private": false,
+        "created_by": [
+            "user_fcbdfd93de78@example.com"
+        ],
+        "created_at": "2026-07-12T20:10:17.349Z"
+    }
+},
+{
+    "model": "chat.chatroom",
+    "pk": 20,
+    "fields": {
+        "name": "Поиск запчастей #20",
+        "is_private": false,
+        "created_by": [
+            "user_e6ab75b7c0cc@example.com"
+        ],
+        "created_at": "2026-07-12T20:10:17.350Z"
+    }
+},
+{
+    "model": "chat.chatroom",
+    "pk": 21,
+    "fields": {
+        "name": "Автоэлектрика #21",
+        "is_private": true,
+        "created_by": [
+            "user_be7e51452b07@example.com"
+        ],
+        "created_at": "2026-07-12T20:10:17.350Z"
+    }
+},
+{
+    "model": "chat.chatroom",
+    "pk": 22,
+    "fields": {
+        "name": "Тормозная система #22",
+        "is_private": false,
+        "created_by": [
+            "user_fa2c7bc330b4@example.com"
+        ],
+        "created_at": "2026-07-12T20:10:17.350Z"
+    }
+},
+{
+    "model": "chat.chatroom",
+    "pk": 23,
+    "fields": {
+        "name": "Подвеска автомобиля #23",
+        "is_private": false,
+        "created_by": [
+            "user_be7e51452b07@example.com"
+        ],
+        "created_at": "2026-07-12T20:10:17.350Z"
+    }
+},
+{
+    "model": "chat.chatroom",
+    "pk": 24,
+    "fields": {
+        "name": "Премиум-поддержка #24",
+        "is_private": false,
+        "created_by": [
+            "user_b09ae5f7dbfd@example.com"
+        ],
+        "created_at": "2026-07-12T20:10:17.350Z"
+    }
+},
+{
+    "model": "chat.chatparticipant",
+    "pk": 1,
+    "fields": {
+        "room": 7,
+        "user": [
+            "user_e443b5b9a2eb@example.com"
+        ],
+        "joined_at": "2026-06-07T08:12:17.351Z"
+    }
+},
+{
+    "model": "chat.chatparticipant",
+    "pk": 2,
+    "fields": {
+        "room": 18,
+        "user": [
+            "user_8b951cf972da@example.com"
+        ],
+        "joined_at": "2026-04-24T07:32:17.352Z"
+    }
+},
+{
+    "model": "chat.chatparticipant",
+    "pk": 3,
+    "fields": {
+        "room": 13,
+        "user": [
+            "user_fcbdfd93de78@example.com"
+        ],
+        "joined_at": "2026-05-28T10:14:17.352Z"
+    }
+},
+{
+    "model": "chat.chatparticipant",
+    "pk": 4,
+    "fields": {
+        "room": 19,
+        "user": [
+            "user_cce2a2ff5bc1@example.com"
+        ],
+        "joined_at": "2026-06-24T08:01:17.353Z"
+    }
+},
+{
+    "model": "chat.chatparticipant",
+    "pk": 5,
+    "fields": {
+        "room": 24,
+        "user": [
+            "user_a66bf97989e2@example.com"
+        ],
+        "joined_at": "2026-05-15T09:55:17.353Z"
+    }
+},
+{
+    "model": "chat.chatparticipant",
+    "pk": 6,
+    "fields": {
+        "room": 18,
+        "user": [
+            "user_f3bf3d77c2a3@example.com"
+        ],
+        "joined_at": "2026-02-05T06:39:17.353Z"
+    }
+},
+{
+    "model": "chat.chatparticipant",
+    "pk": 7,
+    "fields": {
+        "room": 14,
+        "user": [
+            "user_fb5327008cf8@example.com"
+        ],
+        "joined_at": "2026-06-19T19:03:17.354Z"
+    }
+},
+{
+    "model": "chat.chatparticipant",
+    "pk": 8,
+    "fields": {
+        "room": 2,
+        "user": [
+            "user_81d5d64fe015@example.com"
+        ],
+        "joined_at": "2026-04-27T15:29:17.355Z"
+    }
+},
+{
+    "model": "chat.chatparticipant",
+    "pk": 9,
+    "fields": {
+        "room": 10,
+        "user": [
+            "user_3a2f5c2fb68b@example.com"
+        ],
+        "joined_at": "2026-05-27T19:39:17.355Z"
+    }
+},
+{
+    "model": "chat.chatparticipant",
+    "pk": 10,
+    "fields": {
+        "room": 1,
+        "user": [
+            "user_4293c88e5487@example.com"
+        ],
+        "joined_at": "2026-05-19T07:41:17.356Z"
+    }
+},
+{
+    "model": "chat.chatparticipant",
+    "pk": 11,
+    "fields": {
+        "room": 20,
+        "user": [
+            "user_844635933026@example.com"
+        ],
+        "joined_at": "2026-06-28T17:39:17.356Z"
+    }
+},
+{
+    "model": "chat.chatparticipant",
+    "pk": 12,
+    "fields": {
+        "room": 19,
+        "user": [
+            "user_f3bf3d77c2a3@example.com"
+        ],
+        "joined_at": "2026-07-09T21:03:17.357Z"
+    }
+},
+{
+    "model": "chat.chatparticipant",
+    "pk": 13,
+    "fields": {
+        "room": 4,
+        "user": [
+            "user_48b6ffaa141a@example.com"
+        ],
+        "joined_at": "2026-07-11T16:53:17.357Z"
+    }
+},
+{
+    "model": "chat.chatparticipant",
+    "pk": 14,
+    "fields": {
+        "room": 13,
+        "user": [
+            "user_2f96394f88b8@example.com"
+        ],
+        "joined_at": "2026-02-11T10:33:17.358Z"
+    }
+},
+{
+    "model": "chat.chatparticipant",
+    "pk": 15,
+    "fields": {
+        "room": 18,
+        "user": [
+            "user_a66bf97989e2@example.com"
+        ],
+        "joined_at": "2026-06-30T17:01:17.358Z"
+    }
+},
+{
+    "model": "chat.chatparticipant",
+    "pk": 16,
+    "fields": {
+        "room": 20,
+        "user": [
+            "user_ec72cd531eec@example.com"
+        ],
+        "joined_at": "2026-03-24T13:57:17.359Z"
+    }
+},
+{
+    "model": "chat.chatparticipant",
+    "pk": 17,
+    "fields": {
+        "room": 24,
+        "user": [
+            "user_6ba052529349@example.com"
+        ],
+        "joined_at": "2026-03-10T11:19:17.359Z"
+    }
+},
+{
+    "model": "chat.chatparticipant",
+    "pk": 18,
+    "fields": {
+        "room": 8,
+        "user": [
+            "user_fb5327008cf8@example.com"
+        ],
+        "joined_at": "2026-03-17T17:08:17.360Z"
+    }
+},
+{
+    "model": "chat.chatparticipant",
+    "pk": 19,
+    "fields": {
+        "room": 3,
+        "user": [
+            "user_b09ae5f7dbfd@example.com"
+        ],
+        "joined_at": "2026-07-11T23:06:17.360Z"
+    }
+},
+{
+    "model": "chat.chatparticipant",
+    "pk": 20,
+    "fields": {
+        "room": 21,
+        "user": [
+            "user_fb5327008cf8@example.com"
+        ],
+        "joined_at": "2026-06-12T02:31:17.361Z"
+    }
+},
+{
+    "model": "chat.chatparticipant",
+    "pk": 21,
+    "fields": {
+        "room": 12,
+        "user": [
+            "user_6ba052529349@example.com"
+        ],
+        "joined_at": "2026-07-08T20:04:17.361Z"
+    }
+},
+{
+    "model": "chat.chatparticipant",
+    "pk": 22,
+    "fields": {
+        "room": 13,
+        "user": [
+            "user_e74b3c56ee90@example.com"
+        ],
+        "joined_at": "2026-06-23T09:00:17.362Z"
+    }
+},
+{
+    "model": "chat.chatparticipant",
+    "pk": 23,
+    "fields": {
+        "room": 1,
+        "user": [
+            "user_77c5830d6cfb@example.com"
+        ],
+        "joined_at": "2026-02-27T04:01:17.362Z"
+    }
+},
+{
+    "model": "chat.chatparticipant",
+    "pk": 24,
+    "fields": {
+        "room": 10,
+        "user": [
+            "user_d2e4d1b1ad33@example.com"
+        ],
+        "joined_at": "2026-03-15T12:34:17.363Z"
+    }
+},
+{
+    "model": "chat.chatparticipant",
+    "pk": 25,
+    "fields": {
+        "room": 10,
+        "user": [
+            "user_2bcdf32f261a@example.com"
+        ],
+        "joined_at": "2026-06-12T19:06:17.363Z"
+    }
+},
+{
+    "model": "chat.chatmessage",
+    "pk": 1,
+    "fields": {
+        "room": 2,
+        "user": [
+            "user_81d5d64fe015@example.com"
+        ],
+        "message": "Подскажите момент затяжки болтов.",
+        "is_edited": true,
+        "created_at": "2026-04-23T11:38:17.376Z"
+    }
+},
+{
+    "model": "chat.chatmessage",
+    "pk": 2,
+    "fields": {
+        "room": 8,
+        "user": [
+            "user_fb5327008cf8@example.com"
+        ],
+        "message": "Как проверить совместимость?",
+        "is_edited": false,
+        "created_at": "2026-06-22T07:07:17.376Z"
+    }
+},
+{
+    "model": "chat.chatmessage",
+    "pk": 3,
+    "fields": {
+        "room": 20,
+        "user": [
+            "user_ec72cd531eec@example.com"
+        ],
+        "message": "Есть ли инструкция для этой модели автомобиля?",
+        "is_edited": false,
+        "created_at": "2026-04-25T16:45:17.377Z"
+    }
+},
+{
+    "model": "chat.chatmessage",
+    "pk": 4,
+    "fields": {
+        "room": 13,
+        "user": [
+            "user_2f96394f88b8@example.com"
+        ],
+        "message": "Спасибо, проблема решена.",
+        "is_edited": false,
+        "created_at": "2026-05-04T15:38:17.377Z"
+    }
+},
+{
+    "model": "chat.chatmessage",
+    "pk": 5,
+    "fields": {
+        "room": 3,
+        "user": [
+            "user_b09ae5f7dbfd@example.com"
+        ],
+        "message": "Подойдет ли эта запчасть для моего двигателя?",
+        "is_edited": true,
+        "created_at": "2026-05-14T14:06:17.378Z"
+    }
+},
+{
+    "model": "chat.chatmessage",
+    "pk": 6,
+    "fields": {
+        "room": 21,
+        "user": [
+            "user_fb5327008cf8@example.com"
+        ],
+        "message": "Сколько времени занимает такой ремонт?",
+        "is_edited": true,
+        "created_at": "2026-06-19T09:11:17.378Z"
+    }
+},
+{
+    "model": "chat.chatmessage",
+    "pk": 7,
+    "fields": {
+        "room": 8,
+        "user": [
+            "user_fb5327008cf8@example.com"
+        ],
+        "message": "Нужен ли специальный съемник?",
+        "is_edited": false,
+        "created_at": "2026-04-13T21:11:17.379Z"
+    }
+},
+{
+    "model": "chat.chatmessage",
+    "pk": 8,
+    "fields": {
+        "room": 3,
+        "user": [
+            "user_b09ae5f7dbfd@example.com"
+        ],
+        "message": "У меня не совпадает OEM-номер.",
+        "is_edited": false,
+        "created_at": "2026-06-27T17:24:17.379Z"
+    }
+},
+{
+    "model": "chat.chatmessage",
+    "pk": 9,
+    "fields": {
+        "room": 8,
+        "user": [
+            "user_fb5327008cf8@example.com"
+        ],
+        "message": "Подскажите момент затяжки болтов.",
+        "is_edited": false,
+        "created_at": "2026-06-24T12:35:17.380Z"
+    }
+},
+{
+    "model": "chat.chatmessage",
+    "pk": 10,
+    "fields": {
+        "room": 13,
+        "user": [
+            "user_fcbdfd93de78@example.com"
+        ],
+        "message": "Есть ли инструкция для этой модели автомобиля?",
+        "is_edited": true,
+        "created_at": "2026-04-21T12:16:17.380Z"
+    }
+},
+{
+    "model": "chat.chatmessage",
+    "pk": 11,
+    "fields": {
+        "room": 19,
+        "user": [
+            "user_cce2a2ff5bc1@example.com"
+        ],
+        "message": "Подскажите, где найти подходящую запчасть?",
+        "is_edited": true,
+        "created_at": "2026-06-14T09:03:17.381Z"
+    }
+},
+{
+    "model": "chat.chatmessage",
+    "pk": 12,
+    "fields": {
+        "room": 14,
+        "user": [
+            "user_fb5327008cf8@example.com"
+        ],
+        "message": "Можно ли выполнить этот ремонт самостоятельно?",
+        "is_edited": true,
+        "created_at": "2026-06-15T07:41:17.382Z"
+    }
+},
+{
+    "model": "chat.chatmessage",
+    "pk": 13,
+    "fields": {
+        "room": 2,
+        "user": [
+            "user_81d5d64fe015@example.com"
+        ],
+        "message": "Какой инструмент лучше подойдет для ремонта?",
+        "is_edited": false,
+        "created_at": "2026-04-19T22:53:17.382Z"
+    }
+},
+{
+    "model": "chat.chatmessage",
+    "pk": 14,
+    "fields": {
+        "room": 2,
+        "user": [
+            "user_81d5d64fe015@example.com"
+        ],
+        "message": "Сколько времени занимает такой ремонт?",
+        "is_edited": true,
+        "created_at": "2026-06-21T17:51:17.383Z"
+    }
+},
+{
+    "model": "chat.chatmessage",
+    "pk": 15,
+    "fields": {
+        "room": 18,
+        "user": [
+            "user_a66bf97989e2@example.com"
+        ],
+        "message": "После замены появилась ошибка на панели.",
+        "is_edited": true,
+        "created_at": "2026-06-01T21:57:17.384Z"
+    }
+},
+{
+    "model": "chat.chatmessage",
+    "pk": 16,
+    "fields": {
+        "room": 3,
+        "user": [
+            "user_b09ae5f7dbfd@example.com"
+        ],
+        "message": "У меня не совпадает OEM-номер.",
+        "is_edited": true,
+        "created_at": "2026-06-17T13:32:17.384Z"
+    }
+},
+{
+    "model": "chat.chatmessage",
+    "pk": 17,
+    "fields": {
+        "room": 13,
+        "user": [
+            "user_fcbdfd93de78@example.com"
+        ],
+        "message": "Спасибо, проблема решена.",
+        "is_edited": false,
+        "created_at": "2026-05-26T18:17:17.385Z"
+    }
+},
+{
+    "model": "chat.chatmessage",
+    "pk": 18,
+    "fields": {
+        "room": 10,
+        "user": [
+            "user_2bcdf32f261a@example.com"
+        ],
+        "message": "Где посмотреть список необходимых инструментов?",
+        "is_edited": false,
+        "created_at": "2026-04-13T20:18:17.386Z"
+    }
+},
+{
+    "model": "chat.chatmessage",
+    "pk": 19,
+    "fields": {
+        "room": 4,
+        "user": [
+            "user_48b6ffaa141a@example.com"
+        ],
+        "message": "Нужен ли специальный съемник?",
+        "is_edited": true,
+        "created_at": "2026-07-01T09:58:17.386Z"
+    }
+},
+{
+    "model": "chat.chatmessage",
+    "pk": 20,
+    "fields": {
+        "room": 19,
+        "user": [
+            "user_f3bf3d77c2a3@example.com"
+        ],
+        "message": "Есть ли инструкция для этой модели автомобиля?",
+        "is_edited": false,
+        "created_at": "2026-05-12T19:32:17.387Z"
+    }
+},
+{
+    "model": "chat.chatmessage",
+    "pk": 21,
+    "fields": {
+        "room": 12,
+        "user": [
+            "user_6ba052529349@example.com"
+        ],
+        "message": "Нужен ли специальный съемник?",
+        "is_edited": false,
+        "created_at": "2026-04-28T20:21:17.387Z"
+    }
+},
+{
+    "model": "chat.chatmessage",
+    "pk": 22,
+    "fields": {
+        "room": 3,
+        "user": [
+            "user_b09ae5f7dbfd@example.com"
+        ],
+        "message": "Нужен ли специальный съемник?",
+        "is_edited": false,
+        "created_at": "2026-06-05T16:42:17.388Z"
+    }
+},
+{
+    "model": "chat.chatmessage",
+    "pk": 23,
+    "fields": {
+        "room": 14,
+        "user": [
+            "user_fb5327008cf8@example.com"
+        ],
+        "message": "Сколько времени занимает такой ремонт?",
+        "is_edited": false,
+        "created_at": "2026-04-27T19:38:17.388Z"
+    }
+},
+{
+    "model": "chat.chatmessage",
+    "pk": 24,
+    "fields": {
+        "room": 4,
+        "user": [
+            "user_48b6ffaa141a@example.com"
+        ],
+        "message": "Кто-нибудь использовал эту инструкцию?",
+        "is_edited": true,
+        "created_at": "2026-06-10T22:43:17.389Z"
+    }
+},
+{
+    "model": "chat.chatmessage",
+    "pk": 25,
+    "fields": {
+        "room": 13,
+        "user": [
+            "user_fcbdfd93de78@example.com"
+        ],
+        "message": "Есть ли более подробное изображение шага?",
+        "is_edited": true,
+        "created_at": "2026-04-18T10:39:17.389Z"
+    }
+},
+{
+    "model": "chat.chatmessage",
+    "pk": 26,
+    "fields": {
+        "room": 2,
+        "user": [
+            "user_81d5d64fe015@example.com"
+        ],
+        "message": "Сколько времени занимает такой ремонт?",
+        "is_edited": false,
+        "created_at": "2026-06-17T13:04:17.391Z"
+    }
+},
+{
+    "model": "chat.chatmessage",
+    "pk": 27,
+    "fields": {
+        "room": 7,
+        "user": [
+            "user_e443b5b9a2eb@example.com"
+        ],
+        "message": "Какой инструмент лучше подойдет для ремонта?",
+        "is_edited": false,
+        "created_at": "2026-06-23T19:43:17.392Z"
+    }
+},
+{
+    "model": "chat.chatmessage",
+    "pk": 28,
+    "fields": {
+        "room": 18,
+        "user": [
+            "user_a66bf97989e2@example.com"
+        ],
+        "message": "Можно ли выполнить этот ремонт самостоятельно?",
+        "is_edited": false,
+        "created_at": "2026-05-21T03:27:17.392Z"
+    }
+},
+{
+    "model": "chat.chatmessage",
+    "pk": 29,
+    "fields": {
+        "room": 3,
+        "user": [
+            "user_b09ae5f7dbfd@example.com"
+        ],
+        "message": "Какой инструмент лучше подойдет для ремонта?",
+        "is_edited": false,
+        "created_at": "2026-06-09T06:24:17.393Z"
+    }
+},
+{
+    "model": "chat.chatmessage",
+    "pk": 30,
+    "fields": {
+        "room": 1,
+        "user": [
+            "user_77c5830d6cfb@example.com"
+        ],
+        "message": "У меня не совпадает OEM-номер.",
+        "is_edited": false,
+        "created_at": "2026-04-20T15:39:17.393Z"
+    }
+},
+{
+    "model": "chat.chatmessage",
+    "pk": 31,
+    "fields": {
+        "room": 2,
+        "user": [
+            "user_81d5d64fe015@example.com"
+        ],
+        "message": "Как проверить совместимость?",
+        "is_edited": false,
+        "created_at": "2026-04-29T17:44:17.394Z"
+    }
+},
+{
+    "model": "chat.chatmessage",
+    "pk": 32,
+    "fields": {
+        "room": 14,
+        "user": [
+            "user_fb5327008cf8@example.com"
+        ],
+        "message": "Подскажите момент затяжки болтов.",
+        "is_edited": false,
+        "created_at": "2026-06-04T12:26:17.394Z"
+    }
+},
+{
+    "model": "chat.chatmessage",
+    "pk": 33,
+    "fields": {
+        "room": 3,
+        "user": [
+            "user_b09ae5f7dbfd@example.com"
+        ],
+        "message": "Кто-нибудь использовал эту инструкцию?",
+        "is_edited": false,
+        "created_at": "2026-06-06T14:12:17.395Z"
+    }
+},
+{
+    "model": "chat.chatmessage",
+    "pk": 34,
+    "fields": {
+        "room": 7,
+        "user": [
+            "user_e443b5b9a2eb@example.com"
+        ],
+        "message": "Есть ли более подробное изображение шага?",
+        "is_edited": false,
+        "created_at": "2026-06-29T14:08:17.395Z"
+    }
+},
+{
+    "model": "chat.chatmessage",
+    "pk": 35,
+    "fields": {
+        "room": 19,
+        "user": [
+            "user_f3bf3d77c2a3@example.com"
+        ],
+        "message": "Нужен ли специальный съемник?",
+        "is_edited": false,
+        "created_at": "2026-06-10T20:28:17.396Z"
+    }
+},
+{
+    "model": "chat.chatmessage",
+    "pk": 36,
+    "fields": {
+        "room": 21,
+        "user": [
+            "user_fb5327008cf8@example.com"
+        ],
+        "message": "У меня не совпадает OEM-номер.",
+        "is_edited": false,
+        "created_at": "2026-04-30T05:04:17.396Z"
+    }
+},
+{
+    "model": "chat.chatmessage",
+    "pk": 37,
+    "fields": {
+        "room": 12,
+        "user": [
+            "user_6ba052529349@example.com"
+        ],
+        "message": "Подскажите, где найти подходящую запчасть?",
+        "is_edited": false,
+        "created_at": "2026-04-24T01:10:17.397Z"
+    }
+},
+{
+    "model": "chat.chatmessage",
+    "pk": 38,
+    "fields": {
+        "room": 20,
+        "user": [
+            "user_ec72cd531eec@example.com"
+        ],
+        "message": "Есть ли инструкция для этой модели автомобиля?",
+        "is_edited": false,
+        "created_at": "2026-05-13T07:05:17.397Z"
+    }
+},
+{
+    "model": "chat.chatmessage",
+    "pk": 39,
+    "fields": {
+        "room": 2,
+        "user": [
+            "user_81d5d64fe015@example.com"
+        ],
+        "message": "Подскажите, где найти подходящую запчасть?",
+        "is_edited": false,
+        "created_at": "2026-05-21T22:00:17.398Z"
+    }
+},
+{
+    "model": "chat.chatmessage",
+    "pk": 40,
+    "fields": {
+        "room": 8,
+        "user": [
+            "user_fb5327008cf8@example.com"
+        ],
+        "message": "Подскажите, где найти подходящую запчасть?",
+        "is_edited": false,
+        "created_at": "2026-06-12T19:06:17.398Z"
+    }
+},
+{
+    "model": "chat.chatmessage",
+    "pk": 41,
+    "fields": {
+        "room": 14,
+        "user": [
+            "user_fb5327008cf8@example.com"
+        ],
+        "message": "Как проверить совместимость?",
+        "is_edited": false,
+        "created_at": "2026-04-13T04:33:17.399Z"
+    }
+},
+{
+    "model": "chat.chatmessage",
+    "pk": 42,
+    "fields": {
+        "room": 19,
+        "user": [
+            "user_f3bf3d77c2a3@example.com"
+        ],
+        "message": "Есть ли более подробное изображение шага?",
+        "is_edited": false,
+        "created_at": "2026-05-11T14:57:17.400Z"
+    }
+},
+{
+    "model": "chat.chatmessage",
+    "pk": 43,
+    "fields": {
+        "room": 14,
+        "user": [
+            "user_fb5327008cf8@example.com"
+        ],
+        "message": "У меня не совпадает OEM-номер.",
+        "is_edited": false,
+        "created_at": "2026-07-08T14:40:17.401Z"
+    }
+},
+{
+    "model": "chat.chatmessage",
+    "pk": 44,
+    "fields": {
+        "room": 2,
+        "user": [
+            "user_81d5d64fe015@example.com"
+        ],
+        "message": "Где посмотреть список необходимых инструментов?",
+        "is_edited": false,
+        "created_at": "2026-07-12T17:11:17.401Z"
+    }
+},
+{
+    "model": "chat.chatmessage",
+    "pk": 45,
+    "fields": {
+        "room": 21,
+        "user": [
+            "user_fb5327008cf8@example.com"
+        ],
+        "message": "После замены появилась ошибка на панели.",
+        "is_edited": false,
+        "created_at": "2026-05-21T07:39:17.402Z"
+    }
+},
+{
+    "model": "chat.chatmessage",
+    "pk": 46,
+    "fields": {
+        "room": 4,
+        "user": [
+            "user_48b6ffaa141a@example.com"
+        ],
+        "message": "Кто-нибудь использовал эту инструкцию?",
+        "is_edited": false,
+        "created_at": "2026-06-27T10:54:17.402Z"
+    }
+}
+]

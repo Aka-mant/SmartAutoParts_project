@@ -1,0 +1,652 @@
+[
+{
+    "model": "users.repairhistory",
+    "pk": 1,
+    "fields": {
+        "user": [
+            "user_fcbdfd93de78@example.com"
+        ],
+        "instruction": 5,
+        "completed": false,
+        "notes": "Работы еще выполняются.",
+        "created_at": "2025-11-20T03:00:17.298Z"
+    }
+},
+{
+    "model": "users.repairhistory",
+    "pk": 2,
+    "fields": {
+        "user": [
+            "user_fa2c7bc330b4@example.com"
+        ],
+        "instruction": 5,
+        "completed": true,
+        "notes": "Ремонт успешно завершен.",
+        "created_at": "2025-09-07T10:52:17.299Z"
+    }
+},
+{
+    "model": "users.repairhistory",
+    "pk": 3,
+    "fields": {
+        "user": [
+            "user_310001fd8758@example.com"
+        ],
+        "instruction": 11,
+        "completed": true,
+        "notes": "Ремонт успешно завершен.",
+        "created_at": "2026-06-23T23:01:17.300Z"
+    }
+},
+{
+    "model": "users.repairhistory",
+    "pk": 4,
+    "fields": {
+        "user": [
+            "user_6ba052529349@example.com"
+        ],
+        "instruction": 10,
+        "completed": true,
+        "notes": "Ремонт успешно завершен.",
+        "created_at": "2026-03-10T08:53:17.301Z"
+    }
+},
+{
+    "model": "users.repairhistory",
+    "pk": 5,
+    "fields": {
+        "user": [
+            "user_e6ab75b7c0cc@example.com"
+        ],
+        "instruction": 4,
+        "completed": false,
+        "notes": "Работы еще выполняются.",
+        "created_at": "2026-03-16T19:41:17.302Z"
+    }
+},
+{
+    "model": "users.repairhistory",
+    "pk": 6,
+    "fields": {
+        "user": [
+            "user_2bcdf32f261a@example.com"
+        ],
+        "instruction": 4,
+        "completed": true,
+        "notes": "Ремонт успешно завершен.",
+        "created_at": "2025-10-10T00:02:17.303Z"
+    }
+},
+{
+    "model": "users.repairhistory",
+    "pk": 7,
+    "fields": {
+        "user": [
+            "user_3a2f5c2fb68b@example.com"
+        ],
+        "instruction": 22,
+        "completed": true,
+        "notes": "Ремонт успешно завершен.",
+        "created_at": "2026-06-22T18:13:17.304Z"
+    }
+},
+{
+    "model": "users.repairhistory",
+    "pk": 8,
+    "fields": {
+        "user": [
+            "user_48b6ffaa141a@example.com"
+        ],
+        "instruction": 13,
+        "completed": true,
+        "notes": "Ремонт успешно завершен.",
+        "created_at": "2026-02-21T04:30:17.304Z"
+    }
+},
+{
+    "model": "users.repairhistory",
+    "pk": 9,
+    "fields": {
+        "user": [
+            "user_0b17eadf242e@example.com"
+        ],
+        "instruction": 20,
+        "completed": false,
+        "notes": "Работы еще выполняются.",
+        "created_at": "2025-11-02T05:15:17.305Z"
+    }
+},
+{
+    "model": "users.repairhistory",
+    "pk": 10,
+    "fields": {
+        "user": [
+            "user_6ba052529349@example.com"
+        ],
+        "instruction": 11,
+        "completed": false,
+        "notes": "Работы еще выполняются.",
+        "created_at": "2025-10-23T10:55:17.306Z"
+    }
+},
+{
+    "model": "users.repairhistory",
+    "pk": 11,
+    "fields": {
+        "user": [
+            "user_d05a4118d83f@example.com"
+        ],
+        "instruction": 8,
+        "completed": true,
+        "notes": "Ремонт успешно завершен.",
+        "created_at": "2026-04-29T00:53:17.307Z"
+    }
+},
+{
+    "model": "users.repairhistory",
+    "pk": 12,
+    "fields": {
+        "user": [
+            "user_0b17eadf242e@example.com"
+        ],
+        "instruction": 6,
+        "completed": true,
+        "notes": "Ремонт успешно завершен.",
+        "created_at": "2025-11-17T21:35:17.307Z"
+    }
+},
+{
+    "model": "users.repairhistory",
+    "pk": 13,
+    "fields": {
+        "user": [
+            "user_48b6ffaa141a@example.com"
+        ],
+        "instruction": 9,
+        "completed": true,
+        "notes": "Ремонт успешно завершен.",
+        "created_at": "2026-01-06T18:27:17.308Z"
+    }
+},
+{
+    "model": "users.repairhistory",
+    "pk": 14,
+    "fields": {
+        "user": [
+            "user_b09ae5f7dbfd@example.com"
+        ],
+        "instruction": 10,
+        "completed": true,
+        "notes": "Ремонт успешно завершен.",
+        "created_at": "2025-10-28T10:03:17.309Z"
+    }
+},
+{
+    "model": "users.repairhistory",
+    "pk": 15,
+    "fields": {
+        "user": [
+            "user_fa2c7bc330b4@example.com"
+        ],
+        "instruction": 16,
+        "completed": true,
+        "notes": "Ремонт успешно завершен.",
+        "created_at": "2025-10-04T04:35:17.309Z"
+    }
+},
+{
+    "model": "users.repairhistory",
+    "pk": 16,
+    "fields": {
+        "user": [
+            "user_fcbdfd93de78@example.com"
+        ],
+        "instruction": 15,
+        "completed": false,
+        "notes": "Работы еще выполняются.",
+        "created_at": "2025-07-29T09:47:17.310Z"
+    }
+},
+{
+    "model": "users.repairhistory",
+    "pk": 17,
+    "fields": {
+        "user": [
+            "user_f11ae58e2e8d@example.com"
+        ],
+        "instruction": 20,
+        "completed": false,
+        "notes": "Работы еще выполняются.",
+        "created_at": "2025-08-25T09:41:17.310Z"
+    }
+},
+{
+    "model": "users.repairhistory",
+    "pk": 18,
+    "fields": {
+        "user": [
+            "user_ad6291e00490@example.com"
+        ],
+        "instruction": 21,
+        "completed": true,
+        "notes": "Ремонт успешно завершен.",
+        "created_at": "2026-01-10T21:55:17.311Z"
+    }
+},
+{
+    "model": "users.repairhistory",
+    "pk": 19,
+    "fields": {
+        "user": [
+            "user_16296114e194@example.com"
+        ],
+        "instruction": 10,
+        "completed": false,
+        "notes": "Работы еще выполняются.",
+        "created_at": "2025-09-23T16:07:17.311Z"
+    }
+},
+{
+    "model": "users.repairhistory",
+    "pk": 20,
+    "fields": {
+        "user": [
+            "user_d05a4118d83f@example.com"
+        ],
+        "instruction": 22,
+        "completed": false,
+        "notes": "Работы еще выполняются.",
+        "created_at": "2026-01-20T07:17:17.311Z"
+    }
+},
+{
+    "model": "users.repairhistory",
+    "pk": 21,
+    "fields": {
+        "user": [
+            "user_ec72cd531eec@example.com"
+        ],
+        "instruction": 19,
+        "completed": true,
+        "notes": "Ремонт успешно завершен.",
+        "created_at": "2026-02-22T15:21:17.312Z"
+    }
+},
+{
+    "model": "users.repairhistory",
+    "pk": 22,
+    "fields": {
+        "user": [
+            "user_310001fd8758@example.com"
+        ],
+        "instruction": 12,
+        "completed": false,
+        "notes": "Работы еще выполняются.",
+        "created_at": "2026-04-01T08:31:17.312Z"
+    }
+},
+{
+    "model": "users.repairhistory",
+    "pk": 23,
+    "fields": {
+        "user": [
+            "user_cce2a2ff5bc1@example.com"
+        ],
+        "instruction": 17,
+        "completed": true,
+        "notes": "Ремонт успешно завершен.",
+        "created_at": "2026-07-08T09:32:17.313Z"
+    }
+},
+{
+    "model": "users.repairhistory",
+    "pk": 24,
+    "fields": {
+        "user": [
+            "user_cce2a2ff5bc1@example.com"
+        ],
+        "instruction": 20,
+        "completed": false,
+        "notes": "Работы еще выполняются.",
+        "created_at": "2025-07-28T03:36:17.313Z"
+    }
+},
+{
+    "model": "users.repairhistory",
+    "pk": 25,
+    "fields": {
+        "user": [
+            "user_77c5830d6cfb@example.com"
+        ],
+        "instruction": 19,
+        "completed": false,
+        "notes": "Работы еще выполняются.",
+        "created_at": "2025-12-31T10:54:17.314Z"
+    }
+},
+{
+    "model": "users.repairhistory",
+    "pk": 26,
+    "fields": {
+        "user": [
+            "user_8b951cf972da@example.com"
+        ],
+        "instruction": 22,
+        "completed": true,
+        "notes": "Ремонт успешно завершен.",
+        "created_at": "2025-09-12T20:22:17.314Z"
+    }
+},
+{
+    "model": "users.repairhistory",
+    "pk": 27,
+    "fields": {
+        "user": [
+            "user_8b951cf972da@example.com"
+        ],
+        "instruction": 13,
+        "completed": true,
+        "notes": "Ремонт успешно завершен.",
+        "created_at": "2026-03-16T00:24:17.315Z"
+    }
+},
+{
+    "model": "users.repairhistory",
+    "pk": 28,
+    "fields": {
+        "user": [
+            "user_24baaf72fc4b@example.com"
+        ],
+        "instruction": 2,
+        "completed": false,
+        "notes": "Работы еще выполняются.",
+        "created_at": "2025-09-23T02:27:17.315Z"
+    }
+},
+{
+    "model": "users.repairhistory",
+    "pk": 29,
+    "fields": {
+        "user": [
+            "user_f11ae58e2e8d@example.com"
+        ],
+        "instruction": 7,
+        "completed": true,
+        "notes": "Ремонт успешно завершен.",
+        "created_at": "2026-05-13T04:44:17.316Z"
+    }
+},
+{
+    "model": "users.repairhistory",
+    "pk": 30,
+    "fields": {
+        "user": [
+            "user_e443b5b9a2eb@example.com"
+        ],
+        "instruction": 2,
+        "completed": true,
+        "notes": "Ремонт успешно завершен.",
+        "created_at": "2026-02-22T22:36:17.316Z"
+    }
+},
+{
+    "model": "users.repairhistory",
+    "pk": 31,
+    "fields": {
+        "user": [
+            "user_5625accb5129@example.com"
+        ],
+        "instruction": 8,
+        "completed": false,
+        "notes": "Работы еще выполняются.",
+        "created_at": "2026-06-09T18:43:17.317Z"
+    }
+},
+{
+    "model": "users.repairhistory",
+    "pk": 32,
+    "fields": {
+        "user": [
+            "user_48b6ffaa141a@example.com"
+        ],
+        "instruction": 8,
+        "completed": true,
+        "notes": "Ремонт успешно завершен.",
+        "created_at": "2026-05-10T04:52:17.317Z"
+    }
+},
+{
+    "model": "users.repairhistory",
+    "pk": 33,
+    "fields": {
+        "user": [
+            "user_be7e51452b07@example.com"
+        ],
+        "instruction": 2,
+        "completed": false,
+        "notes": "Работы еще выполняются.",
+        "created_at": "2026-03-06T12:05:17.318Z"
+    }
+},
+{
+    "model": "users.repairhistory",
+    "pk": 34,
+    "fields": {
+        "user": [
+            "user_e74b3c56ee90@example.com"
+        ],
+        "instruction": 19,
+        "completed": true,
+        "notes": "Ремонт успешно завершен.",
+        "created_at": "2026-04-08T03:37:17.318Z"
+    }
+},
+{
+    "model": "users.repairhistory",
+    "pk": 35,
+    "fields": {
+        "user": [
+            "user_e6ab75b7c0cc@example.com"
+        ],
+        "instruction": 8,
+        "completed": true,
+        "notes": "Ремонт успешно завершен.",
+        "created_at": "2025-10-23T08:19:17.319Z"
+    }
+},
+{
+    "model": "users.repairhistory",
+    "pk": 36,
+    "fields": {
+        "user": [
+            "user_2bcdf32f261a@example.com"
+        ],
+        "instruction": 5,
+        "completed": false,
+        "notes": "Работы еще выполняются.",
+        "created_at": "2026-02-09T18:04:17.320Z"
+    }
+},
+{
+    "model": "users.repairhistory",
+    "pk": 37,
+    "fields": {
+        "user": [
+            "user_2bcdf32f261a@example.com"
+        ],
+        "instruction": 13,
+        "completed": true,
+        "notes": "Ремонт успешно завершен.",
+        "created_at": "2026-07-09T15:39:17.321Z"
+    }
+},
+{
+    "model": "users.repairhistory",
+    "pk": 38,
+    "fields": {
+        "user": [
+            "user_fb5327008cf8@example.com"
+        ],
+        "instruction": 19,
+        "completed": false,
+        "notes": "Работы еще выполняются.",
+        "created_at": "2025-07-22T04:34:17.321Z"
+    }
+},
+{
+    "model": "users.repairhistory",
+    "pk": 39,
+    "fields": {
+        "user": [
+            "user_be7e51452b07@example.com"
+        ],
+        "instruction": 10,
+        "completed": true,
+        "notes": "Ремонт успешно завершен.",
+        "created_at": "2025-11-13T09:51:17.322Z"
+    }
+},
+{
+    "model": "users.repairhistory",
+    "pk": 40,
+    "fields": {
+        "user": [
+            "user_e74b3c56ee90@example.com"
+        ],
+        "instruction": 21,
+        "completed": true,
+        "notes": "Ремонт успешно завершен.",
+        "created_at": "2026-03-12T14:21:17.323Z"
+    }
+},
+{
+    "model": "users.repairhistory",
+    "pk": 41,
+    "fields": {
+        "user": [
+            "user_2bcdf32f261a@example.com"
+        ],
+        "instruction": 3,
+        "completed": true,
+        "notes": "Ремонт успешно завершен.",
+        "created_at": "2025-09-19T10:11:17.323Z"
+    }
+},
+{
+    "model": "users.repairhistory",
+    "pk": 42,
+    "fields": {
+        "user": [
+            "user_f3bf3d77c2a3@example.com"
+        ],
+        "instruction": 14,
+        "completed": true,
+        "notes": "Ремонт успешно завершен.",
+        "created_at": "2025-11-05T00:25:17.324Z"
+    }
+},
+{
+    "model": "users.repairhistory",
+    "pk": 43,
+    "fields": {
+        "user": [
+            "user_502a9f12fe48@example.com"
+        ],
+        "instruction": 17,
+        "completed": true,
+        "notes": "Ремонт успешно завершен.",
+        "created_at": "2025-11-18T02:25:17.325Z"
+    }
+},
+{
+    "model": "users.repairhistory",
+    "pk": 44,
+    "fields": {
+        "user": [
+            "user_6ba052529349@example.com"
+        ],
+        "instruction": 19,
+        "completed": false,
+        "notes": "Работы еще выполняются.",
+        "created_at": "2025-12-03T15:13:17.325Z"
+    }
+},
+{
+    "model": "users.repairhistory",
+    "pk": 45,
+    "fields": {
+        "user": [
+            "user_16296114e194@example.com"
+        ],
+        "instruction": 15,
+        "completed": false,
+        "notes": "Работы еще выполняются.",
+        "created_at": "2026-06-27T02:21:17.326Z"
+    }
+},
+{
+    "model": "users.repairhistory",
+    "pk": 46,
+    "fields": {
+        "user": [
+            "user_fb5327008cf8@example.com"
+        ],
+        "instruction": 1,
+        "completed": false,
+        "notes": "Работы еще выполняются.",
+        "created_at": "2026-05-31T16:32:17.326Z"
+    }
+},
+{
+    "model": "users.repairhistory",
+    "pk": 47,
+    "fields": {
+        "user": [
+            "user_3a2f5c2fb68b@example.com"
+        ],
+        "instruction": 12,
+        "completed": true,
+        "notes": "Ремонт успешно завершен.",
+        "created_at": "2026-01-17T01:36:17.327Z"
+    }
+},
+{
+    "model": "users.repairhistory",
+    "pk": 48,
+    "fields": {
+        "user": [
+            "user_ec72cd531eec@example.com"
+        ],
+        "instruction": 9,
+        "completed": false,
+        "notes": "Работы еще выполняются.",
+        "created_at": "2025-09-21T21:22:17.328Z"
+    }
+},
+{
+    "model": "users.repairhistory",
+    "pk": 49,
+    "fields": {
+        "user": [
+            "user_fa2c7bc330b4@example.com"
+        ],
+        "instruction": 18,
+        "completed": true,
+        "notes": "Ремонт успешно завершен.",
+        "created_at": "2026-04-30T01:31:17.328Z"
+    }
+},
+{
+    "model": "users.repairhistory",
+    "pk": 50,
+    "fields": {
+        "user": [
+            "user_f11ae58e2e8d@example.com"
+        ],
+        "instruction": 19,
+        "completed": false,
+        "notes": "Работы еще выполняются.",
+        "created_at": "2025-10-23T01:01:17.329Z"
+    }
+}
+]
