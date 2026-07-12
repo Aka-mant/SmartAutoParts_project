@@ -7,6 +7,7 @@ from apps.instructions.models import Instruction, InstructionVersion, Instructio
 from apps.parts.models import Part, PartCategory
 from apps.tools.models import PartTool, Tool, ToolCategory
 from apps.subscriptions.models import SubscriptionPayment, UserSubscription, SubscriptionPlan
+from apps.chat.models import ChatMessage, ChatParticipant, ChatRoom
 from .models import User, Profile, SearchHistory, RepairHistory
 
 
@@ -1434,3 +1435,228 @@ class AIImageAnalysisAdmin(admin.ModelAdmin):
             },
         ),
     )
+
+@admin.register(ChatRoom)
+class ChatRoomAdmin(admin.ModelAdmin):
+    """
+    Административная панель
+    комнат чата.
+    """
+
+    list_display = (
+        "id",
+        "name",
+        "is_private",
+        "created_by",
+        "created_at",
+    )
+
+    list_display_links = (
+        "id",
+        "name",
+    )
+
+    list_filter = (
+        "is_private",
+        "created_at",
+    )
+
+    search_fields = (
+        "name",
+        "created_by__email",
+        "created_by__username",
+    )
+
+    readonly_fields = (
+        "created_at",
+    )
+
+    autocomplete_fields = (
+        "created_by",
+    )
+
+    ordering = (
+        "name",
+    )
+
+    fieldsets = (
+        (
+            _("Room information"),
+            {
+                "fields": (
+                    "name",
+                    "is_private",
+                ),
+            },
+        ),
+        (
+            _("Creator"),
+            {
+                "fields": (
+                    "created_by",
+                ),
+            },
+        ),
+        (
+            _("System information"),
+            {
+                "fields": (
+                    "created_at",
+                ),
+            },
+        ),
+    )
+
+
+@admin.register(ChatParticipant)
+class ChatParticipantAdmin(admin.ModelAdmin):
+    """
+    Административная панель
+    участников чата.
+    """
+
+    list_display = (
+        "id",
+        "room",
+        "user",
+        "joined_at",
+    )
+
+    list_display_links = (
+        "id",
+        "room",
+    )
+
+    list_filter = (
+        "room",
+        "joined_at",
+    )
+
+    search_fields = (
+        "room__name",
+        "user__email",
+        "user__username",
+    )
+
+    readonly_fields = (
+        "joined_at",
+    )
+
+    autocomplete_fields = (
+        "room",
+        "user",
+    )
+
+    ordering = (
+        "room",
+        "user",
+    )
+
+    fieldsets = (
+        (
+            _("Participant"),
+            {
+                "fields": (
+                    "room",
+                    "user",
+                ),
+            },
+        ),
+        (
+            _("System information"),
+            {
+                "fields": (
+                    "joined_at",
+                ),
+            },
+        ),
+    )
+
+
+@admin.register(ChatMessage)
+class ChatMessageAdmin(admin.ModelAdmin):
+    """
+    Административная панель
+    сообщений чата.
+    """
+
+    list_display = (
+        "id",
+        "room",
+        "user",
+        "short_message",
+        "is_edited",
+        "created_at",
+    )
+
+    list_display_links = (
+        "id",
+        "room",
+    )
+
+    list_filter = (
+        "room",
+        "is_edited",
+        "created_at",
+    )
+
+    search_fields = (
+        "message",
+        "room__name",
+        "user__email",
+        "user__username",
+    )
+
+    readonly_fields = (
+        "created_at",
+    )
+
+    autocomplete_fields = (
+        "room",
+        "user",
+    )
+
+    ordering = (
+        "-created_at",
+    )
+
+    fieldsets = (
+        (
+            _("Message"),
+            {
+                "fields": (
+                    "room",
+                    "user",
+                    "message",
+                ),
+            },
+        ),
+        (
+            _("Status"),
+            {
+                "fields": (
+                    "is_edited",
+                ),
+            },
+        ),
+        (
+            _("System information"),
+            {
+                "fields": (
+                    "created_at",
+                ),
+            },
+        ),
+    )
+
+    @admin.display(description=_("Message"))
+    def short_message(self, obj):
+        """
+        Возвращает сокращенный текст
+        сообщения для отображения
+        в списке объектов.
+        """
+        if len(obj.message) > 50:
+            return f"{obj.message[:50]}..."
+
+        return obj.message
