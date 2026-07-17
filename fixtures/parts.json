@@ -3,198 +3,198 @@
     "model": "parts.partcategory",
     "pk": 1,
     "fields": {
-        "name": "Освещение",
-        "slug": "освещение-4b765df41b46",
-        "description": "Тестовая категория автомобильных запчастей: Освещение."
+        "name": "Электрооборудование",
+        "slug": "электрооборудование-6a9851d93630",
+        "description": "Тестовая категория автомобильных запчастей: Электрооборудование."
     }
 },
 {
     "model": "parts.partcategory",
     "pk": 2,
     "fields": {
-        "name": "Трансмиссия",
-        "slug": "трансмиссия-0085bab700c3",
-        "description": "Тестовая категория автомобильных запчастей: Трансмиссия."
+        "name": "Датчики",
+        "slug": "датчики-06005b5b8534",
+        "description": "Тестовая категория автомобильных запчастей: Датчики."
     }
 },
 {
     "model": "parts.partcategory",
     "pk": 3,
     "fields": {
-        "name": "Система отопления",
-        "slug": "система-отопления-710bceb1eaaa",
-        "description": "Тестовая категория автомобильных запчастей: Система отопления."
+        "name": "Система охлаждения",
+        "slug": "система-охлаждения-a8e2c179934e",
+        "description": "Тестовая категория автомобильных запчастей: Система охлаждения."
     }
 },
 {
     "model": "parts.partcategory",
     "pk": 4,
     "fields": {
-        "name": "Расходные материалы",
-        "slug": "расходные-материалы-c011d6c92d82",
-        "description": "Тестовая категория автомобильных запчастей: Расходные материалы."
+        "name": "Подвеска",
+        "slug": "подвеска-8816c800bce5",
+        "description": "Тестовая категория автомобильных запчастей: Подвеска."
     }
 },
 {
     "model": "parts.partcategory",
     "pk": 5,
     "fields": {
-        "name": "Моторные масла",
-        "slug": "моторные-масла-7df3a68ac72e",
-        "description": "Тестовая категория автомобильных запчастей: Моторные масла."
+        "name": "Кондиционирование",
+        "slug": "кондиционирование-1e074a9a72a5",
+        "description": "Тестовая категория автомобильных запчастей: Кондиционирование."
     }
 },
 {
     "model": "parts.partcategory",
     "pk": 6,
     "fields": {
-        "name": "Топливная система",
-        "slug": "топливная-система-4f503de06c78",
-        "description": "Тестовая категория автомобильных запчастей: Топливная система."
+        "name": "Двигатель",
+        "slug": "двигатель-379f388cdf87",
+        "description": "Тестовая категория автомобильных запчастей: Двигатель."
     }
 },
 {
     "model": "parts.partcategory",
     "pk": 7,
     "fields": {
-        "name": "Датчики",
-        "slug": "датчики-3606f75968c8",
-        "description": "Тестовая категория автомобильных запчастей: Датчики."
+        "name": "Ремни и ролики",
+        "slug": "ремни-и-ролики-369a7adcb58b",
+        "description": "Тестовая категория автомобильных запчастей: Ремни и ролики."
     }
 },
 {
     "model": "parts.partcategory",
     "pk": 8,
     "fields": {
-        "name": "Автомобильная оптика",
-        "slug": "автомобильная-оптика-eb23eef9c963",
-        "description": "Тестовая категория автомобильных запчастей: Автомобильная оптика."
+        "name": "Система выпуска",
+        "slug": "система-выпуска-14ab8868dd10",
+        "description": "Тестовая категория автомобильных запчастей: Система выпуска."
     }
 },
 {
     "model": "parts.partcategory",
     "pk": 9,
     "fields": {
-        "name": "Система выпуска",
-        "slug": "система-выпуска-5d22019e2455",
-        "description": "Тестовая категория автомобильных запчастей: Система выпуска."
+        "name": "Колесная система",
+        "slug": "колесная-система-1992e4ca2dc6",
+        "description": "Тестовая категория автомобильных запчастей: Колесная система."
     }
 },
 {
     "model": "parts.partcategory",
     "pk": 10,
     "fields": {
-        "name": "Ремни и ролики",
-        "slug": "ремни-и-ролики-53dbdbccf238",
-        "description": "Тестовая категория автомобильных запчастей: Ремни и ролики."
+        "name": "Кузов",
+        "slug": "кузов-a1d8bb3d4c9b",
+        "description": "Тестовая категория автомобильных запчастей: Кузов."
     }
 },
 {
     "model": "parts.partcategory",
     "pk": 11,
     "fields": {
-        "name": "Колесная система",
-        "slug": "колесная-система-dcce3984b4a9",
-        "description": "Тестовая категория автомобильных запчастей: Колесная система."
+        "name": "Расходные материалы",
+        "slug": "расходные-материалы-ff4c2bad643f",
+        "description": "Тестовая категория автомобильных запчастей: Расходные материалы."
     }
 },
 {
     "model": "parts.partcategory",
     "pk": 12,
     "fields": {
-        "name": "Рулевое управление",
-        "slug": "рулевое-управление-b29ada2450e7",
-        "description": "Тестовая категория автомобильных запчастей: Рулевое управление."
+        "name": "Тормозная система",
+        "slug": "тормозная-система-e6bcf86f25a4",
+        "description": "Тестовая категория автомобильных запчастей: Тормозная система."
     }
 },
 {
     "model": "parts.partcategory",
     "pk": 13,
     "fields": {
-        "name": "Фильтры",
-        "slug": "фильтры-6d2f1c3fd82c",
-        "description": "Тестовая категория автомобильных запчастей: Фильтры."
+        "name": "Трансмиссия",
+        "slug": "трансмиссия-143800f84252",
+        "description": "Тестовая категория автомобильных запчастей: Трансмиссия."
     }
 },
 {
     "model": "parts.partcategory",
     "pk": 14,
     "fields": {
-        "name": "Элементы крепления",
-        "slug": "элементы-крепления-a52752e82769",
-        "description": "Тестовая категория автомобильных запчастей: Элементы крепления."
+        "name": "Система отопления",
+        "slug": "система-отопления-59089c8b519a",
+        "description": "Тестовая категория автомобильных запчастей: Система отопления."
     }
 },
 {
     "model": "parts.partcategory",
     "pk": 15,
     "fields": {
-        "name": "Подшипники",
-        "slug": "подшипники-5f27173b29b6",
-        "description": "Тестовая категория автомобильных запчастей: Подшипники."
+        "name": "Фильтры",
+        "slug": "фильтры-9f7a4510b015",
+        "description": "Тестовая категория автомобильных запчастей: Фильтры."
     }
 },
 {
     "model": "parts.partcategory",
     "pk": 16,
     "fields": {
-        "name": "Кузов",
-        "slug": "кузов-d5c45c550237",
-        "description": "Тестовая категория автомобильных запчастей: Кузов."
+        "name": "Освещение",
+        "slug": "освещение-5219575ce3e5",
+        "description": "Тестовая категория автомобильных запчастей: Освещение."
     }
 },
 {
     "model": "parts.partcategory",
     "pk": 17,
     "fields": {
-        "name": "Кондиционирование",
-        "slug": "кондиционирование-31972c61b6a7",
-        "description": "Тестовая категория автомобильных запчастей: Кондиционирование."
+        "name": "Сцепление",
+        "slug": "сцепление-45fdd592f5a8",
+        "description": "Тестовая категория автомобильных запчастей: Сцепление."
     }
 },
 {
     "model": "parts.partcategory",
     "pk": 18,
     "fields": {
-        "name": "Система зажигания",
-        "slug": "система-зажигания-797b9cf51105",
-        "description": "Тестовая категория автомобильных запчастей: Система зажигания."
+        "name": "Моторные масла",
+        "slug": "моторные-масла-d8aed9401ef4",
+        "description": "Тестовая категория автомобильных запчастей: Моторные масла."
     }
 },
 {
     "model": "parts.partcategory",
     "pk": 19,
     "fields": {
-        "name": "Двигатель",
-        "slug": "двигатель-6710dd4a37be",
-        "description": "Тестовая категория автомобильных запчастей: Двигатель."
+        "name": "Элементы крепления",
+        "slug": "элементы-крепления-c6abb13567c6",
+        "description": "Тестовая категория автомобильных запчастей: Элементы крепления."
     }
 },
 {
     "model": "parts.partcategory",
     "pk": 20,
     "fields": {
-        "name": "Система охлаждения",
-        "slug": "система-охлаждения-f8740af259e5",
-        "description": "Тестовая категория автомобильных запчастей: Система охлаждения."
+        "name": "Топливная система",
+        "slug": "топливная-система-e7e1a526433f",
+        "description": "Тестовая категория автомобильных запчастей: Топливная система."
     }
 },
 {
     "model": "parts.partcategory",
     "pk": 21,
     "fields": {
-        "name": "Сцепление",
-        "slug": "сцепление-ec300fe7b2af",
-        "description": "Тестовая категория автомобильных запчастей: Сцепление."
+        "name": "Система зажигания",
+        "slug": "система-зажигания-de4e2f05d32d",
+        "description": "Тестовая категория автомобильных запчастей: Система зажигания."
     }
 },
 {
     "model": "parts.partcategory",
     "pk": 22,
     "fields": {
-        "name": "Электрооборудование",
-        "slug": "электрооборудование-323f80a75bbd",
-        "description": "Тестовая категория автомобильных запчастей: Электрооборудование."
+        "name": "Автомобильная оптика",
+        "slug": "автомобильная-оптика-9a23fbaf33b0",
+        "description": "Тестовая категория автомобильных запчастей: Автомобильная оптика."
     }
 },
 {
@@ -202,7 +202,7 @@
     "pk": 23,
     "fields": {
         "name": "Стеклоочистители",
-        "slug": "стеклоочистители-a229c15337e0",
+        "slug": "стеклоочистители-98b9944e66d0",
         "description": "Тестовая категория автомобильных запчастей: Стеклоочистители."
     }
 },
@@ -210,18 +210,18 @@
     "model": "parts.partcategory",
     "pk": 24,
     "fields": {
-        "name": "Подвеска",
-        "slug": "подвеска-322bf6b00dba",
-        "description": "Тестовая категория автомобильных запчастей: Подвеска."
+        "name": "Подшипники",
+        "slug": "подшипники-72b9561dc73b",
+        "description": "Тестовая категория автомобильных запчастей: Подшипники."
     }
 },
 {
     "model": "parts.partcategory",
     "pk": 25,
     "fields": {
-        "name": "Тормозная система",
-        "slug": "тормозная-система-3057ce5e09b4",
-        "description": "Тестовая категория автомобильных запчастей: Тормозная система."
+        "name": "Рулевое управление",
+        "slug": "рулевое-управление-91c3cee6042c",
+        "description": "Тестовая категория автомобильных запчастей: Рулевое управление."
     }
 },
 {
@@ -229,839 +229,839 @@
     "pk": 1,
     "fields": {
         "category": 3,
-        "name": "Датчик кислорода Valeo 1",
-        "slug": "датчик-кислорода-valeo-1-e80c77dbc33c",
-        "original_number": "VAL-73927-815E8",
+        "name": "Термостат Valeo 1",
+        "slug": "термостат-valeo-1-a92018afa383",
+        "original_number": "VAL-60380-49A49",
         "manufacturer": "Valeo",
-        "description": "Тестовая автомобильная запчасть Датчик кислорода Valeo 1. Подходит для ремонта и технического обслуживания автомобиля.",
-        "seo_title": "Купить Датчик кислорода Valeo 1 по OEM-номеру",
-        "seo_description": "Описание, совместимость и инструкции для запчасти Датчик кислорода Valeo 1.",
-        "seo_keywords": "Датчик кислорода, Valeo, VAL-73927-815E8, автозапчасть",
-        "weight": "10.72",
+        "description": "Термостат производителя Valeo. Перед покупкой необходимо сверить OEM-номер и параметры совместимости автомобиля.",
+        "seo_title": "Термостат Valeo 1: характеристики и совместимость",
+        "seo_description": "OEM-номер, совместимость и инструкции для Термостат Valeo 1.",
+        "seo_keywords": "Термостат, Valeo, VAL-60380-49A49, автозапчасть",
+        "weight": "0.56",
         "dimensions": {
-            "length_mm": 521,
-            "width_mm": 292,
-            "height_mm": 331
+            "length_mm": 120,
+            "width_mm": 61,
+            "height_mm": 38
         },
-        "is_active": false,
-        "created_at": "2026-07-12T20:10:16.815Z",
-        "updated_at": "2026-07-12T20:10:16.815Z"
+        "is_active": true,
+        "created_at": "2026-07-17T17:24:34.197Z",
+        "updated_at": "2026-07-17T17:24:34.197Z"
     }
 },
 {
     "model": "parts.part",
     "pk": 2,
     "fields": {
-        "category": 7,
-        "name": "Свеча зажигания Febi 2",
-        "slug": "свеча-зажигания-febi-2-5acd0df26f8c",
-        "original_number": "FEB-60772-A3FC8",
-        "manufacturer": "Febi",
-        "description": "Тестовая автомобильная запчасть Свеча зажигания Febi 2. Подходит для ремонта и технического обслуживания автомобиля.",
-        "seo_title": "Купить Свеча зажигания Febi 2 по OEM-номеру",
-        "seo_description": "Описание, совместимость и инструкции для запчасти Свеча зажигания Febi 2.",
-        "seo_keywords": "Свеча зажигания, Febi, FEB-60772-A3FC8, автозапчасть",
-        "weight": "36.38",
+        "category": 20,
+        "name": "Топливный насос Gates 2",
+        "slug": "топливный-насос-gates-2-bcf45d6f7112",
+        "original_number": "GAT-94472-F5433",
+        "manufacturer": "Gates",
+        "description": "Топливный насос производителя Gates. Перед покупкой необходимо сверить OEM-номер и параметры совместимости автомобиля.",
+        "seo_title": "Топливный насос Gates 2: характеристики и совместимость",
+        "seo_description": "OEM-номер, совместимость и инструкции для Топливный насос Gates 2.",
+        "seo_keywords": "Топливный насос, Gates, GAT-94472-F5433, автозапчасть",
+        "weight": "2.00",
         "dimensions": {
-            "length_mm": 709,
-            "width_mm": 326,
-            "height_mm": 124
+            "length_mm": 277,
+            "width_mm": 119,
+            "height_mm": 64
         },
         "is_active": true,
-        "created_at": "2026-07-12T20:10:16.815Z",
-        "updated_at": "2026-07-12T20:10:16.815Z"
+        "created_at": "2026-07-17T17:24:34.197Z",
+        "updated_at": "2026-07-17T17:24:34.197Z"
     }
 },
 {
     "model": "parts.part",
     "pk": 3,
     "fields": {
-        "category": 20,
-        "name": "Катушка зажигания Febi 3",
-        "slug": "катушка-зажигания-febi-3-50a1a2f6d801",
-        "original_number": "FEB-12454-F2C10",
-        "manufacturer": "Febi",
-        "description": "Тестовая автомобильная запчасть Катушка зажигания Febi 3. Подходит для ремонта и технического обслуживания автомобиля.",
-        "seo_title": "Купить Катушка зажигания Febi 3 по OEM-номеру",
-        "seo_description": "Описание, совместимость и инструкции для запчасти Катушка зажигания Febi 3.",
-        "seo_keywords": "Катушка зажигания, Febi, FEB-12454-F2C10, автозапчасть",
-        "weight": "28.22",
+        "category": 21,
+        "name": "Свеча зажигания Gates 3",
+        "slug": "свеча-зажигания-gates-3-00a0020c1418",
+        "original_number": "GAT-27343-34D15",
+        "manufacturer": "Gates",
+        "description": "Свеча зажигания производителя Gates. Перед покупкой необходимо сверить OEM-номер и параметры совместимости автомобиля.",
+        "seo_title": "Свеча зажигания Gates 3: характеристики и совместимость",
+        "seo_description": "OEM-номер, совместимость и инструкции для Свеча зажигания Gates 3.",
+        "seo_keywords": "Свеча зажигания, Gates, GAT-27343-34D15, автозапчасть",
+        "weight": "0.10",
         "dimensions": {
-            "length_mm": 520,
-            "width_mm": 401,
-            "height_mm": 288
+            "length_mm": 72,
+            "width_mm": 22,
+            "height_mm": 16
         },
-        "is_active": false,
-        "created_at": "2026-07-12T20:10:16.816Z",
-        "updated_at": "2026-07-12T20:10:16.816Z"
+        "is_active": true,
+        "created_at": "2026-07-17T17:24:34.198Z",
+        "updated_at": "2026-07-17T17:24:34.198Z"
     }
 },
 {
     "model": "parts.part",
     "pk": 4,
     "fields": {
-        "category": 2,
-        "name": "Свеча зажигания Valeo 4",
-        "slug": "свеча-зажигания-valeo-4-c73f0436bbc8",
-        "original_number": "VAL-45408-548B6",
-        "manufacturer": "Valeo",
-        "description": "Тестовая автомобильная запчасть Свеча зажигания Valeo 4. Подходит для ремонта и технического обслуживания автомобиля.",
-        "seo_title": "Купить Свеча зажигания Valeo 4 по OEM-номеру",
-        "seo_description": "Описание, совместимость и инструкции для запчасти Свеча зажигания Valeo 4.",
-        "seo_keywords": "Свеча зажигания, Valeo, VAL-45408-548B6, автозапчасть",
-        "weight": "3.42",
+        "category": 7,
+        "name": "Ремень ГРМ Sachs 4",
+        "slug": "ремень-грм-sachs-4-fdcf50980760",
+        "original_number": "SAC-15587-C86AD",
+        "manufacturer": "Sachs",
+        "description": "Ремень ГРМ производителя Sachs. Перед покупкой необходимо сверить OEM-номер и параметры совместимости автомобиля.",
+        "seo_title": "Ремень ГРМ Sachs 4: характеристики и совместимость",
+        "seo_description": "OEM-номер, совместимость и инструкции для Ремень ГРМ Sachs 4.",
+        "seo_keywords": "Ремень ГРМ, Sachs, SAC-15587-C86AD, автозапчасть",
+        "weight": "0.50",
         "dimensions": {
-            "length_mm": 604,
-            "width_mm": 76,
-            "height_mm": 150
+            "length_mm": 1485,
+            "width_mm": 23,
+            "height_mm": 10
         },
         "is_active": true,
-        "created_at": "2026-07-12T20:10:16.816Z",
-        "updated_at": "2026-07-12T20:10:16.816Z"
+        "created_at": "2026-07-17T17:24:34.198Z",
+        "updated_at": "2026-07-17T17:24:34.198Z"
     }
 },
 {
     "model": "parts.part",
     "pk": 5,
     "fields": {
-        "category": 6,
-        "name": "Фара Brembo 5",
-        "slug": "фара-brembo-5-5c8e5240d281",
-        "original_number": "BRE-26218-B03CD",
-        "manufacturer": "Brembo",
-        "description": "Тестовая автомобильная запчасть Фара Brembo 5. Подходит для ремонта и технического обслуживания автомобиля.",
-        "seo_title": "Купить Фара Brembo 5 по OEM-номеру",
-        "seo_description": "Описание, совместимость и инструкции для запчасти Фара Brembo 5.",
-        "seo_keywords": "Фара, Brembo, BRE-26218-B03CD, автозапчасть",
-        "weight": "38.61",
+        "category": 15,
+        "name": "Масляный фильтр Mann-Filter 5",
+        "slug": "масляный-фильтр-mann-filter-5-80f9c0ee7bb8",
+        "original_number": "MAN-27415-45B76",
+        "manufacturer": "Mann-Filter",
+        "description": "Масляный фильтр производителя Mann-Filter. Перед покупкой необходимо сверить OEM-номер и параметры совместимости автомобиля.",
+        "seo_title": "Масляный фильтр Mann-Filter 5: характеристики и совместимость",
+        "seo_description": "OEM-номер, совместимость и инструкции для Масляный фильтр Mann-Filter 5.",
+        "seo_keywords": "Масляный фильтр, Mann-Filter, MAN-27415-45B76, автозапчасть",
+        "weight": "0.46",
         "dimensions": {
-            "length_mm": 439,
-            "width_mm": 64,
-            "height_mm": 127
+            "length_mm": 120,
+            "width_mm": 84,
+            "height_mm": 123
         },
-        "is_active": false,
-        "created_at": "2026-07-12T20:10:16.816Z",
-        "updated_at": "2026-07-12T20:10:16.816Z"
+        "is_active": true,
+        "created_at": "2026-07-17T17:24:34.198Z",
+        "updated_at": "2026-07-17T17:24:34.198Z"
     }
 },
 {
     "model": "parts.part",
     "pk": 6,
     "fields": {
-        "category": 4,
-        "name": "Термостат Sachs 6",
-        "slug": "термостат-sachs-6-98226ea180aa",
-        "original_number": "SAC-71041-59E11",
-        "manufacturer": "Sachs",
-        "description": "Тестовая автомобильная запчасть Термостат Sachs 6. Подходит для ремонта и технического обслуживания автомобиля.",
-        "seo_title": "Купить Термостат Sachs 6 по OEM-номеру",
-        "seo_description": "Описание, совместимость и инструкции для запчасти Термостат Sachs 6.",
-        "seo_keywords": "Термостат, Sachs, SAC-71041-59E11, автозапчасть",
-        "weight": "31.75",
+        "category": 20,
+        "name": "Топливный насос Denso 6",
+        "slug": "топливный-насос-denso-6-8d235141c85d",
+        "original_number": "DEN-10428-699C4",
+        "manufacturer": "Denso",
+        "description": "Топливный насос производителя Denso. Перед покупкой необходимо сверить OEM-номер и параметры совместимости автомобиля.",
+        "seo_title": "Топливный насос Denso 6: характеристики и совместимость",
+        "seo_description": "OEM-номер, совместимость и инструкции для Топливный насос Denso 6.",
+        "seo_keywords": "Топливный насос, Denso, DEN-10428-699C4, автозапчасть",
+        "weight": "0.90",
         "dimensions": {
-            "length_mm": 795,
-            "width_mm": 70,
-            "height_mm": 216
+            "length_mm": 206,
+            "width_mm": 126,
+            "height_mm": 143
         },
         "is_active": true,
-        "created_at": "2026-07-12T20:10:16.816Z",
-        "updated_at": "2026-07-12T20:10:16.816Z"
+        "created_at": "2026-07-17T17:24:34.198Z",
+        "updated_at": "2026-07-17T17:24:34.198Z"
     }
 },
 {
     "model": "parts.part",
     "pk": 7,
     "fields": {
-        "category": 7,
-        "name": "Топливный насос Sachs 7",
-        "slug": "топливный-насос-sachs-7-6cbd72b39c03",
-        "original_number": "SAC-55577-2E647",
-        "manufacturer": "Sachs",
-        "description": "Тестовая автомобильная запчасть Топливный насос Sachs 7. Подходит для ремонта и технического обслуживания автомобиля.",
-        "seo_title": "Купить Топливный насос Sachs 7 по OEM-номеру",
-        "seo_description": "Описание, совместимость и инструкции для запчасти Топливный насос Sachs 7.",
-        "seo_keywords": "Топливный насос, Sachs, SAC-55577-2E647, автозапчасть",
-        "weight": "37.26",
+        "category": 21,
+        "name": "Свеча зажигания Mahle 7",
+        "slug": "свеча-зажигания-mahle-7-c40c226aa54a",
+        "original_number": "MAH-81172-42E15",
+        "manufacturer": "Mahle",
+        "description": "Свеча зажигания производителя Mahle. Перед покупкой необходимо сверить OEM-номер и параметры совместимости автомобиля.",
+        "seo_title": "Свеча зажигания Mahle 7: характеристики и совместимость",
+        "seo_description": "OEM-номер, совместимость и инструкции для Свеча зажигания Mahle 7.",
+        "seo_keywords": "Свеча зажигания, Mahle, MAH-81172-42E15, автозапчасть",
+        "weight": "0.09",
         "dimensions": {
-            "length_mm": 88,
-            "width_mm": 363,
-            "height_mm": 364
+            "length_mm": 99,
+            "width_mm": 20,
+            "height_mm": 20
         },
-        "is_active": false,
-        "created_at": "2026-07-12T20:10:16.817Z",
-        "updated_at": "2026-07-12T20:10:16.817Z"
+        "is_active": true,
+        "created_at": "2026-07-17T17:24:34.199Z",
+        "updated_at": "2026-07-17T17:24:34.199Z"
     }
 },
 {
     "model": "parts.part",
     "pk": 8,
     "fields": {
-        "category": 11,
-        "name": "Масляный фильтр Valeo 8",
-        "slug": "масляный-фильтр-valeo-8-20a49f6e1d38",
-        "original_number": "VAL-46227-2029D",
-        "manufacturer": "Valeo",
-        "description": "Тестовая автомобильная запчасть Масляный фильтр Valeo 8. Подходит для ремонта и технического обслуживания автомобиля.",
-        "seo_title": "Купить Масляный фильтр Valeo 8 по OEM-номеру",
-        "seo_description": "Описание, совместимость и инструкции для запчасти Масляный фильтр Valeo 8.",
-        "seo_keywords": "Масляный фильтр, Valeo, VAL-46227-2029D, автозапчасть",
-        "weight": "39.81",
+        "category": 12,
+        "name": "Тормозные колодки Mahle 8",
+        "slug": "тормозные-колодки-mahle-8-6454c5203b27",
+        "original_number": "MAH-93365-76983",
+        "manufacturer": "Mahle",
+        "description": "Тормозные колодки производителя Mahle. Перед покупкой необходимо сверить OEM-номер и параметры совместимости автомобиля.",
+        "seo_title": "Тормозные колодки Mahle 8: характеристики и совместимость",
+        "seo_description": "OEM-номер, совместимость и инструкции для Тормозные колодки Mahle 8.",
+        "seo_keywords": "Тормозные колодки, Mahle, MAH-93365-76983, автозапчасть",
+        "weight": "1.85",
         "dimensions": {
-            "length_mm": 703,
-            "width_mm": 151,
-            "height_mm": 289
+            "length_mm": 88,
+            "width_mm": 37,
+            "height_mm": 28
         },
-        "is_active": false,
-        "created_at": "2026-07-12T20:10:16.817Z",
-        "updated_at": "2026-07-12T20:10:16.817Z"
+        "is_active": true,
+        "created_at": "2026-07-17T17:24:34.199Z",
+        "updated_at": "2026-07-17T17:24:34.199Z"
     }
 },
 {
     "model": "parts.part",
     "pk": 9,
     "fields": {
-        "category": 22,
-        "name": "Термостат Brembo 9",
-        "slug": "термостат-brembo-9-7da086d3c077",
-        "original_number": "BRE-16105-15570",
+        "category": 15,
+        "name": "Масляный фильтр Brembo 9",
+        "slug": "масляный-фильтр-brembo-9-1017a60f0f53",
+        "original_number": "BRE-97116-C3704",
         "manufacturer": "Brembo",
-        "description": "Тестовая автомобильная запчасть Термостат Brembo 9. Подходит для ремонта и технического обслуживания автомобиля.",
-        "seo_title": "Купить Термостат Brembo 9 по OEM-номеру",
-        "seo_description": "Описание, совместимость и инструкции для запчасти Термостат Brembo 9.",
-        "seo_keywords": "Термостат, Brembo, BRE-16105-15570, автозапчасть",
-        "weight": "2.70",
+        "description": "Масляный фильтр производителя Brembo. Перед покупкой необходимо сверить OEM-номер и параметры совместимости автомобиля.",
+        "seo_title": "Масляный фильтр Brembo 9: характеристики и совместимость",
+        "seo_description": "OEM-номер, совместимость и инструкции для Масляный фильтр Brembo 9.",
+        "seo_keywords": "Масляный фильтр, Brembo, BRE-97116-C3704, автозапчасть",
+        "weight": "0.44",
         "dimensions": {
-            "length_mm": 472,
-            "width_mm": 357,
-            "height_mm": 120
+            "length_mm": 113,
+            "width_mm": 75,
+            "height_mm": 89
         },
-        "is_active": true,
-        "created_at": "2026-07-12T20:10:16.817Z",
-        "updated_at": "2026-07-12T20:10:16.817Z"
+        "is_active": false,
+        "created_at": "2026-07-17T17:24:34.199Z",
+        "updated_at": "2026-07-17T17:24:34.199Z"
     }
 },
 {
     "model": "parts.part",
     "pk": 10,
     "fields": {
-        "category": 1,
-        "name": "Топливный насос Bosch 10",
-        "slug": "топливный-насос-bosch-10-3d2f04fbce69",
-        "original_number": "BOS-90855-80809",
-        "manufacturer": "Bosch",
-        "description": "Тестовая автомобильная запчасть Топливный насос Bosch 10. Подходит для ремонта и технического обслуживания автомобиля.",
-        "seo_title": "Купить Топливный насос Bosch 10 по OEM-номеру",
-        "seo_description": "Описание, совместимость и инструкции для запчасти Топливный насос Bosch 10.",
-        "seo_keywords": "Топливный насос, Bosch, BOS-90855-80809, автозапчасть",
-        "weight": "49.19",
+        "category": 3,
+        "name": "Термостат Febi 10",
+        "slug": "термостат-febi-10-bf54b9f0f27f",
+        "original_number": "FEB-13788-DA87E",
+        "manufacturer": "Febi",
+        "description": "Термостат производителя Febi. Перед покупкой необходимо сверить OEM-номер и параметры совместимости автомобиля.",
+        "seo_title": "Термостат Febi 10: характеристики и совместимость",
+        "seo_description": "OEM-номер, совместимость и инструкции для Термостат Febi 10.",
+        "seo_keywords": "Термостат, Febi, FEB-13788-DA87E, автозапчасть",
+        "weight": "0.52",
         "dimensions": {
-            "length_mm": 414,
-            "width_mm": 433,
-            "height_mm": 203
+            "length_mm": 69,
+            "width_mm": 43,
+            "height_mm": 66
         },
         "is_active": true,
-        "created_at": "2026-07-12T20:10:16.817Z",
-        "updated_at": "2026-07-12T20:10:16.817Z"
+        "created_at": "2026-07-17T17:24:34.199Z",
+        "updated_at": "2026-07-17T17:24:34.199Z"
     }
 },
 {
     "model": "parts.part",
     "pk": 11,
     "fields": {
-        "category": 25,
-        "name": "Свеча зажигания Sachs 11",
-        "slug": "свеча-зажигания-sachs-11-c0ed81b67ad0",
-        "original_number": "SAC-11959-8AF68",
-        "manufacturer": "Sachs",
-        "description": "Тестовая автомобильная запчасть Свеча зажигания Sachs 11. Подходит для ремонта и технического обслуживания автомобиля.",
-        "seo_title": "Купить Свеча зажигания Sachs 11 по OEM-номеру",
-        "seo_description": "Описание, совместимость и инструкции для запчасти Свеча зажигания Sachs 11.",
-        "seo_keywords": "Свеча зажигания, Sachs, SAC-11959-8AF68, автозапчасть",
-        "weight": "43.40",
+        "category": 4,
+        "name": "Амортизатор NGK 11",
+        "slug": "амортизатор-ngk-11-e1e08b653668",
+        "original_number": "NGK-21416-D8542",
+        "manufacturer": "NGK",
+        "description": "Амортизатор производителя NGK. Перед покупкой необходимо сверить OEM-номер и параметры совместимости автомобиля.",
+        "seo_title": "Амортизатор NGK 11: характеристики и совместимость",
+        "seo_description": "OEM-номер, совместимость и инструкции для Амортизатор NGK 11.",
+        "seo_keywords": "Амортизатор, NGK, NGK-21416-D8542, автозапчасть",
+        "weight": "7.07",
         "dimensions": {
-            "length_mm": 486,
-            "width_mm": 36,
-            "height_mm": 109
+            "length_mm": 658,
+            "width_mm": 43,
+            "height_mm": 100
         },
         "is_active": true,
-        "created_at": "2026-07-12T20:10:16.818Z",
-        "updated_at": "2026-07-12T20:10:16.818Z"
+        "created_at": "2026-07-17T17:24:34.200Z",
+        "updated_at": "2026-07-17T17:24:34.200Z"
     }
 },
 {
     "model": "parts.part",
     "pk": 12,
     "fields": {
-        "category": 20,
-        "name": "Фара Gates 12",
-        "slug": "фара-gates-12-f02c915f042f",
-        "original_number": "GAT-45372-4B613",
-        "manufacturer": "Gates",
-        "description": "Тестовая автомобильная запчасть Фара Gates 12. Подходит для ремонта и технического обслуживания автомобиля.",
-        "seo_title": "Купить Фара Gates 12 по OEM-номеру",
-        "seo_description": "Описание, совместимость и инструкции для запчасти Фара Gates 12.",
-        "seo_keywords": "Фара, Gates, GAT-45372-4B613, автозапчасть",
-        "weight": "23.66",
+        "category": 12,
+        "name": "Тормозной диск Bosch 12",
+        "slug": "тормозной-диск-bosch-12-42149c5ce5f5",
+        "original_number": "BOS-31236-5A837",
+        "manufacturer": "Bosch",
+        "description": "Тормозной диск производителя Bosch. Перед покупкой необходимо сверить OEM-номер и параметры совместимости автомобиля.",
+        "seo_title": "Тормозной диск Bosch 12: характеристики и совместимость",
+        "seo_description": "OEM-номер, совместимость и инструкции для Тормозной диск Bosch 12.",
+        "seo_keywords": "Тормозной диск, Bosch, BOS-31236-5A837, автозапчасть",
+        "weight": "8.80",
         "dimensions": {
-            "length_mm": 315,
-            "width_mm": 411,
-            "height_mm": 106
+            "length_mm": 233,
+            "width_mm": 282,
+            "height_mm": 61
         },
         "is_active": true,
-        "created_at": "2026-07-12T20:10:16.818Z",
-        "updated_at": "2026-07-12T20:10:16.818Z"
+        "created_at": "2026-07-17T17:24:34.200Z",
+        "updated_at": "2026-07-17T17:24:34.200Z"
     }
 },
 {
     "model": "parts.part",
     "pk": 13,
     "fields": {
-        "category": 1,
-        "name": "Шаровая опора Mahle 13",
-        "slug": "шаровая-опора-mahle-13-81b1aefdfc25",
-        "original_number": "MAH-79377-7AB7C",
-        "manufacturer": "Mahle",
-        "description": "Тестовая автомобильная запчасть Шаровая опора Mahle 13. Подходит для ремонта и технического обслуживания автомобиля.",
-        "seo_title": "Купить Шаровая опора Mahle 13 по OEM-номеру",
-        "seo_description": "Описание, совместимость и инструкции для запчасти Шаровая опора Mahle 13.",
-        "seo_keywords": "Шаровая опора, Mahle, MAH-79377-7AB7C, автозапчасть",
-        "weight": "2.91",
+        "category": 3,
+        "name": "Водяной насос NGK 13",
+        "slug": "водяной-насос-ngk-13-aec8e7c4e83b",
+        "original_number": "NGK-22007-F8CC4",
+        "manufacturer": "NGK",
+        "description": "Водяной насос производителя NGK. Перед покупкой необходимо сверить OEM-номер и параметры совместимости автомобиля.",
+        "seo_title": "Водяной насос NGK 13: характеристики и совместимость",
+        "seo_description": "OEM-номер, совместимость и инструкции для Водяной насос NGK 13.",
+        "seo_keywords": "Водяной насос, NGK, NGK-22007-F8CC4, автозапчасть",
+        "weight": "2.90",
         "dimensions": {
-            "length_mm": 500,
-            "width_mm": 178,
-            "height_mm": 255
+            "length_mm": 225,
+            "width_mm": 189,
+            "height_mm": 163
         },
         "is_active": true,
-        "created_at": "2026-07-12T20:10:16.818Z",
-        "updated_at": "2026-07-12T20:10:16.818Z"
+        "created_at": "2026-07-17T17:24:34.200Z",
+        "updated_at": "2026-07-17T17:24:34.200Z"
     }
 },
 {
     "model": "parts.part",
     "pk": 14,
     "fields": {
-        "category": 24,
-        "name": "Тормозные колодки SKF 14",
-        "slug": "тормозные-колодки-skf-14-70142244b476",
-        "original_number": "SKF-15884-3E4E6",
-        "manufacturer": "SKF",
-        "description": "Тестовая автомобильная запчасть Тормозные колодки SKF 14. Подходит для ремонта и технического обслуживания автомобиля.",
-        "seo_title": "Купить Тормозные колодки SKF 14 по OEM-номеру",
-        "seo_description": "Описание, совместимость и инструкции для запчасти Тормозные колодки SKF 14.",
-        "seo_keywords": "Тормозные колодки, SKF, SKF-15884-3E4E6, автозапчасть",
-        "weight": "28.73",
+        "category": 2,
+        "name": "Датчик кислорода Gates 14",
+        "slug": "датчик-кислорода-gates-14-829560d83ffb",
+        "original_number": "GAT-38213-3B0DE",
+        "manufacturer": "Gates",
+        "description": "Датчик кислорода производителя Gates. Перед покупкой необходимо сверить OEM-номер и параметры совместимости автомобиля.",
+        "seo_title": "Датчик кислорода Gates 14: характеристики и совместимость",
+        "seo_description": "OEM-номер, совместимость и инструкции для Датчик кислорода Gates 14.",
+        "seo_keywords": "Датчик кислорода, Gates, GAT-38213-3B0DE, автозапчасть",
+        "weight": "0.23",
         "dimensions": {
-            "length_mm": 475,
-            "width_mm": 497,
-            "height_mm": 45
+            "length_mm": 177,
+            "width_mm": 21,
+            "height_mm": 44
         },
         "is_active": true,
-        "created_at": "2026-07-12T20:10:16.819Z",
-        "updated_at": "2026-07-12T20:10:16.819Z"
+        "created_at": "2026-07-17T17:24:34.200Z",
+        "updated_at": "2026-07-17T17:24:34.200Z"
     }
 },
 {
     "model": "parts.part",
     "pk": 15,
     "fields": {
-        "category": 3,
-        "name": "Фара NGK 15",
-        "slug": "фара-ngk-15-eb7a4d12ae5f",
-        "original_number": "NGK-95834-82342",
-        "manufacturer": "NGK",
-        "description": "Тестовая автомобильная запчасть Фара NGK 15. Подходит для ремонта и технического обслуживания автомобиля.",
-        "seo_title": "Купить Фара NGK 15 по OEM-номеру",
-        "seo_description": "Описание, совместимость и инструкции для запчасти Фара NGK 15.",
-        "seo_keywords": "Фара, NGK, NGK-95834-82342, автозапчасть",
-        "weight": "32.91",
+        "category": 22,
+        "name": "Фара Bosch 15",
+        "slug": "фара-bosch-15-a702040a28d8",
+        "original_number": "BOS-96540-A0EE0",
+        "manufacturer": "Bosch",
+        "description": "Фара производителя Bosch. Перед покупкой необходимо сверить OEM-номер и параметры совместимости автомобиля.",
+        "seo_title": "Фара Bosch 15: характеристики и совместимость",
+        "seo_description": "OEM-номер, совместимость и инструкции для Фара Bosch 15.",
+        "seo_keywords": "Фара, Bosch, BOS-96540-A0EE0, автозапчасть",
+        "weight": "5.31",
         "dimensions": {
-            "length_mm": 753,
-            "width_mm": 203,
-            "height_mm": 199
+            "length_mm": 708,
+            "width_mm": 321,
+            "height_mm": 321
         },
         "is_active": true,
-        "created_at": "2026-07-12T20:10:16.819Z",
-        "updated_at": "2026-07-12T20:10:16.819Z"
+        "created_at": "2026-07-17T17:24:34.201Z",
+        "updated_at": "2026-07-17T17:24:34.201Z"
     }
 },
 {
     "model": "parts.part",
     "pk": 16,
     "fields": {
-        "category": 2,
-        "name": "Тормозной диск Mann-Filter 16",
-        "slug": "тормозной-диск-mann-filter-16-bfd4531d9e80",
-        "original_number": "MAN-62385-98F52",
-        "manufacturer": "Mann-Filter",
-        "description": "Тестовая автомобильная запчасть Тормозной диск Mann-Filter 16. Подходит для ремонта и технического обслуживания автомобиля.",
-        "seo_title": "Купить Тормозной диск Mann-Filter 16 по OEM-номеру",
-        "seo_description": "Описание, совместимость и инструкции для запчасти Тормозной диск Mann-Filter 16.",
-        "seo_keywords": "Тормозной диск, Mann-Filter, MAN-62385-98F52, автозапчасть",
-        "weight": "23.54",
+        "category": 3,
+        "name": "Радиатор Mahle 16",
+        "slug": "радиатор-mahle-16-68fb738de421",
+        "original_number": "MAH-65719-5EE20",
+        "manufacturer": "Mahle",
+        "description": "Радиатор производителя Mahle. Перед покупкой необходимо сверить OEM-номер и параметры совместимости автомобиля.",
+        "seo_title": "Радиатор Mahle 16: характеристики и совместимость",
+        "seo_description": "OEM-номер, совместимость и инструкции для Радиатор Mahle 16.",
+        "seo_keywords": "Радиатор, Mahle, MAH-65719-5EE20, автозапчасть",
+        "weight": "3.22",
         "dimensions": {
-            "length_mm": 133,
-            "width_mm": 299,
-            "height_mm": 296
+            "length_mm": 777,
+            "width_mm": 691,
+            "height_mm": 88
         },
         "is_active": true,
-        "created_at": "2026-07-12T20:10:16.819Z",
-        "updated_at": "2026-07-12T20:10:16.819Z"
+        "created_at": "2026-07-17T17:24:34.201Z",
+        "updated_at": "2026-07-17T17:24:34.201Z"
     }
 },
 {
     "model": "parts.part",
     "pk": 17,
     "fields": {
-        "category": 6,
-        "name": "Фара Valeo 17",
-        "slug": "фара-valeo-17-86aed95cd746",
-        "original_number": "VAL-66405-F8AC0",
-        "manufacturer": "Valeo",
-        "description": "Тестовая автомобильная запчасть Фара Valeo 17. Подходит для ремонта и технического обслуживания автомобиля.",
-        "seo_title": "Купить Фара Valeo 17 по OEM-номеру",
-        "seo_description": "Описание, совместимость и инструкции для запчасти Фара Valeo 17.",
-        "seo_keywords": "Фара, Valeo, VAL-66405-F8AC0, автозапчасть",
-        "weight": "25.40",
+        "category": 3,
+        "name": "Термостат Febi 17",
+        "slug": "термостат-febi-17-0bf206f662ba",
+        "original_number": "FEB-98861-85A60",
+        "manufacturer": "Febi",
+        "description": "Термостат производителя Febi. Перед покупкой необходимо сверить OEM-номер и параметры совместимости автомобиля.",
+        "seo_title": "Термостат Febi 17: характеристики и совместимость",
+        "seo_description": "OEM-номер, совместимость и инструкции для Термостат Febi 17.",
+        "seo_keywords": "Термостат, Febi, FEB-98861-85A60, автозапчасть",
+        "weight": "0.55",
         "dimensions": {
-            "length_mm": 299,
-            "width_mm": 246,
-            "height_mm": 368
+            "length_mm": 59,
+            "width_mm": 48,
+            "height_mm": 72
         },
-        "is_active": true,
-        "created_at": "2026-07-12T20:10:16.819Z",
-        "updated_at": "2026-07-12T20:10:16.819Z"
+        "is_active": false,
+        "created_at": "2026-07-17T17:24:34.201Z",
+        "updated_at": "2026-07-17T17:24:34.201Z"
     }
 },
 {
     "model": "parts.part",
     "pk": 18,
     "fields": {
-        "category": 11,
-        "name": "Катушка зажигания Febi 18",
-        "slug": "катушка-зажигания-febi-18-90216d95df94",
-        "original_number": "FEB-67241-617C7",
-        "manufacturer": "Febi",
-        "description": "Тестовая автомобильная запчасть Катушка зажигания Febi 18. Подходит для ремонта и технического обслуживания автомобиля.",
-        "seo_title": "Купить Катушка зажигания Febi 18 по OEM-номеру",
-        "seo_description": "Описание, совместимость и инструкции для запчасти Катушка зажигания Febi 18.",
-        "seo_keywords": "Катушка зажигания, Febi, FEB-67241-617C7, автозапчасть",
-        "weight": "6.36",
+        "category": 1,
+        "name": "Генератор Brembo 18",
+        "slug": "генератор-brembo-18-dd00357c7c75",
+        "original_number": "BRE-82373-F2705",
+        "manufacturer": "Brembo",
+        "description": "Генератор производителя Brembo. Перед покупкой необходимо сверить OEM-номер и параметры совместимости автомобиля.",
+        "seo_title": "Генератор Brembo 18: характеристики и совместимость",
+        "seo_description": "OEM-номер, совместимость и инструкции для Генератор Brembo 18.",
+        "seo_keywords": "Генератор, Brembo, BRE-82373-F2705, автозапчасть",
+        "weight": "4.27",
         "dimensions": {
-            "length_mm": 564,
-            "width_mm": 324,
-            "height_mm": 31
+            "length_mm": 201,
+            "width_mm": 182,
+            "height_mm": 228
         },
         "is_active": true,
-        "created_at": "2026-07-12T20:10:16.819Z",
-        "updated_at": "2026-07-12T20:10:16.819Z"
+        "created_at": "2026-07-17T17:24:34.201Z",
+        "updated_at": "2026-07-17T17:24:34.201Z"
     }
 },
 {
     "model": "parts.part",
     "pk": 19,
     "fields": {
-        "category": 10,
-        "name": "Шаровая опора Gates 19",
-        "slug": "шаровая-опора-gates-19-d4a7a5424b5c",
-        "original_number": "GAT-87368-06631",
-        "manufacturer": "Gates",
-        "description": "Тестовая автомобильная запчасть Шаровая опора Gates 19. Подходит для ремонта и технического обслуживания автомобиля.",
-        "seo_title": "Купить Шаровая опора Gates 19 по OEM-номеру",
-        "seo_description": "Описание, совместимость и инструкции для запчасти Шаровая опора Gates 19.",
-        "seo_keywords": "Шаровая опора, Gates, GAT-87368-06631, автозапчасть",
-        "weight": "29.88",
+        "category": 21,
+        "name": "Свеча зажигания Bosch 19",
+        "slug": "свеча-зажигания-bosch-19-fb929d6f57f6",
+        "original_number": "BOS-57702-75F4E",
+        "manufacturer": "Bosch",
+        "description": "Свеча зажигания производителя Bosch. Перед покупкой необходимо сверить OEM-номер и параметры совместимости автомобиля.",
+        "seo_title": "Свеча зажигания Bosch 19: характеристики и совместимость",
+        "seo_description": "OEM-номер, совместимость и инструкции для Свеча зажигания Bosch 19.",
+        "seo_keywords": "Свеча зажигания, Bosch, BOS-57702-75F4E, автозапчасть",
+        "weight": "0.11",
         "dimensions": {
-            "length_mm": 277,
-            "width_mm": 498,
-            "height_mm": 321
+            "length_mm": 107,
+            "width_mm": 24,
+            "height_mm": 19
         },
-        "is_active": false,
-        "created_at": "2026-07-12T20:10:16.820Z",
-        "updated_at": "2026-07-12T20:10:16.820Z"
+        "is_active": true,
+        "created_at": "2026-07-17T17:24:34.201Z",
+        "updated_at": "2026-07-17T17:24:34.201Z"
     }
 },
 {
     "model": "parts.part",
     "pk": 20,
     "fields": {
-        "category": 17,
-        "name": "Катушка зажигания Mann-Filter 20",
-        "slug": "катушка-зажигания-mann-filter-20-d93c04a7efaf",
-        "original_number": "MAN-70776-0BC94",
-        "manufacturer": "Mann-Filter",
-        "description": "Тестовая автомобильная запчасть Катушка зажигания Mann-Filter 20. Подходит для ремонта и технического обслуживания автомобиля.",
-        "seo_title": "Купить Катушка зажигания Mann-Filter 20 по OEM-номеру",
-        "seo_description": "Описание, совместимость и инструкции для запчасти Катушка зажигания Mann-Filter 20.",
-        "seo_keywords": "Катушка зажигания, Mann-Filter, MAN-70776-0BC94, автозапчасть",
-        "weight": "48.19",
+        "category": 3,
+        "name": "Радиатор Valeo 20",
+        "slug": "радиатор-valeo-20-6fddb7b37890",
+        "original_number": "VAL-34951-3A9A7",
+        "manufacturer": "Valeo",
+        "description": "Радиатор производителя Valeo. Перед покупкой необходимо сверить OEM-номер и параметры совместимости автомобиля.",
+        "seo_title": "Радиатор Valeo 20: характеристики и совместимость",
+        "seo_description": "OEM-номер, совместимость и инструкции для Радиатор Valeo 20.",
+        "seo_keywords": "Радиатор, Valeo, VAL-34951-3A9A7, автозапчасть",
+        "weight": "7.93",
         "dimensions": {
-            "length_mm": 668,
-            "width_mm": 367,
-            "height_mm": 305
+            "length_mm": 735,
+            "width_mm": 447,
+            "height_mm": 83
         },
         "is_active": false,
-        "created_at": "2026-07-12T20:10:16.820Z",
-        "updated_at": "2026-07-12T20:10:16.820Z"
+        "created_at": "2026-07-17T17:24:34.202Z",
+        "updated_at": "2026-07-17T17:24:34.202Z"
     }
 },
 {
     "model": "parts.part",
     "pk": 21,
     "fields": {
-        "category": 19,
-        "name": "Фара Mahle 21",
-        "slug": "фара-mahle-21-f71095ec089a",
-        "original_number": "MAH-45274-8A91F",
-        "manufacturer": "Mahle",
-        "description": "Тестовая автомобильная запчасть Фара Mahle 21. Подходит для ремонта и технического обслуживания автомобиля.",
-        "seo_title": "Купить Фара Mahle 21 по OEM-номеру",
-        "seo_description": "Описание, совместимость и инструкции для запчасти Фара Mahle 21.",
-        "seo_keywords": "Фара, Mahle, MAH-45274-8A91F, автозапчасть",
-        "weight": "28.17",
+        "category": 21,
+        "name": "Катушка зажигания Febi 21",
+        "slug": "катушка-зажигания-febi-21-6fa5c52d8d53",
+        "original_number": "FEB-66790-3C4AC",
+        "manufacturer": "Febi",
+        "description": "Катушка зажигания производителя Febi. Перед покупкой необходимо сверить OEM-номер и параметры совместимости автомобиля.",
+        "seo_title": "Катушка зажигания Febi 21: характеристики и совместимость",
+        "seo_description": "OEM-номер, совместимость и инструкции для Катушка зажигания Febi 21.",
+        "seo_keywords": "Катушка зажигания, Febi, FEB-66790-3C4AC, автозапчасть",
+        "weight": "0.61",
         "dimensions": {
-            "length_mm": 241,
-            "width_mm": 320,
-            "height_mm": 84
+            "length_mm": 96,
+            "width_mm": 37,
+            "height_mm": 53
         },
-        "is_active": false,
-        "created_at": "2026-07-12T20:10:16.820Z",
-        "updated_at": "2026-07-12T20:10:16.820Z"
+        "is_active": true,
+        "created_at": "2026-07-17T17:24:34.202Z",
+        "updated_at": "2026-07-17T17:24:34.202Z"
     }
 },
 {
     "model": "parts.part",
     "pk": 22,
     "fields": {
-        "category": 20,
-        "name": "Масляный фильтр Febi 22",
-        "slug": "масляный-фильтр-febi-22-101d539ebb37",
-        "original_number": "FEB-80026-93022",
-        "manufacturer": "Febi",
-        "description": "Тестовая автомобильная запчасть Масляный фильтр Febi 22. Подходит для ремонта и технического обслуживания автомобиля.",
-        "seo_title": "Купить Масляный фильтр Febi 22 по OEM-номеру",
-        "seo_description": "Описание, совместимость и инструкции для запчасти Масляный фильтр Febi 22.",
-        "seo_keywords": "Масляный фильтр, Febi, FEB-80026-93022, автозапчасть",
-        "weight": "24.93",
+        "category": 3,
+        "name": "Радиатор Mahle 22",
+        "slug": "радиатор-mahle-22-b194f9bb5fe5",
+        "original_number": "MAH-20905-58735",
+        "manufacturer": "Mahle",
+        "description": "Радиатор производителя Mahle. Перед покупкой необходимо сверить OEM-номер и параметры совместимости автомобиля.",
+        "seo_title": "Радиатор Mahle 22: характеристики и совместимость",
+        "seo_description": "OEM-номер, совместимость и инструкции для Радиатор Mahle 22.",
+        "seo_keywords": "Радиатор, Mahle, MAH-20905-58735, автозапчасть",
+        "weight": "6.34",
         "dimensions": {
-            "length_mm": 125,
-            "width_mm": 233,
-            "height_mm": 358
+            "length_mm": 845,
+            "width_mm": 611,
+            "height_mm": 89
         },
         "is_active": true,
-        "created_at": "2026-07-12T20:10:16.820Z",
-        "updated_at": "2026-07-12T20:10:16.820Z"
+        "created_at": "2026-07-17T17:24:34.202Z",
+        "updated_at": "2026-07-17T17:24:34.202Z"
     }
 },
 {
     "model": "parts.part",
     "pk": 23,
     "fields": {
-        "category": 8,
-        "name": "Свеча зажигания Mann-Filter 23",
-        "slug": "свеча-зажигания-mann-filter-23-afc198195c2a",
-        "original_number": "MAN-85086-620F2",
-        "manufacturer": "Mann-Filter",
-        "description": "Тестовая автомобильная запчасть Свеча зажигания Mann-Filter 23. Подходит для ремонта и технического обслуживания автомобиля.",
-        "seo_title": "Купить Свеча зажигания Mann-Filter 23 по OEM-номеру",
-        "seo_description": "Описание, совместимость и инструкции для запчасти Свеча зажигания Mann-Filter 23.",
-        "seo_keywords": "Свеча зажигания, Mann-Filter, MAN-85086-620F2, автозапчасть",
-        "weight": "39.99",
+        "category": 15,
+        "name": "Воздушный фильтр Gates 23",
+        "slug": "воздушный-фильтр-gates-23-dd261f84cf28",
+        "original_number": "GAT-17085-314BB",
+        "manufacturer": "Gates",
+        "description": "Воздушный фильтр производителя Gates. Перед покупкой необходимо сверить OEM-номер и параметры совместимости автомобиля.",
+        "seo_title": "Воздушный фильтр Gates 23: характеристики и совместимость",
+        "seo_description": "OEM-номер, совместимость и инструкции для Воздушный фильтр Gates 23.",
+        "seo_keywords": "Воздушный фильтр, Gates, GAT-17085-314BB, автозапчасть",
+        "weight": "1.39",
         "dimensions": {
-            "length_mm": 245,
-            "width_mm": 243,
-            "height_mm": 382
+            "length_mm": 217,
+            "width_mm": 167,
+            "height_mm": 47
         },
-        "is_active": false,
-        "created_at": "2026-07-12T20:10:16.821Z",
-        "updated_at": "2026-07-12T20:10:16.821Z"
+        "is_active": true,
+        "created_at": "2026-07-17T17:24:34.202Z",
+        "updated_at": "2026-07-17T17:24:34.202Z"
     }
 },
 {
     "model": "parts.part",
     "pk": 24,
     "fields": {
-        "category": 10,
-        "name": "Шаровая опора Mahle 24",
-        "slug": "шаровая-опора-mahle-24-62bbc9599b3a",
-        "original_number": "MAH-88880-A146E",
-        "manufacturer": "Mahle",
-        "description": "Тестовая автомобильная запчасть Шаровая опора Mahle 24. Подходит для ремонта и технического обслуживания автомобиля.",
-        "seo_title": "Купить Шаровая опора Mahle 24 по OEM-номеру",
-        "seo_description": "Описание, совместимость и инструкции для запчасти Шаровая опора Mahle 24.",
-        "seo_keywords": "Шаровая опора, Mahle, MAH-88880-A146E, автозапчасть",
-        "weight": "44.95",
+        "category": 12,
+        "name": "Тормозной диск NGK 24",
+        "slug": "тормозной-диск-ngk-24-d42ce7198c58",
+        "original_number": "NGK-97778-EBFD6",
+        "manufacturer": "NGK",
+        "description": "Тормозной диск производителя NGK. Перед покупкой необходимо сверить OEM-номер и параметры совместимости автомобиля.",
+        "seo_title": "Тормозной диск NGK 24: характеристики и совместимость",
+        "seo_description": "OEM-номер, совместимость и инструкции для Тормозной диск NGK 24.",
+        "seo_keywords": "Тормозной диск, NGK, NGK-97778-EBFD6, автозапчасть",
+        "weight": "14.37",
         "dimensions": {
-            "length_mm": 92,
-            "width_mm": 180,
-            "height_mm": 193
+            "length_mm": 267,
+            "width_mm": 224,
+            "height_mm": 72
         },
         "is_active": true,
-        "created_at": "2026-07-12T20:10:16.821Z",
-        "updated_at": "2026-07-12T20:10:16.821Z"
+        "created_at": "2026-07-17T17:24:34.203Z",
+        "updated_at": "2026-07-17T17:24:34.203Z"
     }
 },
 {
     "model": "parts.part",
     "pk": 25,
     "fields": {
-        "category": 22,
-        "name": "Воздушный фильтр Brembo 25",
-        "slug": "воздушный-фильтр-brembo-25-d41599e0f4db",
-        "original_number": "BRE-25086-1A644",
-        "manufacturer": "Brembo",
-        "description": "Тестовая автомобильная запчасть Воздушный фильтр Brembo 25. Подходит для ремонта и технического обслуживания автомобиля.",
-        "seo_title": "Купить Воздушный фильтр Brembo 25 по OEM-номеру",
-        "seo_description": "Описание, совместимость и инструкции для запчасти Воздушный фильтр Brembo 25.",
-        "seo_keywords": "Воздушный фильтр, Brembo, BRE-25086-1A644, автозапчасть",
-        "weight": "2.40",
+        "category": 12,
+        "name": "Тормозной диск Mahle 25",
+        "slug": "тормозной-диск-mahle-25-0a671e550b52",
+        "original_number": "MAH-46642-E797E",
+        "manufacturer": "Mahle",
+        "description": "Тормозной диск производителя Mahle. Перед покупкой необходимо сверить OEM-номер и параметры совместимости автомобиля.",
+        "seo_title": "Тормозной диск Mahle 25: характеристики и совместимость",
+        "seo_description": "OEM-номер, совместимость и инструкции для Тормозной диск Mahle 25.",
+        "seo_keywords": "Тормозной диск, Mahle, MAH-46642-E797E, автозапчасть",
+        "weight": "14.09",
         "dimensions": {
-            "length_mm": 590,
-            "width_mm": 391,
-            "height_mm": 277
+            "length_mm": 329,
+            "width_mm": 344,
+            "height_mm": 72
         },
         "is_active": true,
-        "created_at": "2026-07-12T20:10:16.821Z",
-        "updated_at": "2026-07-12T20:10:16.821Z"
+        "created_at": "2026-07-17T17:24:34.203Z",
+        "updated_at": "2026-07-17T17:24:34.203Z"
     }
 },
 {
     "model": "parts.part",
     "pk": 26,
     "fields": {
-        "category": 20,
-        "name": "Генератор Gates 26",
-        "slug": "генератор-gates-26-6a7cd48b7663",
-        "original_number": "GAT-70862-A0467",
-        "manufacturer": "Gates",
-        "description": "Тестовая автомобильная запчасть Генератор Gates 26. Подходит для ремонта и технического обслуживания автомобиля.",
-        "seo_title": "Купить Генератор Gates 26 по OEM-номеру",
-        "seo_description": "Описание, совместимость и инструкции для запчасти Генератор Gates 26.",
-        "seo_keywords": "Генератор, Gates, GAT-70862-A0467, автозапчасть",
-        "weight": "41.76",
+        "category": 3,
+        "name": "Водяной насос Sachs 26",
+        "slug": "водяной-насос-sachs-26-a571c19c00fc",
+        "original_number": "SAC-65342-F7502",
+        "manufacturer": "Sachs",
+        "description": "Водяной насос производителя Sachs. Перед покупкой необходимо сверить OEM-номер и параметры совместимости автомобиля.",
+        "seo_title": "Водяной насос Sachs 26: характеристики и совместимость",
+        "seo_description": "OEM-номер, совместимость и инструкции для Водяной насос Sachs 26.",
+        "seo_keywords": "Водяной насос, Sachs, SAC-65342-F7502, автозапчасть",
+        "weight": "3.11",
         "dimensions": {
-            "length_mm": 499,
-            "width_mm": 241,
-            "height_mm": 62
+            "length_mm": 177,
+            "width_mm": 220,
+            "height_mm": 60
         },
         "is_active": true,
-        "created_at": "2026-07-12T20:10:16.821Z",
-        "updated_at": "2026-07-12T20:10:16.821Z"
+        "created_at": "2026-07-17T17:24:34.203Z",
+        "updated_at": "2026-07-17T17:24:34.203Z"
     }
 },
 {
     "model": "parts.part",
     "pk": 27,
     "fields": {
-        "category": 4,
-        "name": "Ступичный подшипник Sachs 27",
-        "slug": "ступичный-подшипник-sachs-27-d8378200ef0d",
-        "original_number": "SAC-38790-3CB24",
-        "manufacturer": "Sachs",
-        "description": "Тестовая автомобильная запчасть Ступичный подшипник Sachs 27. Подходит для ремонта и технического обслуживания автомобиля.",
-        "seo_title": "Купить Ступичный подшипник Sachs 27 по OEM-номеру",
-        "seo_description": "Описание, совместимость и инструкции для запчасти Ступичный подшипник Sachs 27.",
-        "seo_keywords": "Ступичный подшипник, Sachs, SAC-38790-3CB24, автозапчасть",
-        "weight": "34.46",
+        "category": 24,
+        "name": "Ступичный подшипник Brembo 27",
+        "slug": "ступичный-подшипник-brembo-27-b05880e5d141",
+        "original_number": "BRE-25231-9D715",
+        "manufacturer": "Brembo",
+        "description": "Ступичный подшипник производителя Brembo. Перед покупкой необходимо сверить OEM-номер и параметры совместимости автомобиля.",
+        "seo_title": "Ступичный подшипник Brembo 27: характеристики и совместимость",
+        "seo_description": "OEM-номер, совместимость и инструкции для Ступичный подшипник Brembo 27.",
+        "seo_keywords": "Ступичный подшипник, Brembo, BRE-25231-9D715, автозапчасть",
+        "weight": "3.17",
         "dimensions": {
-            "length_mm": 471,
-            "width_mm": 37,
-            "height_mm": 318
+            "length_mm": 83,
+            "width_mm": 92,
+            "height_mm": 41
         },
         "is_active": true,
-        "created_at": "2026-07-12T20:10:16.822Z",
-        "updated_at": "2026-07-12T20:10:16.822Z"
+        "created_at": "2026-07-17T17:24:34.203Z",
+        "updated_at": "2026-07-17T17:24:34.203Z"
     }
 },
 {
     "model": "parts.part",
     "pk": 28,
     "fields": {
-        "category": 19,
-        "name": "Фара Sachs 28",
-        "slug": "фара-sachs-28-a121935be268",
-        "original_number": "SAC-91608-CDB5E",
-        "manufacturer": "Sachs",
-        "description": "Тестовая автомобильная запчасть Фара Sachs 28. Подходит для ремонта и технического обслуживания автомобиля.",
-        "seo_title": "Купить Фара Sachs 28 по OEM-номеру",
-        "seo_description": "Описание, совместимость и инструкции для запчасти Фара Sachs 28.",
-        "seo_keywords": "Фара, Sachs, SAC-91608-CDB5E, автозапчасть",
-        "weight": "25.51",
+        "category": 20,
+        "name": "Топливный насос Gates 28",
+        "slug": "топливный-насос-gates-28-afc1acfba338",
+        "original_number": "GAT-42678-5B330",
+        "manufacturer": "Gates",
+        "description": "Топливный насос производителя Gates. Перед покупкой необходимо сверить OEM-номер и параметры совместимости автомобиля.",
+        "seo_title": "Топливный насос Gates 28: характеристики и совместимость",
+        "seo_description": "OEM-номер, совместимость и инструкции для Топливный насос Gates 28.",
+        "seo_keywords": "Топливный насос, Gates, GAT-42678-5B330, автозапчасть",
+        "weight": "0.70",
         "dimensions": {
-            "length_mm": 689,
-            "width_mm": 477,
-            "height_mm": 167
+            "length_mm": 197,
+            "width_mm": 75,
+            "height_mm": 112
         },
         "is_active": true,
-        "created_at": "2026-07-12T20:10:16.822Z",
-        "updated_at": "2026-07-12T20:10:16.822Z"
+        "created_at": "2026-07-17T17:24:34.203Z",
+        "updated_at": "2026-07-17T17:24:34.203Z"
     }
 },
 {
     "model": "parts.part",
     "pk": 29,
     "fields": {
-        "category": 3,
-        "name": "Топливный насос NGK 29",
-        "slug": "топливный-насос-ngk-29-225fac08c32f",
-        "original_number": "NGK-49459-45084",
-        "manufacturer": "NGK",
-        "description": "Тестовая автомобильная запчасть Топливный насос NGK 29. Подходит для ремонта и технического обслуживания автомобиля.",
-        "seo_title": "Купить Топливный насос NGK 29 по OEM-номеру",
-        "seo_description": "Описание, совместимость и инструкции для запчасти Топливный насос NGK 29.",
-        "seo_keywords": "Топливный насос, NGK, NGK-49459-45084, автозапчасть",
-        "weight": "32.58",
+        "category": 22,
+        "name": "Задний фонарь Valeo 29",
+        "slug": "задний-фонарь-valeo-29-fc01d5bc9106",
+        "original_number": "VAL-13065-E0401",
+        "manufacturer": "Valeo",
+        "description": "Задний фонарь производителя Valeo. Перед покупкой необходимо сверить OEM-номер и параметры совместимости автомобиля.",
+        "seo_title": "Задний фонарь Valeo 29: характеристики и совместимость",
+        "seo_description": "OEM-номер, совместимость и инструкции для Задний фонарь Valeo 29.",
+        "seo_keywords": "Задний фонарь, Valeo, VAL-13065-E0401, автозапчасть",
+        "weight": "4.04",
         "dimensions": {
-            "length_mm": 138,
-            "width_mm": 174,
-            "height_mm": 397
+            "length_mm": 280,
+            "width_mm": 179,
+            "height_mm": 119
         },
-        "is_active": false,
-        "created_at": "2026-07-12T20:10:16.822Z",
-        "updated_at": "2026-07-12T20:10:16.822Z"
+        "is_active": true,
+        "created_at": "2026-07-17T17:24:34.204Z",
+        "updated_at": "2026-07-17T17:24:34.204Z"
     }
 },
 {
     "model": "parts.part",
     "pk": 30,
     "fields": {
-        "category": 21,
-        "name": "Ступичный подшипник Brembo 30",
-        "slug": "ступичный-подшипник-brembo-30-14e7992a36ce",
-        "original_number": "BRE-73964-A2358",
-        "manufacturer": "Brembo",
-        "description": "Тестовая автомобильная запчасть Ступичный подшипник Brembo 30. Подходит для ремонта и технического обслуживания автомобиля.",
-        "seo_title": "Купить Ступичный подшипник Brembo 30 по OEM-номеру",
-        "seo_description": "Описание, совместимость и инструкции для запчасти Ступичный подшипник Brembo 30.",
-        "seo_keywords": "Ступичный подшипник, Brembo, BRE-73964-A2358, автозапчасть",
-        "weight": "25.99",
+        "category": 3,
+        "name": "Термостат Febi 30",
+        "slug": "термостат-febi-30-555db17b6778",
+        "original_number": "FEB-97130-F97F9",
+        "manufacturer": "Febi",
+        "description": "Термостат производителя Febi. Перед покупкой необходимо сверить OEM-номер и параметры совместимости автомобиля.",
+        "seo_title": "Термостат Febi 30: характеристики и совместимость",
+        "seo_description": "OEM-номер, совместимость и инструкции для Термостат Febi 30.",
+        "seo_keywords": "Термостат, Febi, FEB-97130-F97F9, автозапчасть",
+        "weight": "0.58",
         "dimensions": {
-            "length_mm": 654,
-            "width_mm": 265,
-            "height_mm": 167
+            "length_mm": 40,
+            "width_mm": 76,
+            "height_mm": 57
         },
-        "is_active": false,
-        "created_at": "2026-07-12T20:10:16.822Z",
-        "updated_at": "2026-07-12T20:10:16.822Z"
+        "is_active": true,
+        "created_at": "2026-07-17T17:24:34.204Z",
+        "updated_at": "2026-07-17T17:24:34.204Z"
     }
 },
 {
     "model": "parts.part",
     "pk": 31,
     "fields": {
-        "category": 9,
-        "name": "Масляный фильтр SKF 31",
-        "slug": "масляный-фильтр-skf-31-1a87272c2e77",
-        "original_number": "SKF-32190-D1DF8",
-        "manufacturer": "SKF",
-        "description": "Тестовая автомобильная запчасть Масляный фильтр SKF 31. Подходит для ремонта и технического обслуживания автомобиля.",
-        "seo_title": "Купить Масляный фильтр SKF 31 по OEM-номеру",
-        "seo_description": "Описание, совместимость и инструкции для запчасти Масляный фильтр SKF 31.",
-        "seo_keywords": "Масляный фильтр, SKF, SKF-32190-D1DF8, автозапчасть",
-        "weight": "0.53",
+        "category": 1,
+        "name": "Стартер Mahle 31",
+        "slug": "стартер-mahle-31-51779ab70e0d",
+        "original_number": "MAH-59330-BAB38",
+        "manufacturer": "Mahle",
+        "description": "Стартер производителя Mahle. Перед покупкой необходимо сверить OEM-номер и параметры совместимости автомобиля.",
+        "seo_title": "Стартер Mahle 31: характеристики и совместимость",
+        "seo_description": "OEM-номер, совместимость и инструкции для Стартер Mahle 31.",
+        "seo_keywords": "Стартер, Mahle, MAH-59330-BAB38, автозапчасть",
+        "weight": "6.64",
         "dimensions": {
-            "length_mm": 704,
-            "width_mm": 268,
-            "height_mm": 387
+            "length_mm": 311,
+            "width_mm": 153,
+            "height_mm": 119
         },
-        "is_active": false,
-        "created_at": "2026-07-12T20:10:16.822Z",
-        "updated_at": "2026-07-12T20:10:16.822Z"
+        "is_active": true,
+        "created_at": "2026-07-17T17:24:34.204Z",
+        "updated_at": "2026-07-17T17:24:34.204Z"
     }
 },
 {
     "model": "parts.part",
     "pk": 32,
     "fields": {
-        "category": 20,
-        "name": "Водяной насос Mann-Filter 32",
-        "slug": "водяной-насос-mann-filter-32-489e60ef8125",
-        "original_number": "MAN-10717-01AAE",
-        "manufacturer": "Mann-Filter",
-        "description": "Тестовая автомобильная запчасть Водяной насос Mann-Filter 32. Подходит для ремонта и технического обслуживания автомобиля.",
-        "seo_title": "Купить Водяной насос Mann-Filter 32 по OEM-номеру",
-        "seo_description": "Описание, совместимость и инструкции для запчасти Водяной насос Mann-Filter 32.",
-        "seo_keywords": "Водяной насос, Mann-Filter, MAN-10717-01AAE, автозапчасть",
-        "weight": "48.66",
+        "category": 15,
+        "name": "Масляный фильтр Bosch 32",
+        "slug": "масляный-фильтр-bosch-32-4f213370231a",
+        "original_number": "BOS-12204-866D9",
+        "manufacturer": "Bosch",
+        "description": "Масляный фильтр производителя Bosch. Перед покупкой необходимо сверить OEM-номер и параметры совместимости автомобиля.",
+        "seo_title": "Масляный фильтр Bosch 32: характеристики и совместимость",
+        "seo_description": "OEM-номер, совместимость и инструкции для Масляный фильтр Bosch 32.",
+        "seo_keywords": "Масляный фильтр, Bosch, BOS-12204-866D9, автозапчасть",
+        "weight": "0.55",
         "dimensions": {
-            "length_mm": 566,
-            "width_mm": 313,
-            "height_mm": 231
+            "length_mm": 120,
+            "width_mm": 130,
+            "height_mm": 95
         },
         "is_active": true,
-        "created_at": "2026-07-12T20:10:16.823Z",
-        "updated_at": "2026-07-12T20:10:16.823Z"
+        "created_at": "2026-07-17T17:24:34.204Z",
+        "updated_at": "2026-07-17T17:24:34.204Z"
     }
 },
 {
     "model": "parts.part",
     "pk": 33,
     "fields": {
-        "category": 17,
-        "name": "Тормозной диск Bosch 33",
-        "slug": "тормозной-диск-bosch-33-adf0534e8520",
-        "original_number": "BOS-76789-4F551",
-        "manufacturer": "Bosch",
-        "description": "Тестовая автомобильная запчасть Тормозной диск Bosch 33. Подходит для ремонта и технического обслуживания автомобиля.",
-        "seo_title": "Купить Тормозной диск Bosch 33 по OEM-номеру",
-        "seo_description": "Описание, совместимость и инструкции для запчасти Тормозной диск Bosch 33.",
-        "seo_keywords": "Тормозной диск, Bosch, BOS-76789-4F551, автозапчасть",
-        "weight": "13.99",
+        "category": 4,
+        "name": "Амортизатор Mahle 33",
+        "slug": "амортизатор-mahle-33-981028cbbc5b",
+        "original_number": "MAH-15694-ECA92",
+        "manufacturer": "Mahle",
+        "description": "Амортизатор производителя Mahle. Перед покупкой необходимо сверить OEM-номер и параметры совместимости автомобиля.",
+        "seo_title": "Амортизатор Mahle 33: характеристики и совместимость",
+        "seo_description": "OEM-номер, совместимость и инструкции для Амортизатор Mahle 33.",
+        "seo_keywords": "Амортизатор, Mahle, MAH-15694-ECA92, автозапчасть",
+        "weight": "5.31",
         "dimensions": {
-            "length_mm": 192,
-            "width_mm": 409,
-            "height_mm": 23
+            "length_mm": 804,
+            "width_mm": 40,
+            "height_mm": 65
         },
-        "is_active": true,
-        "created_at": "2026-07-12T20:10:16.823Z",
-        "updated_at": "2026-07-12T20:10:16.823Z"
+        "is_active": false,
+        "created_at": "2026-07-17T17:24:34.205Z",
+        "updated_at": "2026-07-17T17:24:34.205Z"
     }
 },
 {
     "model": "parts.part",
     "pk": 34,
     "fields": {
-        "category": 8,
-        "name": "Топливный насос NGK 34",
-        "slug": "топливный-насос-ngk-34-d159a90ce77d",
-        "original_number": "NGK-61508-D61CF",
-        "manufacturer": "NGK",
-        "description": "Тестовая автомобильная запчасть Топливный насос NGK 34. Подходит для ремонта и технического обслуживания автомобиля.",
-        "seo_title": "Купить Топливный насос NGK 34 по OEM-номеру",
-        "seo_description": "Описание, совместимость и инструкции для запчасти Топливный насос NGK 34.",
-        "seo_keywords": "Топливный насос, NGK, NGK-61508-D61CF, автозапчасть",
-        "weight": "32.32",
+        "category": 21,
+        "name": "Свеча зажигания Gates 34",
+        "slug": "свеча-зажигания-gates-34-a23c88797eb4",
+        "original_number": "GAT-58817-0D303",
+        "manufacturer": "Gates",
+        "description": "Свеча зажигания производителя Gates. Перед покупкой необходимо сверить OEM-номер и параметры совместимости автомобиля.",
+        "seo_title": "Свеча зажигания Gates 34: характеристики и совместимость",
+        "seo_description": "OEM-номер, совместимость и инструкции для Свеча зажигания Gates 34.",
+        "seo_keywords": "Свеча зажигания, Gates, GAT-58817-0D303, автозапчасть",
+        "weight": "0.11",
         "dimensions": {
-            "length_mm": 279,
-            "width_mm": 72,
-            "height_mm": 26
+            "length_mm": 72,
+            "width_mm": 18,
+            "height_mm": 21
         },
         "is_active": true,
-        "created_at": "2026-07-12T20:10:16.823Z",
-        "updated_at": "2026-07-12T20:10:16.823Z"
+        "created_at": "2026-07-17T17:24:34.205Z",
+        "updated_at": "2026-07-17T17:24:34.205Z"
     }
 },
 {
     "model": "parts.part",
     "pk": 35,
     "fields": {
-        "category": 8,
-        "name": "Водяной насос Febi 35",
-        "slug": "водяной-насос-febi-35-552432a306c8",
-        "original_number": "FEB-28981-4CBD9",
-        "manufacturer": "Febi",
-        "description": "Тестовая автомобильная запчасть Водяной насос Febi 35. Подходит для ремонта и технического обслуживания автомобиля.",
-        "seo_title": "Купить Водяной насос Febi 35 по OEM-номеру",
-        "seo_description": "Описание, совместимость и инструкции для запчасти Водяной насос Febi 35.",
-        "seo_keywords": "Водяной насос, Febi, FEB-28981-4CBD9, автозапчасть",
-        "weight": "10.72",
+        "category": 2,
+        "name": "Датчик кислорода Bosch 35",
+        "slug": "датчик-кислорода-bosch-35-86c56ec1de44",
+        "original_number": "BOS-44109-25F48",
+        "manufacturer": "Bosch",
+        "description": "Датчик кислорода производителя Bosch. Перед покупкой необходимо сверить OEM-номер и параметры совместимости автомобиля.",
+        "seo_title": "Датчик кислорода Bosch 35: характеристики и совместимость",
+        "seo_description": "OEM-номер, совместимость и инструкции для Датчик кислорода Bosch 35.",
+        "seo_keywords": "Датчик кислорода, Bosch, BOS-44109-25F48, автозапчасть",
+        "weight": "0.28",
         "dimensions": {
-            "length_mm": 705,
-            "width_mm": 451,
-            "height_mm": 116
+            "length_mm": 91,
+            "width_mm": 25,
+            "height_mm": 46
         },
         "is_active": true,
-        "created_at": "2026-07-12T20:10:16.823Z",
-        "updated_at": "2026-07-12T20:10:16.823Z"
+        "created_at": "2026-07-17T17:24:34.205Z",
+        "updated_at": "2026-07-17T17:24:34.205Z"
     }
 },
 {
@@ -1069,169 +1069,241 @@
     "pk": 36,
     "fields": {
         "category": 24,
-        "name": "Топливный насос Gates 36",
-        "slug": "топливный-насос-gates-36-801d8e2fdf41",
-        "original_number": "GAT-19769-63D3B",
-        "manufacturer": "Gates",
-        "description": "Тестовая автомобильная запчасть Топливный насос Gates 36. Подходит для ремонта и технического обслуживания автомобиля.",
-        "seo_title": "Купить Топливный насос Gates 36 по OEM-номеру",
-        "seo_description": "Описание, совместимость и инструкции для запчасти Топливный насос Gates 36.",
-        "seo_keywords": "Топливный насос, Gates, GAT-19769-63D3B, автозапчасть",
-        "weight": "26.44",
+        "name": "Ступичный подшипник NGK 36",
+        "slug": "ступичный-подшипник-ngk-36-674897dd3a80",
+        "original_number": "NGK-96981-58FFA",
+        "manufacturer": "NGK",
+        "description": "Ступичный подшипник производителя NGK. Перед покупкой необходимо сверить OEM-номер и параметры совместимости автомобиля.",
+        "seo_title": "Ступичный подшипник NGK 36: характеристики и совместимость",
+        "seo_description": "OEM-номер, совместимость и инструкции для Ступичный подшипник NGK 36.",
+        "seo_keywords": "Ступичный подшипник, NGK, NGK-96981-58FFA, автозапчасть",
+        "weight": "2.65",
         "dimensions": {
-            "length_mm": 671,
-            "width_mm": 373,
-            "height_mm": 204
+            "length_mm": 180,
+            "width_mm": 57,
+            "height_mm": 81
         },
         "is_active": true,
-        "created_at": "2026-07-12T20:10:16.824Z",
-        "updated_at": "2026-07-12T20:10:16.824Z"
+        "created_at": "2026-07-17T17:24:34.205Z",
+        "updated_at": "2026-07-17T17:24:34.205Z"
     }
 },
 {
     "model": "parts.part",
     "pk": 37,
     "fields": {
-        "category": 9,
-        "name": "Шаровая опора Valeo 37",
-        "slug": "шаровая-опора-valeo-37-7ef40d808a08",
-        "original_number": "VAL-97612-EF6D5",
-        "manufacturer": "Valeo",
-        "description": "Тестовая автомобильная запчасть Шаровая опора Valeo 37. Подходит для ремонта и технического обслуживания автомобиля.",
-        "seo_title": "Купить Шаровая опора Valeo 37 по OEM-номеру",
-        "seo_description": "Описание, совместимость и инструкции для запчасти Шаровая опора Valeo 37.",
-        "seo_keywords": "Шаровая опора, Valeo, VAL-97612-EF6D5, автозапчасть",
-        "weight": "1.26",
+        "category": 21,
+        "name": "Катушка зажигания Mahle 37",
+        "slug": "катушка-зажигания-mahle-37-be3f1e1e45da",
+        "original_number": "MAH-12811-3CC10",
+        "manufacturer": "Mahle",
+        "description": "Катушка зажигания производителя Mahle. Перед покупкой необходимо сверить OEM-номер и параметры совместимости автомобиля.",
+        "seo_title": "Катушка зажигания Mahle 37: характеристики и совместимость",
+        "seo_description": "OEM-номер, совместимость и инструкции для Катушка зажигания Mahle 37.",
+        "seo_keywords": "Катушка зажигания, Mahle, MAH-12811-3CC10, автозапчасть",
+        "weight": "0.69",
         "dimensions": {
-            "length_mm": 232,
-            "width_mm": 60,
-            "height_mm": 69
+            "length_mm": 87,
+            "width_mm": 59,
+            "height_mm": 57
         },
         "is_active": true,
-        "created_at": "2026-07-12T20:10:16.824Z",
-        "updated_at": "2026-07-12T20:10:16.824Z"
+        "created_at": "2026-07-17T17:24:34.205Z",
+        "updated_at": "2026-07-17T17:24:34.205Z"
     }
 },
 {
     "model": "parts.part",
     "pk": 38,
     "fields": {
-        "category": 12,
-        "name": "Водяной насос Brembo 38",
-        "slug": "водяной-насос-brembo-38-70aa31aa06bf",
-        "original_number": "BRE-50935-B941C",
-        "manufacturer": "Brembo",
-        "description": "Тестовая автомобильная запчасть Водяной насос Brembo 38. Подходит для ремонта и технического обслуживания автомобиля.",
-        "seo_title": "Купить Водяной насос Brembo 38 по OEM-номеру",
-        "seo_description": "Описание, совместимость и инструкции для запчасти Водяной насос Brembo 38.",
-        "seo_keywords": "Водяной насос, Brembo, BRE-50935-B941C, автозапчасть",
-        "weight": "24.24",
+        "category": 7,
+        "name": "Ремень ГРМ Contitech 38",
+        "slug": "ремень-грм-contitech-38-e859530313f9",
+        "original_number": "CON-17123-782FB",
+        "manufacturer": "Contitech",
+        "description": "Ремень ГРМ производителя Contitech. Перед покупкой необходимо сверить OEM-номер и параметры совместимости автомобиля.",
+        "seo_title": "Ремень ГРМ Contitech 38: характеристики и совместимость",
+        "seo_description": "OEM-номер, совместимость и инструкции для Ремень ГРМ Contitech 38.",
+        "seo_keywords": "Ремень ГРМ, Contitech, CON-17123-782FB, автозапчасть",
+        "weight": "0.54",
         "dimensions": {
-            "length_mm": 785,
-            "width_mm": 377,
-            "height_mm": 93
+            "length_mm": 814,
+            "width_mm": 36,
+            "height_mm": 7
         },
         "is_active": true,
-        "created_at": "2026-07-12T20:10:16.824Z",
-        "updated_at": "2026-07-12T20:10:16.824Z"
+        "created_at": "2026-07-17T17:24:34.206Z",
+        "updated_at": "2026-07-17T17:24:34.206Z"
     }
 },
 {
     "model": "parts.part",
     "pk": 39,
     "fields": {
-        "category": 16,
-        "name": "Воздушный фильтр NGK 39",
-        "slug": "воздушный-фильтр-ngk-39-fda908e0dbc4",
-        "original_number": "NGK-15401-AA534",
-        "manufacturer": "NGK",
-        "description": "Тестовая автомобильная запчасть Воздушный фильтр NGK 39. Подходит для ремонта и технического обслуживания автомобиля.",
-        "seo_title": "Купить Воздушный фильтр NGK 39 по OEM-номеру",
-        "seo_description": "Описание, совместимость и инструкции для запчасти Воздушный фильтр NGK 39.",
-        "seo_keywords": "Воздушный фильтр, NGK, NGK-15401-AA534, автозапчасть",
-        "weight": "30.41",
+        "category": 21,
+        "name": "Свеча зажигания Mahle 39",
+        "slug": "свеча-зажигания-mahle-39-123a36d4be1b",
+        "original_number": "MAH-53548-96F8E",
+        "manufacturer": "Mahle",
+        "description": "Свеча зажигания производителя Mahle. Перед покупкой необходимо сверить OEM-номер и параметры совместимости автомобиля.",
+        "seo_title": "Свеча зажигания Mahle 39: характеристики и совместимость",
+        "seo_description": "OEM-номер, совместимость и инструкции для Свеча зажигания Mahle 39.",
+        "seo_keywords": "Свеча зажигания, Mahle, MAH-53548-96F8E, автозапчасть",
+        "weight": "0.10",
         "dimensions": {
-            "length_mm": 615,
-            "width_mm": 343,
-            "height_mm": 187
+            "length_mm": 72,
+            "width_mm": 25,
+            "height_mm": 22
         },
         "is_active": true,
-        "created_at": "2026-07-12T20:10:16.824Z",
-        "updated_at": "2026-07-12T20:10:16.824Z"
+        "created_at": "2026-07-17T17:24:34.206Z",
+        "updated_at": "2026-07-17T17:24:34.206Z"
     }
 },
 {
     "model": "parts.part",
     "pk": 40,
     "fields": {
-        "category": 20,
-        "name": "Термостат Bosch 40",
-        "slug": "термостат-bosch-40-0ae428c71be6",
-        "original_number": "BOS-51126-5CA48",
-        "manufacturer": "Bosch",
-        "description": "Тестовая автомобильная запчасть Термостат Bosch 40. Подходит для ремонта и технического обслуживания автомобиля.",
-        "seo_title": "Купить Термостат Bosch 40 по OEM-номеру",
-        "seo_description": "Описание, совместимость и инструкции для запчасти Термостат Bosch 40.",
-        "seo_keywords": "Термостат, Bosch, BOS-51126-5CA48, автозапчасть",
-        "weight": "0.16",
+        "category": 12,
+        "name": "Тормозной диск Mann-Filter 40",
+        "slug": "тормозной-диск-mann-filter-40-66f961e695ae",
+        "original_number": "MAN-98855-E0E8F",
+        "manufacturer": "Mann-Filter",
+        "description": "Тормозной диск производителя Mann-Filter. Перед покупкой необходимо сверить OEM-номер и параметры совместимости автомобиля.",
+        "seo_title": "Тормозной диск Mann-Filter 40: характеристики и совместимость",
+        "seo_description": "OEM-номер, совместимость и инструкции для Тормозной диск Mann-Filter 40.",
+        "seo_keywords": "Тормозной диск, Mann-Filter, MAN-98855-E0E8F, автозапчасть",
+        "weight": "9.57",
         "dimensions": {
-            "length_mm": 388,
-            "width_mm": 133,
-            "height_mm": 97
+            "length_mm": 380,
+            "width_mm": 242,
+            "height_mm": 80
         },
         "is_active": true,
-        "created_at": "2026-07-12T20:10:16.824Z",
-        "updated_at": "2026-07-12T20:10:16.824Z"
+        "created_at": "2026-07-17T17:24:34.206Z",
+        "updated_at": "2026-07-17T17:24:34.206Z"
     }
 },
 {
     "model": "parts.part",
     "pk": 41,
     "fields": {
-        "category": 18,
-        "name": "Шаровая опора Sachs 41",
-        "slug": "шаровая-опора-sachs-41-bd328f4ef114",
-        "original_number": "SAC-14811-D363B",
-        "manufacturer": "Sachs",
-        "description": "Тестовая автомобильная запчасть Шаровая опора Sachs 41. Подходит для ремонта и технического обслуживания автомобиля.",
-        "seo_title": "Купить Шаровая опора Sachs 41 по OEM-номеру",
-        "seo_description": "Описание, совместимость и инструкции для запчасти Шаровая опора Sachs 41.",
-        "seo_keywords": "Шаровая опора, Sachs, SAC-14811-D363B, автозапчасть",
-        "weight": "25.56",
+        "category": 1,
+        "name": "Генератор SKF 41",
+        "slug": "генератор-skf-41-ba6a403934aa",
+        "original_number": "SKF-95732-4C038",
+        "manufacturer": "SKF",
+        "description": "Генератор производителя SKF. Перед покупкой необходимо сверить OEM-номер и параметры совместимости автомобиля.",
+        "seo_title": "Генератор SKF 41: характеристики и совместимость",
+        "seo_description": "OEM-номер, совместимость и инструкции для Генератор SKF 41.",
+        "seo_keywords": "Генератор, SKF, SKF-95732-4C038, автозапчасть",
+        "weight": "6.44",
         "dimensions": {
-            "length_mm": 200,
-            "width_mm": 177,
-            "height_mm": 191
+            "length_mm": 195,
+            "width_mm": 153,
+            "height_mm": 140
         },
         "is_active": true,
-        "created_at": "2026-07-12T20:10:16.825Z",
-        "updated_at": "2026-07-12T20:10:16.825Z"
+        "created_at": "2026-07-17T17:24:34.206Z",
+        "updated_at": "2026-07-17T17:24:34.206Z"
+    }
+},
+{
+    "model": "parts.part",
+    "pk": 42,
+    "fields": {
+        "category": 1,
+        "name": "Генератор Mahle 42",
+        "slug": "генератор-mahle-42-5273e0c013f8",
+        "original_number": "MAH-62148-6649A",
+        "manufacturer": "Mahle",
+        "description": "Генератор производителя Mahle. Перед покупкой необходимо сверить OEM-номер и параметры совместимости автомобиля.",
+        "seo_title": "Генератор Mahle 42: характеристики и совместимость",
+        "seo_description": "OEM-номер, совместимость и инструкции для Генератор Mahle 42.",
+        "seo_keywords": "Генератор, Mahle, MAH-62148-6649A, автозапчасть",
+        "weight": "9.92",
+        "dimensions": {
+            "length_mm": 253,
+            "width_mm": 126,
+            "height_mm": 210
+        },
+        "is_active": true,
+        "created_at": "2026-07-17T17:24:34.206Z",
+        "updated_at": "2026-07-17T17:24:34.206Z"
+    }
+},
+{
+    "model": "parts.part",
+    "pk": 43,
+    "fields": {
+        "category": 3,
+        "name": "Радиатор Brembo 43",
+        "slug": "радиатор-brembo-43-aaf0749fdb94",
+        "original_number": "BRE-84516-10259",
+        "manufacturer": "Brembo",
+        "description": "Радиатор производителя Brembo. Перед покупкой необходимо сверить OEM-номер и параметры совместимости автомобиля.",
+        "seo_title": "Радиатор Brembo 43: характеристики и совместимость",
+        "seo_description": "OEM-номер, совместимость и инструкции для Радиатор Brembo 43.",
+        "seo_keywords": "Радиатор, Brembo, BRE-84516-10259, автозапчасть",
+        "weight": "5.91",
+        "dimensions": {
+            "length_mm": 376,
+            "width_mm": 377,
+            "height_mm": 63
+        },
+        "is_active": true,
+        "created_at": "2026-07-17T17:24:34.207Z",
+        "updated_at": "2026-07-17T17:24:34.207Z"
+    }
+},
+{
+    "model": "parts.part",
+    "pk": 44,
+    "fields": {
+        "category": 1,
+        "name": "Генератор Bosch 44",
+        "slug": "генератор-bosch-44-cd39e6793a92",
+        "original_number": "BOS-87836-35EC0",
+        "manufacturer": "Bosch",
+        "description": "Генератор производителя Bosch. Перед покупкой необходимо сверить OEM-номер и параметры совместимости автомобиля.",
+        "seo_title": "Генератор Bosch 44: характеристики и совместимость",
+        "seo_description": "OEM-номер, совместимость и инструкции для Генератор Bosch 44.",
+        "seo_keywords": "Генератор, Bosch, BOS-87836-35EC0, автозапчасть",
+        "weight": "4.27",
+        "dimensions": {
+            "length_mm": 202,
+            "width_mm": 180,
+            "height_mm": 213
+        },
+        "is_active": true,
+        "created_at": "2026-07-17T17:24:34.207Z",
+        "updated_at": "2026-07-17T17:24:34.207Z"
     }
 },
 {
     "model": "parts.oemnumber",
     "pk": 1,
     "fields": {
-        "part": 38,
-        "number": "OEM-SAC-234130-4731",
-        "manufacturer": "Sachs"
+        "part": 13,
+        "number": "OEM-MAN-384405-5609",
+        "manufacturer": "Mann-Filter"
     }
 },
 {
     "model": "parts.oemnumber",
     "pk": 2,
     "fields": {
-        "part": 32,
-        "number": "OEM-FEB-830968-FCA8",
-        "manufacturer": "Febi"
+        "part": 6,
+        "number": "OEM-BOS-304039-BFD4",
+        "manufacturer": "Bosch"
     }
 },
 {
     "model": "parts.oemnumber",
     "pk": 3,
     "fields": {
-        "part": 9,
-        "number": "OEM-MAH-137244-472A",
+        "part": 27,
+        "number": "OEM-MAH-371630-B549",
         "manufacturer": "Mahle"
     }
 },
@@ -1239,26 +1311,26 @@
     "model": "parts.oemnumber",
     "pk": 4,
     "fields": {
-        "part": 27,
-        "number": "OEM-FEB-728522-4BA0",
-        "manufacturer": "Febi"
+        "part": 34,
+        "number": "OEM-GAT-387770-B7F0",
+        "manufacturer": "Gates"
     }
 },
 {
     "model": "parts.oemnumber",
     "pk": 5,
     "fields": {
-        "part": 25,
-        "number": "OEM-BOS-121608-460C",
-        "manufacturer": "Bosch"
+        "part": 41,
+        "number": "OEM-GAT-840872-7285",
+        "manufacturer": "Gates"
     }
 },
 {
     "model": "parts.oemnumber",
     "pk": 6,
     "fields": {
-        "part": 39,
-        "number": "OEM-BRE-939986-D510",
+        "part": 4,
+        "number": "OEM-BRE-368679-67D2",
         "manufacturer": "Brembo"
     }
 },
@@ -1266,341 +1338,125 @@
     "model": "parts.oemnumber",
     "pk": 7,
     "fields": {
-        "part": 31,
-        "number": "OEM-SKF-920872-D6CF",
-        "manufacturer": "SKF"
+        "part": 23,
+        "number": "OEM-MAN-842039-EB40",
+        "manufacturer": "Mann-Filter"
     }
 },
 {
     "model": "parts.oemnumber",
     "pk": 8,
     "fields": {
-        "part": 4,
-        "number": "OEM-BOS-369044-082D",
-        "manufacturer": "Bosch"
+        "part": 15,
+        "number": "OEM-MAH-197530-1654",
+        "manufacturer": "Mahle"
     }
 },
 {
     "model": "parts.oemnumber",
     "pk": 9,
     "fields": {
-        "part": 3,
-        "number": "OEM-GAT-388603-4C08",
-        "manufacturer": "Gates"
+        "part": 5,
+        "number": "OEM-VAL-648394-34CB",
+        "manufacturer": "Valeo"
     }
 },
 {
     "model": "parts.oemnumber",
     "pk": 10,
     "fields": {
-        "part": 29,
-        "number": "OEM-GAT-301457-27FE",
-        "manufacturer": "Gates"
+        "part": 6,
+        "number": "OEM-VAL-257322-ADE3",
+        "manufacturer": "Valeo"
     }
 },
 {
     "model": "parts.oemnumber",
     "pk": 11,
     "fields": {
-        "part": 30,
-        "number": "OEM-SKF-608859-A422",
-        "manufacturer": "SKF"
+        "part": 18,
+        "number": "OEM-GAT-750434-D2B6",
+        "manufacturer": "Gates"
     }
 },
 {
     "model": "parts.oemnumber",
     "pk": 12,
     "fields": {
-        "part": 27,
-        "number": "OEM-BRE-273578-06A3",
-        "manufacturer": "Brembo"
+        "part": 41,
+        "number": "OEM-FEB-751934-F81E",
+        "manufacturer": "Febi"
     }
 },
 {
     "model": "parts.oemnumber",
     "pk": 13,
     "fields": {
-        "part": 26,
-        "number": "OEM-FEB-490018-85C2",
-        "manufacturer": "Febi"
-    }
-},
-{
-    "model": "parts.oemnumber",
-    "pk": 14,
-    "fields": {
-        "part": 36,
-        "number": "OEM-GAT-994649-6B9A",
-        "manufacturer": "Gates"
-    }
-},
-{
-    "model": "parts.oemnumber",
-    "pk": 15,
-    "fields": {
-        "part": 3,
-        "number": "OEM-SKF-620907-EBE1",
-        "manufacturer": "SKF"
-    }
-},
-{
-    "model": "parts.oemnumber",
-    "pk": 16,
-    "fields": {
-        "part": 1,
-        "number": "OEM-MAH-511797-1388",
-        "manufacturer": "Mahle"
-    }
-},
-{
-    "model": "parts.oemnumber",
-    "pk": 17,
-    "fields": {
-        "part": 24,
-        "number": "OEM-BRE-634287-3F0C",
-        "manufacturer": "Brembo"
-    }
-},
-{
-    "model": "parts.oemnumber",
-    "pk": 18,
-    "fields": {
         "part": 4,
-        "number": "OEM-MAH-782714-E194",
-        "manufacturer": "Mahle"
-    }
-},
-{
-    "model": "parts.oemnumber",
-    "pk": 19,
-    "fields": {
-        "part": 31,
-        "number": "OEM-BRE-848959-4FF1",
-        "manufacturer": "Brembo"
-    }
-},
-{
-    "model": "parts.oemnumber",
-    "pk": 20,
-    "fields": {
-        "part": 4,
-        "number": "OEM-FEB-658224-7753",
-        "manufacturer": "Febi"
-    }
-},
-{
-    "model": "parts.oemnumber",
-    "pk": 21,
-    "fields": {
-        "part": 4,
-        "number": "OEM-FEB-252434-5595",
-        "manufacturer": "Febi"
-    }
-},
-{
-    "model": "parts.oemnumber",
-    "pk": 22,
-    "fields": {
-        "part": 31,
-        "number": "OEM-GAT-864649-8671",
-        "manufacturer": "Gates"
-    }
-},
-{
-    "model": "parts.oemnumber",
-    "pk": 23,
-    "fields": {
-        "part": 38,
-        "number": "OEM-SKF-839697-4698",
-        "manufacturer": "SKF"
-    }
-},
-{
-    "model": "parts.oemnumber",
-    "pk": 24,
-    "fields": {
-        "part": 34,
-        "number": "OEM-VAL-678666-5990",
-        "manufacturer": "Valeo"
-    }
-},
-{
-    "model": "parts.oemnumber",
-    "pk": 25,
-    "fields": {
-        "part": 37,
-        "number": "OEM-BRE-307587-D0D3",
-        "manufacturer": "Brembo"
-    }
-},
-{
-    "model": "parts.oemnumber",
-    "pk": 26,
-    "fields": {
-        "part": 28,
-        "number": "OEM-MAN-639586-C9AE",
-        "manufacturer": "Mann-Filter"
-    }
-},
-{
-    "model": "parts.oemnumber",
-    "pk": 27,
-    "fields": {
-        "part": 16,
-        "number": "OEM-NGK-390364-5BBB",
+        "number": "OEM-NGK-512451-498C",
         "manufacturer": "NGK"
     }
 },
 {
     "model": "parts.oemnumber",
-    "pk": 28,
+    "pk": 14,
     "fields": {
-        "part": 13,
-        "number": "OEM-VAL-930256-2C3A",
+        "part": 5,
+        "number": "OEM-NGK-867934-903A",
+        "manufacturer": "NGK"
+    }
+},
+{
+    "model": "parts.oemnumber",
+    "pk": 15,
+    "fields": {
+        "part": 23,
+        "number": "OEM-VAL-676037-BE15",
         "manufacturer": "Valeo"
     }
 },
 {
     "model": "parts.oemnumber",
-    "pk": 29,
+    "pk": 16,
     "fields": {
         "part": 36,
-        "number": "OEM-VAL-708770-5043",
-        "manufacturer": "Valeo"
-    }
-},
-{
-    "model": "parts.oemnumber",
-    "pk": 30,
-    "fields": {
-        "part": 2,
-        "number": "OEM-GAT-330646-1FE3",
-        "manufacturer": "Gates"
-    }
-},
-{
-    "model": "parts.oemnumber",
-    "pk": 31,
-    "fields": {
-        "part": 19,
-        "number": "OEM-FEB-262688-B519",
-        "manufacturer": "Febi"
-    }
-},
-{
-    "model": "parts.oemnumber",
-    "pk": 32,
-    "fields": {
-        "part": 38,
-        "number": "OEM-MAN-382214-E6EF",
-        "manufacturer": "Mann-Filter"
-    }
-},
-{
-    "model": "parts.oemnumber",
-    "pk": 33,
-    "fields": {
-        "part": 13,
-        "number": "OEM-DEN-101852-B10A",
-        "manufacturer": "Denso"
-    }
-},
-{
-    "model": "parts.oemnumber",
-    "pk": 34,
-    "fields": {
-        "part": 7,
-        "number": "OEM-DEN-487929-B381",
-        "manufacturer": "Denso"
-    }
-},
-{
-    "model": "parts.oemnumber",
-    "pk": 35,
-    "fields": {
-        "part": 26,
-        "number": "OEM-VAL-490954-336D",
-        "manufacturer": "Valeo"
-    }
-},
-{
-    "model": "parts.oemnumber",
-    "pk": 36,
-    "fields": {
-        "part": 10,
-        "number": "OEM-SKF-894699-CA32",
-        "manufacturer": "SKF"
-    }
-},
-{
-    "model": "parts.oemnumber",
-    "pk": 37,
-    "fields": {
-        "part": 34,
-        "number": "OEM-FEB-955415-B601",
-        "manufacturer": "Febi"
-    }
-},
-{
-    "model": "parts.oemnumber",
-    "pk": 38,
-    "fields": {
-        "part": 12,
-        "number": "OEM-VAL-291183-51A2",
-        "manufacturer": "Valeo"
-    }
-},
-{
-    "model": "parts.oemnumber",
-    "pk": 39,
-    "fields": {
-        "part": 40,
-        "number": "OEM-BRE-451450-ECED",
+        "number": "OEM-BRE-801125-47E9",
         "manufacturer": "Brembo"
     }
 },
 {
     "model": "parts.oemnumber",
-    "pk": 40,
+    "pk": 17,
     "fields": {
-        "part": 40,
-        "number": "OEM-GAT-456672-1AF0",
-        "manufacturer": "Gates"
+        "part": 37,
+        "number": "OEM-MAN-548584-2D3A",
+        "manufacturer": "Mann-Filter"
     }
 },
 {
     "model": "parts.oemnumber",
-    "pk": 41,
+    "pk": 18,
     "fields": {
-        "part": 33,
-        "number": "OEM-GAT-749297-46F5",
-        "manufacturer": "Gates"
+        "part": 5,
+        "number": "OEM-BRE-862057-613C",
+        "manufacturer": "Brembo"
     }
 },
 {
     "model": "parts.oemnumber",
-    "pk": 42,
+    "pk": 19,
     "fields": {
-        "part": 16,
-        "number": "OEM-GAT-895803-2E0F",
-        "manufacturer": "Gates"
+        "part": 29,
+        "number": "OEM-NGK-153635-68F0",
+        "manufacturer": "NGK"
     }
 },
 {
     "model": "parts.oemnumber",
-    "pk": 43,
+    "pk": 20,
     "fields": {
-        "part": 21,
-        "number": "OEM-SKF-321605-BCCB",
-        "manufacturer": "SKF"
-    }
-},
-{
-    "model": "parts.oemnumber",
-    "pk": 44,
-    "fields": {
-        "part": 16,
-        "number": "OEM-FEB-111437-E156",
+        "part": 37,
+        "number": "OEM-FEB-147681-43F1",
         "manufacturer": "Febi"
     }
 },
@@ -1608,129 +1464,129 @@
     "model": "parts.compatibility",
     "pk": 1,
     "fields": {
-        "part": 32,
-        "brand": "Skoda",
-        "model": "Kodiaq",
-        "generation": "II",
-        "engine": "1.6 бензин",
-        "year_from": 2001,
-        "year_to": 2025
+        "part": 1,
+        "brand": "Renault",
+        "model": "Clio",
+        "generation": "W213",
+        "engine": "2.2 дизель",
+        "year_from": 2013,
+        "year_to": 2015
     }
 },
 {
     "model": "parts.compatibility",
     "pk": 2,
     "fields": {
-        "part": 5,
-        "brand": "Mercedes-Benz",
-        "model": "GLE",
-        "generation": "F10",
-        "engine": "1.5 дизель",
-        "year_from": 2009,
-        "year_to": 2021
+        "part": 10,
+        "brand": "Skoda",
+        "model": "Octavia",
+        "generation": "V",
+        "engine": "1.6 дизель",
+        "year_from": 2022,
+        "year_to": 2024
     }
 },
 {
     "model": "parts.compatibility",
     "pk": 3,
     "fields": {
-        "part": 22,
-        "brand": "Ford",
-        "model": "Fiesta",
-        "generation": "V",
+        "part": 23,
+        "brand": "BMW",
+        "model": "5 Series",
+        "generation": "E90",
         "engine": "2.5 бензин",
-        "year_from": 2017,
-        "year_to": 2024
+        "year_from": 2014,
+        "year_to": 2014
     }
 },
 {
     "model": "parts.compatibility",
     "pk": 4,
     "fields": {
-        "part": 24,
+        "part": 43,
         "brand": "Honda",
-        "model": "Accord",
-        "generation": "II",
+        "model": "Civic",
+        "generation": "I",
         "engine": "2.2 дизель",
-        "year_from": 2019,
-        "year_to": 2020
+        "year_from": 1997,
+        "year_to": 2015
     }
 },
 {
     "model": "parts.compatibility",
     "pk": 5,
     "fields": {
-        "part": 25,
-        "brand": "Skoda",
-        "model": "Superb",
-        "generation": "F10",
-        "engine": "Гибрид",
-        "year_from": 2000,
-        "year_to": 2016
+        "part": 38,
+        "brand": "Audi",
+        "model": "Q5",
+        "generation": "V",
+        "engine": "1.6 дизель",
+        "year_from": 1998,
+        "year_to": 1999
     }
 },
 {
     "model": "parts.compatibility",
     "pk": 6,
     "fields": {
-        "part": 5,
-        "brand": "BMW",
-        "model": "X3",
-        "generation": "I",
-        "engine": "1.2 бензин",
-        "year_from": 2011,
-        "year_to": 2014
+        "part": 24,
+        "brand": "Volvo",
+        "model": "S90",
+        "generation": "W204",
+        "engine": "2.0 дизель",
+        "year_from": 2010,
+        "year_to": 2017
     }
 },
 {
     "model": "parts.compatibility",
     "pk": 7,
     "fields": {
-        "part": 38,
-        "brand": "Volkswagen",
-        "model": "Polo",
-        "generation": "IV",
-        "engine": "2.0 дизель",
-        "year_from": 2019,
-        "year_to": 2022
+        "part": 15,
+        "brand": "Skoda",
+        "model": "Kodiaq",
+        "generation": "III",
+        "engine": "2.0 бензин",
+        "year_from": 1995,
+        "year_to": 1997
     }
 },
 {
     "model": "parts.compatibility",
     "pk": 8,
     "fields": {
-        "part": 15,
-        "brand": "BMW",
-        "model": "X3",
-        "generation": "Mk3",
-        "engine": "2.2 дизель",
-        "year_from": 2009,
-        "year_to": 2017
+        "part": 5,
+        "brand": "Toyota",
+        "model": "Corolla",
+        "generation": "I",
+        "engine": "2.0 бензин",
+        "year_from": 2019,
+        "year_to": 2025
     }
 },
 {
     "model": "parts.compatibility",
     "pk": 9,
     "fields": {
-        "part": 36,
-        "brand": "Toyota",
-        "model": "Camry",
-        "generation": "I",
-        "engine": "1.6 дизель",
-        "year_from": 2014,
-        "year_to": 2016
+        "part": 2,
+        "brand": "Volvo",
+        "model": "S60",
+        "generation": "V",
+        "engine": "2.2 дизель",
+        "year_from": 2009,
+        "year_to": 2021
     }
 },
 {
     "model": "parts.compatibility",
     "pk": 10,
     "fields": {
-        "part": 25,
-        "brand": "Ford",
-        "model": "Focus",
-        "generation": "IV",
-        "engine": "2.2 дизель",
-        "year_from": 1999,
+        "part": 9,
+        "brand": "BMW",
+        "model": "X5",
+        "generation": "F10",
+        "engine": "2.5 бензин",
+        "year_from": 2018,
         "year_to": 2020
     }
 },
@@ -1738,77 +1594,77 @@
     "model": "parts.compatibility",
     "pk": 11,
     "fields": {
-        "part": 20,
-        "brand": "Peugeot",
-        "model": "5008",
-        "generation": "Mk3",
-        "engine": "1.5 дизель",
-        "year_from": 2005,
-        "year_to": 2011
+        "part": 32,
+        "brand": "Honda",
+        "model": "Jazz",
+        "generation": "W204",
+        "engine": "1.6 бензин",
+        "year_from": 2003,
+        "year_to": 2014
     }
 },
 {
     "model": "parts.compatibility",
     "pk": 12,
     "fields": {
-        "part": 23,
-        "brand": "Audi",
-        "model": "A6",
-        "generation": "I",
-        "engine": "1.2 бензин",
-        "year_from": 2007,
-        "year_to": 2008
+        "part": 3,
+        "brand": "Honda",
+        "model": "CR-V",
+        "generation": "F10",
+        "engine": "1.5 дизель",
+        "year_from": 2017,
+        "year_to": 2017
     }
 },
 {
     "model": "parts.compatibility",
     "pk": 13,
     "fields": {
-        "part": 10,
-        "brand": "Skoda",
-        "model": "Superb",
-        "generation": "VI",
-        "engine": "2.0 бензин",
-        "year_from": 2004,
-        "year_to": 2010
+        "part": 5,
+        "brand": "Volvo",
+        "model": "XC60",
+        "generation": "E90",
+        "engine": "2.5 бензин",
+        "year_from": 2017,
+        "year_to": 2024
     }
 },
 {
     "model": "parts.compatibility",
     "pk": 14,
     "fields": {
-        "part": 20,
-        "brand": "Volkswagen",
-        "model": "Polo",
-        "generation": "W213",
+        "part": 29,
+        "brand": "Honda",
+        "model": "Accord",
+        "generation": "III",
         "engine": "1.2 бензин",
-        "year_from": 2005,
-        "year_to": 2024
+        "year_from": 1998,
+        "year_to": 2000
     }
 },
 {
     "model": "parts.compatibility",
     "pk": 15,
     "fields": {
-        "part": 16,
-        "brand": "Nissan",
-        "model": "X-Trail",
-        "generation": "IV",
-        "engine": "1.5 дизель",
-        "year_from": 1997,
-        "year_to": 2024
+        "part": 36,
+        "brand": "Peugeot",
+        "model": "208",
+        "generation": "Mk2",
+        "engine": "1.6 бензин",
+        "year_from": 2001,
+        "year_to": 2017
     }
 },
 {
     "model": "parts.compatibility",
     "pk": 16,
     "fields": {
-        "part": 26,
-        "brand": "Audi",
-        "model": "A3",
-        "generation": "II",
-        "engine": "2.0 дизель",
-        "year_from": 2006,
+        "part": 16,
+        "brand": "Renault",
+        "model": "Megane",
+        "generation": "I",
+        "engine": "2.2 дизель",
+        "year_from": 2015,
         "year_to": 2022
     }
 },
@@ -1816,511 +1672,316 @@
     "model": "parts.compatibility",
     "pk": 17,
     "fields": {
-        "part": 38,
-        "brand": "Volvo",
-        "model": "XC90",
-        "generation": "F30",
-        "engine": "2.5 бензин",
-        "year_from": 2014,
-        "year_to": 2016
+        "part": 22,
+        "brand": "Renault",
+        "model": "Duster",
+        "generation": "Mk1",
+        "engine": "1.4 бензин",
+        "year_from": 2022,
+        "year_to": 2024
     }
 },
 {
     "model": "parts.compatibility",
     "pk": 18,
     "fields": {
-        "part": 30,
-        "brand": "Volvo",
-        "model": "XC60",
-        "generation": "F10",
-        "engine": "1.2 бензин",
-        "year_from": 1998,
-        "year_to": 2007
+        "part": 6,
+        "brand": "BMW",
+        "model": "3 Series",
+        "generation": "I",
+        "engine": "1.4 бензин",
+        "year_from": 2002,
+        "year_to": 2005
     }
 },
 {
     "model": "parts.compatibility",
     "pk": 19,
     "fields": {
-        "part": 35,
-        "brand": "Nissan",
-        "model": "Juke",
-        "generation": "VI",
-        "engine": "2.5 бензин",
-        "year_from": 2000,
-        "year_to": 2016
+        "part": 36,
+        "brand": "Volkswagen",
+        "model": "Passat",
+        "generation": "Mk3",
+        "engine": "1.6 бензин",
+        "year_from": 2012,
+        "year_to": 2015
     }
 },
 {
     "model": "parts.compatibility",
     "pk": 20,
     "fields": {
-        "part": 30,
-        "brand": "Skoda",
-        "model": "Fabia",
-        "generation": "W204",
-        "engine": "1.5 дизель",
-        "year_from": 2017,
-        "year_to": 2022
-    }
-},
-{
-    "model": "parts.compatibility",
-    "pk": 21,
-    "fields": {
-        "part": 25,
-        "brand": "Renault",
-        "model": "Duster",
-        "generation": "W213",
-        "engine": "1.5 дизель",
-        "year_from": 2014,
-        "year_to": 2024
-    }
-},
-{
-    "model": "parts.compatibility",
-    "pk": 22,
-    "fields": {
-        "part": 22,
-        "brand": "Volkswagen",
-        "model": "Golf",
-        "generation": "Mk3",
-        "engine": "1.4 бензин",
-        "year_from": 2007,
-        "year_to": 2015
-    }
-},
-{
-    "model": "parts.compatibility",
-    "pk": 23,
-    "fields": {
-        "part": 7,
+        "part": 40,
         "brand": "Audi",
         "model": "Q5",
-        "generation": "W213",
-        "engine": "1.4 бензин",
-        "year_from": 2019,
-        "year_to": 2025
-    }
-},
-{
-    "model": "parts.compatibility",
-    "pk": 24,
-    "fields": {
-        "part": 19,
-        "brand": "Peugeot",
-        "model": "3008",
-        "generation": "W204",
-        "engine": "Электрический",
-        "year_from": 2016,
-        "year_to": 2022
-    }
-},
-{
-    "model": "parts.compatibility",
-    "pk": 25,
-    "fields": {
-        "part": 19,
-        "brand": "Nissan",
-        "model": "X-Trail",
-        "generation": "W213",
-        "engine": "1.6 бензин",
-        "year_from": 2016,
-        "year_to": 2025
-    }
-},
-{
-    "model": "parts.compatibility",
-    "pk": 26,
-    "fields": {
-        "part": 8,
-        "brand": "Volkswagen",
-        "model": "Tiguan",
-        "generation": "W204",
-        "engine": "2.0 бензин",
-        "year_from": 2022,
-        "year_to": 2023
-    }
-},
-{
-    "model": "parts.compatibility",
-    "pk": 27,
-    "fields": {
-        "part": 14,
-        "brand": "Volvo",
-        "model": "S90",
         "generation": "E90",
         "engine": "1.4 бензин",
-        "year_from": 2012,
-        "year_to": 2021
-    }
-},
-{
-    "model": "parts.compatibility",
-    "pk": 28,
-    "fields": {
-        "part": 29,
-        "brand": "Skoda",
-        "model": "Fabia",
-        "generation": "VI",
-        "engine": "1.5 дизель",
-        "year_from": 2000,
-        "year_to": 2011
-    }
-},
-{
-    "model": "parts.compatibility",
-    "pk": 29,
-    "fields": {
-        "part": 10,
-        "brand": "Audi",
-        "model": "Q5",
-        "generation": "VI",
-        "engine": "2.5 бензин",
-        "year_from": 2007,
-        "year_to": 2009
-    }
-},
-{
-    "model": "parts.compatibility",
-    "pk": 30,
-    "fields": {
-        "part": 38,
-        "brand": "Volkswagen",
-        "model": "Passat",
-        "generation": "IV",
-        "engine": "1.6 бензин",
-        "year_from": 2021,
-        "year_to": 2025
-    }
-},
-{
-    "model": "parts.compatibility",
-    "pk": 31,
-    "fields": {
-        "part": 23,
-        "brand": "BMW",
-        "model": "3 Series",
-        "generation": "F10",
-        "engine": "2.2 дизель",
         "year_from": 1999,
         "year_to": 2003
     }
 },
 {
     "model": "parts.compatibility",
-    "pk": 32,
+    "pk": 21,
     "fields": {
-        "part": 12,
-        "brand": "Ford",
-        "model": "Fiesta",
-        "generation": "E90",
-        "engine": "2.2 дизель",
-        "year_from": 2018,
+        "part": 20,
+        "brand": "BMW",
+        "model": "3 Series",
+        "generation": "VI",
+        "engine": "1.4 бензин",
+        "year_from": 2004,
+        "year_to": 2013
+    }
+},
+{
+    "model": "parts.compatibility",
+    "pk": 22,
+    "fields": {
+        "part": 3,
+        "brand": "Toyota",
+        "model": "Corolla",
+        "generation": "II",
+        "engine": "1.2 бензин",
+        "year_from": 2006,
+        "year_to": 2019
+    }
+},
+{
+    "model": "parts.compatibility",
+    "pk": 23,
+    "fields": {
+        "part": 2,
+        "brand": "Volkswagen",
+        "model": "Tiguan",
+        "generation": "W204",
+        "engine": "1.4 бензин",
+        "year_from": 2022,
         "year_to": 2023
     }
 },
 {
     "model": "parts.compatibility",
-    "pk": 33,
+    "pk": 24,
     "fields": {
-        "part": 39,
-        "brand": "Volvo",
-        "model": "S90",
-        "generation": "V",
-        "engine": "1.4 бензин",
-        "year_from": 2013,
+        "part": 41,
+        "brand": "BMW",
+        "model": "3 Series",
+        "generation": "I",
+        "engine": "2.2 дизель",
+        "year_from": 2007,
+        "year_to": 2012
+    }
+},
+{
+    "model": "parts.compatibility",
+    "pk": 25,
+    "fields": {
+        "part": 27,
+        "brand": "Ford",
+        "model": "Kuga",
+        "generation": "Mk1",
+        "engine": "1.5 дизель",
+        "year_from": 2004,
         "year_to": 2018
     }
 },
 {
     "model": "parts.compatibility",
-    "pk": 34,
+    "pk": 26,
     "fields": {
-        "part": 31,
-        "brand": "Renault",
-        "model": "Captur",
-        "generation": "E90",
-        "engine": "1.6 дизель",
-        "year_from": 2001,
-        "year_to": 2005
-    }
-},
-{
-    "model": "parts.compatibility",
-    "pk": 35,
-    "fields": {
-        "part": 19,
-        "brand": "Peugeot",
-        "model": "5008",
-        "generation": "Mk1",
-        "engine": "1.4 бензин",
-        "year_from": 2010,
+        "part": 42,
+        "brand": "Volvo",
+        "model": "S90",
+        "generation": "III",
+        "engine": "Электрический",
+        "year_from": 2009,
         "year_to": 2010
     }
 },
 {
     "model": "parts.compatibility",
-    "pk": 36,
+    "pk": 27,
     "fields": {
-        "part": 23,
+        "part": 21,
         "brand": "Audi",
-        "model": "A4",
-        "generation": "Mk3",
-        "engine": "2.0 бензин",
-        "year_from": 2018,
-        "year_to": 2023
+        "model": "Q5",
+        "generation": "Mk1",
+        "engine": "1.2 бензин",
+        "year_from": 2002,
+        "year_to": 2018
     }
 },
 {
     "model": "parts.compatibility",
-    "pk": 37,
+    "pk": 28,
     "fields": {
-        "part": 5,
+        "part": 27,
+        "brand": "Volkswagen",
+        "model": "Polo",
+        "generation": "Mk1",
+        "engine": "2.5 бензин",
+        "year_from": 2010,
+        "year_to": 2020
+    }
+},
+{
+    "model": "parts.compatibility",
+    "pk": 29,
+    "fields": {
+        "part": 44,
+        "brand": "Volkswagen",
+        "model": "Passat",
+        "generation": "Mk1",
+        "engine": "2.0 бензин",
+        "year_from": 2004,
+        "year_to": 2012
+    }
+},
+{
+    "model": "parts.compatibility",
+    "pk": 30,
+    "fields": {
+        "part": 40,
         "brand": "Peugeot",
         "model": "308",
-        "generation": "W213",
-        "engine": "Электрический",
-        "year_from": 2015,
-        "year_to": 2023
-    }
-},
-{
-    "model": "parts.compatibility",
-    "pk": 38,
-    "fields": {
-        "part": 32,
-        "brand": "Nissan",
-        "model": "X-Trail",
-        "generation": "V",
+        "generation": "F30",
         "engine": "2.0 дизель",
-        "year_from": 2019,
-        "year_to": 2024
+        "year_from": 2011,
+        "year_to": 2021
     }
 },
 {
     "model": "parts.compatibility",
-    "pk": 39,
+    "pk": 31,
     "fields": {
-        "part": 25,
+        "part": 35,
         "brand": "BMW",
         "model": "5 Series",
         "generation": "IV",
-        "engine": "2.2 дизель",
-        "year_from": 1998,
-        "year_to": 2009
-    }
-},
-{
-    "model": "parts.compatibility",
-    "pk": 40,
-    "fields": {
-        "part": 37,
-        "brand": "Toyota",
-        "model": "Camry",
-        "generation": "Mk3",
-        "engine": "1.6 бензин",
-        "year_from": 1999,
-        "year_to": 2006
-    }
-},
-{
-    "model": "parts.compatibility",
-    "pk": 41,
-    "fields": {
-        "part": 31,
-        "brand": "Volkswagen",
-        "model": "Tiguan",
-        "generation": "F30",
-        "engine": "Электрический",
-        "year_from": 2002,
-        "year_to": 2024
-    }
-},
-{
-    "model": "parts.compatibility",
-    "pk": 42,
-    "fields": {
-        "part": 14,
-        "brand": "Toyota",
-        "model": "Yaris",
-        "generation": "II",
-        "engine": "1.6 бензин",
-        "year_from": 2007,
-        "year_to": 2008
-    }
-},
-{
-    "model": "parts.compatibility",
-    "pk": 43,
-    "fields": {
-        "part": 29,
-        "brand": "Peugeot",
-        "model": "5008",
-        "generation": "IV",
-        "engine": "2.0 бензин",
-        "year_from": 1996,
-        "year_to": 2005
-    }
-},
-{
-    "model": "parts.compatibility",
-    "pk": 44,
-    "fields": {
-        "part": 1,
-        "brand": "Nissan",
-        "model": "Qashqai",
-        "generation": "F30",
-        "engine": "2.0 бензин",
-        "year_from": 2020,
-        "year_to": 2025
-    }
-},
-{
-    "model": "parts.compatibility",
-    "pk": 45,
-    "fields": {
-        "part": 30,
-        "brand": "Nissan",
-        "model": "Micra",
-        "generation": "IV",
-        "engine": "Электрический",
-        "year_from": 2010,
-        "year_to": 2023
-    }
-},
-{
-    "model": "parts.compatibility",
-    "pk": 46,
-    "fields": {
-        "part": 35,
-        "brand": "Toyota",
-        "model": "Corolla",
-        "generation": "Mk1",
-        "engine": "Гибрид",
-        "year_from": 1995,
-        "year_to": 2021
+        "engine": "1.4 бензин",
+        "year_from": 2021,
+        "year_to": 2022
     }
 },
 {
     "model": "parts.partimage",
     "pk": 1,
     "fields": {
-        "part": 6,
-        "image": "parts/images/part_6_d38604c303fd.png",
-        "alt_text": "Изображение запчасти Термостат Sachs 6",
+        "part": 22,
+        "image": "parts/images/part_22_73d113df51bd.png",
+        "alt_text": "Изображение запчасти Радиатор Mahle 22",
         "is_main": true,
-        "uploaded_at": "2026-07-12T20:10:16.852Z"
+        "uploaded_at": "2026-07-17T17:24:34.229Z"
     }
 },
 {
     "model": "parts.partimage",
     "pk": 2,
     "fields": {
-        "part": 28,
-        "image": "parts/images/part_28_d1c5481c634a.png",
-        "alt_text": "Изображение запчасти Фара Sachs 28",
+        "part": 6,
+        "image": "parts/images/part_6_671de3b5ec81.png",
+        "alt_text": "Изображение запчасти Топливный насос Denso 6",
         "is_main": true,
-        "uploaded_at": "2026-07-12T20:10:16.857Z"
+        "uploaded_at": "2026-07-17T17:24:34.235Z"
     }
 },
 {
     "model": "parts.partimage",
     "pk": 3,
     "fields": {
-        "part": 33,
-        "image": "parts/images/part_33_6643af8c3d26.png",
-        "alt_text": "Изображение запчасти Тормозной диск Bosch 33",
+        "part": 5,
+        "image": "parts/images/part_5_184e4fea290f.png",
+        "alt_text": "Изображение запчасти Масляный фильтр Mann-Filter 5",
         "is_main": true,
-        "uploaded_at": "2026-07-12T20:10:16.863Z"
+        "uploaded_at": "2026-07-17T17:24:34.241Z"
     }
 },
 {
     "model": "parts.partimage",
     "pk": 4,
     "fields": {
-        "part": 23,
-        "image": "parts/images/part_23_ae3a9a25369d.png",
-        "alt_text": "Изображение запчасти Свеча зажигания Mann-Filter 23",
+        "part": 25,
+        "image": "parts/images/part_25_88859ceaf39e.png",
+        "alt_text": "Изображение запчасти Тормозной диск Mahle 25",
         "is_main": true,
-        "uploaded_at": "2026-07-12T20:10:16.868Z"
+        "uploaded_at": "2026-07-17T17:24:34.246Z"
     }
 },
 {
     "model": "parts.partimage",
     "pk": 5,
     "fields": {
-        "part": 25,
-        "image": "parts/images/part_25_a94c518c15f1.png",
-        "alt_text": "Изображение запчасти Воздушный фильтр Brembo 25",
+        "part": 13,
+        "image": "parts/images/part_13_661ce991809a.png",
+        "alt_text": "Изображение запчасти Водяной насос NGK 13",
         "is_main": true,
-        "uploaded_at": "2026-07-12T20:10:16.874Z"
+        "uploaded_at": "2026-07-17T17:24:34.251Z"
     }
 },
 {
     "model": "parts.partimage",
     "pk": 6,
     "fields": {
-        "part": 7,
-        "image": "parts/images/part_7_65355d2efb71.png",
-        "alt_text": "Изображение запчасти Топливный насос Sachs 7",
+        "part": 11,
+        "image": "parts/images/part_11_d00053c19900.png",
+        "alt_text": "Изображение запчасти Амортизатор NGK 11",
         "is_main": true,
-        "uploaded_at": "2026-07-12T20:10:16.879Z"
+        "uploaded_at": "2026-07-17T17:24:34.257Z"
     }
 },
 {
     "model": "parts.partimage",
     "pk": 7,
     "fields": {
-        "part": 11,
-        "image": "parts/images/part_11_6fb1b61e7481.png",
-        "alt_text": "Изображение запчасти Свеча зажигания Sachs 11",
+        "part": 3,
+        "image": "parts/images/part_3_f6bc757bc4c0.png",
+        "alt_text": "Изображение запчасти Свеча зажигания Gates 3",
         "is_main": true,
-        "uploaded_at": "2026-07-12T20:10:16.884Z"
+        "uploaded_at": "2026-07-17T17:24:34.262Z"
     }
 },
 {
     "model": "parts.partimage",
     "pk": 8,
     "fields": {
-        "part": 28,
-        "image": "parts/images/part_28_4098a02fdaab.png",
-        "alt_text": "Изображение запчасти Фара Sachs 28",
-        "is_main": false,
-        "uploaded_at": "2026-07-12T20:10:16.890Z"
+        "part": 18,
+        "image": "parts/images/part_18_f523200084ca.png",
+        "alt_text": "Изображение запчасти Генератор Brembo 18",
+        "is_main": true,
+        "uploaded_at": "2026-07-17T17:24:34.267Z"
     }
 },
 {
     "model": "parts.partimage",
     "pk": 9,
     "fields": {
-        "part": 3,
-        "image": "parts/images/part_3_368db60eb562.png",
-        "alt_text": "Изображение запчасти Катушка зажигания Febi 3",
-        "is_main": true,
-        "uploaded_at": "2026-07-12T20:10:16.895Z"
+        "part": 6,
+        "image": "parts/images/part_6_731d811e04f7.png",
+        "alt_text": "Изображение запчасти Топливный насос Denso 6",
+        "is_main": false,
+        "uploaded_at": "2026-07-17T17:24:34.272Z"
     }
 },
 {
     "model": "parts.partimage",
     "pk": 10,
     "fields": {
-        "part": 1,
-        "image": "parts/images/part_1_014d10e2d301.png",
-        "alt_text": "Изображение запчасти Датчик кислорода Valeo 1",
+        "part": 19,
+        "image": "parts/images/part_19_45419838a309.png",
+        "alt_text": "Изображение запчасти Свеча зажигания Bosch 19",
         "is_main": true,
-        "uploaded_at": "2026-07-12T20:10:16.900Z"
+        "uploaded_at": "2026-07-17T17:24:34.278Z"
     }
 },
 {
     "model": "parts.partimage",
     "pk": 11,
     "fields": {
-        "part": 5,
-        "image": "parts/images/part_5_12df88e75a3f.png",
-        "alt_text": "Изображение запчасти Фара Brembo 5",
-        "is_main": true,
-        "uploaded_at": "2026-07-12T20:10:16.906Z"
+        "part": 6,
+        "image": "parts/images/part_6_33dcf876b019.png",
+        "alt_text": "Изображение запчасти Топливный насос Denso 6",
+        "is_main": false,
+        "uploaded_at": "2026-07-17T17:24:34.283Z"
     }
 },
 {
@@ -2328,131 +1989,373 @@
     "pk": 12,
     "fields": {
         "part": 23,
-        "image": "parts/images/part_23_58215c43a2ed.png",
-        "alt_text": "Изображение запчасти Свеча зажигания Mann-Filter 23",
-        "is_main": false,
-        "uploaded_at": "2026-07-12T20:10:16.911Z"
+        "image": "parts/images/part_23_9770e2a40d42.png",
+        "alt_text": "Изображение запчасти Воздушный фильтр Gates 23",
+        "is_main": true,
+        "uploaded_at": "2026-07-17T17:24:34.288Z"
     }
 },
 {
     "model": "parts.partimage",
     "pk": 13,
     "fields": {
-        "part": 13,
-        "image": "parts/images/part_13_06e9deb73258.png",
-        "alt_text": "Изображение запчасти Шаровая опора Mahle 13",
-        "is_main": true,
-        "uploaded_at": "2026-07-12T20:10:16.917Z"
+        "part": 19,
+        "image": "parts/images/part_19_25c773109fd2.png",
+        "alt_text": "Изображение запчасти Свеча зажигания Bosch 19",
+        "is_main": false,
+        "uploaded_at": "2026-07-17T17:24:34.294Z"
     }
 },
 {
     "model": "parts.partimage",
     "pk": 14,
     "fields": {
-        "part": 24,
-        "image": "parts/images/part_24_fcf2b37d7ea5.png",
-        "alt_text": "Изображение запчасти Шаровая опора Mahle 24",
+        "part": 9,
+        "image": "parts/images/part_9_bc5698d4031f.png",
+        "alt_text": "Изображение запчасти Масляный фильтр Brembo 9",
         "is_main": true,
-        "uploaded_at": "2026-07-12T20:10:16.922Z"
+        "uploaded_at": "2026-07-17T17:24:34.299Z"
     }
 },
 {
     "model": "parts.partimage",
     "pk": 15,
     "fields": {
-        "part": 29,
-        "image": "parts/images/part_29_6512936c6036.png",
-        "alt_text": "Изображение запчасти Топливный насос NGK 29",
+        "part": 36,
+        "image": "parts/images/part_36_a0edf562d0c0.png",
+        "alt_text": "Изображение запчасти Ступичный подшипник NGK 36",
         "is_main": true,
-        "uploaded_at": "2026-07-12T20:10:16.927Z"
+        "uploaded_at": "2026-07-17T17:24:34.304Z"
     }
 },
 {
     "model": "parts.partimage",
     "pk": 16,
     "fields": {
-        "part": 25,
-        "image": "parts/images/part_25_ff0549a2576c.png",
-        "alt_text": "Изображение запчасти Воздушный фильтр Brembo 25",
-        "is_main": false,
-        "uploaded_at": "2026-07-12T20:10:16.932Z"
+        "part": 33,
+        "image": "parts/images/part_33_4d0ffc143fab.png",
+        "alt_text": "Изображение запчасти Амортизатор Mahle 33",
+        "is_main": true,
+        "uploaded_at": "2026-07-17T17:24:34.309Z"
     }
 },
 {
     "model": "parts.partimage",
     "pk": 17,
     "fields": {
-        "part": 33,
-        "image": "parts/images/part_33_905c1b03d2b2.png",
-        "alt_text": "Изображение запчасти Тормозной диск Bosch 33",
-        "is_main": false,
-        "uploaded_at": "2026-07-12T20:10:16.938Z"
+        "part": 21,
+        "image": "parts/images/part_21_6861c6b10b7a.png",
+        "alt_text": "Изображение запчасти Катушка зажигания Febi 21",
+        "is_main": true,
+        "uploaded_at": "2026-07-17T17:24:34.314Z"
     }
 },
 {
     "model": "parts.partimage",
     "pk": 18,
     "fields": {
-        "part": 35,
-        "image": "parts/images/part_35_246e87e2aa86.png",
-        "alt_text": "Изображение запчасти Водяной насос Febi 35",
-        "is_main": true,
-        "uploaded_at": "2026-07-12T20:10:16.943Z"
+        "part": 33,
+        "image": "parts/images/part_33_4516da1ed3b0.png",
+        "alt_text": "Изображение запчасти Амортизатор Mahle 33",
+        "is_main": false,
+        "uploaded_at": "2026-07-17T17:24:34.319Z"
     }
 },
 {
     "model": "parts.partimage",
     "pk": 19,
     "fields": {
-        "part": 11,
-        "image": "parts/images/part_11_c7b42078620d.png",
-        "alt_text": "Изображение запчасти Свеча зажигания Sachs 11",
-        "is_main": false,
-        "uploaded_at": "2026-07-12T20:10:16.948Z"
+        "part": 42,
+        "image": "parts/images/part_42_eb337e228b52.png",
+        "alt_text": "Изображение запчасти Генератор Mahle 42",
+        "is_main": true,
+        "uploaded_at": "2026-07-17T17:24:34.325Z"
     }
 },
 {
     "model": "parts.partimage",
     "pk": 20,
     "fields": {
-        "part": 37,
-        "image": "parts/images/part_37_239d837278a0.png",
-        "alt_text": "Изображение запчасти Шаровая опора Valeo 37",
+        "part": 38,
+        "image": "parts/images/part_38_aa5a7e56afda.png",
+        "alt_text": "Изображение запчасти Ремень ГРМ Contitech 38",
         "is_main": true,
-        "uploaded_at": "2026-07-12T20:10:16.953Z"
+        "uploaded_at": "2026-07-17T17:24:34.330Z"
     }
 },
 {
     "model": "parts.partimage",
     "pk": 21,
     "fields": {
-        "part": 1,
-        "image": "parts/images/part_1_fc8693697082.png",
-        "alt_text": "Изображение запчасти Датчик кислорода Valeo 1",
-        "is_main": false,
-        "uploaded_at": "2026-07-12T20:10:16.959Z"
+        "part": 40,
+        "image": "parts/images/part_40_b6110bd99871.png",
+        "alt_text": "Изображение запчасти Тормозной диск Mann-Filter 40",
+        "is_main": true,
+        "uploaded_at": "2026-07-17T17:24:34.335Z"
     }
 },
 {
     "model": "parts.partimage",
     "pk": 22,
     "fields": {
-        "part": 4,
-        "image": "parts/images/part_4_6c7be6078e3f.png",
-        "alt_text": "Изображение запчасти Свеча зажигания Valeo 4",
+        "part": 26,
+        "image": "parts/images/part_26_44baa25536f6.png",
+        "alt_text": "Изображение запчасти Водяной насос Sachs 26",
         "is_main": true,
-        "uploaded_at": "2026-07-12T20:10:16.964Z"
+        "uploaded_at": "2026-07-17T17:24:34.340Z"
     }
 },
 {
     "model": "parts.partimage",
     "pk": 23,
     "fields": {
-        "part": 32,
-        "image": "parts/images/part_32_dbd4bd072722.png",
-        "alt_text": "Изображение запчасти Водяной насос Mann-Filter 32",
+        "part": 41,
+        "image": "parts/images/part_41_dc07620c64f2.png",
+        "alt_text": "Изображение запчасти Генератор SKF 41",
         "is_main": true,
-        "uploaded_at": "2026-07-12T20:10:16.969Z"
+        "uploaded_at": "2026-07-17T17:24:34.346Z"
+    }
+},
+{
+    "model": "parts.partimage",
+    "pk": 24,
+    "fields": {
+        "part": 16,
+        "image": "parts/images/part_16_d244aaa0c0ac.png",
+        "alt_text": "Изображение запчасти Радиатор Mahle 16",
+        "is_main": true,
+        "uploaded_at": "2026-07-17T17:24:34.351Z"
+    }
+},
+{
+    "model": "parts.partimage",
+    "pk": 25,
+    "fields": {
+        "part": 1,
+        "image": "parts/images/part_1_23ee18e3572a.png",
+        "alt_text": "Изображение запчасти Термостат Valeo 1",
+        "is_main": true,
+        "uploaded_at": "2026-07-17T17:24:34.357Z"
+    }
+},
+{
+    "model": "parts.partimage",
+    "pk": 26,
+    "fields": {
+        "part": 40,
+        "image": "parts/images/part_40_9c187a8d9279.png",
+        "alt_text": "Изображение запчасти Тормозной диск Mann-Filter 40",
+        "is_main": false,
+        "uploaded_at": "2026-07-17T17:24:34.362Z"
+    }
+},
+{
+    "model": "parts.partimage",
+    "pk": 27,
+    "fields": {
+        "part": 4,
+        "image": "parts/images/part_4_3a2de21d05f2.png",
+        "alt_text": "Изображение запчасти Ремень ГРМ Sachs 4",
+        "is_main": true,
+        "uploaded_at": "2026-07-17T17:24:34.367Z"
+    }
+},
+{
+    "model": "parts.partimage",
+    "pk": 28,
+    "fields": {
+        "part": 1,
+        "image": "parts/images/part_1_da0d501a645c.png",
+        "alt_text": "Изображение запчасти Термостат Valeo 1",
+        "is_main": false,
+        "uploaded_at": "2026-07-17T17:24:34.372Z"
+    }
+},
+{
+    "model": "parts.partimage",
+    "pk": 29,
+    "fields": {
+        "part": 27,
+        "image": "parts/images/part_27_7290916a8f8d.png",
+        "alt_text": "Изображение запчасти Ступичный подшипник Brembo 27",
+        "is_main": true,
+        "uploaded_at": "2026-07-17T17:24:34.378Z"
+    }
+},
+{
+    "model": "parts.partimage",
+    "pk": 30,
+    "fields": {
+        "part": 38,
+        "image": "parts/images/part_38_26236a40a1e0.png",
+        "alt_text": "Изображение запчасти Ремень ГРМ Contitech 38",
+        "is_main": false,
+        "uploaded_at": "2026-07-17T17:24:34.383Z"
+    }
+},
+{
+    "model": "parts.partimage",
+    "pk": 31,
+    "fields": {
+        "part": 37,
+        "image": "parts/images/part_37_a61342ed259b.png",
+        "alt_text": "Изображение запчасти Катушка зажигания Mahle 37",
+        "is_main": true,
+        "uploaded_at": "2026-07-17T17:24:34.388Z"
+    }
+},
+{
+    "model": "parts.partimage",
+    "pk": 32,
+    "fields": {
+        "part": 11,
+        "image": "parts/images/part_11_8e1bdb8f80ae.png",
+        "alt_text": "Изображение запчасти Амортизатор NGK 11",
+        "is_main": false,
+        "uploaded_at": "2026-07-17T17:24:34.394Z"
+    }
+},
+{
+    "model": "parts.partimage",
+    "pk": 33,
+    "fields": {
+        "part": 44,
+        "image": "parts/images/part_44_99f26b6ce2dc.png",
+        "alt_text": "Изображение запчасти Генератор Bosch 44",
+        "is_main": true,
+        "uploaded_at": "2026-07-17T17:24:34.399Z"
+    }
+},
+{
+    "model": "parts.partimage",
+    "pk": 34,
+    "fields": {
+        "part": 20,
+        "image": "parts/images/part_20_d6bc57eb0695.png",
+        "alt_text": "Изображение запчасти Радиатор Valeo 20",
+        "is_main": true,
+        "uploaded_at": "2026-07-17T17:24:34.404Z"
+    }
+},
+{
+    "model": "parts.partimage",
+    "pk": 35,
+    "fields": {
+        "part": 1,
+        "image": "parts/images/part_1_148f041d92e0.png",
+        "alt_text": "Изображение запчасти Термостат Valeo 1",
+        "is_main": false,
+        "uploaded_at": "2026-07-17T17:24:34.409Z"
+    }
+},
+{
+    "model": "parts.partimage",
+    "pk": 36,
+    "fields": {
+        "part": 10,
+        "image": "parts/images/part_10_43e740c48cf2.png",
+        "alt_text": "Изображение запчасти Термостат Febi 10",
+        "is_main": true,
+        "uploaded_at": "2026-07-17T17:24:34.415Z"
+    }
+},
+{
+    "model": "parts.partimage",
+    "pk": 37,
+    "fields": {
+        "part": 9,
+        "image": "parts/images/part_9_c4db21237fac.png",
+        "alt_text": "Изображение запчасти Масляный фильтр Brembo 9",
+        "is_main": false,
+        "uploaded_at": "2026-07-17T17:24:34.420Z"
+    }
+},
+{
+    "model": "parts.partimage",
+    "pk": 38,
+    "fields": {
+        "part": 20,
+        "image": "parts/images/part_20_b7f9664f338e.png",
+        "alt_text": "Изображение запчасти Радиатор Valeo 20",
+        "is_main": false,
+        "uploaded_at": "2026-07-17T17:24:34.425Z"
+    }
+},
+{
+    "model": "parts.partimage",
+    "pk": 39,
+    "fields": {
+        "part": 30,
+        "image": "parts/images/part_30_200f56b884f0.png",
+        "alt_text": "Изображение запчасти Термостат Febi 30",
+        "is_main": true,
+        "uploaded_at": "2026-07-17T17:24:34.430Z"
+    }
+},
+{
+    "model": "parts.partimage",
+    "pk": 40,
+    "fields": {
+        "part": 17,
+        "image": "parts/images/part_17_d288a958e5c3.png",
+        "alt_text": "Изображение запчасти Термостат Febi 17",
+        "is_main": true,
+        "uploaded_at": "2026-07-17T17:24:34.436Z"
+    }
+},
+{
+    "model": "parts.partimage",
+    "pk": 41,
+    "fields": {
+        "part": 2,
+        "image": "parts/images/part_2_82780f0a16f0.png",
+        "alt_text": "Изображение запчасти Топливный насос Gates 2",
+        "is_main": true,
+        "uploaded_at": "2026-07-17T17:24:34.441Z"
+    }
+},
+{
+    "model": "parts.partimage",
+    "pk": 42,
+    "fields": {
+        "part": 12,
+        "image": "parts/images/part_12_41dd18071833.png",
+        "alt_text": "Изображение запчасти Тормозной диск Bosch 12",
+        "is_main": true,
+        "uploaded_at": "2026-07-17T17:24:34.446Z"
+    }
+},
+{
+    "model": "parts.partimage",
+    "pk": 43,
+    "fields": {
+        "part": 35,
+        "image": "parts/images/part_35_26f534550383.png",
+        "alt_text": "Изображение запчасти Датчик кислорода Bosch 35",
+        "is_main": true,
+        "uploaded_at": "2026-07-17T17:24:34.451Z"
+    }
+},
+{
+    "model": "parts.partimage",
+    "pk": 44,
+    "fields": {
+        "part": 38,
+        "image": "parts/images/part_38_2d5c07018379.png",
+        "alt_text": "Изображение запчасти Ремень ГРМ Contitech 38",
+        "is_main": false,
+        "uploaded_at": "2026-07-17T17:24:34.456Z"
+    }
+},
+{
+    "model": "parts.partimage",
+    "pk": 45,
+    "fields": {
+        "part": 9,
+        "image": "parts/images/part_9_d303a6ce7e43.png",
+        "alt_text": "Изображение запчасти Масляный фильтр Brembo 9",
+        "is_main": false,
+        "uploaded_at": "2026-07-17T17:24:34.462Z"
     }
 }
 ]

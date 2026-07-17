@@ -1,12 +1,15 @@
-<header>
-    <nav class="navbar navbar-expand-lg navbar-dark bg-dark">
+<header class="site-header sticky-top">
+    <nav class="navbar navbar-expand-lg navbar-dark" aria-label="Основная навигация">
         <div class="container">
-            <a class="navbar-brand" href="{% url 'home' %}">
-                SmartAutoParts
+            <a class="navbar-brand d-inline-flex align-items-center gap-2" href="{% url 'home' %}">
+                <span class="brand-mark" aria-hidden="true">
+                    <i class="bi bi-gear-wide-connected"></i>
+                </span>
+                <span>SmartAutoParts</span>
             </a>
 
             <button
-                class="navbar-toggler"
+                class="navbar-toggler border-0 shadow-none"
                 type="button"
                 data-bs-toggle="collapse"
                 data-bs-target="#navbarNav"
@@ -18,32 +21,22 @@
             </button>
 
             <div class="collapse navbar-collapse" id="navbarNav">
-                <ul class="navbar-nav ms-auto align-items-lg-center gap-lg-2">
+                <ul class="navbar-nav ms-auto align-items-lg-center">
                     <li class="nav-item">
-                        <a class="nav-link" href="{% url 'home' %}">
-                            Главная
-                        </a>
+                        <a class="nav-link" href="{% url 'home' %}">Главная</a>
                     </li>
                     <li class="nav-item">
-                        <a class="nav-link" href="#">
-                            Инструкции
-                        </a>
+                        <a class="nav-link" href="{% url 'home' %}#features">Возможности</a>
                     </li>
                     <li class="nav-item">
-                        <a class="nav-link" href="#">
-                            Видео
-                        </a>
+                        <a class="nav-link" href="{% url 'home' %}#pricing">Тарифы</a>
                     </li>
                     <li class="nav-item">
-                        <a class="nav-link" href="#pricing">
-                            Тарифы
-                        </a>
+                        <a class="nav-link" href="{% url 'home' %}#reviews">Отзывы</a>
                     </li>
-                    <li class="nav-item d-grid mt-2 mt-lg-0">
-                        <a
-                            class="btn btn-outline-light header-action"
-                            href="#"
-                        >
+                    <li class="nav-item ms-lg-2 mt-3 mt-lg-0 d-grid">
+                        <a class="btn btn-light header-action" href="#">
+                            <i class="bi bi-person me-1" aria-hidden="true"></i>
                             Войти
                         </a>
                     </li>

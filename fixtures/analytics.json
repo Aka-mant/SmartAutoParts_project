@@ -4,377 +4,395 @@
     "pk": 1,
     "fields": {
         "user": [
-            "user_fa1b23252885@example.com"
-        ],
-        "action": "chat_message_sent",
-        "metadata": {
-            "source": "api",
-            "part_id": 31,
-            "part_name": "Масляный фильтр SKF 31",
-            "original_number": "SKF-32190-D1DF8",
-            "session_id": "e00d3e626699"
-        },
-        "created_at": "2026-02-22T03:19:17.403Z"
-    }
-},
-{
-    "model": "analytics.useractivity",
-    "pk": 2,
-    "fields": {
-        "user": [
-            "user_90487c60c37e@example.com"
-        ],
-        "action": "chat_message_sent",
-        "metadata": {
-            "source": "web",
-            "part_id": 9,
-            "part_name": "Термостат Brembo 9",
-            "original_number": "BRE-16105-15570",
-            "session_id": "e3441d7806a8"
-        },
-        "created_at": "2026-01-31T18:57:17.404Z"
-    }
-},
-{
-    "model": "analytics.useractivity",
-    "pk": 3,
-    "fields": {
-        "user": [
-            "user_e6ab75b7c0cc@example.com"
-        ],
-        "action": "user_logout",
-        "metadata": {
-            "source": "web",
-            "part_id": 16,
-            "part_name": "Тормозной диск Mann-Filter 16",
-            "original_number": "MAN-62385-98F52",
-            "session_id": "5a9983a72733"
-        },
-        "created_at": "2026-06-26T21:52:17.405Z"
-    }
-},
-{
-    "model": "analytics.useractivity",
-    "pk": 4,
-    "fields": {
-        "user": [
-            "user_635fb6e04b68@example.com"
-        ],
-        "action": "instruction_started",
-        "metadata": {
-            "source": "api",
-            "part_id": 1,
-            "part_name": "Датчик кислорода Valeo 1",
-            "original_number": "VAL-73927-815E8",
-            "session_id": "2c01f3c069ca"
-        },
-        "created_at": "2026-02-13T03:45:17.405Z"
-    }
-},
-{
-    "model": "analytics.useractivity",
-    "pk": 5,
-    "fields": {
-        "user": [
-            "user_5625accb5129@example.com"
-        ],
-        "action": "instruction_view",
-        "metadata": {
-            "source": "api",
-            "part_id": 28,
-            "part_name": "Фара Sachs 28",
-            "original_number": "SAC-91608-CDB5E",
-            "session_id": "1f13a0f37828"
-        },
-        "created_at": "2026-02-19T04:17:17.406Z"
-    }
-},
-{
-    "model": "analytics.useractivity",
-    "pk": 6,
-    "fields": {
-        "user": [
-            "user_d2e4d1b1ad33@example.com"
-        ],
-        "action": "instruction_started",
-        "metadata": {
-            "source": "web",
-            "part_id": 34,
-            "part_name": "Топливный насос NGK 34",
-            "original_number": "NGK-61508-D61CF",
-            "session_id": "8b278bd5ba98"
-        },
-        "created_at": "2026-05-15T12:50:17.406Z"
-    }
-},
-{
-    "model": "analytics.useractivity",
-    "pk": 7,
-    "fields": {
-        "user": [
-            "user_3a2f5c2fb68b@example.com"
-        ],
-        "action": "instruction_started",
-        "metadata": {
-            "source": "web",
-            "part_id": 6,
-            "part_name": "Термостат Sachs 6",
-            "original_number": "SAC-71041-59E11",
-            "session_id": "d2c5253dbc44"
-        },
-        "created_at": "2026-02-17T10:44:17.407Z"
-    }
-},
-{
-    "model": "analytics.useractivity",
-    "pk": 8,
-    "fields": {
-        "user": [
-            "user_fcbdfd93de78@example.com"
-        ],
-        "action": "chat_message_sent",
-        "metadata": {
-            "source": "mobile",
-            "part_id": 27,
-            "part_name": "Ступичный подшипник Sachs 27",
-            "original_number": "SAC-38790-3CB24",
-            "session_id": "a601f3b5623e"
-        },
-        "created_at": "2026-01-25T01:07:17.407Z"
-    }
-},
-{
-    "model": "analytics.useractivity",
-    "pk": 9,
-    "fields": {
-        "user": [
-            "user_238176622708@example.com"
-        ],
-        "action": "chat_message_sent",
-        "metadata": {
-            "source": "web",
-            "part_id": 30,
-            "part_name": "Ступичный подшипник Brembo 30",
-            "original_number": "BRE-73964-A2358",
-            "session_id": "4a5384f0aec0"
-        },
-        "created_at": "2026-04-01T21:47:17.408Z"
-    }
-},
-{
-    "model": "analytics.useractivity",
-    "pk": 10,
-    "fields": {
-        "user": [
-            "user_502a9f12fe48@example.com"
-        ],
-        "action": "part_search",
-        "metadata": {
-            "source": "web",
-            "part_id": 35,
-            "part_name": "Водяной насос Febi 35",
-            "original_number": "FEB-28981-4CBD9",
-            "session_id": "f4866a7c4617"
-        },
-        "created_at": "2026-04-25T08:48:17.409Z"
-    }
-},
-{
-    "model": "analytics.useractivity",
-    "pk": 11,
-    "fields": {
-        "user": [
-            "user_f3bf3d77c2a3@example.com"
-        ],
-        "action": "part_search",
-        "metadata": {
-            "source": "admin",
-            "part_id": 27,
-            "part_name": "Ступичный подшипник Sachs 27",
-            "original_number": "SAC-38790-3CB24",
-            "session_id": "13f419f722c6"
-        },
-        "created_at": "2026-05-02T04:24:17.409Z"
-    }
-},
-{
-    "model": "analytics.useractivity",
-    "pk": 12,
-    "fields": {
-        "user": [
-            "user_ad6291e00490@example.com"
-        ],
-        "action": "ai_request_created",
-        "metadata": {
-            "source": "mobile",
-            "part_id": 31,
-            "part_name": "Масляный фильтр SKF 31",
-            "original_number": "SKF-32190-D1DF8",
-            "session_id": "21420f7660a4"
-        },
-        "created_at": "2026-04-04T12:51:17.410Z"
-    }
-},
-{
-    "model": "analytics.useractivity",
-    "pk": 13,
-    "fields": {
-        "user": [
-            "user_be7e51452b07@example.com"
-        ],
-        "action": "user_logout",
-        "metadata": {
-            "source": "admin",
-            "part_id": 41,
-            "part_name": "Шаровая опора Sachs 41",
-            "original_number": "SAC-14811-D363B",
-            "session_id": "03dda69bfac8"
-        },
-        "created_at": "2026-03-16T10:45:17.410Z"
-    }
-},
-{
-    "model": "analytics.useractivity",
-    "pk": 14,
-    "fields": {
-        "user": [
-            "user_f3bf3d77c2a3@example.com"
-        ],
-        "action": "chat_message_sent",
-        "metadata": {
-            "source": "api",
-            "part_id": 10,
-            "part_name": "Топливный насос Bosch 10",
-            "original_number": "BOS-90855-80809",
-            "session_id": "d5a8a0062e3a"
-        },
-        "created_at": "2026-02-21T21:47:17.411Z"
-    }
-},
-{
-    "model": "analytics.useractivity",
-    "pk": 15,
-    "fields": {
-        "user": [
-            "user_844635933026@example.com"
-        ],
-        "action": "instruction_view",
-        "metadata": {
-            "source": "api",
-            "part_id": 13,
-            "part_name": "Шаровая опора Mahle 13",
-            "original_number": "MAH-79377-7AB7C",
-            "session_id": "b0181882cd0c"
-        },
-        "created_at": "2026-01-28T21:16:17.411Z"
-    }
-},
-{
-    "model": "analytics.useractivity",
-    "pk": 16,
-    "fields": {
-        "user": [
-            "user_f3bf3d77c2a3@example.com"
-        ],
-        "action": "ai_request_created",
-        "metadata": {
-            "source": "mobile",
-            "part_id": 35,
-            "part_name": "Водяной насос Febi 35",
-            "original_number": "FEB-28981-4CBD9",
-            "session_id": "60d648e5f8b3"
-        },
-        "created_at": "2026-05-10T06:46:17.412Z"
-    }
-},
-{
-    "model": "analytics.useractivity",
-    "pk": 17,
-    "fields": {
-        "user": [
-            "user_f11ae58e2e8d@example.com"
-        ],
-        "action": "instruction_started",
-        "metadata": {
-            "source": "mobile",
-            "part_id": 20,
-            "part_name": "Катушка зажигания Mann-Filter 20",
-            "original_number": "MAN-70776-0BC94",
-            "session_id": "d960d6050821"
-        },
-        "created_at": "2026-01-25T23:05:17.412Z"
-    }
-},
-{
-    "model": "analytics.useractivity",
-    "pk": 18,
-    "fields": {
-        "user": [
-            "user_fa1b23252885@example.com"
-        ],
-        "action": "instruction_view",
-        "metadata": {
-            "source": "mobile",
-            "part_id": 30,
-            "part_name": "Ступичный подшипник Brembo 30",
-            "original_number": "BRE-73964-A2358",
-            "session_id": "ea07a83e2814"
-        },
-        "created_at": "2026-04-03T09:32:17.413Z"
-    }
-},
-{
-    "model": "analytics.useractivity",
-    "pk": 19,
-    "fields": {
-        "user": [
-            "user_d05a4118d83f@example.com"
+            "user_13d891667055@example.com"
         ],
         "action": "user_login",
         "metadata": {
             "source": "mobile",
-            "part_id": 37,
-            "part_name": "Шаровая опора Valeo 37",
-            "original_number": "VAL-97612-EF6D5",
-            "session_id": "7fad6c0d12ba"
+            "part_id": 26,
+            "part_name": "Водяной насос Sachs 26",
+            "original_number": "SAC-65342-F7502",
+            "session_id": "cb236557bbe6"
         },
-        "created_at": "2026-03-27T06:06:17.413Z"
+        "created_at": "2026-05-14T07:38:34.825Z"
     }
 },
 {
     "model": "analytics.useractivity",
-    "pk": 20,
+    "pk": 2,
     "fields": {
         "user": [
-            "user_502a9f12fe48@example.com"
+            "user_75d38d88f24c@example.com"
         ],
-        "action": "image_analysis_started",
+        "action": "ai_request_created",
+        "metadata": {
+            "source": "api",
+            "part_id": 8,
+            "part_name": "Тормозные колодки Mahle 8",
+            "original_number": "MAH-93365-76983",
+            "session_id": "75129d4e36b1"
+        },
+        "created_at": "2026-02-01T17:26:34.826Z"
+    }
+},
+{
+    "model": "analytics.useractivity",
+    "pk": 3,
+    "fields": {
+        "user": [
+            "admin@admin.com"
+        ],
+        "action": "instruction_view",
+        "metadata": {
+            "source": "admin",
+            "part_id": 3,
+            "part_name": "Свеча зажигания Gates 3",
+            "original_number": "GAT-27343-34D15",
+            "session_id": "3d30fbc392aa"
+        },
+        "created_at": "2026-04-14T10:27:34.827Z"
+    }
+},
+{
+    "model": "analytics.useractivity",
+    "pk": 4,
+    "fields": {
+        "user": [
+            "user_929101366baa@example.com"
+        ],
+        "action": "instruction_completed",
+        "metadata": {
+            "source": "admin",
+            "part_id": 15,
+            "part_name": "Фара Bosch 15",
+            "original_number": "BOS-96540-A0EE0",
+            "session_id": "05f5fd6880fd"
+        },
+        "created_at": "2026-03-02T22:25:34.827Z"
+    }
+},
+{
+    "model": "analytics.useractivity",
+    "pk": 5,
+    "fields": {
+        "user": [
+            "user_01576778a0f4@example.com"
+        ],
+        "action": "ai_request_created",
+        "metadata": {
+            "source": "mobile",
+            "part_id": 30,
+            "part_name": "Термостат Febi 30",
+            "original_number": "FEB-97130-F97F9",
+            "session_id": "ac912961527c"
+        },
+        "created_at": "2026-06-12T03:54:34.828Z"
+    }
+},
+{
+    "model": "analytics.useractivity",
+    "pk": 6,
+    "fields": {
+        "user": [
+            "user_97eeadbdffa8@example.com"
+        ],
+        "action": "chat_message_sent",
         "metadata": {
             "source": "web",
-            "part_id": 7,
-            "part_name": "Топливный насос Sachs 7",
-            "original_number": "SAC-55577-2E647",
-            "session_id": "e9c1f5d437ef"
+            "part_id": 31,
+            "part_name": "Стартер Mahle 31",
+            "original_number": "MAH-59330-BAB38",
+            "session_id": "fc683b8bc08a"
         },
-        "created_at": "2026-05-05T02:13:17.414Z"
+        "created_at": "2026-04-29T20:39:34.828Z"
     }
 },
 {
     "model": "analytics.useractivity",
-    "pk": 21,
+    "pk": 7,
     "fields": {
         "user": [
-            "user_502a9f12fe48@example.com"
+            "user_cbbfb348d2dc@example.com"
+        ],
+        "action": "user_logout",
+        "metadata": {
+            "source": "api",
+            "part_id": 40,
+            "part_name": "Тормозной диск Mann-Filter 40",
+            "original_number": "MAN-98855-E0E8F",
+            "session_id": "5ffdc0804212"
+        },
+        "created_at": "2026-06-06T04:10:34.829Z"
+    }
+},
+{
+    "model": "analytics.useractivity",
+    "pk": 8,
+    "fields": {
+        "user": [
+            "user_83604f53f86a@example.com"
+        ],
+        "action": "user_logout",
+        "metadata": {
+            "source": "web",
+            "part_id": 2,
+            "part_name": "Топливный насос Gates 2",
+            "original_number": "GAT-94472-F5433",
+            "session_id": "825f20405e9c"
+        },
+        "created_at": "2026-02-27T09:21:34.829Z"
+    }
+},
+{
+    "model": "analytics.useractivity",
+    "pk": 9,
+    "fields": {
+        "user": [
+            "user_01576778a0f4@example.com"
         ],
         "action": "image_analysis_started",
         "metadata": {
             "source": "admin",
-            "part_id": 21,
-            "part_name": "Фара Mahle 21",
-            "original_number": "MAH-45274-8A91F",
-            "session_id": "e2c480555036"
+            "part_id": 31,
+            "part_name": "Стартер Mahle 31",
+            "original_number": "MAH-59330-BAB38",
+            "session_id": "1fe9be46d695"
         },
-        "created_at": "2026-03-21T19:18:17.414Z"
+        "created_at": "2026-04-07T00:03:34.830Z"
+    }
+},
+{
+    "model": "analytics.useractivity",
+    "pk": 10,
+    "fields": {
+        "user": [
+            "user_13d891667055@example.com"
+        ],
+        "action": "user_logout",
+        "metadata": {
+            "source": "web",
+            "part_id": 8,
+            "part_name": "Тормозные колодки Mahle 8",
+            "original_number": "MAH-93365-76983",
+            "session_id": "bd260775f230"
+        },
+        "created_at": "2026-03-20T09:33:34.830Z"
+    }
+},
+{
+    "model": "analytics.useractivity",
+    "pk": 11,
+    "fields": {
+        "user": [
+            "user_db0589216539@example.com"
+        ],
+        "action": "instruction_completed",
+        "metadata": {
+            "source": "web",
+            "part_id": 16,
+            "part_name": "Радиатор Mahle 16",
+            "original_number": "MAH-65719-5EE20",
+            "session_id": "7e18c5227920"
+        },
+        "created_at": "2026-03-12T22:32:34.831Z"
+    }
+},
+{
+    "model": "analytics.useractivity",
+    "pk": 12,
+    "fields": {
+        "user": [
+            "user_5555a20253b8@example.com"
+        ],
+        "action": "user_logout",
+        "metadata": {
+            "source": "admin",
+            "part_id": 13,
+            "part_name": "Водяной насос NGK 13",
+            "original_number": "NGK-22007-F8CC4",
+            "session_id": "38dd5103dc86"
+        },
+        "created_at": "2026-03-04T00:32:34.832Z"
+    }
+},
+{
+    "model": "analytics.useractivity",
+    "pk": 13,
+    "fields": {
+        "user": [
+            "user_75d38d88f24c@example.com"
+        ],
+        "action": "ai_request_created",
+        "metadata": {
+            "source": "web",
+            "part_id": 38,
+            "part_name": "Ремень ГРМ Contitech 38",
+            "original_number": "CON-17123-782FB",
+            "session_id": "06ea39472774"
+        },
+        "created_at": "2026-04-14T15:34:34.832Z"
+    }
+},
+{
+    "model": "analytics.useractivity",
+    "pk": 14,
+    "fields": {
+        "user": [
+            "user_b855eb5fa46e@example.com"
+        ],
+        "action": "part_view",
+        "metadata": {
+            "source": "api",
+            "part_id": 11,
+            "part_name": "Амортизатор NGK 11",
+            "original_number": "NGK-21416-D8542",
+            "session_id": "7588ce18b7c0"
+        },
+        "created_at": "2026-02-20T12:14:34.833Z"
+    }
+},
+{
+    "model": "analytics.useractivity",
+    "pk": 15,
+    "fields": {
+        "user": [
+            "user_a2cc6b858eab@example.com"
+        ],
+        "action": "instruction_completed",
+        "metadata": {
+            "source": "mobile",
+            "part_id": 15,
+            "part_name": "Фара Bosch 15",
+            "original_number": "BOS-96540-A0EE0",
+            "session_id": "9bc87e2cd58c"
+        },
+        "created_at": "2026-02-09T04:52:34.833Z"
+    }
+},
+{
+    "model": "analytics.useractivity",
+    "pk": 16,
+    "fields": {
+        "user": [
+            "user_fef63ec60cb5@example.com"
+        ],
+        "action": "instruction_completed",
+        "metadata": {
+            "source": "api",
+            "part_id": 16,
+            "part_name": "Радиатор Mahle 16",
+            "original_number": "MAH-65719-5EE20",
+            "session_id": "02702935c4cb"
+        },
+        "created_at": "2026-01-29T15:20:34.834Z"
+    }
+},
+{
+    "model": "analytics.useractivity",
+    "pk": 17,
+    "fields": {
+        "user": [
+            "user_dfdaa5115c33@example.com"
+        ],
+        "action": "part_view",
+        "metadata": {
+            "source": "mobile",
+            "part_id": 7,
+            "part_name": "Свеча зажигания Mahle 7",
+            "original_number": "MAH-81172-42E15",
+            "session_id": "1021ea6f8fb2"
+        },
+        "created_at": "2026-02-25T01:34:34.834Z"
+    }
+},
+{
+    "model": "analytics.useractivity",
+    "pk": 18,
+    "fields": {
+        "user": [
+            "user_6d9be6d5d6c0@example.com"
+        ],
+        "action": "instruction_completed",
+        "metadata": {
+            "source": "api",
+            "part_id": 8,
+            "part_name": "Тормозные колодки Mahle 8",
+            "original_number": "MAH-93365-76983",
+            "session_id": "74a72b41ce2e"
+        },
+        "created_at": "2026-03-20T04:29:34.835Z"
+    }
+},
+{
+    "model": "analytics.useractivity",
+    "pk": 19,
+    "fields": {
+        "user": [
+            "user_ac48b26f5f84@example.com"
+        ],
+        "action": "instruction_completed",
+        "metadata": {
+            "source": "admin",
+            "part_id": 20,
+            "part_name": "Радиатор Valeo 20",
+            "original_number": "VAL-34951-3A9A7",
+            "session_id": "4769fa3a73a6"
+        },
+        "created_at": "2026-04-06T13:34:34.835Z"
+    }
+},
+{
+    "model": "analytics.useractivity",
+    "pk": 20,
+    "fields": {
+        "user": [
+            "user_97eeadbdffa8@example.com"
+        ],
+        "action": "chat_message_sent",
+        "metadata": {
+            "source": "web",
+            "part_id": 38,
+            "part_name": "Ремень ГРМ Contitech 38",
+            "original_number": "CON-17123-782FB",
+            "session_id": "600f12da41ea"
+        },
+        "created_at": "2026-01-30T05:19:34.836Z"
+    }
+},
+{
+    "model": "analytics.useractivity",
+    "pk": 21,
+    "fields": {
+        "user": [
+            "user_82ab1d17f0a9@example.com"
+        ],
+        "action": "part_view",
+        "metadata": {
+            "source": "api",
+            "part_id": 3,
+            "part_name": "Свеча зажигания Gates 3",
+            "original_number": "GAT-27343-34D15",
+            "session_id": "5ebe8b8fdcfe"
+        },
+        "created_at": "2026-07-09T04:34:34.836Z"
+    }
+},
+{
+    "model": "analytics.useractivity",
+    "pk": 22,
+    "fields": {
+        "user": [
+            "user_ac48b26f5f84@example.com"
+        ],
+        "action": "ai_request_created",
+        "metadata": {
+            "source": "mobile",
+            "part_id": 13,
+            "part_name": "Водяной насос NGK 13",
+            "original_number": "NGK-22007-F8CC4",
+            "session_id": "91d602f6e394"
+        },
+        "created_at": "2026-03-10T14:42:34.837Z"
     }
 },
 {
@@ -382,12 +400,12 @@
     "pk": 1,
     "fields": {
         "user": [
-            "user_ec72cd531eec@example.com"
+            "user_7bacbbc1239f@example.com"
         ],
-        "query": "OEM SKF-32190-D1DF8",
-        "results_count": 6,
-        "ip_address": "192.168.202.230",
-        "created_at": "2026-01-29T01:03:17.416Z"
+        "query": "OEM BRE-25231-9D715",
+        "results_count": 3,
+        "ip_address": "192.168.238.71",
+        "created_at": "2026-04-15T18:33:34.838Z"
     }
 },
 {
@@ -395,12 +413,12 @@
     "pk": 2,
     "fields": {
         "user": [
-            "user_e6ab75b7c0cc@example.com"
+            "user_db0589216539@example.com"
         ],
-        "query": "OEM FEB-12454-F2C10",
-        "results_count": 4,
-        "ip_address": "192.168.36.169",
-        "created_at": "2026-06-27T08:56:17.416Z"
+        "query": "Радиатор Valeo 20",
+        "results_count": 14,
+        "ip_address": "192.168.100.244",
+        "created_at": "2026-01-25T22:27:34.839Z"
     }
 },
 {
@@ -408,12 +426,12 @@
     "pk": 3,
     "fields": {
         "user": [
-            "user_be7e51452b07@example.com"
+            "user_c80e06710e8b@example.com"
         ],
-        "query": "OEM SAC-14811-D363B",
-        "results_count": 11,
-        "ip_address": "192.168.12.191",
-        "created_at": "2026-04-17T19:50:17.417Z"
+        "query": "Тормозной диск NGK 24",
+        "results_count": 29,
+        "ip_address": "192.168.33.137",
+        "created_at": "2026-01-26T01:35:34.839Z"
     }
 },
 {
@@ -421,12 +439,12 @@
     "pk": 4,
     "fields": {
         "user": [
-            "user_81d5d64fe015@example.com"
+            "user_23780fe3477c@example.com"
         ],
-        "query": "Водяной насос Brembo 38",
-        "results_count": 26,
-        "ip_address": "192.168.228.131",
-        "created_at": "2026-05-08T07:31:17.417Z"
+        "query": "MAH-81172-42E15",
+        "results_count": 13,
+        "ip_address": "192.168.76.85",
+        "created_at": "2026-03-04T09:58:34.840Z"
     }
 },
 {
@@ -434,12 +452,12 @@
     "pk": 5,
     "fields": {
         "user": [
-            "user_a66bf97989e2@example.com"
+            "user_83604f53f86a@example.com"
         ],
-        "query": "OEM NGK-95834-82342",
-        "results_count": 2,
-        "ip_address": "192.168.34.159",
-        "created_at": "2026-03-13T08:08:17.418Z"
+        "query": "Стартер Mahle 31",
+        "results_count": 3,
+        "ip_address": "192.168.105.252",
+        "created_at": "2026-06-23T19:06:34.840Z"
     }
 },
 {
@@ -447,12 +465,12 @@
     "pk": 6,
     "fields": {
         "user": [
-            "user_5625accb5129@example.com"
+            "user_6f6ce58e7bbc@example.com"
         ],
-        "query": "Mann-Filter Водяной насос Mann-Filter 32",
-        "results_count": 15,
-        "ip_address": "192.168.80.28",
-        "created_at": "2026-03-10T22:44:17.419Z"
+        "query": "Термостат Febi 17 для автомобиля",
+        "results_count": 21,
+        "ip_address": "192.168.209.188",
+        "created_at": "2026-03-31T18:43:34.841Z"
     }
 },
 {
@@ -460,12 +478,12 @@
     "pk": 7,
     "fields": {
         "user": [
-            "user_f11ae58e2e8d@example.com"
+            "user_7bacbbc1239f@example.com"
         ],
-        "query": "OEM VAL-46227-2029D",
+        "query": "Радиатор Valeo 20 для автомобиля",
         "results_count": 2,
-        "ip_address": "192.168.204.101",
-        "created_at": "2026-02-25T06:52:17.419Z"
+        "ip_address": "192.168.40.35",
+        "created_at": "2026-04-09T06:32:34.841Z"
     }
 },
 {
@@ -473,12 +491,12 @@
     "pk": 8,
     "fields": {
         "user": [
-            "user_fb5327008cf8@example.com"
+            "user_fa6a11d3ed2e@example.com"
         ],
-        "query": "NGK-49459-45084",
-        "results_count": 5,
-        "ip_address": "192.168.196.114",
-        "created_at": "2026-05-02T17:53:17.420Z"
+        "query": "NGK-22007-F8CC4",
+        "results_count": 17,
+        "ip_address": "192.168.114.26",
+        "created_at": "2026-03-08T05:03:34.842Z"
     }
 },
 {
@@ -486,12 +504,12 @@
     "pk": 9,
     "fields": {
         "user": [
-            "user_e443b5b9a2eb@example.com"
+            "user_83604f53f86a@example.com"
         ],
-        "query": "Фара Valeo 17 для автомобиля",
-        "results_count": 11,
-        "ip_address": "192.168.18.196",
-        "created_at": "2026-03-30T10:09:17.420Z"
+        "query": "OEM MAH-20905-58735",
+        "results_count": 13,
+        "ip_address": "192.168.217.9",
+        "created_at": "2026-02-27T10:17:34.842Z"
     }
 },
 {
@@ -499,12 +517,12 @@
     "pk": 10,
     "fields": {
         "user": [
-            "user_2f96394f88b8@example.com"
+            "user_05aaf70b6580@example.com"
         ],
-        "query": "Датчик кислорода Valeo 1",
-        "results_count": 9,
-        "ip_address": "192.168.17.207",
-        "created_at": "2026-07-08T11:58:17.421Z"
+        "query": "Mahle Радиатор Mahle 16",
+        "results_count": 14,
+        "ip_address": "192.168.211.188",
+        "created_at": "2026-07-10T11:21:34.843Z"
     }
 },
 {
@@ -512,12 +530,12 @@
     "pk": 11,
     "fields": {
         "user": [
-            "user_24baaf72fc4b@example.com"
+            "user_23780fe3477c@example.com"
         ],
-        "query": "Топливный насос Sachs 7 для автомобиля",
-        "results_count": 15,
-        "ip_address": "192.168.253.242",
-        "created_at": "2026-06-06T16:49:17.421Z"
+        "query": "NGK Тормозной диск NGK 24",
+        "results_count": 5,
+        "ip_address": "192.168.50.104",
+        "created_at": "2026-06-04T00:13:34.844Z"
     }
 },
 {
@@ -525,12 +543,12 @@
     "pk": 12,
     "fields": {
         "user": [
-            "user_24baaf72fc4b@example.com"
+            "user_fef63ec60cb5@example.com"
         ],
-        "query": "Катушка зажигания Mann-Filter 20",
-        "results_count": 2,
-        "ip_address": "192.168.36.28",
-        "created_at": "2026-04-13T12:45:17.422Z"
+        "query": "SKF-95732-4C038",
+        "results_count": 19,
+        "ip_address": "192.168.10.99",
+        "created_at": "2026-05-31T23:11:34.844Z"
     }
 },
 {
@@ -538,12 +556,12 @@
     "pk": 13,
     "fields": {
         "user": [
-            "user_fcbdfd93de78@example.com"
+            "user_e30a0b227d33@example.com"
         ],
-        "query": "Свеча зажигания Mann-Filter 23",
-        "results_count": 28,
-        "ip_address": "192.168.13.248",
-        "created_at": "2026-03-28T18:53:17.422Z"
+        "query": "GAT-42678-5B330",
+        "results_count": 14,
+        "ip_address": "192.168.4.104",
+        "created_at": "2026-07-05T21:07:34.845Z"
     }
 },
 {
@@ -551,12 +569,12 @@
     "pk": 14,
     "fields": {
         "user": [
-            "user_502a9f12fe48@example.com"
+            "user_a9b27fd8c380@example.com"
         ],
-        "query": "BRE-16105-15570",
-        "results_count": 3,
-        "ip_address": "192.168.145.253",
-        "created_at": "2026-02-20T23:15:17.423Z"
+        "query": "Свеча зажигания Bosch 19 для автомобиля",
+        "results_count": 30,
+        "ip_address": "192.168.243.151",
+        "created_at": "2026-03-02T22:02:34.845Z"
     }
 },
 {
@@ -564,12 +582,12 @@
     "pk": 15,
     "fields": {
         "user": [
-            "user_24baaf72fc4b@example.com"
+            "user_db0589216539@example.com"
         ],
-        "query": "NGK-15401-AA534",
-        "results_count": 14,
-        "ip_address": "192.168.112.134",
-        "created_at": "2026-01-24T21:12:17.424Z"
+        "query": "OEM MAH-12811-3CC10",
+        "results_count": 6,
+        "ip_address": "192.168.242.48",
+        "created_at": "2026-07-03T20:32:34.846Z"
     }
 },
 {
@@ -577,12 +595,12 @@
     "pk": 16,
     "fields": {
         "user": [
-            "user_f11ae58e2e8d@example.com"
+            "user_23780fe3477c@example.com"
         ],
-        "query": "Датчик кислорода Valeo 1 для автомобиля",
-        "results_count": 15,
-        "ip_address": "192.168.106.218",
-        "created_at": "2026-02-06T15:38:17.424Z"
+        "query": "OEM FEB-66790-3C4AC",
+        "results_count": 23,
+        "ip_address": "192.168.11.200",
+        "created_at": "2026-01-31T09:36:34.846Z"
     }
 },
 {
@@ -590,12 +608,12 @@
     "pk": 17,
     "fields": {
         "user": [
-            "user_6ba052529349@example.com"
+            "user_d9e8ff8862a7@example.com"
         ],
-        "query": "Масляный фильтр Valeo 8",
-        "results_count": 29,
-        "ip_address": "192.168.143.229",
-        "created_at": "2026-07-10T11:27:17.425Z"
+        "query": "Тормозной диск Mahle 25",
+        "results_count": 27,
+        "ip_address": "192.168.214.55",
+        "created_at": "2026-04-17T17:36:34.847Z"
     }
 },
 {
@@ -603,12 +621,12 @@
     "pk": 18,
     "fields": {
         "user": [
-            "user_ec72cd531eec@example.com"
+            "user_cbbfb348d2dc@example.com"
         ],
-        "query": "SKF Масляный фильтр SKF 31",
-        "results_count": 8,
-        "ip_address": "192.168.84.136",
-        "created_at": "2026-03-29T09:53:17.425Z"
+        "query": "Свеча зажигания Gates 34",
+        "results_count": 7,
+        "ip_address": "192.168.253.11",
+        "created_at": "2026-05-22T20:10:34.847Z"
     }
 },
 {
@@ -616,12 +634,12 @@
     "pk": 19,
     "fields": {
         "user": [
-            "user_238176622708@example.com"
+            "user_5555a20253b8@example.com"
         ],
-        "query": "Термостат Bosch 40 для автомобиля",
-        "results_count": 22,
-        "ip_address": "192.168.87.175",
-        "created_at": "2026-06-08T19:25:17.426Z"
+        "query": "Bosch Свеча зажигания Bosch 19",
+        "results_count": 13,
+        "ip_address": "192.168.140.237",
+        "created_at": "2026-06-15T01:58:34.848Z"
     }
 },
 {
@@ -629,12 +647,12 @@
     "pk": 20,
     "fields": {
         "user": [
-            "user_fa2c7bc330b4@example.com"
+            "user_e8eeec4627fb@example.com"
         ],
-        "query": "Шаровая опора Mahle 13",
-        "results_count": 5,
-        "ip_address": "192.168.83.200",
-        "created_at": "2026-06-17T11:09:17.426Z"
+        "query": "Ступичный подшипник Brembo 27 для автомобиля",
+        "results_count": 21,
+        "ip_address": "192.168.21.18",
+        "created_at": "2026-04-23T16:21:34.848Z"
     }
 },
 {
@@ -642,12 +660,12 @@
     "pk": 21,
     "fields": {
         "user": [
-            "user_238176622708@example.com"
+            "user_79b4866f0118@example.com"
         ],
-        "query": "Топливный насос NGK 34 для автомобиля",
-        "results_count": 14,
-        "ip_address": "192.168.2.247",
-        "created_at": "2026-06-29T09:22:17.427Z"
+        "query": "OEM MAH-12811-3CC10",
+        "results_count": 2,
+        "ip_address": "192.168.163.139",
+        "created_at": "2026-06-05T09:08:34.849Z"
     }
 },
 {
@@ -655,12 +673,12 @@
     "pk": 22,
     "fields": {
         "user": [
-            "user_844635933026@example.com"
+            "user_b5e2e4ed8f27@example.com"
         ],
-        "query": "Масляный фильтр SKF 31",
-        "results_count": 29,
-        "ip_address": "192.168.178.175",
-        "created_at": "2026-02-10T02:22:17.427Z"
+        "query": "Gates Воздушный фильтр Gates 23",
+        "results_count": 6,
+        "ip_address": "192.168.68.131",
+        "created_at": "2026-06-19T20:18:34.849Z"
     }
 },
 {
@@ -668,12 +686,12 @@
     "pk": 23,
     "fields": {
         "user": [
-            "user_f11ae58e2e8d@example.com"
+            "user_79b4866f0118@example.com"
         ],
-        "query": "SKF Тормозные колодки SKF 14",
-        "results_count": 25,
-        "ip_address": "192.168.186.95",
-        "created_at": "2026-05-28T11:54:17.428Z"
+        "query": "Тормозной диск Bosch 12 для автомобиля",
+        "results_count": 23,
+        "ip_address": "192.168.188.31",
+        "created_at": "2026-03-04T10:28:34.850Z"
     }
 },
 {
@@ -681,12 +699,12 @@
     "pk": 24,
     "fields": {
         "user": [
-            "user_d2e4d1b1ad33@example.com"
+            "user_ea74b042751d@example.com"
         ],
-        "query": "Фара Mahle 21 для автомобиля",
-        "results_count": 30,
-        "ip_address": "192.168.248.25",
-        "created_at": "2026-03-01T07:26:17.429Z"
+        "query": "Топливный насос Gates 2",
+        "results_count": 2,
+        "ip_address": "192.168.39.241",
+        "created_at": "2026-02-12T20:50:34.850Z"
     }
 },
 {
@@ -694,12 +712,12 @@
     "pk": 25,
     "fields": {
         "user": [
-            "user_fa2c7bc330b4@example.com"
+            "user_b855eb5fa46e@example.com"
         ],
-        "query": "Топливный насос NGK 34 для автомобиля",
-        "results_count": 11,
-        "ip_address": "192.168.186.167",
-        "created_at": "2026-01-16T16:27:17.429Z"
+        "query": "MAH-62148-6649A",
+        "results_count": 28,
+        "ip_address": "192.168.137.243",
+        "created_at": "2026-07-06T22:58:34.851Z"
     }
 },
 {
@@ -707,12 +725,12 @@
     "pk": 26,
     "fields": {
         "user": [
-            "user_0b17eadf242e@example.com"
+            "user_d70515ac1423@example.com"
         ],
-        "query": "Свеча зажигания Sachs 11 для автомобиля",
-        "results_count": 3,
-        "ip_address": "192.168.229.64",
-        "created_at": "2026-04-19T17:20:17.430Z"
+        "query": "Генератор Mahle 42 для автомобиля",
+        "results_count": 24,
+        "ip_address": "192.168.46.96",
+        "created_at": "2026-05-08T18:37:34.851Z"
     }
 },
 {
@@ -720,12 +738,12 @@
     "pk": 27,
     "fields": {
         "user": [
-            "user_2f96394f88b8@example.com"
+            "admin@admin.com"
         ],
-        "query": "MAH-45274-8A91F",
-        "results_count": 1,
-        "ip_address": "192.168.22.172",
-        "created_at": "2026-02-15T02:56:17.430Z"
+        "query": "VAL-34951-3A9A7",
+        "results_count": 29,
+        "ip_address": "192.168.145.73",
+        "created_at": "2026-05-16T10:22:34.852Z"
     }
 },
 {
@@ -733,12 +751,12 @@
     "pk": 28,
     "fields": {
         "user": [
-            "user_b09ae5f7dbfd@example.com"
+            "user_7af95c92070f@example.com"
         ],
-        "query": "Водяной насос Mann-Filter 32",
-        "results_count": 15,
-        "ip_address": "192.168.217.56",
-        "created_at": "2026-02-26T17:22:17.431Z"
+        "query": "Gates Топливный насос Gates 28",
+        "results_count": 29,
+        "ip_address": "192.168.237.188",
+        "created_at": "2026-02-27T20:43:34.852Z"
     }
 },
 {
@@ -746,12 +764,12 @@
     "pk": 29,
     "fields": {
         "user": [
-            "user_310001fd8758@example.com"
+            "user_56e71fd48eb9@example.com"
         ],
-        "query": "Шаровая опора Mahle 24",
-        "results_count": 12,
-        "ip_address": "192.168.78.166",
-        "created_at": "2026-03-12T23:04:17.432Z"
+        "query": "Термостат Febi 30",
+        "results_count": 26,
+        "ip_address": "192.168.231.171",
+        "created_at": "2026-05-01T10:45:34.853Z"
     }
 },
 {
@@ -759,12 +777,12 @@
     "pk": 30,
     "fields": {
         "user": [
-            "user_fa1b23252885@example.com"
+            "user_05aaf70b6580@example.com"
         ],
-        "query": "OEM BRE-25086-1A644",
-        "results_count": 23,
-        "ip_address": "192.168.100.228",
-        "created_at": "2026-03-25T23:19:17.432Z"
+        "query": "OEM MAH-15694-ECA92",
+        "results_count": 5,
+        "ip_address": "192.168.103.234",
+        "created_at": "2026-04-19T15:48:34.853Z"
     }
 },
 {
@@ -772,435 +790,452 @@
     "pk": 31,
     "fields": {
         "user": [
-            "user_0b17eadf242e@example.com"
+            "user_05aaf70b6580@example.com"
         ],
-        "query": "Свеча зажигания Mann-Filter 23",
-        "results_count": 18,
-        "ip_address": "192.168.187.172",
-        "created_at": "2026-04-24T12:24:17.433Z"
-    }
-},
-{
-    "model": "analytics.searchlog",
-    "pk": 32,
-    "fields": {
-        "user": [
-            "user_ec72cd531eec@example.com"
-        ],
-        "query": "OEM FEB-28981-4CBD9",
-        "results_count": 0,
-        "ip_address": "192.168.76.39",
-        "created_at": "2026-04-08T10:41:17.433Z"
+        "query": "Водяной насос NGK 13 для автомобиля",
+        "results_count": 3,
+        "ip_address": "192.168.147.13",
+        "created_at": "2026-04-12T14:05:34.854Z"
     }
 },
 {
     "model": "analytics.popularpart",
     "pk": 1,
     "fields": {
-        "part": 10,
-        "searches_count": 3382,
-        "views_count": 12080,
-        "updated_at": "2026-07-12T20:10:17.434Z"
+        "part": 29,
+        "searches_count": 5629,
+        "views_count": 13345,
+        "updated_at": "2026-07-17T17:24:34.855Z"
     }
 },
 {
     "model": "analytics.popularpart",
     "pk": 2,
     "fields": {
-        "part": 30,
-        "searches_count": 9024,
-        "views_count": 15964,
-        "updated_at": "2026-07-12T20:10:17.434Z"
+        "part": 5,
+        "searches_count": 6950,
+        "views_count": 14545,
+        "updated_at": "2026-07-17T17:24:34.855Z"
     }
 },
 {
     "model": "analytics.popularpart",
     "pk": 3,
-    "fields": {
-        "part": 13,
-        "searches_count": 4075,
-        "views_count": 7598,
-        "updated_at": "2026-07-12T20:10:17.434Z"
-    }
-},
-{
-    "model": "analytics.popularpart",
-    "pk": 4,
-    "fields": {
-        "part": 37,
-        "searches_count": 4966,
-        "views_count": 5336,
-        "updated_at": "2026-07-12T20:10:17.435Z"
-    }
-},
-{
-    "model": "analytics.popularpart",
-    "pk": 5,
-    "fields": {
-        "part": 38,
-        "searches_count": 9685,
-        "views_count": 14521,
-        "updated_at": "2026-07-12T20:10:17.435Z"
-    }
-},
-{
-    "model": "analytics.popularpart",
-    "pk": 6,
     "fields": {
         "part": 41,
-        "searches_count": 1711,
-        "views_count": 20003,
-        "updated_at": "2026-07-12T20:10:17.435Z"
+        "searches_count": 7097,
+        "views_count": 13206,
+        "updated_at": "2026-07-17T17:24:34.855Z"
+    }
+},
+{
+    "model": "analytics.popularpart",
+    "pk": 4,
+    "fields": {
+        "part": 6,
+        "searches_count": 6838,
+        "views_count": 17534,
+        "updated_at": "2026-07-17T17:24:34.855Z"
+    }
+},
+{
+    "model": "analytics.popularpart",
+    "pk": 5,
+    "fields": {
+        "part": 20,
+        "searches_count": 2108,
+        "views_count": 4971,
+        "updated_at": "2026-07-17T17:24:34.855Z"
+    }
+},
+{
+    "model": "analytics.popularpart",
+    "pk": 6,
+    "fields": {
+        "part": 37,
+        "searches_count": 4246,
+        "views_count": 20817,
+        "updated_at": "2026-07-17T17:24:34.855Z"
     }
 },
 {
     "model": "analytics.popularpart",
     "pk": 7,
     "fields": {
-        "part": 17,
-        "searches_count": 8239,
-        "views_count": 12679,
-        "updated_at": "2026-07-12T20:10:17.435Z"
+        "part": 28,
+        "searches_count": 3479,
+        "views_count": 22011,
+        "updated_at": "2026-07-17T17:24:34.856Z"
     }
 },
 {
     "model": "analytics.popularpart",
     "pk": 8,
     "fields": {
-        "part": 19,
-        "searches_count": 9996,
-        "views_count": 12434,
-        "updated_at": "2026-07-12T20:10:17.435Z"
+        "part": 14,
+        "searches_count": 573,
+        "views_count": 7792,
+        "updated_at": "2026-07-17T17:24:34.856Z"
     }
 },
 {
     "model": "analytics.popularpart",
     "pk": 9,
     "fields": {
-        "part": 18,
-        "searches_count": 257,
-        "views_count": 18597,
-        "updated_at": "2026-07-12T20:10:17.435Z"
+        "part": 36,
+        "searches_count": 2509,
+        "views_count": 13826,
+        "updated_at": "2026-07-17T17:24:34.856Z"
     }
 },
 {
     "model": "analytics.popularpart",
     "pk": 10,
     "fields": {
-        "part": 9,
-        "searches_count": 419,
-        "views_count": 1132,
-        "updated_at": "2026-07-12T20:10:17.435Z"
+        "part": 1,
+        "searches_count": 5781,
+        "views_count": 24299,
+        "updated_at": "2026-07-17T17:24:34.856Z"
     }
 },
 {
     "model": "analytics.popularpart",
     "pk": 11,
     "fields": {
-        "part": 23,
-        "searches_count": 2278,
-        "views_count": 9147,
-        "updated_at": "2026-07-12T20:10:17.436Z"
+        "part": 39,
+        "searches_count": 7148,
+        "views_count": 9195,
+        "updated_at": "2026-07-17T17:24:34.856Z"
     }
 },
 {
     "model": "analytics.popularpart",
     "pk": 12,
     "fields": {
-        "part": 12,
-        "searches_count": 4113,
-        "views_count": 11069,
-        "updated_at": "2026-07-12T20:10:17.436Z"
+        "part": 35,
+        "searches_count": 4597,
+        "views_count": 22494,
+        "updated_at": "2026-07-17T17:24:34.856Z"
     }
 },
 {
     "model": "analytics.popularpart",
     "pk": 13,
     "fields": {
-        "part": 40,
-        "searches_count": 1965,
-        "views_count": 2585,
-        "updated_at": "2026-07-12T20:10:17.436Z"
+        "part": 31,
+        "searches_count": 8730,
+        "views_count": 27888,
+        "updated_at": "2026-07-17T17:24:34.856Z"
     }
 },
 {
     "model": "analytics.popularpart",
     "pk": 14,
     "fields": {
-        "part": 3,
-        "searches_count": 4884,
-        "views_count": 8268,
-        "updated_at": "2026-07-12T20:10:17.436Z"
+        "part": 30,
+        "searches_count": 3801,
+        "views_count": 15748,
+        "updated_at": "2026-07-17T17:24:34.857Z"
     }
 },
 {
     "model": "analytics.popularpart",
     "pk": 15,
     "fields": {
-        "part": 21,
-        "searches_count": 3357,
-        "views_count": 12289,
-        "updated_at": "2026-07-12T20:10:17.436Z"
+        "part": 18,
+        "searches_count": 5152,
+        "views_count": 8076,
+        "updated_at": "2026-07-17T17:24:34.857Z"
     }
 },
 {
     "model": "analytics.popularpart",
     "pk": 16,
     "fields": {
-        "part": 16,
-        "searches_count": 7047,
-        "views_count": 20242,
-        "updated_at": "2026-07-12T20:10:17.436Z"
+        "part": 7,
+        "searches_count": 7720,
+        "views_count": 22556,
+        "updated_at": "2026-07-17T17:24:34.857Z"
     }
 },
 {
     "model": "analytics.popularpart",
     "pk": 17,
     "fields": {
-        "part": 2,
-        "searches_count": 1082,
-        "views_count": 19414,
-        "updated_at": "2026-07-12T20:10:17.436Z"
+        "part": 12,
+        "searches_count": 5989,
+        "views_count": 7611,
+        "updated_at": "2026-07-17T17:24:34.857Z"
     }
 },
 {
     "model": "analytics.popularpart",
     "pk": 18,
     "fields": {
-        "part": 14,
-        "searches_count": 140,
-        "views_count": 3640,
-        "updated_at": "2026-07-12T20:10:17.436Z"
+        "part": 11,
+        "searches_count": 3782,
+        "views_count": 21157,
+        "updated_at": "2026-07-17T17:24:34.857Z"
     }
 },
 {
     "model": "analytics.popularpart",
     "pk": 19,
     "fields": {
-        "part": 20,
-        "searches_count": 4834,
-        "views_count": 24532,
-        "updated_at": "2026-07-12T20:10:17.436Z"
+        "part": 44,
+        "searches_count": 5134,
+        "views_count": 17224,
+        "updated_at": "2026-07-17T17:24:34.857Z"
     }
 },
 {
     "model": "analytics.popularpart",
     "pk": 20,
     "fields": {
-        "part": 8,
-        "searches_count": 8973,
-        "views_count": 19749,
-        "updated_at": "2026-07-12T20:10:17.437Z"
+        "part": 27,
+        "searches_count": 5680,
+        "views_count": 14958,
+        "updated_at": "2026-07-17T17:24:34.857Z"
     }
 },
 {
     "model": "analytics.popularpart",
     "pk": 21,
     "fields": {
-        "part": 33,
-        "searches_count": 7456,
-        "views_count": 14066,
-        "updated_at": "2026-07-12T20:10:17.437Z"
+        "part": 2,
+        "searches_count": 5773,
+        "views_count": 14121,
+        "updated_at": "2026-07-17T17:24:34.857Z"
     }
 },
 {
     "model": "analytics.popularpart",
     "pk": 22,
     "fields": {
-        "part": 7,
-        "searches_count": 2289,
-        "views_count": 16399,
-        "updated_at": "2026-07-12T20:10:17.437Z"
+        "part": 32,
+        "searches_count": 5985,
+        "views_count": 8565,
+        "updated_at": "2026-07-17T17:24:34.857Z"
     }
 },
 {
     "model": "analytics.popularpart",
     "pk": 23,
     "fields": {
-        "part": 28,
-        "searches_count": 4638,
-        "views_count": 13807,
-        "updated_at": "2026-07-12T20:10:17.437Z"
+        "part": 4,
+        "searches_count": 8739,
+        "views_count": 9491,
+        "updated_at": "2026-07-17T17:24:34.857Z"
     }
 },
 {
     "model": "analytics.popularpart",
     "pk": 24,
     "fields": {
-        "part": 31,
-        "searches_count": 3245,
-        "views_count": 15699,
-        "updated_at": "2026-07-12T20:10:17.437Z"
+        "part": 23,
+        "searches_count": 6043,
+        "views_count": 8362,
+        "updated_at": "2026-07-17T17:24:34.858Z"
     }
 },
 {
     "model": "analytics.popularpart",
     "pk": 25,
     "fields": {
-        "part": 25,
-        "searches_count": 8309,
-        "views_count": 15029,
-        "updated_at": "2026-07-12T20:10:17.437Z"
+        "part": 42,
+        "searches_count": 9539,
+        "views_count": 15113,
+        "updated_at": "2026-07-17T17:24:34.858Z"
     }
 },
 {
     "model": "analytics.popularpart",
     "pk": 26,
     "fields": {
-        "part": 4,
-        "searches_count": 1671,
-        "views_count": 20963,
-        "updated_at": "2026-07-12T20:10:17.438Z"
+        "part": 22,
+        "searches_count": 5356,
+        "views_count": 15314,
+        "updated_at": "2026-07-17T17:24:34.858Z"
     }
 },
 {
     "model": "analytics.popularpart",
     "pk": 27,
     "fields": {
-        "part": 35,
-        "searches_count": 1820,
-        "views_count": 18004,
-        "updated_at": "2026-07-12T20:10:17.438Z"
+        "part": 34,
+        "searches_count": 2339,
+        "views_count": 18396,
+        "updated_at": "2026-07-17T17:24:34.858Z"
     }
 },
 {
     "model": "analytics.popularpart",
     "pk": 28,
     "fields": {
-        "part": 24,
-        "searches_count": 3929,
-        "views_count": 22888,
-        "updated_at": "2026-07-12T20:10:17.438Z"
+        "part": 16,
+        "searches_count": 8737,
+        "views_count": 24627,
+        "updated_at": "2026-07-17T17:24:34.858Z"
     }
 },
 {
     "model": "analytics.popularpart",
     "pk": 29,
     "fields": {
-        "part": 22,
-        "searches_count": 8117,
-        "views_count": 22743,
-        "updated_at": "2026-07-12T20:10:17.438Z"
+        "part": 17,
+        "searches_count": 3475,
+        "views_count": 3963,
+        "updated_at": "2026-07-17T17:24:34.858Z"
     }
 },
 {
     "model": "analytics.popularpart",
     "pk": 30,
     "fields": {
-        "part": 32,
-        "searches_count": 9526,
-        "views_count": 25464,
-        "updated_at": "2026-07-12T20:10:17.438Z"
+        "part": 9,
+        "searches_count": 7169,
+        "views_count": 20796,
+        "updated_at": "2026-07-17T17:24:34.858Z"
     }
 },
 {
     "model": "analytics.popularpart",
     "pk": 31,
     "fields": {
-        "part": 27,
-        "searches_count": 1529,
-        "views_count": 3755,
-        "updated_at": "2026-07-12T20:10:17.438Z"
+        "part": 40,
+        "searches_count": 8153,
+        "views_count": 12994,
+        "updated_at": "2026-07-17T17:24:34.858Z"
     }
 },
 {
     "model": "analytics.popularpart",
     "pk": 32,
     "fields": {
-        "part": 36,
-        "searches_count": 5532,
-        "views_count": 24716,
-        "updated_at": "2026-07-12T20:10:17.438Z"
+        "part": 38,
+        "searches_count": 1429,
+        "views_count": 20850,
+        "updated_at": "2026-07-17T17:24:34.858Z"
     }
 },
 {
     "model": "analytics.popularpart",
     "pk": 33,
     "fields": {
-        "part": 1,
-        "searches_count": 7467,
-        "views_count": 14313,
-        "updated_at": "2026-07-12T20:10:17.438Z"
+        "part": 25,
+        "searches_count": 2817,
+        "views_count": 4193,
+        "updated_at": "2026-07-17T17:24:34.858Z"
     }
 },
 {
     "model": "analytics.popularpart",
     "pk": 34,
     "fields": {
-        "part": 26,
-        "searches_count": 162,
-        "views_count": 7486,
-        "updated_at": "2026-07-12T20:10:17.439Z"
+        "part": 13,
+        "searches_count": 7074,
+        "views_count": 22640,
+        "updated_at": "2026-07-17T17:24:34.858Z"
     }
 },
 {
     "model": "analytics.popularpart",
     "pk": 35,
     "fields": {
-        "part": 6,
-        "searches_count": 8375,
-        "views_count": 21846,
-        "updated_at": "2026-07-12T20:10:17.439Z"
+        "part": 19,
+        "searches_count": 9940,
+        "views_count": 27192,
+        "updated_at": "2026-07-17T17:24:34.859Z"
     }
 },
 {
     "model": "analytics.popularpart",
     "pk": 36,
     "fields": {
-        "part": 39,
-        "searches_count": 4887,
-        "views_count": 8880,
-        "updated_at": "2026-07-12T20:10:17.439Z"
+        "part": 3,
+        "searches_count": 4215,
+        "views_count": 21028,
+        "updated_at": "2026-07-17T17:24:34.859Z"
     }
 },
 {
     "model": "analytics.popularpart",
     "pk": 37,
     "fields": {
-        "part": 5,
-        "searches_count": 747,
-        "views_count": 17908,
-        "updated_at": "2026-07-12T20:10:17.439Z"
+        "part": 10,
+        "searches_count": 4432,
+        "views_count": 14242,
+        "updated_at": "2026-07-17T17:24:34.859Z"
     }
 },
 {
     "model": "analytics.popularpart",
     "pk": 38,
     "fields": {
-        "part": 29,
-        "searches_count": 8283,
-        "views_count": 25283,
-        "updated_at": "2026-07-12T20:10:17.439Z"
+        "part": 26,
+        "searches_count": 2083,
+        "views_count": 4144,
+        "updated_at": "2026-07-17T17:24:34.859Z"
     }
 },
 {
     "model": "analytics.popularpart",
     "pk": 39,
     "fields": {
-        "part": 15,
-        "searches_count": 3736,
-        "views_count": 19123,
-        "updated_at": "2026-07-12T20:10:17.439Z"
+        "part": 43,
+        "searches_count": 9362,
+        "views_count": 25241,
+        "updated_at": "2026-07-17T17:24:34.859Z"
     }
 },
 {
     "model": "analytics.popularpart",
     "pk": 40,
     "fields": {
-        "part": 11,
-        "searches_count": 150,
-        "views_count": 8974,
-        "updated_at": "2026-07-12T20:10:17.439Z"
+        "part": 33,
+        "searches_count": 9005,
+        "views_count": 17393,
+        "updated_at": "2026-07-17T17:24:34.859Z"
     }
 },
 {
     "model": "analytics.popularpart",
     "pk": 41,
     "fields": {
-        "part": 34,
-        "searches_count": 7520,
-        "views_count": 22556,
-        "updated_at": "2026-07-12T20:10:17.439Z"
+        "part": 21,
+        "searches_count": 461,
+        "views_count": 18845,
+        "updated_at": "2026-07-17T17:24:34.860Z"
+    }
+},
+{
+    "model": "analytics.popularpart",
+    "pk": 42,
+    "fields": {
+        "part": 15,
+        "searches_count": 6220,
+        "views_count": 15282,
+        "updated_at": "2026-07-17T17:24:34.860Z"
+    }
+},
+{
+    "model": "analytics.popularpart",
+    "pk": 43,
+    "fields": {
+        "part": 24,
+        "searches_count": 2755,
+        "views_count": 10635,
+        "updated_at": "2026-07-17T17:24:34.860Z"
+    }
+},
+{
+    "model": "analytics.popularpart",
+    "pk": 44,
+    "fields": {
+        "part": 8,
+        "searches_count": 7896,
+        "views_count": 21219,
+        "updated_at": "2026-07-17T17:24:34.860Z"
     }
 }
 ]

@@ -1,45 +1,21 @@
 [
 {
     "model": "users.user",
-    "pk": 1,
     "fields": {
-        "password": "pbkdf2_sha256$1200000$wzPhwkfyCa3ydDUKgraKKB$DmmAnQxXQp0uBu1tw1aGGuGDVRAm4Wj4TS36jsj18Fo=",
+        "password": "pbkdf2_sha256$1200000$XMhEfevzicsi5GGU7Vx35O$T7AEJZTY4SEPm0puWnh69LjBbtMwDQRfdsKTPTWx8Vo=",
         "last_login": null,
         "is_superuser": false,
         "is_staff": false,
-        "date_joined": "2026-07-12T20:10:01.749Z",
-        "email": "user_fa1b23252885@example.com",
-        "username": "user_fa1b23252885",
-        "first_name": "Алексей",
-        "last_name": "Петров",
-        "phone": "+31699949192",
-        "avatar": "",
-        "role": "moderator",
-        "created_at": "2026-07-12T20:10:02.179Z",
-        "updated_at": "2026-07-12T20:10:02.179Z",
-        "is_active": true,
-        "groups": [],
-        "user_permissions": []
-    }
-},
-{
-    "model": "users.user",
-    "pk": 2,
-    "fields": {
-        "password": "pbkdf2_sha256$1200000$zQzGpq49USXa6o5YGz4Wgm$snxzvHm763UP3DatOHx5f5gm4rV3Ve7czT0DTWLAePU=",
-        "last_login": null,
-        "is_superuser": false,
-        "is_staff": false,
-        "date_joined": "2026-07-12T20:10:02.180Z",
-        "email": "user_a66bf97989e2@example.com",
-        "username": "user_a66bf97989e2",
-        "first_name": "Михаил",
-        "last_name": "Соколов",
-        "phone": "+31608439150",
+        "date_joined": "2026-07-17T17:24:14.083Z",
+        "email": "user_bfdb74ba4187@example.com",
+        "username": "user_bfdb74ba4187",
+        "first_name": "Ольга",
+        "last_name": "Иванов",
+        "phone": "+31686623326",
         "avatar": "",
         "role": "user",
-        "created_at": "2026-07-12T20:10:02.600Z",
-        "updated_at": "2026-07-12T20:10:02.600Z",
+        "created_at": "2026-07-17T17:24:14.499Z",
+        "updated_at": "2026-07-17T17:24:14.499Z",
         "is_active": true,
         "groups": [],
         "user_permissions": []
@@ -47,91 +23,21 @@
 },
 {
     "model": "users.user",
-    "pk": 3,
     "fields": {
-        "password": "pbkdf2_sha256$1200000$V4zuAWGNbjV2gHHVzLQEaf$y2z0Kb75xrAqyOga/IdD3l2HsjQsIKAPE2aoEtfWr68=",
+        "password": "pbkdf2_sha256$1200000$QyIdgLPrVY7knaHS0ZFmHu$38N2KuFNMbKI6qzyUHmX0A5UoMe53W6WTEQfUh02ggU=",
         "last_login": null,
         "is_superuser": false,
         "is_staff": false,
-        "date_joined": "2026-07-12T20:10:02.600Z",
-        "email": "user_77c5830d6cfb@example.com",
-        "username": "user_77c5830d6cfb",
-        "first_name": "Михаил",
-        "last_name": "Соколов",
-        "phone": "+31696915828",
-        "avatar": "",
-        "role": "moderator",
-        "created_at": "2026-07-12T20:10:03.019Z",
-        "updated_at": "2026-07-12T20:10:03.019Z",
-        "is_active": true,
-        "groups": [],
-        "user_permissions": []
-    }
-},
-{
-    "model": "users.user",
-    "pk": 4,
-    "fields": {
-        "password": "pbkdf2_sha256$1200000$6pbOLRfwytPrAtSfekg8bL$bN4miACfKl0RBMpkh8/nfQGtOXZRNuKiQ/r3ez/dXwM=",
-        "last_login": null,
-        "is_superuser": false,
-        "is_staff": false,
-        "date_joined": "2026-07-12T20:10:03.019Z",
-        "email": "user_24baaf72fc4b@example.com",
-        "username": "user_24baaf72fc4b",
-        "first_name": "Анна",
-        "last_name": "Сидоров",
-        "phone": "+31666247776",
-        "avatar": "",
-        "role": "guest",
-        "created_at": "2026-07-12T20:10:03.438Z",
-        "updated_at": "2026-07-12T20:10:03.438Z",
-        "is_active": true,
-        "groups": [],
-        "user_permissions": []
-    }
-},
-{
-    "model": "users.user",
-    "pk": 5,
-    "fields": {
-        "password": "pbkdf2_sha256$1200000$7M8rdyFkXPSRaEt9mjh3Xb$PiTPR9ZJ5U8esJ+mXvIvak1pBjyja+dX7I58PdPFzdo=",
-        "last_login": null,
-        "is_superuser": false,
-        "is_staff": false,
-        "date_joined": "2026-07-12T20:10:03.438Z",
-        "email": "user_844635933026@example.com",
-        "username": "user_844635933026",
+        "date_joined": "2026-07-17T17:24:14.500Z",
+        "email": "user_660343d330f5@example.com",
+        "username": "user_660343d330f5",
         "first_name": "Елена",
-        "last_name": "Смирнов",
-        "phone": "+31678118621",
-        "avatar": "",
-        "role": "user",
-        "created_at": "2026-07-12T20:10:03.852Z",
-        "updated_at": "2026-07-12T20:10:03.852Z",
-        "is_active": true,
-        "groups": [],
-        "user_permissions": []
-    }
-},
-{
-    "model": "users.user",
-    "pk": 6,
-    "fields": {
-        "password": "pbkdf2_sha256$1200000$Wz5hT8D760bG1xmgo5YKkP$SP+S8XvUvn2I5sXSfPkz0j11BkUo+Q+oQnYr2ElrxvU=",
-        "last_login": null,
-        "is_superuser": false,
-        "is_staff": false,
-        "date_joined": "2026-07-12T20:10:03.852Z",
-        "email": "user_3a2f5c2fb68b@example.com",
-        "username": "user_3a2f5c2fb68b",
-        "first_name": "Иван",
-        "last_name": "Смирнов",
-        "phone": "+31692311269",
+        "last_name": "Васильев",
+        "phone": "+31616402429",
         "avatar": "",
         "role": "premium",
-        "created_at": "2026-07-12T20:10:04.267Z",
-        "updated_at": "2026-07-12T20:10:04.267Z",
+        "created_at": "2026-07-17T17:24:14.908Z",
+        "updated_at": "2026-07-17T17:24:14.908Z",
         "is_active": true,
         "groups": [],
         "user_permissions": []
@@ -139,22 +45,65 @@
 },
 {
     "model": "users.user",
-    "pk": 7,
     "fields": {
-        "password": "pbkdf2_sha256$1200000$svXIGQwmnC4m85zOVciDYt$hPG/OQ3J+DXmV4F+291NpesTUVdqgRbaP2dv18mHDss=",
+        "password": "pbkdf2_sha256$1200000$438SovQdaPPcFO3eYTbO8A$+FaDCNOQ/3W4bW8tgJ8LLJhAbTSVgp16gKI1z8zZay8=",
         "last_login": null,
         "is_superuser": false,
         "is_staff": false,
-        "date_joined": "2026-07-12T20:10:04.267Z",
-        "email": "user_cce2a2ff5bc1@example.com",
-        "username": "user_cce2a2ff5bc1",
-        "first_name": "Ирина",
-        "last_name": "Сидоров",
-        "phone": "+31661452994",
+        "date_joined": "2026-07-17T17:24:14.908Z",
+        "email": "user_1dabd8a8cf55@example.com",
+        "username": "user_1dabd8a8cf55",
+        "first_name": "Иван",
+        "last_name": "Кузнецов",
+        "phone": "+31614136853",
+        "avatar": "",
+        "role": "moderator",
+        "created_at": "2026-07-17T17:24:15.317Z",
+        "updated_at": "2026-07-17T17:24:15.317Z",
+        "is_active": true,
+        "groups": [],
+        "user_permissions": []
+    }
+},
+{
+    "model": "users.user",
+    "fields": {
+        "password": "pbkdf2_sha256$1200000$rkpRLSCiLzh4irnVrTUvFj$/FstJtvjBbryZ1TFGg+eJOYoCFugkKrKCR2fqSi8I2U=",
+        "last_login": null,
+        "is_superuser": false,
+        "is_staff": false,
+        "date_joined": "2026-07-17T17:24:15.317Z",
+        "email": "user_28f4b4fae556@example.com",
+        "username": "user_28f4b4fae556",
+        "first_name": "Александр",
+        "last_name": "Новиков",
+        "phone": "+31694184678",
+        "avatar": "",
+        "role": "admin",
+        "created_at": "2026-07-17T17:24:15.724Z",
+        "updated_at": "2026-07-17T17:24:15.724Z",
+        "is_active": true,
+        "groups": [],
+        "user_permissions": []
+    }
+},
+{
+    "model": "users.user",
+    "fields": {
+        "password": "pbkdf2_sha256$1200000$t2tcNlEENTAC17WkO5PoGp$KkMD8TaTAmsZB4E9NxiJfKWPDCIvXZTfUltGu9APk7g=",
+        "last_login": null,
+        "is_superuser": false,
+        "is_staff": false,
+        "date_joined": "2026-07-17T17:24:15.725Z",
+        "email": "user_b855eb5fa46e@example.com",
+        "username": "user_b855eb5fa46e",
+        "first_name": "Елена",
+        "last_name": "Кузнецов",
+        "phone": "+31685806385",
         "avatar": "",
         "role": "user",
-        "created_at": "2026-07-12T20:10:04.679Z",
-        "updated_at": "2026-07-12T20:10:04.679Z",
+        "created_at": "2026-07-17T17:24:16.133Z",
+        "updated_at": "2026-07-17T17:24:16.133Z",
         "is_active": true,
         "groups": [],
         "user_permissions": []
@@ -162,22 +111,21 @@
 },
 {
     "model": "users.user",
-    "pk": 8,
     "fields": {
-        "password": "pbkdf2_sha256$1200000$CvBQxc5VOvx7Cett6mGBoc$Bmknj9gfYrAiUvOENAdW0Lm8ozBVElpfx1EOMpWsLCE=",
+        "password": "pbkdf2_sha256$1200000$lGx8JY8mid6ps3yAGnMpqm$tWTZxXk5wwaHQ8JklFTPO/A1/lR42lTnRi0KvD/H4r0=",
         "last_login": null,
         "is_superuser": false,
         "is_staff": false,
-        "date_joined": "2026-07-12T20:10:04.680Z",
-        "email": "user_d05a4118d83f@example.com",
-        "username": "user_d05a4118d83f",
+        "date_joined": "2026-07-17T17:24:16.133Z",
+        "email": "user_e78dc9239fe6@example.com",
+        "username": "user_e78dc9239fe6",
         "first_name": "Ирина",
         "last_name": "Смирнов",
-        "phone": "+31625848741",
+        "phone": "+31617615328",
         "avatar": "",
-        "role": "guest",
-        "created_at": "2026-07-12T20:10:05.154Z",
-        "updated_at": "2026-07-12T20:10:05.154Z",
+        "role": "premium",
+        "created_at": "2026-07-17T17:24:16.540Z",
+        "updated_at": "2026-07-17T17:24:16.540Z",
         "is_active": true,
         "groups": [],
         "user_permissions": []
@@ -185,22 +133,483 @@
 },
 {
     "model": "users.user",
-    "pk": 9,
     "fields": {
-        "password": "pbkdf2_sha256$1200000$KhH25TZ7m6R0X0sfT5LTT6$Sv5xX7hbnKhVD4fsyZISR2JYMHO7WPjwitHZ9lghJew=",
+        "password": "pbkdf2_sha256$1200000$hAgFWZd0Ghep0zzqfc4l6o$7FOgT/ubCc8Lo6nF3ktFWubH7Fqt/TgGsPe24DV0xQI=",
         "last_login": null,
         "is_superuser": false,
         "is_staff": false,
-        "date_joined": "2026-07-12T20:10:05.154Z",
-        "email": "user_2f96394f88b8@example.com",
-        "username": "user_2f96394f88b8",
+        "date_joined": "2026-07-17T17:24:16.541Z",
+        "email": "user_24a0349e2c11@example.com",
+        "username": "user_24a0349e2c11",
+        "first_name": "Ольга",
+        "last_name": "Попов",
+        "phone": "+31629888221",
+        "avatar": "",
+        "role": "moderator",
+        "created_at": "2026-07-17T17:24:16.949Z",
+        "updated_at": "2026-07-17T17:24:16.949Z",
+        "is_active": true,
+        "groups": [],
+        "user_permissions": []
+    }
+},
+{
+    "model": "users.user",
+    "fields": {
+        "password": "pbkdf2_sha256$1200000$KVjWuRrWsqrhoTdRClNrxF$BGiynlfQntgDkp/mJIl4SVtW6INbuRNK4A1daxpciLQ=",
+        "last_login": null,
+        "is_superuser": false,
+        "is_staff": false,
+        "date_joined": "2026-07-17T17:24:16.950Z",
+        "email": "user_a8622dd4385a@example.com",
+        "username": "user_a8622dd4385a",
+        "first_name": "Мария",
+        "last_name": "Васильев",
+        "phone": "+31658036328",
+        "avatar": "",
+        "role": "admin",
+        "created_at": "2026-07-17T17:24:17.359Z",
+        "updated_at": "2026-07-17T17:24:17.359Z",
+        "is_active": true,
+        "groups": [],
+        "user_permissions": []
+    }
+},
+{
+    "model": "users.user",
+    "fields": {
+        "password": "pbkdf2_sha256$1200000$g52exxVGgrqCNSQvEQQzBu$OXgvgHPvVhXYyQrhTDbIk0x+nY0b4LKghgXVIgJhFpY=",
+        "last_login": null,
+        "is_superuser": false,
+        "is_staff": false,
+        "date_joined": "2026-07-17T17:24:17.360Z",
+        "email": "user_fa6a11d3ed2e@example.com",
+        "username": "user_fa6a11d3ed2e",
+        "first_name": "Михаил",
+        "last_name": "Новиков",
+        "phone": "+31626499711",
+        "avatar": "",
+        "role": "user",
+        "created_at": "2026-07-17T17:24:17.765Z",
+        "updated_at": "2026-07-17T17:24:17.765Z",
+        "is_active": true,
+        "groups": [],
+        "user_permissions": []
+    }
+},
+{
+    "model": "users.user",
+    "fields": {
+        "password": "pbkdf2_sha256$1200000$ElHKFcdpBt898e2vsXaJM1$EuTLREhD4G3nYDwzrhN/ITRnVWjLIX3EepqVBwJ2ZIk=",
+        "last_login": null,
+        "is_superuser": false,
+        "is_staff": false,
+        "date_joined": "2026-07-17T17:24:17.765Z",
+        "email": "user_13d891667055@example.com",
+        "username": "user_13d891667055",
+        "first_name": "Иван",
+        "last_name": "Кузнецов",
+        "phone": "+31676246552",
+        "avatar": "",
+        "role": "premium",
+        "created_at": "2026-07-17T17:24:18.176Z",
+        "updated_at": "2026-07-17T17:24:18.176Z",
+        "is_active": true,
+        "groups": [],
+        "user_permissions": []
+    }
+},
+{
+    "model": "users.user",
+    "fields": {
+        "password": "pbkdf2_sha256$1200000$4AMdCvHvQAdgEtFRAPtC9v$CMevVIWfb0o/Fs8+YkTILQF+Do7BUKgygEPRFV8Ip5Y=",
+        "last_login": null,
+        "is_superuser": false,
+        "is_staff": false,
+        "date_joined": "2026-07-17T17:24:18.177Z",
+        "email": "user_23780fe3477c@example.com",
+        "username": "user_23780fe3477c",
+        "first_name": "Иван",
+        "last_name": "Михайлов",
+        "phone": "+31655411515",
+        "avatar": "",
+        "role": "moderator",
+        "created_at": "2026-07-17T17:24:18.581Z",
+        "updated_at": "2026-07-17T17:24:18.581Z",
+        "is_active": true,
+        "groups": [],
+        "user_permissions": []
+    }
+},
+{
+    "model": "users.user",
+    "fields": {
+        "password": "pbkdf2_sha256$1200000$tXMtip0e3oHBq0geulMy4Z$SXGAfmIy8RzP/0cNFY2Atn9flDps0RACvvBuJJILpzI=",
+        "last_login": null,
+        "is_superuser": false,
+        "is_staff": false,
+        "date_joined": "2026-07-17T17:24:18.582Z",
+        "email": "user_179a378f2504@example.com",
+        "username": "user_179a378f2504",
+        "first_name": "Наталья",
+        "last_name": "Михайлов",
+        "phone": "+31657239709",
+        "avatar": "",
+        "role": "admin",
+        "created_at": "2026-07-17T17:24:18.994Z",
+        "updated_at": "2026-07-17T17:24:18.994Z",
+        "is_active": true,
+        "groups": [],
+        "user_permissions": []
+    }
+},
+{
+    "model": "users.user",
+    "fields": {
+        "password": "pbkdf2_sha256$1200000$Tp5lmW5ZFsnyQ70iuz7F1h$KxfqKpQsXgGjgBx4Mzj9PH4OfMl9Vrxkr8iqT08Cgn4=",
+        "last_login": null,
+        "is_superuser": false,
+        "is_staff": false,
+        "date_joined": "2026-07-17T17:24:18.994Z",
+        "email": "user_ac48b26f5f84@example.com",
+        "username": "user_ac48b26f5f84",
+        "first_name": "Анна",
+        "last_name": "Петров",
+        "phone": "+31615804124",
+        "avatar": "",
+        "role": "user",
+        "created_at": "2026-07-17T17:24:19.402Z",
+        "updated_at": "2026-07-17T17:24:19.402Z",
+        "is_active": true,
+        "groups": [],
+        "user_permissions": []
+    }
+},
+{
+    "model": "users.user",
+    "fields": {
+        "password": "pbkdf2_sha256$1200000$3ygMHiKiFAegkGmZsolxDc$84IeLGyPufGVPsZknq5NEW8BGPu4onCkVREqGuZRk6U=",
+        "last_login": null,
+        "is_superuser": false,
+        "is_staff": false,
+        "date_joined": "2026-07-17T17:24:19.402Z",
+        "email": "user_83604f53f86a@example.com",
+        "username": "user_83604f53f86a",
+        "first_name": "Дмитрий",
+        "last_name": "Попов",
+        "phone": "+31652140143",
+        "avatar": "",
+        "role": "premium",
+        "created_at": "2026-07-17T17:24:19.809Z",
+        "updated_at": "2026-07-17T17:24:19.809Z",
+        "is_active": true,
+        "groups": [],
+        "user_permissions": []
+    }
+},
+{
+    "model": "users.user",
+    "fields": {
+        "password": "pbkdf2_sha256$1200000$pb2X0XvUqGUV2rhTLjRfaG$ufVQHHK4O87AqXWvXlUBBYiLAthPghPOR/Ft82iRf4E=",
+        "last_login": null,
+        "is_superuser": false,
+        "is_staff": false,
+        "date_joined": "2026-07-17T17:24:19.809Z",
+        "email": "user_56e71fd48eb9@example.com",
+        "username": "user_56e71fd48eb9",
+        "first_name": "Иван",
+        "last_name": "Михайлов",
+        "phone": "+31671192446",
+        "avatar": "",
+        "role": "moderator",
+        "created_at": "2026-07-17T17:24:20.222Z",
+        "updated_at": "2026-07-17T17:24:20.222Z",
+        "is_active": true,
+        "groups": [],
+        "user_permissions": []
+    }
+},
+{
+    "model": "users.user",
+    "fields": {
+        "password": "pbkdf2_sha256$1200000$LmDGrXNM4387AqYwaIskka$2mFLobodBEOEKceevYXg3pl+4vYadIYu7yAoD74EsQ8=",
+        "last_login": null,
+        "is_superuser": false,
+        "is_staff": false,
+        "date_joined": "2026-07-17T17:24:20.223Z",
+        "email": "user_dfdaa5115c33@example.com",
+        "username": "user_dfdaa5115c33",
+        "first_name": "Михаил",
+        "last_name": "Сидоров",
+        "phone": "+31621240766",
+        "avatar": "",
+        "role": "admin",
+        "created_at": "2026-07-17T17:24:20.630Z",
+        "updated_at": "2026-07-17T17:24:20.630Z",
+        "is_active": true,
+        "groups": [],
+        "user_permissions": []
+    }
+},
+{
+    "model": "users.user",
+    "fields": {
+        "password": "pbkdf2_sha256$1200000$lLoYuMvtm1GAQozZA5VOv1$6ZMbQkvjWDKNo0HXWPKI05euM1ZSYqx8BxS7+cmhefk=",
+        "last_login": null,
+        "is_superuser": false,
+        "is_staff": false,
+        "date_joined": "2026-07-17T17:24:20.630Z",
+        "email": "user_c80e06710e8b@example.com",
+        "username": "user_c80e06710e8b",
+        "first_name": "Елена",
+        "last_name": "Кузнецов",
+        "phone": "+31651872466",
+        "avatar": "",
+        "role": "user",
+        "created_at": "2026-07-17T17:24:21.040Z",
+        "updated_at": "2026-07-17T17:24:21.040Z",
+        "is_active": true,
+        "groups": [],
+        "user_permissions": []
+    }
+},
+{
+    "model": "users.user",
+    "fields": {
+        "password": "pbkdf2_sha256$1200000$ypa1rrL0Ft7ninSramFkyL$28DXLv1hS4ul32kM90MEdqUm+1o/XOgGbMj7DqfvNOU=",
+        "last_login": null,
+        "is_superuser": false,
+        "is_staff": false,
+        "date_joined": "2026-07-17T17:24:21.040Z",
+        "email": "user_71dd7ba4f75e@example.com",
+        "username": "user_71dd7ba4f75e",
+        "first_name": "Александр",
+        "last_name": "Смирнов",
+        "phone": "+31635223713",
+        "avatar": "",
+        "role": "premium",
+        "created_at": "2026-07-17T17:24:21.446Z",
+        "updated_at": "2026-07-17T17:24:21.446Z",
+        "is_active": true,
+        "groups": [],
+        "user_permissions": []
+    }
+},
+{
+    "model": "users.user",
+    "fields": {
+        "password": "pbkdf2_sha256$1200000$nVfD2nVppNf4itCvTSVGfy$8ZG27s13KN9+cD55qUWYojT1m8e2xME1Az/n1ZJmMNE=",
+        "last_login": null,
+        "is_superuser": false,
+        "is_staff": false,
+        "date_joined": "2026-07-17T17:24:21.446Z",
+        "email": "user_7af95c92070f@example.com",
+        "username": "user_7af95c92070f",
+        "first_name": "Ирина",
+        "last_name": "Михайлов",
+        "phone": "+31667239632",
+        "avatar": "",
+        "role": "moderator",
+        "created_at": "2026-07-17T17:24:21.855Z",
+        "updated_at": "2026-07-17T17:24:21.855Z",
+        "is_active": true,
+        "groups": [],
+        "user_permissions": []
+    }
+},
+{
+    "model": "users.user",
+    "fields": {
+        "password": "pbkdf2_sha256$1200000$KBj2s3svzq6tYOLv0WJ2SI$zZAShIwhXvAGC8kKnYpkqBXInBX8SWDkTkGLpLEz0B8=",
+        "last_login": null,
+        "is_superuser": false,
+        "is_staff": false,
+        "date_joined": "2026-07-17T17:24:21.855Z",
+        "email": "user_3680fc645ac7@example.com",
+        "username": "user_3680fc645ac7",
+        "first_name": "Елена",
+        "last_name": "Попов",
+        "phone": "+31636029097",
+        "avatar": "",
+        "role": "admin",
+        "created_at": "2026-07-17T17:24:22.278Z",
+        "updated_at": "2026-07-17T17:24:22.278Z",
+        "is_active": true,
+        "groups": [],
+        "user_permissions": []
+    }
+},
+{
+    "model": "users.user",
+    "fields": {
+        "password": "pbkdf2_sha256$1200000$kBSMtsPbqKHmWbQHownEwS$pco4e1i4eLIXdfGum3ytaS1NgADxkI/56XuIPh0fmcc=",
+        "last_login": null,
+        "is_superuser": false,
+        "is_staff": false,
+        "date_joined": "2026-07-17T17:24:22.278Z",
+        "email": "user_929101366baa@example.com",
+        "username": "user_929101366baa",
+        "first_name": "Наталья",
+        "last_name": "Сидоров",
+        "phone": "+31652267756",
+        "avatar": "",
+        "role": "user",
+        "created_at": "2026-07-17T17:24:22.686Z",
+        "updated_at": "2026-07-17T17:24:22.686Z",
+        "is_active": true,
+        "groups": [],
+        "user_permissions": []
+    }
+},
+{
+    "model": "users.user",
+    "fields": {
+        "password": "pbkdf2_sha256$1200000$jQoMlqghZOaizhGO2ij6KX$mBq9KfsBNVJr1hGfv1oq4Yo90ofkM//Qz6++XbVc70k=",
+        "last_login": null,
+        "is_superuser": false,
+        "is_staff": false,
+        "date_joined": "2026-07-17T17:24:22.686Z",
+        "email": "user_9ad759bbf2e2@example.com",
+        "username": "user_9ad759bbf2e2",
+        "first_name": "Алексей",
+        "last_name": "Сидоров",
+        "phone": "+31611344757",
+        "avatar": "",
+        "role": "premium",
+        "created_at": "2026-07-17T17:24:23.096Z",
+        "updated_at": "2026-07-17T17:24:23.096Z",
+        "is_active": true,
+        "groups": [],
+        "user_permissions": []
+    }
+},
+{
+    "model": "users.user",
+    "fields": {
+        "password": "pbkdf2_sha256$1200000$u3RlvC8LPUTR6Jsocx0K4p$9LmUx8lud8IvMrWe5GViqD5vTRWM/i2puREFQ/Fm7vw=",
+        "last_login": null,
+        "is_superuser": false,
+        "is_staff": false,
+        "date_joined": "2026-07-17T17:24:23.096Z",
+        "email": "user_a9b27fd8c380@example.com",
+        "username": "user_a9b27fd8c380",
+        "first_name": "Елена",
+        "last_name": "Петров",
+        "phone": "+31690807839",
+        "avatar": "",
+        "role": "moderator",
+        "created_at": "2026-07-17T17:24:23.503Z",
+        "updated_at": "2026-07-17T17:24:23.503Z",
+        "is_active": true,
+        "groups": [],
+        "user_permissions": []
+    }
+},
+{
+    "model": "users.user",
+    "fields": {
+        "password": "pbkdf2_sha256$1200000$BDjO9CRFdF1TMXOEJ2meDG$H3PT67/6zymzffl7BQONV/gY4ScQxsOJah2UrrvvMJQ=",
+        "last_login": null,
+        "is_superuser": false,
+        "is_staff": false,
+        "date_joined": "2026-07-17T17:24:23.503Z",
+        "email": "user_e30a0b227d33@example.com",
+        "username": "user_e30a0b227d33",
+        "first_name": "Иван",
+        "last_name": "Смирнов",
+        "phone": "+31679160298",
+        "avatar": "",
+        "role": "admin",
+        "created_at": "2026-07-17T17:24:23.913Z",
+        "updated_at": "2026-07-17T17:24:23.913Z",
+        "is_active": true,
+        "groups": [],
+        "user_permissions": []
+    }
+},
+{
+    "model": "users.user",
+    "fields": {
+        "password": "pbkdf2_sha256$1200000$oYtm86F0VOV6wsYpZeHlBP$2rUhgzk3KpTLsE3uumtOZ1ogaCiuv8WRGqQp6rRGHuQ=",
+        "last_login": null,
+        "is_superuser": false,
+        "is_staff": false,
+        "date_joined": "2026-07-17T17:24:23.913Z",
+        "email": "user_db0589216539@example.com",
+        "username": "user_db0589216539",
+        "first_name": "Иван",
+        "last_name": "Сидоров",
+        "phone": "+31660554525",
+        "avatar": "",
+        "role": "user",
+        "created_at": "2026-07-17T17:24:24.326Z",
+        "updated_at": "2026-07-17T17:24:24.326Z",
+        "is_active": true,
+        "groups": [],
+        "user_permissions": []
+    }
+},
+{
+    "model": "users.user",
+    "fields": {
+        "password": "pbkdf2_sha256$1200000$o0fc9ZIU7CV6w7UeTWL19O$s+GmN3/8M73o/rYLCZxXlnMm5TkfrTEn/GTHnDwOhWE=",
+        "last_login": null,
+        "is_superuser": false,
+        "is_staff": false,
+        "date_joined": "2026-07-17T17:24:24.327Z",
+        "email": "user_ea74b042751d@example.com",
+        "username": "user_ea74b042751d",
+        "first_name": "Дмитрий",
+        "last_name": "Соколов",
+        "phone": "+31667269652",
+        "avatar": "",
+        "role": "premium",
+        "created_at": "2026-07-17T17:24:24.736Z",
+        "updated_at": "2026-07-17T17:24:24.736Z",
+        "is_active": true,
+        "groups": [],
+        "user_permissions": []
+    }
+},
+{
+    "model": "users.user",
+    "fields": {
+        "password": "pbkdf2_sha256$1200000$TvhFsU7GQavrvh4beTSCDY$PybvS560H7m1h0geSV4pvULhnUxhJCmCUXylctu3YS8=",
+        "last_login": null,
+        "is_superuser": false,
+        "is_staff": false,
+        "date_joined": "2026-07-17T17:24:24.736Z",
+        "email": "user_285bcc7c9563@example.com",
+        "username": "user_285bcc7c9563",
+        "first_name": "Алексей",
+        "last_name": "Попов",
+        "phone": "+31649340005",
+        "avatar": "",
+        "role": "moderator",
+        "created_at": "2026-07-17T17:24:25.145Z",
+        "updated_at": "2026-07-17T17:24:25.145Z",
+        "is_active": true,
+        "groups": [],
+        "user_permissions": []
+    }
+},
+{
+    "model": "users.user",
+    "fields": {
+        "password": "pbkdf2_sha256$1200000$iC2uEcXDOYuwfXhq7RRmBT$EeXAQLw1kMD8Nb6yanzl3lRNxuCjm9OKoumElfsrwJ8=",
+        "last_login": null,
+        "is_superuser": false,
+        "is_staff": false,
+        "date_joined": "2026-07-17T17:24:25.145Z",
+        "email": "user_01576778a0f4@example.com",
+        "username": "user_01576778a0f4",
         "first_name": "Наталья",
         "last_name": "Кузнецов",
-        "phone": "+31615013939",
+        "phone": "+31611366962",
         "avatar": "",
-        "role": "moderator",
-        "created_at": "2026-07-12T20:10:05.592Z",
-        "updated_at": "2026-07-12T20:10:05.592Z",
+        "role": "admin",
+        "created_at": "2026-07-17T17:24:25.551Z",
+        "updated_at": "2026-07-17T17:24:25.551Z",
         "is_active": true,
         "groups": [],
         "user_permissions": []
@@ -208,68 +617,21 @@
 },
 {
     "model": "users.user",
-    "pk": 10,
     "fields": {
-        "password": "pbkdf2_sha256$1200000$AtBJauwnvWpbErxQCs1kb5$unkvcozT/1V7CGqNzUOz0W2pb0h52/IHoMyRzxUiimg=",
+        "password": "pbkdf2_sha256$1200000$nhLE55i8MwZn8F33A51OCY$ZTLbdazC/7g/TezmvMK5LmEF1eP7dI350T4jRDwcmKw=",
         "last_login": null,
         "is_superuser": false,
         "is_staff": false,
-        "date_joined": "2026-07-12T20:10:05.593Z",
-        "email": "user_0b17eadf242e@example.com",
-        "username": "user_0b17eadf242e",
+        "date_joined": "2026-07-17T17:24:25.552Z",
+        "email": "user_6d9be6d5d6c0@example.com",
+        "username": "user_6d9be6d5d6c0",
         "first_name": "Михаил",
-        "last_name": "Васильев",
-        "phone": "+31630630695",
-        "avatar": "",
-        "role": "user",
-        "created_at": "2026-07-12T20:10:06.034Z",
-        "updated_at": "2026-07-12T20:10:06.034Z",
-        "is_active": true,
-        "groups": [],
-        "user_permissions": []
-    }
-},
-{
-    "model": "users.user",
-    "pk": 11,
-    "fields": {
-        "password": "pbkdf2_sha256$1200000$JeWKcUWruQRmNLouim8e56$CF7uQLGlM3o5D9og0WpYLdMQiMXMFL8XJgLNDimzd7Q=",
-        "last_login": null,
-        "is_superuser": false,
-        "is_staff": false,
-        "date_joined": "2026-07-12T20:10:06.034Z",
-        "email": "user_2bcdf32f261a@example.com",
-        "username": "user_2bcdf32f261a",
-        "first_name": "Дмитрий",
-        "last_name": "Сидоров",
-        "phone": "+31689110185",
-        "avatar": "",
-        "role": "guest",
-        "created_at": "2026-07-12T20:10:06.448Z",
-        "updated_at": "2026-07-12T20:10:06.448Z",
-        "is_active": true,
-        "groups": [],
-        "user_permissions": []
-    }
-},
-{
-    "model": "users.user",
-    "pk": 12,
-    "fields": {
-        "password": "pbkdf2_sha256$1200000$UulSnvB9Xwr3cYu1qbtqpy$OWnN+Py86/nMJrbclAuDIUzZa8CvbyfzP3GySqL3KoY=",
-        "last_login": null,
-        "is_superuser": false,
-        "is_staff": false,
-        "date_joined": "2026-07-12T20:10:06.448Z",
-        "email": "user_8b951cf972da@example.com",
-        "username": "user_8b951cf972da",
-        "first_name": "Александр",
-        "last_name": "Соколов",
-        "phone": "+31631463402",
+        "last_name": "Новиков",
+        "phone": "+31672533086",
         "avatar": "",
         "role": "premium",
-        "created_at": "2026-07-12T20:10:06.861Z",
-        "updated_at": "2026-07-12T20:10:06.861Z",
+        "created_at": "2026-07-17T17:24:25.959Z",
+        "updated_at": "2026-07-17T17:24:25.959Z",
         "is_active": true,
         "groups": [],
         "user_permissions": []
@@ -277,45 +639,21 @@
 },
 {
     "model": "users.user",
-    "pk": 13,
     "fields": {
-        "password": "pbkdf2_sha256$1200000$UjacLHqeVwte22FpwX7xm0$aJGJUPbq8xLDHsoeDawV66lwleUrI7RtTDCSVk+RKi4=",
+        "password": "pbkdf2_sha256$1200000$G96Xr8gCGcLa9EC7cL4dTL$VusE9lFw4U84czacht+CFdxP1d9hLG1geiI3IsHf+cQ=",
         "last_login": null,
         "is_superuser": false,
         "is_staff": false,
-        "date_joined": "2026-07-12T20:10:06.861Z",
-        "email": "user_b09ae5f7dbfd@example.com",
-        "username": "user_b09ae5f7dbfd",
-        "first_name": "Сергей",
-        "last_name": "Сидоров",
-        "phone": "+31663226208",
-        "avatar": "",
-        "role": "premium",
-        "created_at": "2026-07-12T20:10:07.269Z",
-        "updated_at": "2026-07-12T20:10:07.269Z",
-        "is_active": true,
-        "groups": [],
-        "user_permissions": []
-    }
-},
-{
-    "model": "users.user",
-    "pk": 14,
-    "fields": {
-        "password": "pbkdf2_sha256$1200000$NUHPz1xJlDW4P7tec06Nzy$/iS+6U3HZ9fg/6hA5Nf0SuYCDqIy9q5eo6O2UFrT9tE=",
-        "last_login": null,
-        "is_superuser": false,
-        "is_staff": false,
-        "date_joined": "2026-07-12T20:10:07.270Z",
-        "email": "user_635fb6e04b68@example.com",
-        "username": "user_635fb6e04b68",
-        "first_name": "Александр",
+        "date_joined": "2026-07-17T17:24:25.959Z",
+        "email": "user_5a679279f23c@example.com",
+        "username": "user_5a679279f23c",
+        "first_name": "Иван",
         "last_name": "Смирнов",
-        "phone": "+31670296820",
+        "phone": "+31673910864",
         "avatar": "",
-        "role": "guest",
-        "created_at": "2026-07-12T20:10:07.684Z",
-        "updated_at": "2026-07-12T20:10:07.684Z",
+        "role": "premium",
+        "created_at": "2026-07-17T17:24:26.372Z",
+        "updated_at": "2026-07-17T17:24:26.372Z",
         "is_active": true,
         "groups": [],
         "user_permissions": []
@@ -323,45 +661,21 @@
 },
 {
     "model": "users.user",
-    "pk": 15,
     "fields": {
-        "password": "pbkdf2_sha256$1200000$Tk3flWccPsCuR3aWyPzNr2$ZqbM01RAZVONa79ce2kLy4RTrLql8iMXlK58cIUr2nI=",
+        "password": "pbkdf2_sha256$1200000$vZWL0fsiZtztsPlDq3aVsq$M725FhtVtADkGqJPFecMQzxyDCIqxR7hbf6BFEtiwDw=",
         "last_login": null,
         "is_superuser": false,
         "is_staff": false,
-        "date_joined": "2026-07-12T20:10:07.684Z",
-        "email": "user_48b6ffaa141a@example.com",
-        "username": "user_48b6ffaa141a",
-        "first_name": "Михаил",
-        "last_name": "Петров",
-        "phone": "+31684933537",
-        "avatar": "",
-        "role": "user",
-        "created_at": "2026-07-12T20:10:08.098Z",
-        "updated_at": "2026-07-12T20:10:08.098Z",
-        "is_active": true,
-        "groups": [],
-        "user_permissions": []
-    }
-},
-{
-    "model": "users.user",
-    "pk": 16,
-    "fields": {
-        "password": "pbkdf2_sha256$1200000$RP6AQyj6oRWXyswvE8VYiw$KhG2nMvoAuIcgWy9r8hnZH4k32TT8TiiK7/S7Z+k8Cw=",
-        "last_login": null,
-        "is_superuser": false,
-        "is_staff": false,
-        "date_joined": "2026-07-12T20:10:08.098Z",
-        "email": "user_310001fd8758@example.com",
-        "username": "user_310001fd8758",
-        "first_name": "Ольга",
-        "last_name": "Сидоров",
-        "phone": "+31613302999",
+        "date_joined": "2026-07-17T17:24:26.373Z",
+        "email": "user_05aaf70b6580@example.com",
+        "username": "user_05aaf70b6580",
+        "first_name": "Мария",
+        "last_name": "Попов",
+        "phone": "+31668982587",
         "avatar": "",
         "role": "moderator",
-        "created_at": "2026-07-12T20:10:08.509Z",
-        "updated_at": "2026-07-12T20:10:08.509Z",
+        "created_at": "2026-07-17T17:24:26.781Z",
+        "updated_at": "2026-07-17T17:24:26.781Z",
         "is_active": true,
         "groups": [],
         "user_permissions": []
@@ -369,22 +683,21 @@
 },
 {
     "model": "users.user",
-    "pk": 17,
     "fields": {
-        "password": "pbkdf2_sha256$1200000$OXBIJ7DeLqxH0syT2bFoh8$//9BJyh8U5LbmPxcqZkdmz2tzAKCqXsk30TXtHg3QxU=",
+        "password": "pbkdf2_sha256$1200000$3IKl3jf5l25nONdIkvL6cv$BDHnbtvtkq8yiUtZniWj3Sv7L0aQKP2n2udu78rnbHo=",
         "last_login": null,
         "is_superuser": false,
         "is_staff": false,
-        "date_joined": "2026-07-12T20:10:08.509Z",
-        "email": "user_81d5d64fe015@example.com",
-        "username": "user_81d5d64fe015",
-        "first_name": "Дмитрий",
+        "date_joined": "2026-07-17T17:24:26.782Z",
+        "email": "user_7bacbbc1239f@example.com",
+        "username": "user_7bacbbc1239f",
+        "first_name": "Мария",
         "last_name": "Михайлов",
-        "phone": "+31685460472",
+        "phone": "+31611401261",
         "avatar": "",
-        "role": "guest",
-        "created_at": "2026-07-12T20:10:08.919Z",
-        "updated_at": "2026-07-12T20:10:08.919Z",
+        "role": "admin",
+        "created_at": "2026-07-17T17:24:27.195Z",
+        "updated_at": "2026-07-17T17:24:27.195Z",
         "is_active": true,
         "groups": [],
         "user_permissions": []
@@ -392,45 +705,197 @@
 },
 {
     "model": "users.user",
-    "pk": 18,
     "fields": {
-        "password": "pbkdf2_sha256$1200000$hUGUabCajHMw8jZMAlbpvl$BhNs25ltXq6VugzbctRhwPDlZO1tGI/rOTpF/fZoa1Y=",
+        "password": "pbkdf2_sha256$1200000$L2Wfe4PdppPMpkxsIfDStQ$C1sGeZ0tq1E7H6EWoYG5fXI/KrsNlmreEm00+BSV0Eo=",
         "last_login": null,
         "is_superuser": false,
         "is_staff": false,
-        "date_joined": "2026-07-12T20:10:08.920Z",
-        "email": "user_90487c60c37e@example.com",
-        "username": "user_90487c60c37e",
+        "date_joined": "2026-07-17T17:24:27.196Z",
+        "email": "user_5555a20253b8@example.com",
+        "username": "user_5555a20253b8",
+        "first_name": "Дмитрий",
+        "last_name": "Соколов",
+        "phone": "+31659758558",
+        "avatar": "",
+        "role": "user",
+        "created_at": "2026-07-17T17:24:27.600Z",
+        "updated_at": "2026-07-17T17:24:27.600Z",
+        "is_active": true,
+        "groups": [],
+        "user_permissions": []
+    }
+},
+{
+    "model": "users.user",
+    "fields": {
+        "password": "pbkdf2_sha256$1200000$8eOcZlvFw3WhjC26wsenka$zetY7BIhIRszasfJWFnxzFI2TugecCB+PFIU0INv4dA=",
+        "last_login": null,
+        "is_superuser": false,
+        "is_staff": false,
+        "date_joined": "2026-07-17T17:24:27.600Z",
+        "email": "user_e8eeec4627fb@example.com",
+        "username": "user_e8eeec4627fb",
+        "first_name": "Ирина",
+        "last_name": "Новиков",
+        "phone": "+31675211391",
+        "avatar": "",
+        "role": "premium",
+        "created_at": "2026-07-17T17:24:28.006Z",
+        "updated_at": "2026-07-17T17:24:28.006Z",
+        "is_active": true,
+        "groups": [],
+        "user_permissions": []
+    }
+},
+{
+    "model": "users.user",
+    "fields": {
+        "password": "pbkdf2_sha256$1200000$tSZ6Atj0QZsivih4lgYQBs$TRz3P1A8ZvHklCArJBi0NtzdfC18mbT7q0iEzyxDMJU=",
+        "last_login": null,
+        "is_superuser": false,
+        "is_staff": false,
+        "date_joined": "2026-07-17T17:24:28.006Z",
+        "email": "user_d9e8ff8862a7@example.com",
+        "username": "user_d9e8ff8862a7",
+        "first_name": "Алексей",
+        "last_name": "Васильев",
+        "phone": "+31651521325",
+        "avatar": "",
+        "role": "moderator",
+        "created_at": "2026-07-17T17:24:28.413Z",
+        "updated_at": "2026-07-17T17:24:28.413Z",
+        "is_active": true,
+        "groups": [],
+        "user_permissions": []
+    }
+},
+{
+    "model": "users.user",
+    "fields": {
+        "password": "pbkdf2_sha256$1200000$9Ev85ao5QcmUuZvsHhO0Im$HAs9WQ3Xgpi2Z0fZ97FPqxVeQHMPD5GyLjv5fB1RQc4=",
+        "last_login": null,
+        "is_superuser": false,
+        "is_staff": false,
+        "date_joined": "2026-07-17T17:24:28.413Z",
+        "email": "user_75d38d88f24c@example.com",
+        "username": "user_75d38d88f24c",
+        "first_name": "Михаил",
+        "last_name": "Соколов",
+        "phone": "+31645925116",
+        "avatar": "",
+        "role": "admin",
+        "created_at": "2026-07-17T17:24:28.821Z",
+        "updated_at": "2026-07-17T17:24:28.821Z",
+        "is_active": true,
+        "groups": [],
+        "user_permissions": []
+    }
+},
+{
+    "model": "users.user",
+    "fields": {
+        "password": "pbkdf2_sha256$1200000$3kQREwUEuL3BQl8cEJ4nuO$tkLvJkARAcwS2tSs6fpSTMPbrMciIelkbb+LFu8NbJk=",
+        "last_login": null,
+        "is_superuser": false,
+        "is_staff": false,
+        "date_joined": "2026-07-17T17:24:28.821Z",
+        "email": "user_4d9c3d1d0b8d@example.com",
+        "username": "user_4d9c3d1d0b8d",
+        "first_name": "Ольга",
+        "last_name": "Соколов",
+        "phone": "+31627781421",
+        "avatar": "",
+        "role": "premium",
+        "created_at": "2026-07-17T17:24:29.234Z",
+        "updated_at": "2026-07-17T17:24:29.234Z",
+        "is_active": true,
+        "groups": [],
+        "user_permissions": []
+    }
+},
+{
+    "model": "users.user",
+    "fields": {
+        "password": "pbkdf2_sha256$1200000$UXjPrweb8afVIyPdnnKHbh$pDG1XB5l7LdY5YUyYrYtiT2KQqCdrNeFP7AOo+HdM9k=",
+        "last_login": null,
+        "is_superuser": false,
+        "is_staff": false,
+        "date_joined": "2026-07-17T17:24:29.234Z",
+        "email": "user_cbbfb348d2dc@example.com",
+        "username": "user_cbbfb348d2dc",
+        "first_name": "Наталья",
+        "last_name": "Иванов",
+        "phone": "+31677688047",
+        "avatar": "",
+        "role": "premium",
+        "created_at": "2026-07-17T17:24:29.642Z",
+        "updated_at": "2026-07-17T17:24:29.642Z",
+        "is_active": true,
+        "groups": [],
+        "user_permissions": []
+    }
+},
+{
+    "model": "users.user",
+    "fields": {
+        "password": "pbkdf2_sha256$1200000$VaJWXpVq1CyxBMA8bgcfqc$UO0NSifnNTNVFxGjFVgu9UioRRlTskY6WO127cgFxEo=",
+        "last_login": null,
+        "is_superuser": false,
+        "is_staff": false,
+        "date_joined": "2026-07-17T17:24:29.643Z",
+        "email": "user_a2cc6b858eab@example.com",
+        "username": "user_a2cc6b858eab",
+        "first_name": "Мария",
+        "last_name": "Иванов",
+        "phone": "+31653809145",
+        "avatar": "",
+        "role": "moderator",
+        "created_at": "2026-07-17T17:24:30.060Z",
+        "updated_at": "2026-07-17T17:24:30.060Z",
+        "is_active": true,
+        "groups": [],
+        "user_permissions": []
+    }
+},
+{
+    "model": "users.user",
+    "fields": {
+        "password": "pbkdf2_sha256$1200000$zu1oXPXN1hYup0QcqZSPor$jzKAou26RS7ZPGOJQFhBl2oo4ipV8pK7KORBKdyh0VE=",
+        "last_login": null,
+        "is_superuser": false,
+        "is_staff": false,
+        "date_joined": "2026-07-17T17:24:30.060Z",
+        "email": "user_b5db7768e8c7@example.com",
+        "username": "user_b5db7768e8c7",
+        "first_name": "Иван",
+        "last_name": "Иванов",
+        "phone": "+31618536792",
+        "avatar": "",
+        "role": "admin",
+        "created_at": "2026-07-17T17:24:30.467Z",
+        "updated_at": "2026-07-17T17:24:30.467Z",
+        "is_active": true,
+        "groups": [],
+        "user_permissions": []
+    }
+},
+{
+    "model": "users.user",
+    "fields": {
+        "password": "pbkdf2_sha256$1200000$dhXAlYoRzWY78MbuudUOwy$LXrP24Yl3zmLil5BOMCR/wD5roJUbNOUGtmhghocQTU=",
+        "last_login": null,
+        "is_superuser": false,
+        "is_staff": false,
+        "date_joined": "2026-07-17T17:24:30.467Z",
+        "email": "user_97eeadbdffa8@example.com",
+        "username": "user_97eeadbdffa8",
         "first_name": "Елена",
         "last_name": "Кузнецов",
-        "phone": "+31680257507",
-        "avatar": "",
-        "role": "premium",
-        "created_at": "2026-07-12T20:10:09.332Z",
-        "updated_at": "2026-07-12T20:10:09.332Z",
-        "is_active": true,
-        "groups": [],
-        "user_permissions": []
-    }
-},
-{
-    "model": "users.user",
-    "pk": 19,
-    "fields": {
-        "password": "pbkdf2_sha256$1200000$yWYoRQ2uksdeZ3NzgnLCAv$BlK9FPCqCG1pPeddom3yPF7OOO7bFb7PWFAxKFKMyCw=",
-        "last_login": null,
-        "is_superuser": false,
-        "is_staff": false,
-        "date_joined": "2026-07-12T20:10:09.332Z",
-        "email": "user_f3bf3d77c2a3@example.com",
-        "username": "user_f3bf3d77c2a3",
-        "first_name": "Сергей",
-        "last_name": "Смирнов",
-        "phone": "+31603076974",
+        "phone": "+31665468603",
         "avatar": "",
         "role": "user",
-        "created_at": "2026-07-12T20:10:09.745Z",
-        "updated_at": "2026-07-12T20:10:09.745Z",
+        "created_at": "2026-07-17T17:24:30.879Z",
+        "updated_at": "2026-07-17T17:24:30.879Z",
         "is_active": true,
         "groups": [],
         "user_permissions": []
@@ -438,91 +903,21 @@
 },
 {
     "model": "users.user",
-    "pk": 20,
     "fields": {
-        "password": "pbkdf2_sha256$1200000$hkf8dxcmiHEeVBMzl7eJRj$kueNFoXNRHp3fhyvu5MtPo2zemgHgOXN2pqFMby3Rsk=",
+        "password": "pbkdf2_sha256$1200000$AWRCPKkUyeW664xm662qB9$8uk7HbwhtsH0rBDyW5zZ/xibJzVRfHNp/p2MQQKiJWA=",
         "last_login": null,
         "is_superuser": false,
         "is_staff": false,
-        "date_joined": "2026-07-12T20:10:09.745Z",
-        "email": "user_e6ab75b7c0cc@example.com",
-        "username": "user_e6ab75b7c0cc",
-        "first_name": "Дмитрий",
-        "last_name": "Смирнов",
-        "phone": "+31664538149",
-        "avatar": "",
-        "role": "premium",
-        "created_at": "2026-07-12T20:10:10.156Z",
-        "updated_at": "2026-07-12T20:10:10.156Z",
-        "is_active": true,
-        "groups": [],
-        "user_permissions": []
-    }
-},
-{
-    "model": "users.user",
-    "pk": 21,
-    "fields": {
-        "password": "pbkdf2_sha256$1200000$DFzcAzVCZzST0Xi2urNBKl$Ek4xy8FyJJUnX/jxgt6X3Jm4oA9ZjhBKr+5U4Pp0Is4=",
-        "last_login": null,
-        "is_superuser": false,
-        "is_staff": false,
-        "date_joined": "2026-07-12T20:10:10.157Z",
-        "email": "user_5625accb5129@example.com",
-        "username": "user_5625accb5129",
-        "first_name": "Ирина",
-        "last_name": "Иванов",
-        "phone": "+31651721309",
-        "avatar": "",
-        "role": "guest",
-        "created_at": "2026-07-12T20:10:10.567Z",
-        "updated_at": "2026-07-12T20:10:10.567Z",
-        "is_active": true,
-        "groups": [],
-        "user_permissions": []
-    }
-},
-{
-    "model": "users.user",
-    "pk": 22,
-    "fields": {
-        "password": "pbkdf2_sha256$1200000$EJ4DMBjTnD2weTytAH7Hr9$cmZuVYy6tiCeZcjaO5/pP4RhjOfK7vPMZedx0gJWP9s=",
-        "last_login": null,
-        "is_superuser": false,
-        "is_staff": false,
-        "date_joined": "2026-07-12T20:10:10.567Z",
-        "email": "user_d2e4d1b1ad33@example.com",
-        "username": "user_d2e4d1b1ad33",
-        "first_name": "Сергей",
-        "last_name": "Иванов",
-        "phone": "+31681366933",
-        "avatar": "",
-        "role": "user",
-        "created_at": "2026-07-12T20:10:10.981Z",
-        "updated_at": "2026-07-12T20:10:10.981Z",
-        "is_active": true,
-        "groups": [],
-        "user_permissions": []
-    }
-},
-{
-    "model": "users.user",
-    "pk": 23,
-    "fields": {
-        "password": "pbkdf2_sha256$1200000$0biizEfSVUFlrVsFQxNYec$FofKW88j/65IOoBXHssc/PXOzy4mMg1+hEp0LFvw9wk=",
-        "last_login": null,
-        "is_superuser": false,
-        "is_staff": false,
-        "date_joined": "2026-07-12T20:10:10.981Z",
-        "email": "user_fa2c7bc330b4@example.com",
-        "username": "user_fa2c7bc330b4",
-        "first_name": "Алексей",
+        "date_joined": "2026-07-17T17:24:30.879Z",
+        "email": "user_b5e2e4ed8f27@example.com",
+        "username": "user_b5e2e4ed8f27",
+        "first_name": "Анна",
         "last_name": "Новиков",
-        "phone": "+31614035523",
+        "phone": "+31626856513",
         "avatar": "",
         "role": "premium",
-        "created_at": "2026-07-12T20:10:11.393Z",
-        "updated_at": "2026-07-12T20:10:11.393Z",
+        "created_at": "2026-07-17T17:24:31.292Z",
+        "updated_at": "2026-07-17T17:24:31.292Z",
         "is_active": true,
         "groups": [],
         "user_permissions": []
@@ -530,275 +925,21 @@
 },
 {
     "model": "users.user",
-    "pk": 24,
     "fields": {
-        "password": "pbkdf2_sha256$1200000$O7P7R4ORJiiIXhXYa3afmY$TEPLKSNkopoRmFs80JoV4BQKUWGuKdeq/dfGCxzPJow=",
+        "password": "pbkdf2_sha256$1200000$cO7Z9C2hbTuHqMO5ahQSdc$+pdzX18usN4GBZHESZ7YZYiJI02igNNH7AUy+1PfYtA=",
         "last_login": null,
         "is_superuser": false,
         "is_staff": false,
-        "date_joined": "2026-07-12T20:10:11.394Z",
-        "email": "user_e74b3c56ee90@example.com",
-        "username": "user_e74b3c56ee90",
-        "first_name": "Сергей",
-        "last_name": "Соколов",
-        "phone": "+31652560043",
-        "avatar": "",
-        "role": "user",
-        "created_at": "2026-07-12T20:10:11.809Z",
-        "updated_at": "2026-07-12T20:10:11.809Z",
-        "is_active": true,
-        "groups": [],
-        "user_permissions": []
-    }
-},
-{
-    "model": "users.user",
-    "pk": 25,
-    "fields": {
-        "password": "pbkdf2_sha256$1200000$VFA9Cc29nSEkS2JAbZrCaY$+LqRz2j9uAC8nRWOEO0/AuLiRdR15TIUCYCmfWawROg=",
-        "last_login": null,
-        "is_superuser": false,
-        "is_staff": false,
-        "date_joined": "2026-07-12T20:10:11.809Z",
-        "email": "user_e443b5b9a2eb@example.com",
-        "username": "user_e443b5b9a2eb",
-        "first_name": "Дмитрий",
-        "last_name": "Соколов",
-        "phone": "+31649098142",
-        "avatar": "",
-        "role": "user",
-        "created_at": "2026-07-12T20:10:12.223Z",
-        "updated_at": "2026-07-12T20:10:12.223Z",
-        "is_active": true,
-        "groups": [],
-        "user_permissions": []
-    }
-},
-{
-    "model": "users.user",
-    "pk": 26,
-    "fields": {
-        "password": "pbkdf2_sha256$1200000$oimnGSILSGp8DVu7nYwb0O$ZthrsVWbi9NLMzGKanROktU4EyQxvxGkcQUL1n5KIRE=",
-        "last_login": null,
-        "is_superuser": false,
-        "is_staff": false,
-        "date_joined": "2026-07-12T20:10:12.223Z",
-        "email": "user_ec72cd531eec@example.com",
-        "username": "user_ec72cd531eec",
-        "first_name": "Ирина",
-        "last_name": "Михайлов",
-        "phone": "+31677008262",
-        "avatar": "",
-        "role": "premium",
-        "created_at": "2026-07-12T20:10:12.648Z",
-        "updated_at": "2026-07-12T20:10:12.648Z",
-        "is_active": true,
-        "groups": [],
-        "user_permissions": []
-    }
-},
-{
-    "model": "users.user",
-    "pk": 27,
-    "fields": {
-        "password": "pbkdf2_sha256$1200000$JsNk2ER6t4GcFnleCeZ1Co$SCJnav0ycZ5zN0TXP61E2nh4MxRCz10ypU6D3ggnQnw=",
-        "last_login": null,
-        "is_superuser": false,
-        "is_staff": false,
-        "date_joined": "2026-07-12T20:10:12.649Z",
-        "email": "user_502a9f12fe48@example.com",
-        "username": "user_502a9f12fe48",
-        "first_name": "Иван",
-        "last_name": "Соколов",
-        "phone": "+31613754903",
-        "avatar": "",
-        "role": "user",
-        "created_at": "2026-07-12T20:10:13.064Z",
-        "updated_at": "2026-07-12T20:10:13.064Z",
-        "is_active": true,
-        "groups": [],
-        "user_permissions": []
-    }
-},
-{
-    "model": "users.user",
-    "pk": 28,
-    "fields": {
-        "password": "pbkdf2_sha256$1200000$OytdnQcfwELz7ZN0pXzW6U$y27MqmWFiONmcZ6JR8d5L7zUhNsglFYvpzc6+3JXcC0=",
-        "last_login": null,
-        "is_superuser": false,
-        "is_staff": false,
-        "date_joined": "2026-07-12T20:10:13.064Z",
-        "email": "user_16296114e194@example.com",
-        "username": "user_16296114e194",
-        "first_name": "Дмитрий",
-        "last_name": "Соколов",
-        "phone": "+31626497991",
-        "avatar": "",
-        "role": "guest",
-        "created_at": "2026-07-12T20:10:13.492Z",
-        "updated_at": "2026-07-12T20:10:13.492Z",
-        "is_active": true,
-        "groups": [],
-        "user_permissions": []
-    }
-},
-{
-    "model": "users.user",
-    "pk": 29,
-    "fields": {
-        "password": "pbkdf2_sha256$1200000$tPBmL6XkIdl5kI0VEQvCk8$rzLIzeQB7xuNN0mGGGJu1ASrTiCaJPyJ2yb4Pe6uBHE=",
-        "last_login": null,
-        "is_superuser": false,
-        "is_staff": false,
-        "date_joined": "2026-07-12T20:10:13.492Z",
-        "email": "user_fb5327008cf8@example.com",
-        "username": "user_fb5327008cf8",
-        "first_name": "Ирина",
-        "last_name": "Смирнов",
-        "phone": "+31683627740",
-        "avatar": "",
-        "role": "moderator",
-        "created_at": "2026-07-12T20:10:13.902Z",
-        "updated_at": "2026-07-12T20:10:13.902Z",
-        "is_active": true,
-        "groups": [],
-        "user_permissions": []
-    }
-},
-{
-    "model": "users.user",
-    "pk": 30,
-    "fields": {
-        "password": "pbkdf2_sha256$1200000$xgyl8mi2fuxPV7ahMI1Mag$xP/epaZb8FsWFz7fjYLb3YBfL6OOJ3owTU4S90YD+e8=",
-        "last_login": null,
-        "is_superuser": false,
-        "is_staff": false,
-        "date_joined": "2026-07-12T20:10:13.903Z",
-        "email": "user_ad6291e00490@example.com",
-        "username": "user_ad6291e00490",
-        "first_name": "Ольга",
-        "last_name": "Сидоров",
-        "phone": "+31605079108",
-        "avatar": "",
-        "role": "guest",
-        "created_at": "2026-07-12T20:10:14.317Z",
-        "updated_at": "2026-07-12T20:10:14.317Z",
-        "is_active": true,
-        "groups": [],
-        "user_permissions": []
-    }
-},
-{
-    "model": "users.user",
-    "pk": 31,
-    "fields": {
-        "password": "pbkdf2_sha256$1200000$sNX0IX3oKfCVmwjzqoJxbu$9kYsNWy6h9U4zuhRPcINmtk3ef/M+JVWi622Gf0BK+g=",
-        "last_login": null,
-        "is_superuser": false,
-        "is_staff": false,
-        "date_joined": "2026-07-12T20:10:14.317Z",
-        "email": "user_be7e51452b07@example.com",
-        "username": "user_be7e51452b07",
-        "first_name": "Ольга",
-        "last_name": "Кузнецов",
-        "phone": "+31620374861",
-        "avatar": "",
-        "role": "premium",
-        "created_at": "2026-07-12T20:10:14.728Z",
-        "updated_at": "2026-07-12T20:10:14.728Z",
-        "is_active": true,
-        "groups": [],
-        "user_permissions": []
-    }
-},
-{
-    "model": "users.user",
-    "pk": 32,
-    "fields": {
-        "password": "pbkdf2_sha256$1200000$99F6zEL09n8XkCqJg78fdI$QGk5l0JvD9FM8skOqmrAL3xlEWhC6v0KIVhGLpix4pY=",
-        "last_login": null,
-        "is_superuser": false,
-        "is_staff": false,
-        "date_joined": "2026-07-12T20:10:14.729Z",
-        "email": "user_fcbdfd93de78@example.com",
-        "username": "user_fcbdfd93de78",
-        "first_name": "Алексей",
-        "last_name": "Михайлов",
-        "phone": "+31604659970",
-        "avatar": "",
-        "role": "moderator",
-        "created_at": "2026-07-12T20:10:15.142Z",
-        "updated_at": "2026-07-12T20:10:15.142Z",
-        "is_active": true,
-        "groups": [],
-        "user_permissions": []
-    }
-},
-{
-    "model": "users.user",
-    "pk": 33,
-    "fields": {
-        "password": "pbkdf2_sha256$1200000$JqIVNdV1Pt9Vxay5CwrgNA$y5uYwOpackkSsGzSk1muWnovsr8GMlhHepe/zb89XuA=",
-        "last_login": null,
-        "is_superuser": false,
-        "is_staff": false,
-        "date_joined": "2026-07-12T20:10:15.142Z",
-        "email": "user_6ba052529349@example.com",
-        "username": "user_6ba052529349",
-        "first_name": "Ольга",
-        "last_name": "Новиков",
-        "phone": "+31670849651",
-        "avatar": "",
-        "role": "guest",
-        "created_at": "2026-07-12T20:10:15.554Z",
-        "updated_at": "2026-07-12T20:10:15.554Z",
-        "is_active": true,
-        "groups": [],
-        "user_permissions": []
-    }
-},
-{
-    "model": "users.user",
-    "pk": 34,
-    "fields": {
-        "password": "pbkdf2_sha256$1200000$hUrLCIWGRN5pFFtV5cBReI$IuRZLIJOIa+cb9948J4ohbfNCZqmcUK+LbLDwHuqdyw=",
-        "last_login": null,
-        "is_superuser": false,
-        "is_staff": false,
-        "date_joined": "2026-07-12T20:10:15.554Z",
-        "email": "user_4293c88e5487@example.com",
-        "username": "user_4293c88e5487",
-        "first_name": "Иван",
-        "last_name": "Новиков",
-        "phone": "+31642039876",
-        "avatar": "",
-        "role": "moderator",
-        "created_at": "2026-07-12T20:10:15.968Z",
-        "updated_at": "2026-07-12T20:10:15.968Z",
-        "is_active": true,
-        "groups": [],
-        "user_permissions": []
-    }
-},
-{
-    "model": "users.user",
-    "pk": 35,
-    "fields": {
-        "password": "pbkdf2_sha256$1200000$GCMk0U8g7AHooRhWzxFqik$kKFdU59Wu8owyrOoP6E0n0KI4lYmADrNtyVz5uoTmgo=",
-        "last_login": null,
-        "is_superuser": false,
-        "is_staff": false,
-        "date_joined": "2026-07-12T20:10:15.968Z",
-        "email": "user_238176622708@example.com",
-        "username": "user_238176622708",
+        "date_joined": "2026-07-17T17:24:31.292Z",
+        "email": "user_fef63ec60cb5@example.com",
+        "username": "user_fef63ec60cb5",
         "first_name": "Иван",
         "last_name": "Попов",
-        "phone": "+31626773420",
+        "phone": "+31646628268",
         "avatar": "",
-        "role": "guest",
-        "created_at": "2026-07-12T20:10:16.382Z",
-        "updated_at": "2026-07-12T20:10:16.382Z",
+        "role": "moderator",
+        "created_at": "2026-07-17T17:24:31.707Z",
+        "updated_at": "2026-07-17T17:24:31.707Z",
         "is_active": true,
         "groups": [],
         "user_permissions": []
@@ -806,22 +947,21 @@
 },
 {
     "model": "users.user",
-    "pk": 36,
     "fields": {
-        "password": "pbkdf2_sha256$1200000$IvZewOaD9FH0TfNGhTZZsF$4MEpu5wa2XJriM4TwuPntvGPQD3us+xLPteNI9TjZiw=",
+        "password": "pbkdf2_sha256$1200000$St6sz3Ag5jDmCGYViwR3qx$5sHA67psIoag3DIbDrBKJY61QEeJULkaE/CZzLU2xQQ=",
         "last_login": null,
         "is_superuser": false,
         "is_staff": false,
-        "date_joined": "2026-07-12T20:10:16.382Z",
-        "email": "user_f11ae58e2e8d@example.com",
-        "username": "user_f11ae58e2e8d",
-        "first_name": "Михаил",
-        "last_name": "Сидоров",
-        "phone": "+31614601200",
+        "date_joined": "2026-07-17T17:24:31.707Z",
+        "email": "user_79b4866f0118@example.com",
+        "username": "user_79b4866f0118",
+        "first_name": "Ирина",
+        "last_name": "Васильев",
+        "phone": "+31638446752",
         "avatar": "",
-        "role": "guest",
-        "created_at": "2026-07-12T20:10:16.793Z",
-        "updated_at": "2026-07-12T20:10:16.793Z",
+        "role": "admin",
+        "created_at": "2026-07-17T17:24:32.114Z",
+        "updated_at": "2026-07-17T17:24:32.114Z",
         "is_active": true,
         "groups": [],
         "user_permissions": []
@@ -829,13 +969,122 @@
 },
 {
     "model": "users.user",
-    "pk": 37,
     "fields": {
-        "password": "pbkdf2_sha256$1200000$buf380OdOjs3MOuaRWkSH2$2gitQdxGpGIZDbxVrmacbOZ2j/ASGgeVJdiyVhZCRhA=",
-        "last_login": "2026-07-12T20:11:42.976Z",
+        "password": "pbkdf2_sha256$1200000$2z7Gr9VVhRoPpgRhEowFu5$9lILSER1n71z5A2+I40R59dy9Ldrbe41f83ZheLJQNU=",
+        "last_login": null,
+        "is_superuser": false,
+        "is_staff": false,
+        "date_joined": "2026-07-17T17:24:32.115Z",
+        "email": "user_2d49a217fde7@example.com",
+        "username": "user_2d49a217fde7",
+        "first_name": "Елена",
+        "last_name": "Попов",
+        "phone": "+31650924181",
+        "avatar": "",
+        "role": "premium",
+        "created_at": "2026-07-17T17:24:32.524Z",
+        "updated_at": "2026-07-17T17:24:32.524Z",
+        "is_active": true,
+        "groups": [],
+        "user_permissions": []
+    }
+},
+{
+    "model": "users.user",
+    "fields": {
+        "password": "pbkdf2_sha256$1200000$BEoeolSYU2RPrQwPUWDGqE$7GNTdfelUZGvRLEPSU/S+aFsgNEW9EBk6vZ8TYVOebs=",
+        "last_login": null,
+        "is_superuser": false,
+        "is_staff": false,
+        "date_joined": "2026-07-17T17:24:32.524Z",
+        "email": "user_d70515ac1423@example.com",
+        "username": "user_d70515ac1423",
+        "first_name": "Елена",
+        "last_name": "Михайлов",
+        "phone": "+31622518652",
+        "avatar": "",
+        "role": "premium",
+        "created_at": "2026-07-17T17:24:32.932Z",
+        "updated_at": "2026-07-17T17:24:32.932Z",
+        "is_active": true,
+        "groups": [],
+        "user_permissions": []
+    }
+},
+{
+    "model": "users.user",
+    "fields": {
+        "password": "pbkdf2_sha256$1200000$fDMZhXxyTyhuWiccMR0S6Y$e5/xpjuoKEHRZNsYPFL+ELlmUcNeMiHPjC8SX+CFS5Y=",
+        "last_login": null,
+        "is_superuser": false,
+        "is_staff": false,
+        "date_joined": "2026-07-17T17:24:32.932Z",
+        "email": "user_82ab1d17f0a9@example.com",
+        "username": "user_82ab1d17f0a9",
+        "first_name": "Михаил",
+        "last_name": "Васильев",
+        "phone": "+31657645091",
+        "avatar": "",
+        "role": "moderator",
+        "created_at": "2026-07-17T17:24:33.351Z",
+        "updated_at": "2026-07-17T17:24:33.351Z",
+        "is_active": true,
+        "groups": [],
+        "user_permissions": []
+    }
+},
+{
+    "model": "users.user",
+    "fields": {
+        "password": "pbkdf2_sha256$1200000$qvLqLiSTpG212mDFO86HDc$FjGP02Qc+LkU/ybxvMzByZyiDaq7uyyIbOdz+/iwx4A=",
+        "last_login": null,
+        "is_superuser": false,
+        "is_staff": false,
+        "date_joined": "2026-07-17T17:24:33.352Z",
+        "email": "user_6f6ce58e7bbc@example.com",
+        "username": "user_6f6ce58e7bbc",
+        "first_name": "Ольга",
+        "last_name": "Попов",
+        "phone": "+31637339889",
+        "avatar": "",
+        "role": "admin",
+        "created_at": "2026-07-17T17:24:33.756Z",
+        "updated_at": "2026-07-17T17:24:33.756Z",
+        "is_active": true,
+        "groups": [],
+        "user_permissions": []
+    }
+},
+{
+    "model": "users.user",
+    "fields": {
+        "password": "pbkdf2_sha256$1200000$Xom9iFRYUc8Yjgk0hvlPuy$20tFm3hgU0MluKtzAEC0V4gDpcrf5u5cLB6Nt4xu5gU=",
+        "last_login": null,
         "is_superuser": true,
         "is_staff": true,
-        "date_joined": "2026-07-12T20:11:32.957Z",
+        "date_joined": "2026-07-17T17:24:33.756Z",
+        "email": "admin@admin.com",
+        "username": "admin_cef3dc2f990e",
+        "first_name": "Системный",
+        "last_name": "Администратор",
+        "phone": "",
+        "avatar": "",
+        "role": "admin",
+        "created_at": "2026-07-17T17:24:34.167Z",
+        "updated_at": "2026-07-17T17:29:55.362Z",
+        "is_active": true,
+        "groups": [],
+        "user_permissions": []
+    }
+},
+{
+    "model": "users.user",
+    "fields": {
+        "password": "pbkdf2_sha256$1200000$ZV1jDVAfTfBM1mBQBPpQTd$FAEGWyOaqxowk0zV8ph1zRPho1Wac/x2XskunTPYu+k=",
+        "last_login": "2026-07-17T17:28:01.927Z",
+        "is_superuser": true,
+        "is_staff": true,
+        "date_joined": "2026-07-17T17:26:42.463Z",
         "email": "super@super.com",
         "username": "super",
         "first_name": "",
@@ -843,8 +1092,8 @@
         "phone": "",
         "avatar": "",
         "role": "user",
-        "created_at": "2026-07-12T20:11:33.382Z",
-        "updated_at": "2026-07-12T20:11:33.382Z",
+        "created_at": "2026-07-17T17:26:42.894Z",
+        "updated_at": "2026-07-17T17:26:42.894Z",
         "is_active": true,
         "groups": [],
         "user_permissions": []
@@ -855,15 +1104,15 @@
     "pk": 1,
     "fields": {
         "user": [
-            "user_fa1b23252885@example.com"
+            "user_bfdb74ba4187@example.com"
         ],
-        "country": "Испания",
-        "city": "Москва",
-        "preferred_language": "German",
-        "car_brand": "Peugeot",
-        "car_model": "5008",
-        "car_year": 2025,
-        "bio": "Тестовый профиль пользователя Алексей Петров."
+        "country": "Италия",
+        "city": "Болонья",
+        "preferred_language": "Italian",
+        "car_brand": "Renault",
+        "car_model": "Megane",
+        "car_year": 2016,
+        "bio": "Владелец автомобиля Renault Megane. Интересуется обслуживанием и подбором запчастей."
     }
 },
 {
@@ -871,15 +1120,15 @@
     "pk": 2,
     "fields": {
         "user": [
-            "user_a66bf97989e2@example.com"
+            "user_660343d330f5@example.com"
         ],
-        "country": "Германия",
-        "city": "Милан",
-        "preferred_language": "Dutch",
-        "car_brand": "Nissan",
-        "car_model": "X-Trail",
-        "car_year": 2007,
-        "bio": "Тестовый профиль пользователя Михаил Соколов."
+        "country": "Польша",
+        "city": "Варшава",
+        "preferred_language": "Polish",
+        "car_brand": "Volvo",
+        "car_model": "S60",
+        "car_year": 2004,
+        "bio": "Владелец автомобиля Volvo S60. Интересуется обслуживанием и подбором запчастей."
     }
 },
 {
@@ -887,15 +1136,15 @@
     "pk": 3,
     "fields": {
         "user": [
-            "user_77c5830d6cfb@example.com"
+            "user_1dabd8a8cf55@example.com"
         ],
         "country": "Германия",
-        "city": "Варшава",
+        "city": "Кёльн",
         "preferred_language": "German",
-        "car_brand": "Audi",
-        "car_model": "A6",
-        "car_year": 2009,
-        "bio": "Тестовый профиль пользователя Михаил Соколов."
+        "car_brand": "Peugeot",
+        "car_model": "208",
+        "car_year": 2004,
+        "bio": "Владелец автомобиля Peugeot 208. Интересуется обслуживанием и подбором запчастей."
     }
 },
 {
@@ -903,15 +1152,15 @@
     "pk": 4,
     "fields": {
         "user": [
-            "user_24baaf72fc4b@example.com"
+            "user_28f4b4fae556@example.com"
         ],
         "country": "Испания",
-        "city": "Берлин",
-        "preferred_language": "German",
-        "car_brand": "Ford",
-        "car_model": "Fiesta",
-        "car_year": 2019,
-        "bio": "Тестовый профиль пользователя Анна Сидоров."
+        "city": "Мадрид",
+        "preferred_language": "Spanish",
+        "car_brand": "Peugeot",
+        "car_model": "308",
+        "car_year": 2002,
+        "bio": "Владелец автомобиля Peugeot 308. Интересуется обслуживанием и подбором запчастей."
     }
 },
 {
@@ -919,15 +1168,15 @@
     "pk": 5,
     "fields": {
         "user": [
-            "user_844635933026@example.com"
+            "user_b855eb5fa46e@example.com"
         ],
-        "country": "Польша",
-        "city": "Роттердам",
-        "preferred_language": "English",
-        "car_brand": "BMW",
-        "car_model": "5 Series",
-        "car_year": 1998,
-        "bio": "Тестовый профиль пользователя Елена Смирнов."
+        "country": "Франция",
+        "city": "Париж",
+        "preferred_language": "French",
+        "car_brand": "Skoda",
+        "car_model": "Superb",
+        "car_year": 2023,
+        "bio": "Владелец автомобиля Skoda Superb. Интересуется обслуживанием и подбором запчастей."
     }
 },
 {
@@ -935,15 +1184,15 @@
     "pk": 6,
     "fields": {
         "user": [
-            "user_3a2f5c2fb68b@example.com"
+            "user_e78dc9239fe6@example.com"
         ],
-        "country": "Франция",
-        "city": "Прага",
-        "preferred_language": "English",
-        "car_brand": "Renault",
-        "car_model": "Duster",
-        "car_year": 2006,
-        "bio": "Тестовый профиль пользователя Иван Смирнов."
+        "country": "Польша",
+        "city": "Гданьск",
+        "preferred_language": "Polish",
+        "car_brand": "Nissan",
+        "car_model": "Juke",
+        "car_year": 2009,
+        "bio": "Владелец автомобиля Nissan Juke. Интересуется обслуживанием и подбором запчастей."
     }
 },
 {
@@ -951,15 +1200,15 @@
     "pk": 7,
     "fields": {
         "user": [
-            "user_cce2a2ff5bc1@example.com"
+            "user_24a0349e2c11@example.com"
         ],
         "country": "Чехия",
-        "city": "Москва",
-        "preferred_language": "German",
-        "car_brand": "Ford",
-        "car_model": "Focus",
-        "car_year": 2022,
-        "bio": "Тестовый профиль пользователя Ирина Сидоров."
+        "city": "Острава",
+        "preferred_language": "Czech",
+        "car_brand": "Toyota",
+        "car_model": "Camry",
+        "car_year": 2023,
+        "bio": "Владелец автомобиля Toyota Camry. Интересуется обслуживанием и подбором запчастей."
     }
 },
 {
@@ -967,15 +1216,15 @@
     "pk": 8,
     "fields": {
         "user": [
-            "user_d05a4118d83f@example.com"
+            "user_a8622dd4385a@example.com"
         ],
-        "country": "Испания",
-        "city": "Милан",
-        "preferred_language": "German",
-        "car_brand": "Nissan",
-        "car_model": "Qashqai",
-        "car_year": 1997,
-        "bio": "Тестовый профиль пользователя Ирина Смирнов."
+        "country": "Россия",
+        "city": "Екатеринбург",
+        "preferred_language": "Russian",
+        "car_brand": "Mercedes-Benz",
+        "car_model": "GLE",
+        "car_year": 2009,
+        "bio": "Владелец автомобиля Mercedes-Benz GLE. Интересуется обслуживанием и подбором запчастей."
     }
 },
 {
@@ -983,15 +1232,15 @@
     "pk": 9,
     "fields": {
         "user": [
-            "user_2f96394f88b8@example.com"
+            "user_fa6a11d3ed2e@example.com"
         ],
-        "country": "Нидерланды",
-        "city": "Париж",
-        "preferred_language": "Russian",
-        "car_brand": "Audi",
-        "car_model": "A4",
-        "car_year": 2020,
-        "bio": "Тестовый профиль пользователя Наталья Кузнецов."
+        "country": "Польша",
+        "city": "Вроцлав",
+        "preferred_language": "Polish",
+        "car_brand": "Renault",
+        "car_model": "Duster",
+        "car_year": 2024,
+        "bio": "Владелец автомобиля Renault Duster. Интересуется обслуживанием и подбором запчастей."
     }
 },
 {
@@ -999,15 +1248,15 @@
     "pk": 10,
     "fields": {
         "user": [
-            "user_0b17eadf242e@example.com"
+            "user_13d891667055@example.com"
         ],
-        "country": "Италия",
-        "city": "Амстердам",
-        "preferred_language": "Russian",
-        "car_brand": "Skoda",
-        "car_model": "Kodiaq",
-        "car_year": 2011,
-        "bio": "Тестовый профиль пользователя Михаил Васильев."
+        "country": "Чехия",
+        "city": "Острава",
+        "preferred_language": "Czech",
+        "car_brand": "Renault",
+        "car_model": "Clio",
+        "car_year": 2022,
+        "bio": "Владелец автомобиля Renault Clio. Интересуется обслуживанием и подбором запчастей."
     }
 },
 {
@@ -1015,15 +1264,15 @@
     "pk": 11,
     "fields": {
         "user": [
-            "user_2bcdf32f261a@example.com"
+            "user_23780fe3477c@example.com"
         ],
         "country": "Россия",
-        "city": "Прага",
+        "city": "Санкт-Петербург",
         "preferred_language": "Russian",
-        "car_brand": "Peugeot",
-        "car_model": "308",
-        "car_year": 2015,
-        "bio": "Тестовый профиль пользователя Дмитрий Сидоров."
+        "car_brand": "Volkswagen",
+        "car_model": "Tiguan",
+        "car_year": 2006,
+        "bio": "Владелец автомобиля Volkswagen Tiguan. Интересуется обслуживанием и подбором запчастей."
     }
 },
 {
@@ -1031,15 +1280,15 @@
     "pk": 12,
     "fields": {
         "user": [
-            "user_8b951cf972da@example.com"
+            "user_179a378f2504@example.com"
         ],
-        "country": "Италия",
-        "city": "Прага",
-        "preferred_language": "Dutch",
-        "car_brand": "Renault",
-        "car_model": "Clio",
-        "car_year": 2014,
-        "bio": "Тестовый профиль пользователя Александр Соколов."
+        "country": "Испания",
+        "city": "Барселона",
+        "preferred_language": "Spanish",
+        "car_brand": "Audi",
+        "car_model": "A3",
+        "car_year": 2003,
+        "bio": "Владелец автомобиля Audi A3. Интересуется обслуживанием и подбором запчастей."
     }
 },
 {
@@ -1047,15 +1296,15 @@
     "pk": 13,
     "fields": {
         "user": [
-            "user_b09ae5f7dbfd@example.com"
+            "user_ac48b26f5f84@example.com"
         ],
         "country": "Германия",
-        "city": "Берлин",
-        "preferred_language": "English",
-        "car_brand": "Volkswagen",
-        "car_model": "Tiguan",
-        "car_year": 2006,
-        "bio": "Тестовый профиль пользователя Сергей Сидоров."
+        "city": "Кёльн",
+        "preferred_language": "German",
+        "car_brand": "Skoda",
+        "car_model": "Superb",
+        "car_year": 2020,
+        "bio": "Владелец автомобиля Skoda Superb. Интересуется обслуживанием и подбором запчастей."
     }
 },
 {
@@ -1063,15 +1312,15 @@
     "pk": 14,
     "fields": {
         "user": [
-            "user_635fb6e04b68@example.com"
+            "user_83604f53f86a@example.com"
         ],
-        "country": "Россия",
-        "city": "Амстердам",
-        "preferred_language": "Dutch",
-        "car_brand": "Honda",
-        "car_model": "Jazz",
-        "car_year": 1998,
-        "bio": "Тестовый профиль пользователя Александр Смирнов."
+        "country": "Польша",
+        "city": "Вроцлав",
+        "preferred_language": "Polish",
+        "car_brand": "BMW",
+        "car_model": "X3",
+        "car_year": 2012,
+        "bio": "Владелец автомобиля BMW X3. Интересуется обслуживанием и подбором запчастей."
     }
 },
 {
@@ -1079,15 +1328,15 @@
     "pk": 15,
     "fields": {
         "user": [
-            "user_48b6ffaa141a@example.com"
+            "user_56e71fd48eb9@example.com"
         ],
-        "country": "Польша",
-        "city": "Варшава",
-        "preferred_language": "German",
-        "car_brand": "Renault",
-        "car_model": "Clio",
-        "car_year": 2026,
-        "bio": "Тестовый профиль пользователя Михаил Петров."
+        "country": "Чехия",
+        "city": "Прага",
+        "preferred_language": "Czech",
+        "car_brand": "Volvo",
+        "car_model": "XC60",
+        "car_year": 2011,
+        "bio": "Владелец автомобиля Volvo XC60. Интересуется обслуживанием и подбором запчастей."
     }
 },
 {
@@ -1095,15 +1344,15 @@
     "pk": 16,
     "fields": {
         "user": [
-            "user_310001fd8758@example.com"
+            "user_dfdaa5115c33@example.com"
         ],
-        "country": "Испания",
-        "city": "Берлин",
-        "preferred_language": "Dutch",
-        "car_brand": "Honda",
-        "car_model": "CR-V",
-        "car_year": 2026,
-        "bio": "Тестовый профиль пользователя Ольга Сидоров."
+        "country": "Франция",
+        "city": "Лион",
+        "preferred_language": "French",
+        "car_brand": "Audi",
+        "car_model": "A4",
+        "car_year": 2017,
+        "bio": "Владелец автомобиля Audi A4. Интересуется обслуживанием и подбором запчастей."
     }
 },
 {
@@ -1111,15 +1360,15 @@
     "pk": 17,
     "fields": {
         "user": [
-            "user_81d5d64fe015@example.com"
+            "user_c80e06710e8b@example.com"
         ],
-        "country": "Испания",
-        "city": "Москва",
-        "preferred_language": "English",
-        "car_brand": "Mercedes-Benz",
-        "car_model": "C-Class",
-        "car_year": 2000,
-        "bio": "Тестовый профиль пользователя Дмитрий Михайлов."
+        "country": "Франция",
+        "city": "Париж",
+        "preferred_language": "French",
+        "car_brand": "Peugeot",
+        "car_model": "308",
+        "car_year": 2006,
+        "bio": "Владелец автомобиля Peugeot 308. Интересуется обслуживанием и подбором запчастей."
     }
 },
 {
@@ -1127,15 +1376,15 @@
     "pk": 18,
     "fields": {
         "user": [
-            "user_90487c60c37e@example.com"
+            "user_71dd7ba4f75e@example.com"
         ],
-        "country": "Чехия",
-        "city": "Амстердам",
+        "country": "Нидерланды",
+        "city": "Утрехт",
         "preferred_language": "Dutch",
-        "car_brand": "Volkswagen",
-        "car_model": "Golf",
-        "car_year": 2006,
-        "bio": "Тестовый профиль пользователя Елена Кузнецов."
+        "car_brand": "Honda",
+        "car_model": "Jazz",
+        "car_year": 2012,
+        "bio": "Владелец автомобиля Honda Jazz. Интересуется обслуживанием и подбором запчастей."
     }
 },
 {
@@ -1143,15 +1392,15 @@
     "pk": 19,
     "fields": {
         "user": [
-            "user_f3bf3d77c2a3@example.com"
+            "user_7af95c92070f@example.com"
         ],
-        "country": "Испания",
-        "city": "Амстердам",
-        "preferred_language": "German",
-        "car_brand": "Honda",
-        "car_model": "Jazz",
-        "car_year": 2020,
-        "bio": "Тестовый профиль пользователя Сергей Смирнов."
+        "country": "Италия",
+        "city": "Рим",
+        "preferred_language": "Italian",
+        "car_brand": "BMW",
+        "car_model": "X3",
+        "car_year": 2026,
+        "bio": "Владелец автомобиля BMW X3. Интересуется обслуживанием и подбором запчастей."
     }
 },
 {
@@ -1159,15 +1408,15 @@
     "pk": 20,
     "fields": {
         "user": [
-            "user_e6ab75b7c0cc@example.com"
+            "user_3680fc645ac7@example.com"
         ],
-        "country": "Франция",
-        "city": "Прага",
-        "preferred_language": "English",
-        "car_brand": "Volkswagen",
-        "car_model": "Tiguan",
-        "car_year": 2008,
-        "bio": "Тестовый профиль пользователя Дмитрий Смирнов."
+        "country": "Италия",
+        "city": "Милан",
+        "preferred_language": "Italian",
+        "car_brand": "Skoda",
+        "car_model": "Fabia",
+        "car_year": 2018,
+        "bio": "Владелец автомобиля Skoda Fabia. Интересуется обслуживанием и подбором запчастей."
     }
 },
 {
@@ -1175,15 +1424,15 @@
     "pk": 21,
     "fields": {
         "user": [
-            "user_5625accb5129@example.com"
+            "user_929101366baa@example.com"
         ],
-        "country": "Германия",
-        "city": "Париж",
-        "preferred_language": "German",
-        "car_brand": "Skoda",
-        "car_model": "Superb",
-        "car_year": 2005,
-        "bio": "Тестовый профиль пользователя Ирина Иванов."
+        "country": "Нидерланды",
+        "city": "Эйндховен",
+        "preferred_language": "Dutch",
+        "car_brand": "Peugeot",
+        "car_model": "5008",
+        "car_year": 2013,
+        "bio": "Владелец автомобиля Peugeot 5008. Интересуется обслуживанием и подбором запчастей."
     }
 },
 {
@@ -1191,15 +1440,15 @@
     "pk": 22,
     "fields": {
         "user": [
-            "user_d2e4d1b1ad33@example.com"
+            "user_9ad759bbf2e2@example.com"
         ],
         "country": "Франция",
-        "city": "Париж",
-        "preferred_language": "Dutch",
-        "car_brand": "BMW",
-        "car_model": "5 Series",
-        "car_year": 2019,
-        "bio": "Тестовый профиль пользователя Сергей Иванов."
+        "city": "Лион",
+        "preferred_language": "French",
+        "car_brand": "Nissan",
+        "car_model": "Qashqai",
+        "car_year": 2018,
+        "bio": "Владелец автомобиля Nissan Qashqai. Интересуется обслуживанием и подбором запчастей."
     }
 },
 {
@@ -1207,15 +1456,15 @@
     "pk": 23,
     "fields": {
         "user": [
-            "user_fa2c7bc330b4@example.com"
+            "user_a9b27fd8c380@example.com"
         ],
-        "country": "Польша",
-        "city": "Париж",
-        "preferred_language": "English",
-        "car_brand": "Skoda",
-        "car_model": "Fabia",
-        "car_year": 2016,
-        "bio": "Тестовый профиль пользователя Алексей Новиков."
+        "country": "Италия",
+        "city": "Рим",
+        "preferred_language": "Italian",
+        "car_brand": "Peugeot",
+        "car_model": "5008",
+        "car_year": 2014,
+        "bio": "Владелец автомобиля Peugeot 5008. Интересуется обслуживанием и подбором запчастей."
     }
 },
 {
@@ -1223,15 +1472,15 @@
     "pk": 24,
     "fields": {
         "user": [
-            "user_e74b3c56ee90@example.com"
+            "user_e30a0b227d33@example.com"
         ],
-        "country": "Италия",
-        "city": "Москва",
-        "preferred_language": "Dutch",
-        "car_brand": "Nissan",
-        "car_model": "X-Trail",
-        "car_year": 1995,
-        "bio": "Тестовый профиль пользователя Сергей Соколов."
+        "country": "Польша",
+        "city": "Варшава",
+        "preferred_language": "Polish",
+        "car_brand": "Renault",
+        "car_model": "Duster",
+        "car_year": 2009,
+        "bio": "Владелец автомобиля Renault Duster. Интересуется обслуживанием и подбором запчастей."
     }
 },
 {
@@ -1239,15 +1488,15 @@
     "pk": 25,
     "fields": {
         "user": [
-            "user_e443b5b9a2eb@example.com"
+            "user_db0589216539@example.com"
         ],
-        "country": "Испания",
-        "city": "Амстердам",
-        "preferred_language": "Dutch",
-        "car_brand": "Volkswagen",
-        "car_model": "Polo",
-        "car_year": 2004,
-        "bio": "Тестовый профиль пользователя Дмитрий Соколов."
+        "country": "Франция",
+        "city": "Тулуза",
+        "preferred_language": "French",
+        "car_brand": "Honda",
+        "car_model": "Accord",
+        "car_year": 2015,
+        "bio": "Владелец автомобиля Honda Accord. Интересуется обслуживанием и подбором запчастей."
     }
 },
 {
@@ -1255,15 +1504,15 @@
     "pk": 26,
     "fields": {
         "user": [
-            "user_ec72cd531eec@example.com"
+            "user_ea74b042751d@example.com"
         ],
-        "country": "Германия",
-        "city": "Париж",
-        "preferred_language": "German",
-        "car_brand": "Honda",
-        "car_model": "Accord",
-        "car_year": 1999,
-        "bio": "Тестовый профиль пользователя Ирина Михайлов."
+        "country": "Нидерланды",
+        "city": "Роттердам",
+        "preferred_language": "Dutch",
+        "car_brand": "Audi",
+        "car_model": "A6",
+        "car_year": 2020,
+        "bio": "Владелец автомобиля Audi A6. Интересуется обслуживанием и подбором запчастей."
     }
 },
 {
@@ -1271,15 +1520,15 @@
     "pk": 27,
     "fields": {
         "user": [
-            "user_502a9f12fe48@example.com"
+            "user_285bcc7c9563@example.com"
         ],
-        "country": "Германия",
-        "city": "Роттердам",
-        "preferred_language": "Dutch",
-        "car_brand": "Honda",
-        "car_model": "Accord",
-        "car_year": 2011,
-        "bio": "Тестовый профиль пользователя Иван Соколов."
+        "country": "Испания",
+        "city": "Барселона",
+        "preferred_language": "Spanish",
+        "car_brand": "Renault",
+        "car_model": "Megane",
+        "car_year": 2020,
+        "bio": "Владелец автомобиля Renault Megane. Интересуется обслуживанием и подбором запчастей."
     }
 },
 {
@@ -1287,15 +1536,15 @@
     "pk": 28,
     "fields": {
         "user": [
-            "user_16296114e194@example.com"
+            "user_01576778a0f4@example.com"
         ],
-        "country": "Россия",
-        "city": "Москва",
-        "preferred_language": "English",
+        "country": "Франция",
+        "city": "Марсель",
+        "preferred_language": "French",
         "car_brand": "BMW",
         "car_model": "3 Series",
-        "car_year": 2002,
-        "bio": "Тестовый профиль пользователя Дмитрий Соколов."
+        "car_year": 2005,
+        "bio": "Владелец автомобиля BMW 3 Series. Интересуется обслуживанием и подбором запчастей."
     }
 },
 {
@@ -1303,15 +1552,15 @@
     "pk": 29,
     "fields": {
         "user": [
-            "user_fb5327008cf8@example.com"
+            "user_6d9be6d5d6c0@example.com"
         ],
-        "country": "Польша",
-        "city": "Милан",
-        "preferred_language": "English",
-        "car_brand": "Toyota",
-        "car_model": "RAV4",
-        "car_year": 1995,
-        "bio": "Тестовый профиль пользователя Ирина Смирнов."
+        "country": "Нидерланды",
+        "city": "Роттердам",
+        "preferred_language": "Dutch",
+        "car_brand": "Honda",
+        "car_model": "CR-V",
+        "car_year": 2000,
+        "bio": "Владелец автомобиля Honda CR-V. Интересуется обслуживанием и подбором запчастей."
     }
 },
 {
@@ -1319,15 +1568,15 @@
     "pk": 30,
     "fields": {
         "user": [
-            "user_ad6291e00490@example.com"
+            "user_5a679279f23c@example.com"
         ],
-        "country": "Германия",
+        "country": "Россия",
         "city": "Санкт-Петербург",
         "preferred_language": "Russian",
-        "car_brand": "Peugeot",
-        "car_model": "5008",
-        "car_year": 2016,
-        "bio": "Тестовый профиль пользователя Ольга Сидоров."
+        "car_brand": "Toyota",
+        "car_model": "Corolla",
+        "car_year": 2002,
+        "bio": "Владелец автомобиля Toyota Corolla. Интересуется обслуживанием и подбором запчастей."
     }
 },
 {
@@ -1335,15 +1584,15 @@
     "pk": 31,
     "fields": {
         "user": [
-            "user_be7e51452b07@example.com"
+            "user_05aaf70b6580@example.com"
         ],
-        "country": "Чехия",
-        "city": "Берлин",
-        "preferred_language": "Dutch",
-        "car_brand": "Volvo",
-        "car_model": "XC60",
-        "car_year": 1997,
-        "bio": "Тестовый профиль пользователя Ольга Кузнецов."
+        "country": "Польша",
+        "city": "Вроцлав",
+        "preferred_language": "Polish",
+        "car_brand": "Renault",
+        "car_model": "Captur",
+        "car_year": 2015,
+        "bio": "Владелец автомобиля Renault Captur. Интересуется обслуживанием и подбором запчастей."
     }
 },
 {
@@ -1351,15 +1600,15 @@
     "pk": 32,
     "fields": {
         "user": [
-            "user_fcbdfd93de78@example.com"
+            "user_7bacbbc1239f@example.com"
         ],
-        "country": "Нидерланды",
-        "city": "Роттердам",
-        "preferred_language": "Dutch",
-        "car_brand": "Volvo",
-        "car_model": "XC90",
-        "car_year": 2009,
-        "bio": "Тестовый профиль пользователя Алексей Михайлов."
+        "country": "Германия",
+        "city": "Кёльн",
+        "preferred_language": "German",
+        "car_brand": "Honda",
+        "car_model": "Jazz",
+        "car_year": 2021,
+        "bio": "Владелец автомобиля Honda Jazz. Интересуется обслуживанием и подбором запчастей."
     }
 },
 {
@@ -1367,15 +1616,15 @@
     "pk": 33,
     "fields": {
         "user": [
-            "user_6ba052529349@example.com"
+            "user_5555a20253b8@example.com"
         ],
-        "country": "Нидерланды",
+        "country": "Франция",
         "city": "Париж",
-        "preferred_language": "German",
-        "car_brand": "BMW",
-        "car_model": "X5",
-        "car_year": 2013,
-        "bio": "Тестовый профиль пользователя Ольга Новиков."
+        "preferred_language": "French",
+        "car_brand": "Toyota",
+        "car_model": "Yaris",
+        "car_year": 2020,
+        "bio": "Владелец автомобиля Toyota Yaris. Интересуется обслуживанием и подбором запчастей."
     }
 },
 {
@@ -1383,15 +1632,15 @@
     "pk": 34,
     "fields": {
         "user": [
-            "user_4293c88e5487@example.com"
+            "user_e8eeec4627fb@example.com"
         ],
-        "country": "Россия",
-        "city": "Париж",
-        "preferred_language": "Russian",
-        "car_brand": "Toyota",
-        "car_model": "Camry",
-        "car_year": 1996,
-        "bio": "Тестовый профиль пользователя Иван Новиков."
+        "country": "Нидерланды",
+        "city": "Роттердам",
+        "preferred_language": "Dutch",
+        "car_brand": "Ford",
+        "car_model": "Focus",
+        "car_year": 2005,
+        "bio": "Владелец автомобиля Ford Focus. Интересуется обслуживанием и подбором запчастей."
     }
 },
 {
@@ -1399,15 +1648,15 @@
     "pk": 35,
     "fields": {
         "user": [
-            "user_238176622708@example.com"
+            "user_d9e8ff8862a7@example.com"
         ],
-        "country": "Италия",
-        "city": "Милан",
-        "preferred_language": "English",
-        "car_brand": "BMW",
-        "car_model": "5 Series",
-        "car_year": 2004,
-        "bio": "Тестовый профиль пользователя Иван Попов."
+        "country": "Чехия",
+        "city": "Прага",
+        "preferred_language": "Czech",
+        "car_brand": "Mercedes-Benz",
+        "car_model": "C-Class",
+        "car_year": 2016,
+        "bio": "Владелец автомобиля Mercedes-Benz C-Class. Интересуется обслуживанием и подбором запчастей."
     }
 },
 {
@@ -1415,15 +1664,223 @@
     "pk": 36,
     "fields": {
         "user": [
-            "user_f11ae58e2e8d@example.com"
+            "user_75d38d88f24c@example.com"
+        ],
+        "country": "Нидерланды",
+        "city": "Амстердам",
+        "preferred_language": "Dutch",
+        "car_brand": "BMW",
+        "car_model": "X5",
+        "car_year": 2012,
+        "bio": "Владелец автомобиля BMW X5. Интересуется обслуживанием и подбором запчастей."
+    }
+},
+{
+    "model": "users.profile",
+    "pk": 37,
+    "fields": {
+        "user": [
+            "user_4d9c3d1d0b8d@example.com"
+        ],
+        "country": "Нидерланды",
+        "city": "Амстердам",
+        "preferred_language": "Dutch",
+        "car_brand": "Toyota",
+        "car_model": "RAV4",
+        "car_year": 2026,
+        "bio": "Владелец автомобиля Toyota RAV4. Интересуется обслуживанием и подбором запчастей."
+    }
+},
+{
+    "model": "users.profile",
+    "pk": 38,
+    "fields": {
+        "user": [
+            "user_cbbfb348d2dc@example.com"
         ],
         "country": "Польша",
-        "city": "Милан",
-        "preferred_language": "Russian",
-        "car_brand": "Ford",
-        "car_model": "Fiesta",
+        "city": "Гданьск",
+        "preferred_language": "Polish",
+        "car_brand": "BMW",
+        "car_model": "X5",
+        "car_year": 2026,
+        "bio": "Владелец автомобиля BMW X5. Интересуется обслуживанием и подбором запчастей."
+    }
+},
+{
+    "model": "users.profile",
+    "pk": 39,
+    "fields": {
+        "user": [
+            "user_a2cc6b858eab@example.com"
+        ],
+        "country": "Нидерланды",
+        "city": "Эйндховен",
+        "preferred_language": "Dutch",
+        "car_brand": "Nissan",
+        "car_model": "Juke",
+        "car_year": 2019,
+        "bio": "Владелец автомобиля Nissan Juke. Интересуется обслуживанием и подбором запчастей."
+    }
+},
+{
+    "model": "users.profile",
+    "pk": 40,
+    "fields": {
+        "user": [
+            "user_b5db7768e8c7@example.com"
+        ],
+        "country": "Польша",
+        "city": "Вроцлав",
+        "preferred_language": "Polish",
+        "car_brand": "Volvo",
+        "car_model": "XC90",
+        "car_year": 2019,
+        "bio": "Владелец автомобиля Volvo XC90. Интересуется обслуживанием и подбором запчастей."
+    }
+},
+{
+    "model": "users.profile",
+    "pk": 41,
+    "fields": {
+        "user": [
+            "user_97eeadbdffa8@example.com"
+        ],
+        "country": "Испания",
+        "city": "Валенсия",
+        "preferred_language": "Spanish",
+        "car_brand": "Honda",
+        "car_model": "Jazz",
         "car_year": 2002,
-        "bio": "Тестовый профиль пользователя Михаил Сидоров."
+        "bio": "Владелец автомобиля Honda Jazz. Интересуется обслуживанием и подбором запчастей."
+    }
+},
+{
+    "model": "users.profile",
+    "pk": 42,
+    "fields": {
+        "user": [
+            "user_b5e2e4ed8f27@example.com"
+        ],
+        "country": "Россия",
+        "city": "Казань",
+        "preferred_language": "Russian",
+        "car_brand": "BMW",
+        "car_model": "3 Series",
+        "car_year": 2009,
+        "bio": "Владелец автомобиля BMW 3 Series. Интересуется обслуживанием и подбором запчастей."
+    }
+},
+{
+    "model": "users.profile",
+    "pk": 43,
+    "fields": {
+        "user": [
+            "user_fef63ec60cb5@example.com"
+        ],
+        "country": "Испания",
+        "city": "Севилья",
+        "preferred_language": "Spanish",
+        "car_brand": "Nissan",
+        "car_model": "X-Trail",
+        "car_year": 2015,
+        "bio": "Владелец автомобиля Nissan X-Trail. Интересуется обслуживанием и подбором запчастей."
+    }
+},
+{
+    "model": "users.profile",
+    "pk": 44,
+    "fields": {
+        "user": [
+            "user_79b4866f0118@example.com"
+        ],
+        "country": "Нидерланды",
+        "city": "Роттердам",
+        "preferred_language": "Dutch",
+        "car_brand": "Mercedes-Benz",
+        "car_model": "E-Class",
+        "car_year": 2019,
+        "bio": "Владелец автомобиля Mercedes-Benz E-Class. Интересуется обслуживанием и подбором запчастей."
+    }
+},
+{
+    "model": "users.profile",
+    "pk": 45,
+    "fields": {
+        "user": [
+            "user_2d49a217fde7@example.com"
+        ],
+        "country": "Испания",
+        "city": "Мадрид",
+        "preferred_language": "Spanish",
+        "car_brand": "Volkswagen",
+        "car_model": "Passat",
+        "car_year": 2015,
+        "bio": "Владелец автомобиля Volkswagen Passat. Интересуется обслуживанием и подбором запчастей."
+    }
+},
+{
+    "model": "users.profile",
+    "pk": 46,
+    "fields": {
+        "user": [
+            "user_d70515ac1423@example.com"
+        ],
+        "country": "Испания",
+        "city": "Севилья",
+        "preferred_language": "Spanish",
+        "car_brand": "Ford",
+        "car_model": "Kuga",
+        "car_year": 2014,
+        "bio": "Владелец автомобиля Ford Kuga. Интересуется обслуживанием и подбором запчастей."
+    }
+},
+{
+    "model": "users.profile",
+    "pk": 47,
+    "fields": {
+        "user": [
+            "user_82ab1d17f0a9@example.com"
+        ],
+        "country": "Нидерланды",
+        "city": "Эйндховен",
+        "preferred_language": "Dutch",
+        "car_brand": "Volvo",
+        "car_model": "XC90",
+        "car_year": 2003,
+        "bio": "Владелец автомобиля Volvo XC90. Интересуется обслуживанием и подбором запчастей."
+    }
+},
+{
+    "model": "users.profile",
+    "pk": 48,
+    "fields": {
+        "user": [
+            "user_6f6ce58e7bbc@example.com"
+        ],
+        "country": "Польша",
+        "city": "Варшава",
+        "preferred_language": "Polish",
+        "car_brand": "Skoda",
+        "car_model": "Octavia",
+        "car_year": 2007,
+        "bio": "Владелец автомобиля Skoda Octavia. Интересуется обслуживанием и подбором запчастей."
+    }
+},
+{
+    "model": "users.profile",
+    "pk": 49,
+    "fields": {
+        "user": [
+            "admin@admin.com"
+        ],
+        "country": "Нидерланды",
+        "city": "Роттердам",
+        "preferred_language": "Dutch",
+        "car_brand": "Peugeot",
+        "car_model": "308",
+        "car_year": 2019,
+        "bio": "Владелец автомобиля Peugeot 308. Интересуется обслуживанием и подбором запчастей."
     }
 },
 {
@@ -1431,12 +1888,12 @@
     "pk": 1,
     "fields": {
         "user": [
-            "user_d05a4118d83f@example.com"
+            "user_179a378f2504@example.com"
         ],
-        "original_number": "NGK-49459-45084",
-        "search_query": "NGK-49459-45084",
-        "result_found": false,
-        "searched_at": "2026-04-29T21:41:17.284Z"
+        "original_number": "BOS-12204-866D9",
+        "search_query": "BOS-12204-866D9",
+        "result_found": true,
+        "searched_at": "2026-06-06T02:04:34.720Z"
     }
 },
 {
@@ -1444,12 +1901,12 @@
     "pk": 2,
     "fields": {
         "user": [
-            "user_e443b5b9a2eb@example.com"
+            "user_e8eeec4627fb@example.com"
         ],
-        "original_number": "GAT-19769-63D3B",
-        "search_query": "Топливный насос Gates 36",
+        "original_number": "FEB-98861-85A60",
+        "search_query": "FEB-98861-85A60",
         "result_found": true,
-        "searched_at": "2026-03-07T01:49:17.285Z"
+        "searched_at": "2026-04-12T08:58:34.721Z"
     }
 },
 {
@@ -1457,12 +1914,12 @@
     "pk": 3,
     "fields": {
         "user": [
-            "user_844635933026@example.com"
+            "user_82ab1d17f0a9@example.com"
         ],
-        "original_number": "FEB-80026-93022",
-        "search_query": "FEB-80026-93022",
+        "original_number": "BOS-87836-35EC0",
+        "search_query": "Генератор Bosch 44 Bosch",
         "result_found": false,
-        "searched_at": "2026-03-28T15:53:17.285Z"
+        "searched_at": "2026-04-16T06:29:34.721Z"
     }
 },
 {
@@ -1470,12 +1927,12 @@
     "pk": 4,
     "fields": {
         "user": [
-            "user_502a9f12fe48@example.com"
+            "user_9ad759bbf2e2@example.com"
         ],
-        "original_number": "VAL-66405-F8AC0",
-        "search_query": "VAL-66405-F8AC0",
+        "original_number": "MAN-98855-E0E8F",
+        "search_query": "OEM MAN-98855-E0E8F",
         "result_found": true,
-        "searched_at": "2026-05-20T20:01:17.286Z"
+        "searched_at": "2026-03-29T03:39:34.722Z"
     }
 },
 {
@@ -1483,12 +1940,12 @@
     "pk": 5,
     "fields": {
         "user": [
-            "user_8b951cf972da@example.com"
+            "user_db0589216539@example.com"
         ],
-        "original_number": "NGK-49459-45084",
-        "search_query": "NGK-49459-45084",
-        "result_found": false,
-        "searched_at": "2026-01-21T10:56:17.286Z"
+        "original_number": "NGK-21416-D8542",
+        "search_query": "OEM NGK-21416-D8542",
+        "result_found": true,
+        "searched_at": "2026-06-26T01:03:34.722Z"
     }
 },
 {
@@ -1496,12 +1953,12 @@
     "pk": 6,
     "fields": {
         "user": [
-            "user_ec72cd531eec@example.com"
+            "user_a2cc6b858eab@example.com"
         ],
-        "original_number": "BOS-90855-80809",
-        "search_query": "Топливный насос Bosch 10 Bosch",
+        "original_number": "BOS-12204-866D9",
+        "search_query": "Масляный фильтр Bosch 32 Bosch",
         "result_found": true,
-        "searched_at": "2026-06-07T08:24:17.287Z"
+        "searched_at": "2026-05-01T03:43:34.723Z"
     }
 },
 {
@@ -1509,12 +1966,12 @@
     "pk": 7,
     "fields": {
         "user": [
-            "user_8b951cf972da@example.com"
+            "user_3680fc645ac7@example.com"
         ],
-        "original_number": "GAT-45372-4B613",
-        "search_query": "GAT-45372-4B613",
-        "result_found": false,
-        "searched_at": "2026-01-28T03:30:17.288Z"
+        "original_number": "FEB-97130-F97F9",
+        "search_query": "FEB-97130-F97F9",
+        "result_found": true,
+        "searched_at": "2026-06-29T15:07:34.723Z"
     }
 },
 {
@@ -1522,12 +1979,12 @@
     "pk": 8,
     "fields": {
         "user": [
-            "user_635fb6e04b68@example.com"
+            "user_d70515ac1423@example.com"
         ],
-        "original_number": "SAC-38790-3CB24",
-        "search_query": "OEM SAC-38790-3CB24",
+        "original_number": "BRE-84516-10259",
+        "search_query": "Радиатор Brembo 43 Brembo",
         "result_found": true,
-        "searched_at": "2026-07-05T08:50:17.288Z"
+        "searched_at": "2026-05-03T08:35:34.724Z"
     }
 },
 {
@@ -1535,12 +1992,12 @@
     "pk": 9,
     "fields": {
         "user": [
-            "user_fb5327008cf8@example.com"
+            "user_ac48b26f5f84@example.com"
         ],
-        "original_number": "BRE-73964-A2358",
-        "search_query": "Ступичный подшипник Brembo 30",
+        "original_number": "BOS-31236-5A837",
+        "search_query": "BOS-31236-5A837",
         "result_found": true,
-        "searched_at": "2026-05-07T18:38:17.289Z"
+        "searched_at": "2026-03-07T22:18:34.724Z"
     }
 },
 {
@@ -1548,12 +2005,12 @@
     "pk": 10,
     "fields": {
         "user": [
-            "user_a66bf97989e2@example.com"
+            "user_2d49a217fde7@example.com"
         ],
-        "original_number": "MAN-62385-98F52",
-        "search_query": "MAN-62385-98F52",
-        "result_found": false,
-        "searched_at": "2026-05-13T16:34:17.289Z"
+        "original_number": "FEB-97130-F97F9",
+        "search_query": "Термостат Febi 30",
+        "result_found": true,
+        "searched_at": "2026-05-26T12:02:34.725Z"
     }
 },
 {
@@ -1561,12 +2018,12 @@
     "pk": 11,
     "fields": {
         "user": [
-            "user_2bcdf32f261a@example.com"
+            "user_13d891667055@example.com"
         ],
-        "original_number": "BOS-90855-80809",
-        "search_query": "Топливный насос Bosch 10",
-        "result_found": false,
-        "searched_at": "2026-03-18T16:10:17.290Z"
+        "original_number": "GAT-94472-F5433",
+        "search_query": "GAT-94472-F5433",
+        "result_found": true,
+        "searched_at": "2026-07-16T15:58:34.725Z"
     }
 },
 {
@@ -1574,12 +2031,12 @@
     "pk": 12,
     "fields": {
         "user": [
-            "user_d05a4118d83f@example.com"
+            "user_fef63ec60cb5@example.com"
         ],
-        "original_number": "BOS-76789-4F551",
-        "search_query": "Тормозной диск Bosch 33 Bosch",
+        "original_number": "BOS-87836-35EC0",
+        "search_query": "BOS-87836-35EC0",
         "result_found": true,
-        "searched_at": "2026-05-21T13:38:17.290Z"
+        "searched_at": "2026-03-31T15:08:34.726Z"
     }
 },
 {
@@ -1587,12 +2044,12 @@
     "pk": 13,
     "fields": {
         "user": [
-            "user_fb5327008cf8@example.com"
+            "user_179a378f2504@example.com"
         ],
-        "original_number": "NGK-49459-45084",
-        "search_query": "OEM NGK-49459-45084",
+        "original_number": "BOS-31236-5A837",
+        "search_query": "Тормозной диск Bosch 12 Bosch",
         "result_found": true,
-        "searched_at": "2026-03-12T20:21:17.291Z"
+        "searched_at": "2026-03-01T02:59:34.726Z"
     }
 },
 {
@@ -1600,12 +2057,12 @@
     "pk": 14,
     "fields": {
         "user": [
-            "user_6ba052529349@example.com"
+            "user_b855eb5fa46e@example.com"
         ],
-        "original_number": "NGK-49459-45084",
-        "search_query": "Топливный насос NGK 29 NGK",
+        "original_number": "VAL-60380-49A49",
+        "search_query": "Термостат Valeo 1 Valeo",
         "result_found": true,
-        "searched_at": "2026-07-07T13:19:17.291Z"
+        "searched_at": "2026-01-19T05:23:34.727Z"
     }
 },
 {
@@ -1613,12 +2070,12 @@
     "pk": 15,
     "fields": {
         "user": [
-            "user_635fb6e04b68@example.com"
+            "user_d70515ac1423@example.com"
         ],
-        "original_number": "FEB-80026-93022",
-        "search_query": "Масляный фильтр Febi 22 Febi",
+        "original_number": "VAL-60380-49A49",
+        "search_query": "VAL-60380-49A49",
         "result_found": true,
-        "searched_at": "2026-01-31T05:41:17.292Z"
+        "searched_at": "2026-02-12T08:01:34.727Z"
     }
 },
 {
@@ -1626,12 +2083,12 @@
     "pk": 16,
     "fields": {
         "user": [
-            "user_48b6ffaa141a@example.com"
+            "user_56e71fd48eb9@example.com"
         ],
-        "original_number": "NGK-95834-82342",
-        "search_query": "Фара NGK 15 NGK",
-        "result_found": false,
-        "searched_at": "2026-06-13T20:07:17.292Z"
+        "original_number": "MAH-65719-5EE20",
+        "search_query": "MAH-65719-5EE20",
+        "result_found": true,
+        "searched_at": "2026-03-25T05:17:34.728Z"
     }
 },
 {
@@ -1639,12 +2096,12 @@
     "pk": 17,
     "fields": {
         "user": [
-            "user_cce2a2ff5bc1@example.com"
+            "user_e8eeec4627fb@example.com"
         ],
-        "original_number": "VAL-97612-EF6D5",
-        "search_query": "OEM VAL-97612-EF6D5",
+        "original_number": "FEB-66790-3C4AC",
+        "search_query": "OEM FEB-66790-3C4AC",
         "result_found": true,
-        "searched_at": "2026-05-31T13:00:17.293Z"
+        "searched_at": "2026-05-24T09:15:34.728Z"
     }
 },
 {
@@ -1652,12 +2109,12 @@
     "pk": 18,
     "fields": {
         "user": [
-            "user_e74b3c56ee90@example.com"
+            "user_179a378f2504@example.com"
         ],
-        "original_number": "MAH-88880-A146E",
-        "search_query": "Шаровая опора Mahle 24",
-        "result_found": false,
-        "searched_at": "2026-06-02T12:34:17.293Z"
+        "original_number": "NGK-96981-58FFA",
+        "search_query": "NGK-96981-58FFA",
+        "result_found": true,
+        "searched_at": "2026-05-13T06:35:34.729Z"
     }
 },
 {
@@ -1665,12 +2122,12 @@
     "pk": 19,
     "fields": {
         "user": [
-            "user_b09ae5f7dbfd@example.com"
+            "user_7af95c92070f@example.com"
         ],
-        "original_number": "MAH-88880-A146E",
-        "search_query": "OEM MAH-88880-A146E",
-        "result_found": false,
-        "searched_at": "2026-05-12T14:07:17.294Z"
+        "original_number": "MAH-65719-5EE20",
+        "search_query": "Радиатор Mahle 16 Mahle",
+        "result_found": true,
+        "searched_at": "2026-03-25T00:51:34.729Z"
     }
 },
 {
@@ -1678,12 +2135,12 @@
     "pk": 20,
     "fields": {
         "user": [
-            "user_e443b5b9a2eb@example.com"
+            "user_b5db7768e8c7@example.com"
         ],
-        "original_number": "NGK-15401-AA534",
-        "search_query": "Воздушный фильтр NGK 39 NGK",
+        "original_number": "GAT-38213-3B0DE",
+        "search_query": "Датчик кислорода Gates 14",
         "result_found": true,
-        "searched_at": "2026-02-20T09:21:17.294Z"
+        "searched_at": "2026-03-07T23:58:34.730Z"
     }
 },
 {
@@ -1691,12 +2148,12 @@
     "pk": 21,
     "fields": {
         "user": [
-            "user_5625accb5129@example.com"
+            "user_23780fe3477c@example.com"
         ],
-        "original_number": "MAN-62385-98F52",
-        "search_query": "MAN-62385-98F52",
+        "original_number": "SAC-15587-C86AD",
+        "search_query": "OEM SAC-15587-C86AD",
         "result_found": true,
-        "searched_at": "2026-06-03T22:45:17.295Z"
+        "searched_at": "2026-05-29T00:14:34.730Z"
     }
 },
 {
@@ -1704,12 +2161,12 @@
     "pk": 22,
     "fields": {
         "user": [
-            "user_6ba052529349@example.com"
+            "user_2d49a217fde7@example.com"
         ],
-        "original_number": "VAL-46227-2029D",
-        "search_query": "OEM VAL-46227-2029D",
+        "original_number": "SAC-15587-C86AD",
+        "search_query": "Ремень ГРМ Sachs 4",
         "result_found": false,
-        "searched_at": "2026-05-31T15:38:17.295Z"
+        "searched_at": "2026-06-01T05:25:34.731Z"
     }
 },
 {
@@ -1717,12 +2174,12 @@
     "pk": 23,
     "fields": {
         "user": [
-            "user_16296114e194@example.com"
+            "user_24a0349e2c11@example.com"
         ],
-        "original_number": "NGK-15401-AA534",
-        "search_query": "OEM NGK-15401-AA534",
+        "original_number": "BOS-12204-866D9",
+        "search_query": "BOS-12204-866D9",
         "result_found": true,
-        "searched_at": "2026-07-09T03:00:17.295Z"
+        "searched_at": "2026-01-20T14:24:34.731Z"
     }
 },
 {
@@ -1730,12 +2187,12 @@
     "pk": 24,
     "fields": {
         "user": [
-            "user_cce2a2ff5bc1@example.com"
+            "user_4d9c3d1d0b8d@example.com"
         ],
-        "original_number": "VAL-45408-548B6",
-        "search_query": "OEM VAL-45408-548B6",
+        "original_number": "BOS-57702-75F4E",
+        "search_query": "OEM BOS-57702-75F4E",
         "result_found": true,
-        "searched_at": "2026-06-06T11:34:17.296Z"
+        "searched_at": "2026-06-11T04:11:34.732Z"
     }
 },
 {
@@ -1743,12 +2200,12 @@
     "pk": 25,
     "fields": {
         "user": [
-            "user_4293c88e5487@example.com"
+            "user_d9e8ff8862a7@example.com"
         ],
-        "original_number": "MAN-70776-0BC94",
-        "search_query": "Катушка зажигания Mann-Filter 20 Mann-Filter",
-        "result_found": false,
-        "searched_at": "2026-03-19T09:36:17.296Z"
+        "original_number": "NGK-96981-58FFA",
+        "search_query": "Ступичный подшипник NGK 36 NGK",
+        "result_found": true,
+        "searched_at": "2026-01-23T17:10:34.732Z"
     }
 },
 {
@@ -1756,12 +2213,740 @@
     "pk": 26,
     "fields": {
         "user": [
-            "user_4293c88e5487@example.com"
+            "user_ac48b26f5f84@example.com"
         ],
-        "original_number": "FEB-80026-93022",
-        "search_query": "Масляный фильтр Febi 22 Febi",
+        "original_number": "VAL-34951-3A9A7",
+        "search_query": "Радиатор Valeo 20 Valeo",
         "result_found": true,
-        "searched_at": "2026-02-05T15:21:17.297Z"
+        "searched_at": "2026-01-29T03:58:34.733Z"
+    }
+},
+{
+    "model": "users.searchhistory",
+    "pk": 27,
+    "fields": {
+        "user": [
+            "user_db0589216539@example.com"
+        ],
+        "original_number": "BOS-44109-25F48",
+        "search_query": "OEM BOS-44109-25F48",
+        "result_found": false,
+        "searched_at": "2026-06-18T13:27:34.734Z"
+    }
+},
+{
+    "model": "users.searchhistory",
+    "pk": 28,
+    "fields": {
+        "user": [
+            "user_dfdaa5115c33@example.com"
+        ],
+        "original_number": "NGK-22007-F8CC4",
+        "search_query": "NGK-22007-F8CC4",
+        "result_found": true,
+        "searched_at": "2026-05-24T02:30:34.734Z"
+    }
+},
+{
+    "model": "users.searchhistory",
+    "pk": 29,
+    "fields": {
+        "user": [
+            "user_97eeadbdffa8@example.com"
+        ],
+        "original_number": "MAH-93365-76983",
+        "search_query": "Тормозные колодки Mahle 8",
+        "result_found": true,
+        "searched_at": "2026-06-06T00:05:34.735Z"
+    }
+},
+{
+    "model": "users.searchhistory",
+    "pk": 30,
+    "fields": {
+        "user": [
+            "user_82ab1d17f0a9@example.com"
+        ],
+        "original_number": "BRE-97116-C3704",
+        "search_query": "Масляный фильтр Brembo 9",
+        "result_found": true,
+        "searched_at": "2026-05-10T00:05:34.736Z"
+    }
+},
+{
+    "model": "users.searchhistory",
+    "pk": 31,
+    "fields": {
+        "user": [
+            "user_75d38d88f24c@example.com"
+        ],
+        "original_number": "SAC-15587-C86AD",
+        "search_query": "SAC-15587-C86AD",
+        "result_found": false,
+        "searched_at": "2026-05-20T22:12:34.736Z"
+    }
+},
+{
+    "model": "users.searchhistory",
+    "pk": 32,
+    "fields": {
+        "user": [
+            "user_7bacbbc1239f@example.com"
+        ],
+        "original_number": "CON-17123-782FB",
+        "search_query": "Ремень ГРМ Contitech 38",
+        "result_found": true,
+        "searched_at": "2026-05-08T20:59:34.737Z"
+    }
+},
+{
+    "model": "users.searchhistory",
+    "pk": 33,
+    "fields": {
+        "user": [
+            "user_28f4b4fae556@example.com"
+        ],
+        "original_number": "BOS-87836-35EC0",
+        "search_query": "Генератор Bosch 44 Bosch",
+        "result_found": true,
+        "searched_at": "2026-03-13T22:16:34.737Z"
+    }
+},
+{
+    "model": "users.searchhistory",
+    "pk": 34,
+    "fields": {
+        "user": [
+            "user_d9e8ff8862a7@example.com"
+        ],
+        "original_number": "MAH-12811-3CC10",
+        "search_query": "Катушка зажигания Mahle 37 Mahle",
+        "result_found": false,
+        "searched_at": "2026-02-18T13:49:34.738Z"
+    }
+},
+{
+    "model": "users.searchhistory",
+    "pk": 35,
+    "fields": {
+        "user": [
+            "user_cbbfb348d2dc@example.com"
+        ],
+        "original_number": "NGK-22007-F8CC4",
+        "search_query": "OEM NGK-22007-F8CC4",
+        "result_found": false,
+        "searched_at": "2026-05-19T17:51:34.738Z"
+    }
+},
+{
+    "model": "users.searchhistory",
+    "pk": 36,
+    "fields": {
+        "user": [
+            "user_24a0349e2c11@example.com"
+        ],
+        "original_number": "NGK-96981-58FFA",
+        "search_query": "NGK-96981-58FFA",
+        "result_found": true,
+        "searched_at": "2026-03-07T07:50:34.739Z"
+    }
+},
+{
+    "model": "users.repairhistory",
+    "pk": 1,
+    "fields": {
+        "user": [
+            "user_db0589216539@example.com"
+        ],
+        "instruction": 8,
+        "completed": true,
+        "notes": "Ремонт успешно завершен.",
+        "created_at": "2025-08-18T02:44:34.740Z"
+    }
+},
+{
+    "model": "users.repairhistory",
+    "pk": 2,
+    "fields": {
+        "user": [
+            "user_71dd7ba4f75e@example.com"
+        ],
+        "instruction": 20,
+        "completed": true,
+        "notes": "Ремонт успешно завершен.",
+        "created_at": "2026-05-20T14:47:34.741Z"
+    }
+},
+{
+    "model": "users.repairhistory",
+    "pk": 3,
+    "fields": {
+        "user": [
+            "user_6f6ce58e7bbc@example.com"
+        ],
+        "instruction": 8,
+        "completed": true,
+        "notes": "Ремонт успешно завершен.",
+        "created_at": "2025-11-28T15:28:34.741Z"
+    }
+},
+{
+    "model": "users.repairhistory",
+    "pk": 4,
+    "fields": {
+        "user": [
+            "user_285bcc7c9563@example.com"
+        ],
+        "instruction": 15,
+        "completed": false,
+        "notes": "Работы еще выполняются.",
+        "created_at": "2025-12-24T08:36:34.742Z"
+    }
+},
+{
+    "model": "users.repairhistory",
+    "pk": 5,
+    "fields": {
+        "user": [
+            "user_5555a20253b8@example.com"
+        ],
+        "instruction": 4,
+        "completed": true,
+        "notes": "Ремонт успешно завершен.",
+        "created_at": "2026-01-18T15:28:34.742Z"
+    }
+},
+{
+    "model": "users.repairhistory",
+    "pk": 6,
+    "fields": {
+        "user": [
+            "user_ac48b26f5f84@example.com"
+        ],
+        "instruction": 45,
+        "completed": false,
+        "notes": "Работы еще выполняются.",
+        "created_at": "2026-03-28T14:16:34.743Z"
+    }
+},
+{
+    "model": "users.repairhistory",
+    "pk": 7,
+    "fields": {
+        "user": [
+            "user_9ad759bbf2e2@example.com"
+        ],
+        "instruction": 9,
+        "completed": false,
+        "notes": "Работы еще выполняются.",
+        "created_at": "2025-07-20T04:08:34.743Z"
+    }
+},
+{
+    "model": "users.repairhistory",
+    "pk": 8,
+    "fields": {
+        "user": [
+            "user_b5e2e4ed8f27@example.com"
+        ],
+        "instruction": 41,
+        "completed": false,
+        "notes": "Работы еще выполняются.",
+        "created_at": "2025-07-23T04:04:34.744Z"
+    }
+},
+{
+    "model": "users.repairhistory",
+    "pk": 9,
+    "fields": {
+        "user": [
+            "user_285bcc7c9563@example.com"
+        ],
+        "instruction": 6,
+        "completed": true,
+        "notes": "Ремонт успешно завершен.",
+        "created_at": "2025-11-18T01:59:34.744Z"
+    }
+},
+{
+    "model": "users.repairhistory",
+    "pk": 10,
+    "fields": {
+        "user": [
+            "user_929101366baa@example.com"
+        ],
+        "instruction": 25,
+        "completed": false,
+        "notes": "Работы еще выполняются.",
+        "created_at": "2025-08-25T21:04:34.745Z"
+    }
+},
+{
+    "model": "users.repairhistory",
+    "pk": 11,
+    "fields": {
+        "user": [
+            "user_b5db7768e8c7@example.com"
+        ],
+        "instruction": 11,
+        "completed": true,
+        "notes": "Ремонт успешно завершен.",
+        "created_at": "2025-12-20T00:13:34.745Z"
+    }
+},
+{
+    "model": "users.repairhistory",
+    "pk": 12,
+    "fields": {
+        "user": [
+            "user_a8622dd4385a@example.com"
+        ],
+        "instruction": 41,
+        "completed": false,
+        "notes": "Работы еще выполняются.",
+        "created_at": "2026-05-08T10:32:34.746Z"
+    }
+},
+{
+    "model": "users.repairhistory",
+    "pk": 13,
+    "fields": {
+        "user": [
+            "user_83604f53f86a@example.com"
+        ],
+        "instruction": 43,
+        "completed": true,
+        "notes": "Ремонт успешно завершен.",
+        "created_at": "2026-01-11T14:40:34.746Z"
+    }
+},
+{
+    "model": "users.repairhistory",
+    "pk": 14,
+    "fields": {
+        "user": [
+            "user_71dd7ba4f75e@example.com"
+        ],
+        "instruction": 42,
+        "completed": false,
+        "notes": "Работы еще выполняются.",
+        "created_at": "2026-05-25T02:17:34.747Z"
+    }
+},
+{
+    "model": "users.repairhistory",
+    "pk": 15,
+    "fields": {
+        "user": [
+            "user_b5db7768e8c7@example.com"
+        ],
+        "instruction": 31,
+        "completed": true,
+        "notes": "Ремонт успешно завершен.",
+        "created_at": "2026-03-21T23:19:34.747Z"
+    }
+},
+{
+    "model": "users.repairhistory",
+    "pk": 16,
+    "fields": {
+        "user": [
+            "user_dfdaa5115c33@example.com"
+        ],
+        "instruction": 6,
+        "completed": false,
+        "notes": "Работы еще выполняются.",
+        "created_at": "2025-11-11T09:27:34.748Z"
+    }
+},
+{
+    "model": "users.repairhistory",
+    "pk": 17,
+    "fields": {
+        "user": [
+            "user_56e71fd48eb9@example.com"
+        ],
+        "instruction": 20,
+        "completed": false,
+        "notes": "Работы еще выполняются.",
+        "created_at": "2025-08-14T07:07:34.748Z"
+    }
+},
+{
+    "model": "users.repairhistory",
+    "pk": 18,
+    "fields": {
+        "user": [
+            "user_ea74b042751d@example.com"
+        ],
+        "instruction": 21,
+        "completed": false,
+        "notes": "Работы еще выполняются.",
+        "created_at": "2026-05-19T06:13:34.749Z"
+    }
+},
+{
+    "model": "users.repairhistory",
+    "pk": 19,
+    "fields": {
+        "user": [
+            "user_db0589216539@example.com"
+        ],
+        "instruction": 41,
+        "completed": true,
+        "notes": "Ремонт успешно завершен.",
+        "created_at": "2026-01-07T08:15:34.749Z"
+    }
+},
+{
+    "model": "users.repairhistory",
+    "pk": 20,
+    "fields": {
+        "user": [
+            "user_660343d330f5@example.com"
+        ],
+        "instruction": 20,
+        "completed": false,
+        "notes": "Работы еще выполняются.",
+        "created_at": "2025-09-28T00:20:34.750Z"
+    }
+},
+{
+    "model": "users.repairhistory",
+    "pk": 21,
+    "fields": {
+        "user": [
+            "user_3680fc645ac7@example.com"
+        ],
+        "instruction": 25,
+        "completed": false,
+        "notes": "Работы еще выполняются.",
+        "created_at": "2026-05-10T10:56:34.750Z"
+    }
+},
+{
+    "model": "users.repairhistory",
+    "pk": 22,
+    "fields": {
+        "user": [
+            "user_bfdb74ba4187@example.com"
+        ],
+        "instruction": 28,
+        "completed": true,
+        "notes": "Ремонт успешно завершен.",
+        "created_at": "2026-02-02T10:32:34.751Z"
+    }
+},
+{
+    "model": "users.repairhistory",
+    "pk": 23,
+    "fields": {
+        "user": [
+            "user_e30a0b227d33@example.com"
+        ],
+        "instruction": 29,
+        "completed": false,
+        "notes": "Работы еще выполняются.",
+        "created_at": "2026-05-14T20:25:34.751Z"
+    }
+},
+{
+    "model": "users.repairhistory",
+    "pk": 24,
+    "fields": {
+        "user": [
+            "user_ea74b042751d@example.com"
+        ],
+        "instruction": 12,
+        "completed": false,
+        "notes": "Работы еще выполняются.",
+        "created_at": "2025-08-27T21:27:34.752Z"
+    }
+},
+{
+    "model": "users.repairhistory",
+    "pk": 25,
+    "fields": {
+        "user": [
+            "user_97eeadbdffa8@example.com"
+        ],
+        "instruction": 33,
+        "completed": true,
+        "notes": "Ремонт успешно завершен.",
+        "created_at": "2026-05-07T05:16:34.752Z"
+    }
+},
+{
+    "model": "users.repairhistory",
+    "pk": 26,
+    "fields": {
+        "user": [
+            "user_7bacbbc1239f@example.com"
+        ],
+        "instruction": 39,
+        "completed": true,
+        "notes": "Ремонт успешно завершен.",
+        "created_at": "2026-07-08T12:54:34.753Z"
+    }
+},
+{
+    "model": "users.repairhistory",
+    "pk": 27,
+    "fields": {
+        "user": [
+            "user_ac48b26f5f84@example.com"
+        ],
+        "instruction": 13,
+        "completed": true,
+        "notes": "Ремонт успешно завершен.",
+        "created_at": "2025-09-29T09:47:34.754Z"
+    }
+},
+{
+    "model": "users.repairhistory",
+    "pk": 28,
+    "fields": {
+        "user": [
+            "user_5555a20253b8@example.com"
+        ],
+        "instruction": 43,
+        "completed": true,
+        "notes": "Ремонт успешно завершен.",
+        "created_at": "2025-09-08T06:50:34.755Z"
+    }
+},
+{
+    "model": "users.repairhistory",
+    "pk": 29,
+    "fields": {
+        "user": [
+            "user_24a0349e2c11@example.com"
+        ],
+        "instruction": 4,
+        "completed": false,
+        "notes": "Работы еще выполняются.",
+        "created_at": "2026-07-03T08:22:34.755Z"
+    }
+},
+{
+    "model": "users.repairhistory",
+    "pk": 30,
+    "fields": {
+        "user": [
+            "user_79b4866f0118@example.com"
+        ],
+        "instruction": 5,
+        "completed": false,
+        "notes": "Работы еще выполняются.",
+        "created_at": "2025-09-03T01:53:34.756Z"
+    }
+},
+{
+    "model": "users.repairhistory",
+    "pk": 31,
+    "fields": {
+        "user": [
+            "user_db0589216539@example.com"
+        ],
+        "instruction": 2,
+        "completed": true,
+        "notes": "Ремонт успешно завершен.",
+        "created_at": "2026-05-15T04:21:34.757Z"
+    }
+},
+{
+    "model": "users.repairhistory",
+    "pk": 32,
+    "fields": {
+        "user": [
+            "user_3680fc645ac7@example.com"
+        ],
+        "instruction": 38,
+        "completed": true,
+        "notes": "Ремонт успешно завершен.",
+        "created_at": "2026-04-15T16:10:34.757Z"
+    }
+},
+{
+    "model": "users.repairhistory",
+    "pk": 33,
+    "fields": {
+        "user": [
+            "user_b5e2e4ed8f27@example.com"
+        ],
+        "instruction": 22,
+        "completed": true,
+        "notes": "Ремонт успешно завершен.",
+        "created_at": "2025-08-17T14:57:34.758Z"
+    }
+},
+{
+    "model": "users.repairhistory",
+    "pk": 34,
+    "fields": {
+        "user": [
+            "user_d9e8ff8862a7@example.com"
+        ],
+        "instruction": 25,
+        "completed": true,
+        "notes": "Ремонт успешно завершен.",
+        "created_at": "2026-04-18T02:08:34.758Z"
+    }
+},
+{
+    "model": "users.repairhistory",
+    "pk": 35,
+    "fields": {
+        "user": [
+            "user_a2cc6b858eab@example.com"
+        ],
+        "instruction": 20,
+        "completed": true,
+        "notes": "Ремонт успешно завершен.",
+        "created_at": "2026-07-06T09:32:34.759Z"
+    }
+},
+{
+    "model": "users.repairhistory",
+    "pk": 36,
+    "fields": {
+        "user": [
+            "user_6d9be6d5d6c0@example.com"
+        ],
+        "instruction": 43,
+        "completed": false,
+        "notes": "Работы еще выполняются.",
+        "created_at": "2026-01-31T07:48:34.759Z"
+    }
+},
+{
+    "model": "users.repairhistory",
+    "pk": 37,
+    "fields": {
+        "user": [
+            "user_23780fe3477c@example.com"
+        ],
+        "instruction": 24,
+        "completed": true,
+        "notes": "Ремонт успешно завершен.",
+        "created_at": "2026-02-06T12:46:34.760Z"
+    }
+},
+{
+    "model": "users.repairhistory",
+    "pk": 38,
+    "fields": {
+        "user": [
+            "user_01576778a0f4@example.com"
+        ],
+        "instruction": 38,
+        "completed": true,
+        "notes": "Ремонт успешно завершен.",
+        "created_at": "2025-10-15T23:46:34.760Z"
+    }
+},
+{
+    "model": "users.repairhistory",
+    "pk": 39,
+    "fields": {
+        "user": [
+            "user_1dabd8a8cf55@example.com"
+        ],
+        "instruction": 7,
+        "completed": true,
+        "notes": "Ремонт успешно завершен.",
+        "created_at": "2025-12-18T13:58:34.761Z"
+    }
+},
+{
+    "model": "users.repairhistory",
+    "pk": 40,
+    "fields": {
+        "user": [
+            "user_c80e06710e8b@example.com"
+        ],
+        "instruction": 9,
+        "completed": false,
+        "notes": "Работы еще выполняются.",
+        "created_at": "2025-10-07T20:20:34.761Z"
+    }
+},
+{
+    "model": "users.repairhistory",
+    "pk": 41,
+    "fields": {
+        "user": [
+            "user_7af95c92070f@example.com"
+        ],
+        "instruction": 34,
+        "completed": false,
+        "notes": "Работы еще выполняются.",
+        "created_at": "2026-03-26T23:18:34.762Z"
+    }
+},
+{
+    "model": "users.repairhistory",
+    "pk": 42,
+    "fields": {
+        "user": [
+            "user_4d9c3d1d0b8d@example.com"
+        ],
+        "instruction": 45,
+        "completed": false,
+        "notes": "Работы еще выполняются.",
+        "created_at": "2026-05-04T18:57:34.762Z"
+    }
+},
+{
+    "model": "users.repairhistory",
+    "pk": 43,
+    "fields": {
+        "user": [
+            "user_cbbfb348d2dc@example.com"
+        ],
+        "instruction": 43,
+        "completed": false,
+        "notes": "Работы еще выполняются.",
+        "created_at": "2025-07-26T00:22:34.763Z"
+    }
+},
+{
+    "model": "users.repairhistory",
+    "pk": 44,
+    "fields": {
+        "user": [
+            "user_05aaf70b6580@example.com"
+        ],
+        "instruction": 5,
+        "completed": false,
+        "notes": "Работы еще выполняются.",
+        "created_at": "2026-02-11T13:28:34.763Z"
+    }
+},
+{
+    "model": "users.repairhistory",
+    "pk": 45,
+    "fields": {
+        "user": [
+            "user_a9b27fd8c380@example.com"
+        ],
+        "instruction": 1,
+        "completed": true,
+        "notes": "Ремонт успешно завершен.",
+        "created_at": "2026-06-01T19:54:34.764Z"
+    }
+},
+{
+    "model": "users.repairhistory",
+    "pk": 46,
+    "fields": {
+        "user": [
+            "user_82ab1d17f0a9@example.com"
+        ],
+        "instruction": 33,
+        "completed": true,
+        "notes": "Ремонт успешно завершен.",
+        "created_at": "2026-04-06T09:28:34.764Z"
     }
 }
 ]

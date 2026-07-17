@@ -1,54 +1,52 @@
 <footer class="footer mt-auto">
     <div class="container">
-        <div class="row g-4 text-start">
-            <div class="col-md-4">
-                <h5>SmartAutoParts</h5>
-                <p>
-                    Поиск инструкций и видеоматериалов
+        <div class="row g-5">
+            <div class="col-lg-5">
+                <a class="footer-brand d-inline-flex align-items-center gap-2 mb-3" href="{% url 'home' %}">
+                    <span class="brand-mark" aria-hidden="true">
+                        <i class="bi bi-gear-wide-connected"></i>
+                    </span>
+                    <span>SmartAutoParts</span>
+                </a>
+                <p class="footer-description mb-0">
+                    Удобный поиск инструкций, схем и видеоматериалов
                     по оригинальному номеру автозапчасти.
                 </p>
             </div>
 
-            <div class="col-md-4">
-                <h5>Ссылки</h5>
-                <ul class="list-unstyled footer-links">
-                    <li>
-                        <a href="{% url 'home' %}">Главная</a>
-                    </li>
-                    <li><a href="#">Инструкции</a></li>
-                    <li><a href="#">Видео</a></li>
-                    <li><a href="#pricing">Тарифы</a></li>
-                    <li><a href="#">Контакты</a></li>
-                    <li>
-                        <a href="{% url 'license_agreement' %}">
-                            Лицензионное соглашение
-                        </a>
-                    </li>
+            <div class="col-6 col-lg-3">
+                <h2 class="footer-title">Навигация</h2>
+                <ul class="list-unstyled footer-links mb-0">
+                    <li><a href="{% url 'home' %}">Главная</a></li>
+                    <li><a href="{% url 'home' %}#features">Возможности</a></li>
+                    <li><a href="{% url 'home' %}#pricing">Тарифы</a></li>
+                    <li><a href="{% url 'home' %}#reviews">Отзывы</a></li>
+                    <li><a href="{% url 'license_agreement' %}">Лицензионное соглашение</a></li>
                 </ul>
             </div>
 
-            <div class="col-md-4">
-                <h5>Контакты</h5>
-                <address>
-                    <p class="mb-2">
-                        г. Ростов-на-Дону, ул. Примерная, 123
-                    </p>
-                    <p class="mb-2">
-                        Тел.: +7 (863) 123-45-67
-                    </p>
-                    <p class="mb-0">
-                        Email: info@smartautoparts.ru
-                    </p>
+            <div class="col-6 col-lg-4">
+                <h2 class="footer-title">Контакты</h2>
+                <address class="footer-contacts mb-0">
+                    <a href="mailto:info@smartautoparts.ru">
+                        <i class="bi bi-envelope" aria-hidden="true"></i>
+                        info@smartautoparts.ru
+                    </a>
+                    <a href="tel:+78631234567">
+                        <i class="bi bi-telephone" aria-hidden="true"></i>
+                        +7 (863) 123-45-67
+                    </a>
+                    <span>
+                        <i class="bi bi-geo-alt" aria-hidden="true"></i>
+                        Ростов-на-Дону
+                    </span>
                 </address>
             </div>
         </div>
 
-        <hr class="my-4">
-
-        <div class="text-center">
-            <small>
-                © 2026 SmartAutoParts. Все права защищены.
-            </small>
+        <div class="footer-bottom d-flex flex-column flex-md-row justify-content-between align-items-md-center gap-2">
+            <small>© 2026 SmartAutoParts. Все права защищены.</small>
+            <small>Информация на сайте носит справочный характер.</small>
         </div>
     </div>
 </footer>
