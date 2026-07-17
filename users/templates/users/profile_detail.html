@@ -1,0 +1,154 @@
+{% extends "base.html" %}
+
+{% block title %}
+    Профиль — SmartAutoParts
+{% endblock %}
+
+{% block content %}
+<section class="account-section">
+    <div class="container">
+        <div class="account-page-header">
+            <div>
+                <span class="section-eyebrow">
+                    Личный кабинет
+                </span>
+
+                <h1 class="account-page-title">
+                    Профиль пользователя
+                </h1>
+
+                <p class="account-page-description">
+                    Персональная информация и данные вашего автомобиля.
+                </p>
+            </div>
+
+            <a
+                href="{% url 'users:profile_update' %}"
+                class="btn btn-primary account-header-button"
+            >
+                <i class="bi bi-pencil-square"></i>
+                Редактировать
+            </a>
+        </div>
+
+        <div class="row g-4">
+            <div class="col-lg-4">
+                <article class="account-card profile-summary-card">
+                    <div class="profile-avatar">
+                        {% if user.avatar %}
+                            <img
+                                src="{{ user.avatar.url }}"
+                                alt="Аватар пользователя"
+                            >
+                        {% else %}
+                            <i class="bi bi-person"></i>
+                        {% endif %}
+                    </div>
+
+                    <h2 class="profile-name">
+                        {% if user.get_full_name %}
+                            {{ user.get_full_name }}
+                        {% else %}
+                            {{ user.username }}
+                        {% endif %}
+                    </h2>
+
+                    <p class="profile-email">
+                        {{ user.email }}
+                    </p>
+
+                    <span class="profile-role">
+                        {{ user.get_role_display }}
+                    </span>
+                </article>
+            </div>
+
+            <div class="col-lg-8">
+                <article class="account-card">
+                    <div class="account-card-header">
+                        <div>
+                            <span class="account-card-icon">
+                                <i class="bi bi-person-vcard"></i>
+                            </span>
+
+                            <h2>Основная информация</h2>
+                        </div>
+                    </div>
+
+                    <div class="profile-information-grid">
+                        <div class="profile-information-item">
+                            <span class="profile-information-label">
+                                Страна
+                            </span>
+
+                            <strong>
+                                {{ profile.country|default:"Не указана" }}
+                            </strong>
+                        </div>
+
+                        <div class="profile-information-item">
+                            <span class="profile-information-label">
+                                Город
+                            </span>
+
+                            <strong>
+                                {{ profile.city|default:"Не указан" }}
+                            </strong>
+                        </div>
+
+                        <div class="profile-information-item">
+                            <span class="profile-information-label">
+                                Язык
+                            </span>
+
+                            <strong>
+                                {{ profile.preferred_language|default:"Не указан" }}
+                            </strong>
+                        </div>
+
+                        <div class="profile-information-item">
+                            <span class="profile-information-label">
+                                Марка автомобиля
+                            </span>
+
+                            <strong>
+                                {{ profile.car_brand|default:"Не указана" }}
+                            </strong>
+                        </div>
+
+                        <div class="profile-information-item">
+                            <span class="profile-information-label">
+                                Модель автомобиля
+                            </span>
+
+                            <strong>
+                                {{ profile.car_model|default:"Не указана" }}
+                            </strong>
+                        </div>
+
+                        <div class="profile-information-item">
+                            <span class="profile-information-label">
+                                Год выпуска
+                            </span>
+
+                            <strong>
+                                {{ profile.car_year|default:"Не указан" }}
+                            </strong>
+                        </div>
+                    </div>
+
+                    <div class="profile-bio">
+                        <span class="profile-information-label">
+                            О пользователе
+                        </span>
+
+                        <p>
+                            {{ profile.bio|default:"Описание пока не добавлено." }}
+                        </p>
+                    </div>
+                </article>
+            </div>
+        </div>
+    </div>
+</section>
+{% endblock %}

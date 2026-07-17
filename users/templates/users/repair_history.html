@@ -1,0 +1,91 @@
+{% extends "base.html" %}
+
+{% block title %}
+    История ремонта — SmartAutoParts
+{% endblock %}
+
+{% block content %}
+<section class="account-section">
+    <div class="container">
+        <div class="account-page-header">
+            <div>
+                <span class="section-eyebrow">
+                    Личный кабинет
+                </span>
+
+                <h1 class="account-page-title">
+                    История ремонта
+                </h1>
+
+                <p class="account-page-description">
+                    Сохранённые инструкции и выполненные ремонтные работы.
+                </p>
+            </div>
+        </div>
+
+        <div class="account-card">
+            {% if repair_history %}
+                <div class="history-list">
+                    {% for item in repair_history %}
+                        <article class="history-item">
+                            <div class="history-icon history-icon-repair">
+                                <i class="bi bi-tools"></i>
+                            </div>
+
+                            <div class="history-content">
+                                <div class="history-title-row">
+                                    <h2>
+                                        {{ item.instruction.title }}
+                                    </h2>
+
+                                    {% if item.completed %}
+                                        <span class="history-status success">
+                                            Завершено
+                                        </span>
+                                    {% else %}
+                                        <span class="history-status warning">
+                                            В процессе
+                                        </span>
+                                    {% endif %}
+                                </div>
+
+                                {% if item.notes %}
+                                    <p>{{ item.notes }}</p>
+                                {% else %}
+                                    <p>Заметки не добавлены.</p>
+                                {% endif %}
+
+                                <time datetime="{{ item.created_at|date:'c' }}">
+                                    <i class="bi bi-calendar3"></i>
+                                    {{ item.created_at|date:"d.m.Y H:i" }}
+                                </time>
+                            </div>
+                        </article>
+                    {% endfor %}
+                </div>
+
+                {% include "users/includes/pagination.html" %}
+            {% else %}
+                <div class="account-empty-state">
+                    <span>
+                        <i class="bi bi-tools"></i>
+                    </span>
+
+                    <h2>История ремонта пуста</h2>
+
+                    <p>
+                        Добавленные инструкции появятся на этой странице.
+                    </p>
+
+                    <a
+                        href="{% url 'home' %}"
+                        class="btn btn-primary"
+                    >
+                        Перейти к поиску
+                    </a>
+                </div>
+            {% endif %}
+        </div>
+    </div>
+</section>
+{% endblock %}

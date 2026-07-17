@@ -1,3 +1,12 @@
+from django.contrib.auth import views as auth_views
+from django.contrib.auth.forms import AuthenticationForm
+from django.contrib.auth.mixins import LoginRequiredMixin
+from django.views.generic import DetailView, ListView, TemplateView
+from django.urls import reverse_lazy
+from django.shortcuts import redirect
+from django.contrib.auth.mixins import UserPassesTestMixin
+
+
 from rest_framework.generics import (
     CreateAPIView,
     DestroyAPIView,
@@ -374,4 +383,161 @@ class RepairHistoryDeleteAPIView(
         IsAuthenticated,
         IsOwner,
     ]
-    
+
+
+class UserLoginView(auth_views.LoginView):
+    """
+    Представление для входа зарегистрированного пользователя.
+
+    Использует стандартную сессионную авторизацию Django.
+    После успешного входа перенаправляет пользователя
+    на главную страницу приложения.
+    """
+
+    template_name = "users/login.html"
+    authentication_form = AuthenticationForm
+    redirect_authenticated_user = True
+    next_page = reverse_lazy("users:profile_detail")
+
+
+    def get_form(self, form_class=None):
+        """
+        Добавляет оформление полям формы авторизации.
+        """
+        form = super().get_form(form_class)
+
+        form.fields["username"].widget.attrs.update(
+            {
+                "class": "form-control form-control-lg",
+                "placeholder": "Введите имя пользователя",
+                "autocomplete": "username",
+                "autofocus": True,
+            }
+        )
+
+        form.fields["password"].widget.attrs.update(
+            {
+                "class": "form-control form-control-lg",
+                "placeholder": "Введите пароль",
+                "autocomplete": "current-password",
+            }
+        )
+
+        return form
+
+
+class UserLogoutView(auth_views.LogoutView):
+    """
+    Представление для выхода пользователя из системы.
+    """
+
+    next_page = reverse_lazy("users:login")
+
+
+class ProfileDetailView(LoginRequiredMixin, DetailView):
+    """
+    HTML-представление личного профиля пользователя.
+
+    Показывает профиль только текущего
+    авторизованного пользователя.
+    """
+
+    model = Profile
+    template_name = "users/profile_detail.html"
+    context_object_name = "profile"
+    login_url = "users:login"
+
+    def get_object(self, queryset=None):
+        """
+        Возвращает профиль текущего пользователя.
+
+        Если профиль ещё не создан, он будет
+        автоматически создан.
+        """
+        profile, _ = Profile.objects.get_or_create(
+            user=self.request.user,
+        )
+        return profile
+
+
+class SearchHistoryPageView(LoginRequiredMixin, ListView):
+    """
+    HTML-представление истории поиска пользователя.
+
+    Обычный пользователь видит только собственную
+    историю. Суперпользователь видит все записи.
+    """
+
+    model = SearchHistory
+    template_name = "users/search_history.html"
+    context_object_name = "search_history"
+    paginate_by = 10
+    login_url = "users:login"
+
+    def get_queryset(self):
+        """
+        Возвращает доступную пользователю историю поиска.
+        """
+        queryset = (
+            SearchHistory.objects
+            .select_related("user")
+            .order_by("-searched_at")
+        )
+
+        if self.request.user.is_superuser:
+            return queryset
+
+        return queryset.filter(user=self.request.user)
+
+
+class RepairHistoryPageView(LoginRequiredMixin, ListView):
+    """
+    HTML-представление истории ремонта пользователя.
+
+    Обычный пользователь видит только собственные
+    записи. Суперпользователь видит все записи.
+    """
+
+    model = RepairHistory
+    template_name = "users/repair_history.html"
+    context_object_name = "repair_history"
+    paginate_by = 10
+    login_url = "users:login"
+
+    def get_queryset(self):
+        """
+        Возвращает доступную пользователю историю ремонта.
+        """
+        queryset = (
+            RepairHistory.objects
+            .select_related(
+                "user",
+                "instruction",
+            )
+            .order_by("-created_at")
+        )
+
+        if self.request.user.is_superuser:
+            return queryset
+
+        return queryset.filter(user=self.request.user)
+
+
+class UserRegistrationPageView(
+    UserPassesTestMixin,
+    TemplateView,
+):
+    """
+    HTML-страница регистрации нового пользователя.
+
+    Уже авторизованный пользователь перенаправляется
+    на страницу профиля.
+    """
+
+    template_name = "users/register.html"
+
+    def test_func(self):
+        return not self.request.user.is_authenticated
+
+    def handle_no_permission(self):
+        return redirect("users:profile_detail")

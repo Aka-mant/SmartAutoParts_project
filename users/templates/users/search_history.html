@@ -1,0 +1,91 @@
+{% extends "base.html" %}
+
+{% block title %}
+    История поиска — SmartAutoParts
+{% endblock %}
+
+{% block content %}
+<section class="account-section">
+    <div class="container">
+        <div class="account-page-header">
+            <div>
+                <span class="section-eyebrow">
+                    Личный кабинет
+                </span>
+
+                <h1 class="account-page-title">
+                    История поиска
+                </h1>
+
+                <p class="account-page-description">
+                    Ранее выполненные запросы по автомобильным запчастям.
+                </p>
+            </div>
+        </div>
+
+        <div class="account-card">
+            {% if search_history %}
+                <div class="history-list">
+                    {% for item in search_history %}
+                        <article class="history-item">
+                            <div class="history-icon history-icon-search">
+                                <i class="bi bi-search"></i>
+                            </div>
+
+                            <div class="history-content">
+                                <div class="history-title-row">
+                                    <h2>
+                                        {{ item.original_number|default:item.search_query }}
+                                    </h2>
+
+                                    {% if item.result_found %}
+                                        <span class="history-status success">
+                                            Найдено
+                                        </span>
+                                    {% else %}
+                                        <span class="history-status danger">
+                                            Не найдено
+                                        </span>
+                                    {% endif %}
+                                </div>
+
+                                {% if item.search_query %}
+                                    <p>
+                                        Запрос: {{ item.search_query }}
+                                    </p>
+                                {% endif %}
+
+                                <time datetime="{{ item.searched_at|date:'c' }}">
+                                    <i class="bi bi-clock"></i>
+                                    {{ item.searched_at|date:"d.m.Y H:i" }}
+                                </time>
+                            </div>
+                        </article>
+                    {% endfor %}
+                </div>
+
+                {% include "users/includes/pagination.html" %}
+            {% else %}
+                <div class="account-empty-state">
+                    <span>
+                        <i class="bi bi-search"></i>
+                    </span>
+
+                    <h2>История поиска пуста</h2>
+
+                    <p>
+                        Выполненные запросы появятся на этой странице.
+                    </p>
+
+                    <a
+                        href="{% url 'home' %}"
+                        class="btn btn-primary"
+                    >
+                        Найти запчасть
+                    </a>
+                </div>
+            {% endif %}
+        </div>
+    </div>
+</section>
+{% endblock %}

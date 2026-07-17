@@ -3,106 +3,147 @@ from rest_framework_simplejwt.views import TokenRefreshView
 
 from .apps import UsersConfig
 from .views import (
+    ProfileDetailView,
     ProfileRetrieveAPIView,
     ProfileUpdateAPIView,
     RepairHistoryCreateAPIView,
     RepairHistoryDeleteAPIView,
     RepairHistoryListAPIView,
+    RepairHistoryPageView,
     RepairHistoryRetrieveAPIView,
     RepairHistoryUpdateAPIView,
     SearchHistoryListAPIView,
+    SearchHistoryPageView,
     UserCreateAPIView,
     UserDeleteAPIView,
     UserListAPIView,
+    UserLoginView,
+    UserLogoutView,
     UserRetrieveAPIView,
     UserTokenObtainPairView,
     UserUpdateAPIView,
+    UserRegistrationPageView,
 )
 
 app_name = UsersConfig.name
 
 urlpatterns = [
-    # Аутентификация
+    # HTML-аутентификация
     path(
-        "token/",
+        "login/",
+        UserLoginView.as_view(),
+        name="login",
+    ),
+    path(
+        "logout/",
+        UserLogoutView.as_view(),
+        name="logout",
+    ),
+    # Регистрация
+    path(
+        "register/",
+        UserRegistrationPageView.as_view(),
+        name="register",
+    ),
+
+    # HTML-страницы личного кабинета
+    path(
+        "profile/",
+        ProfileDetailView.as_view(),
+        name="profile_detail",
+    ),
+    path(
+        "search-history/",
+        SearchHistoryPageView.as_view(),
+        name="search_history",
+    ),
+    path(
+        "repair-history/",
+        RepairHistoryPageView.as_view(),
+        name="repair_history_list",
+    ),
+
+    # JWT-аутентификация
+    path(
+        "api/token/",
         UserTokenObtainPairView.as_view(),
         name="token_obtain_pair",
     ),
     path(
-        "token/refresh/",
+        "api/token/refresh/",
         TokenRefreshView.as_view(),
         name="token_refresh",
     ),
 
-    # Пользователи
+    # API пользователей
     path(
-        "register/",
+        "api/register/",
         UserCreateAPIView.as_view(),
         name="user_register",
     ),
     path(
-        "",
+        "api/",
         UserListAPIView.as_view(),
         name="user_list",
     ),
     path(
-        "<int:pk>/",
-        UserRetrieveAPIView.as_view(),
-        name="user_detail",
-    ),
-    path(
-        "<int:pk>/update/",
+        "api/me/",
         UserUpdateAPIView.as_view(),
         name="user_update",
     ),
     path(
-        "<int:pk>/delete/",
+        "api/<int:pk>/",
+        UserRetrieveAPIView.as_view(),
+        name="user_detail",
+    ),
+    path(
+        "api/<int:pk>/delete/",
         UserDeleteAPIView.as_view(),
         name="user_delete",
     ),
 
-    # Профили
+    # API профиля
     path(
-        "profiles/<int:pk>/",
+        "api/profile/",
         ProfileRetrieveAPIView.as_view(),
-        name="profile_detail",
+        name="api_profile_detail",
     ),
     path(
-        "profiles/<int:pk>/update/",
+        "api/profile/update/",
         ProfileUpdateAPIView.as_view(),
         name="profile_update",
     ),
 
-    # История поиска
+    # API истории поиска
     path(
-        "search-history/",
+        "api/search-history/",
         SearchHistoryListAPIView.as_view(),
-        name="search_history",
+        name="api_search_history",
     ),
 
-    # История ремонтов
+    # API истории ремонта
     path(
-        "repair-history/",
+        "api/repair-history/",
         RepairHistoryListAPIView.as_view(),
-        name="repair_history_list",
+        name="api_repair_history_list",
     ),
     path(
-        "repair-history/create/",
+        "api/repair-history/create/",
         RepairHistoryCreateAPIView.as_view(),
         name="repair_history_create",
     ),
     path(
-        "repair-history/<int:pk>/",
+        "api/repair-history/<int:pk>/",
         RepairHistoryRetrieveAPIView.as_view(),
         name="repair_history_detail",
     ),
     path(
-        "repair-history/<int:pk>/update/",
+        "api/repair-history/<int:pk>/update/",
         RepairHistoryUpdateAPIView.as_view(),
         name="repair_history_update",
     ),
     path(
-        "repair-history/<int:pk>/delete/",
+        "api/repair-history/<int:pk>/delete/",
         RepairHistoryDeleteAPIView.as_view(),
         name="repair_history_delete",
     ),

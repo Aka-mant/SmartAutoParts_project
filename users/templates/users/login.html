@@ -1,0 +1,238 @@
+{% extends "base.html" %}
+
+{% block title %}
+    Вход — SmartAutoParts
+{% endblock %}
+
+{% block content %}
+<section class="auth-section">
+    <div class="container">
+        <div class="auth-wrapper">
+            <div class="auth-card">
+                <div class="auth-card-header text-center">
+                    <span class="auth-icon" aria-hidden="true">
+                        <i class="bi bi-person-lock"></i>
+                    </span>
+
+                    <span class="section-eyebrow">
+                        Личный кабинет
+                    </span>
+
+                    <h1 class="auth-title">
+                        Вход в SmartAutoParts
+                    </h1>
+
+                    <p class="auth-description">
+                        Войдите в учётную запись, чтобы получить доступ
+                        к истории поиска, инструкциям и персональным
+                        возможностям сервиса.
+                    </p>
+                </div>
+
+                {% if form.non_field_errors %}
+                    <div
+                        class="alert alert-danger"
+                        role="alert"
+                    >
+                        <div class="d-flex gap-2">
+                            <i
+                                class="bi bi-exclamation-circle-fill"
+                                aria-hidden="true"
+                            ></i>
+
+                            <div>
+                                {% for error in form.non_field_errors %}
+                                    <div>{{ error }}</div>
+                                {% endfor %}
+                            </div>
+                        </div>
+                    </div>
+                {% endif %}
+
+                <form
+                    method="post"
+                    action="{% url 'users:login' %}"
+                    class="auth-form"
+                    novalidate
+                >
+                    {% csrf_token %}
+
+                    {% if next %}
+                        <input
+                            type="hidden"
+                            name="next"
+                            value="{{ next }}"
+                        >
+                    {% endif %}
+
+                    <div class="mb-4">
+                        <label
+                            for="{{ form.username.id_for_label }}"
+                            class="form-label"
+                        >
+                            Имя пользователя
+                        </label>
+
+                        <div class="auth-input-group">
+                            <span class="auth-input-icon">
+                                <i
+                                    class="bi bi-person"
+                                    aria-hidden="true"
+                                ></i>
+                            </span>
+
+                            {{ form.username }}
+                        </div>
+
+                        {% if form.username.errors %}
+                            <div class="invalid-feedback d-block">
+                                {% for error in form.username.errors %}
+                                    <div>{{ error }}</div>
+                                {% endfor %}
+                            </div>
+                        {% endif %}
+                    </div>
+
+                    <div class="mb-4">
+                        <div
+                            class="d-flex justify-content-between
+                                   align-items-center gap-3"
+                        >
+                            <label
+                                for="{{ form.password.id_for_label }}"
+                                class="form-label"
+                            >
+                                Пароль
+                            </label>
+
+                            <a
+                                href="#"
+                                class="auth-secondary-link"
+                            >
+                                Забыли пароль?
+                            </a>
+                        </div>
+
+                        <div class="auth-input-group">
+                            <span class="auth-input-icon">
+                                <i
+                                    class="bi bi-lock"
+                                    aria-hidden="true"
+                                ></i>
+                            </span>
+
+                            {{ form.password }}
+
+                            <button
+                                class="password-toggle"
+                                type="button"
+                                aria-label="Показать пароль"
+                                data-password-toggle
+                            >
+                                <i
+                                    class="bi bi-eye"
+                                    aria-hidden="true"
+                                ></i>
+                            </button>
+                        </div>
+
+                        {% if form.password.errors %}
+                            <div class="invalid-feedback d-block">
+                                {% for error in form.password.errors %}
+                                    <div>{{ error }}</div>
+                                {% endfor %}
+                            </div>
+                        {% endif %}
+                    </div>
+
+                    <div
+                        class="d-flex flex-wrap justify-content-between
+                               align-items-center gap-3 mb-4"
+                    >
+                        <div class="form-check">
+                            <input
+                                class="form-check-input"
+                                type="checkbox"
+                                name="remember_me"
+                                id="rememberMe"
+                            >
+
+                            <label
+                                class="form-check-label"
+                                for="rememberMe"
+                            >
+                                Запомнить меня
+                            </label>
+                        </div>
+                    </div>
+
+                    <button
+                        type="submit"
+                        class="btn btn-primary btn-lg auth-submit-button"
+                    >
+                        <i
+                            class="bi bi-box-arrow-in-right"
+                            aria-hidden="true"
+                        ></i>
+
+                        Войти
+                    </button>
+                </form>
+
+                <div class="auth-divider">
+                    <span>или</span>
+                </div>
+
+                <p class="auth-register-text">
+                    Ещё нет учётной записи?
+
+                    <a href="{% url 'users:register' %}">
+                        Зарегистрироваться
+                    </a>
+                </p>
+
+                <div class="auth-security">
+                    <i
+                        class="bi bi-shield-check"
+                        aria-hidden="true"
+                    ></i>
+
+                    <span>
+                        Данные передаются через защищённое соединение.
+                    </span>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+
+<script>
+    document.addEventListener("DOMContentLoaded", () => {
+        const toggleButton = document.querySelector(
+            "[data-password-toggle]"
+        );
+        const passwordInput = document.getElementById(
+            "{{ form.password.id_for_label }}"
+        );
+
+        if (!toggleButton || !passwordInput) {
+            return;
+        }
+
+        toggleButton.addEventListener("click", () => {
+            const isPassword = passwordInput.type === "password";
+            const icon = toggleButton.querySelector("i");
+
+            passwordInput.type = isPassword ? "text" : "password";
+
+            toggleButton.setAttribute(
+                "aria-label",
+                isPassword ? "Скрыть пароль" : "Показать пароль"
+            );
+
+            icon.classList.toggle("bi-eye", !isPassword);
+            icon.classList.toggle("bi-eye-slash", isPassword);
+        });
+    });
+</script>
+{% endblock %}
