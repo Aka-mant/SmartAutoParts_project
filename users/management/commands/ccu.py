@@ -175,6 +175,109 @@ class Command(BaseCommand):
         "Peugeot": ("208", "308", "3008", "5008"),
     }
 
+    COUNTRY_CITIES = {
+        "Россия": (
+            "Москва",
+            "Санкт-Петербург",
+            "Казань",
+            "Екатеринбург",
+        ),
+        "Германия": (
+            "Берлин",
+            "Гамбург",
+            "Мюнхен",
+            "Кёльн",
+        ),
+        "Нидерланды": (
+            "Амстердам",
+            "Роттердам",
+            "Утрехт",
+            "Эйндховен",
+        ),
+        "Франция": (
+            "Париж",
+            "Лион",
+            "Марсель",
+            "Тулуза",
+        ),
+        "Италия": (
+            "Рим",
+            "Милан",
+            "Турин",
+            "Болонья",
+        ),
+        "Испания": (
+            "Мадрид",
+            "Барселона",
+            "Валенсия",
+            "Севилья",
+        ),
+        "Польша": (
+            "Варшава",
+            "Краков",
+            "Вроцлав",
+            "Гданьск",
+        ),
+        "Чехия": (
+            "Прага",
+            "Брно",
+            "Острава",
+            "Пльзень",
+        ),
+    }
+
+    COUNTRY_LANGUAGES = {
+        "Россия": "Russian",
+        "Германия": "German",
+        "Нидерланды": "Dutch",
+        "Франция": "French",
+        "Италия": "Italian",
+        "Испания": "Spanish",
+        "Польша": "Polish",
+        "Чехия": "Czech",
+    }
+
+    PART_CATEGORY_MAP = {
+        "Масляный фильтр": "Фильтры",
+        "Воздушный фильтр": "Фильтры",
+        "Тормозной диск": "Тормозная система",
+        "Тормозные колодки": "Тормозная система",
+        "Свеча зажигания": "Система зажигания",
+        "Ремень ГРМ": "Ремни и ролики",
+        "Радиатор": "Система охлаждения",
+        "Генератор": "Электрооборудование",
+        "Стартер": "Электрооборудование",
+        "Топливный насос": "Топливная система",
+        "Амортизатор": "Подвеска",
+        "Шаровая опора": "Подвеска",
+        "Ступичный подшипник": "Подшипники",
+        "Датчик кислорода": "Датчики",
+        "Катушка зажигания": "Система зажигания",
+        "Фара": "Автомобильная оптика",
+        "Задний фонарь": "Автомобильная оптика",
+        "Сцепление": "Сцепление",
+        "Водяной насос": "Система охлаждения",
+        "Термостат": "Система охлаждения",
+    }
+
+    TOOL_CATEGORY_MAP = {
+        "Торцевой ключ": "Гаечные ключи",
+        "Динамометрический ключ": "Специальные ключи",
+        "Отвертка": "Отвертки",
+        "Пассатижи": "Пассатижи и клещи",
+        "Домкрат": "Домкраты и опоры",
+        "Съемник подшипников": "Съемники",
+        "Набор головок": "Торцевые головки",
+        "Трещотка": "Торцевые головки",
+        "Мультиметр": "Измерительные инструменты",
+        "Диагностический сканер": "Диагностическое оборудование",
+        "Молоток": "Ударные инструменты",
+        "Монтажная лопатка": "Монтажные инструменты",
+        "Шестигранный ключ": "Гаечные ключи",
+        "Ключ для масляного фильтра": "Инструменты для замены масла",
+        "Компрессометр": "Инструменты для двигателя",
+    }
+
     PART_NAMES = (
         "Масляный фильтр",
         "Воздушный фильтр",
@@ -458,38 +561,52 @@ class Command(BaseCommand):
     def create_users(self) -> list[User]:
         """
         Создает тестовых пользователей.
+
+        Команда гарантирует наличие пользователей всех ролей,
+        администратора и отдельного системного суперпользователя.
+        Благодаря этому можно проверить все ветки permissions.py.
         """
 
         users = []
-        count = self.get_count()
+        count = max(self.get_count(), 6)
 
-        roles = (
-            UserRole.GUEST,
+        role_sequence = [
+
             UserRole.USER,
             UserRole.PREMIUM,
             UserRole.MODERATOR,
-        )
+            UserRole.ADMIN,
+        ]
 
         for index in range(1, count + 1):
             suffix = self.unique_suffix()
             first_name = random.choice(self.FIRST_NAMES)
             last_name = random.choice(self.LAST_NAMES)
-
-            email = f"user_{suffix}@example.com"
-            username = f"user_{suffix}"
+            role = role_sequence[(index - 1) % len(role_sequence)]
 
             user = User.objects.create_user(
-                email=email,
-                username=username,
+                email=f"user_{suffix}@example.com",
+                username=f"user_{suffix}",
                 password=self.default_password,
                 first_name=first_name,
                 last_name=last_name,
-                phone=f"+31{random.randint(600000000, 699999999)}",
-                role=random.choice(roles),
+                phone=f"+31{random.randint(610000000, 699999999)}",
+                role=role,
                 is_active=True,
             )
 
             users.append(user)
+
+        superuser_suffix = self.unique_suffix()
+        superuser = User.objects.create_superuser(
+            email=f"admin_{superuser_suffix}@example.com",
+            username=f"admin_{superuser_suffix}",
+            password=self.default_password,
+            first_name="Системный",
+            last_name="Администратор",
+            role=UserRole.ADMIN,
+        )
+        users.append(superuser)
 
         self.print_created(
             "User",
@@ -503,36 +620,32 @@ class Command(BaseCommand):
         users: list[User],
     ) -> list[Profile]:
         """
-        Создает профиль для каждого тестового пользователя.
+        Создает правдоподобный профиль для каждого пользователя.
+
+        Город соответствует стране, язык — стране проживания,
+        а модель автомобиля — выбранной марке.
         """
 
         profiles = []
 
         for user in users:
+            country = random.choice(tuple(self.COUNTRY_CITIES))
+            city = random.choice(self.COUNTRY_CITIES[country])
             brand = random.choice(self.CAR_BRANDS)
-            car_model = random.choice(
-                self.CAR_MODELS[brand]
-            )
+            car_model = random.choice(self.CAR_MODELS[brand])
 
             profile, created = Profile.objects.get_or_create(
                 user=user,
                 defaults={
-                    "country": random.choice(self.COUNTRIES),
-                    "city": random.choice(self.CITIES),
-                    "preferred_language": random.choice(
-                        (
-                            "Russian",
-                            "English",
-                            "German",
-                            "Dutch",
-                        )
-                    ),
+                    "country": country,
+                    "city": city,
+                    "preferred_language": self.COUNTRY_LANGUAGES[country],
                     "car_brand": brand,
                     "car_model": car_model,
-                    "car_year": random.randint(1995, 2026),
+                    "car_year": random.randint(2000, timezone.now().year),
                     "bio": (
-                        f"Тестовый профиль пользователя "
-                        f"{user.first_name} {user.last_name}."
+                        f"Владелец автомобиля {brand} {car_model}. "
+                        f"Интересуется обслуживанием и подбором запчастей."
                     ),
                 },
             )
@@ -737,21 +850,54 @@ class Command(BaseCommand):
     ) -> list[Part]:
         """
         Создает автомобильные запчасти.
+
+        Тип запчасти согласуется с категорией, а размеры и масса
+        генерируются в диапазонах, зависящих от вида детали.
         """
 
         parts = []
         count = self.get_count()
+        categories_by_name = {
+            category.name: category
+            for category in categories
+        }
+
+        dimensions_by_part = {
+            "Масляный фильтр": ((70, 130), (70, 130), (70, 180), (0.2, 1.2)),
+            "Воздушный фильтр": ((180, 450), (120, 350), (25, 90), (0.2, 1.5)),
+            "Тормозной диск": ((220, 380), (220, 380), (20, 80), (4.0, 15.0)),
+            "Тормозные колодки": ((80, 190), (35, 90), (12, 35), (0.5, 3.0)),
+            "Свеча зажигания": ((70, 110), (14, 25), (14, 25), (0.03, 0.12)),
+            "Ремень ГРМ": ((500, 1800), (15, 40), (5, 15), (0.2, 1.5)),
+            "Радиатор": ((350, 850), (300, 700), (25, 90), (3.0, 12.0)),
+            "Генератор": ((140, 260), (120, 230), (120, 230), (4.0, 10.0)),
+            "Стартер": ((180, 350), (80, 180), (80, 180), (2.0, 7.0)),
+            "Топливный насос": ((100, 300), (60, 180), (60, 180), (0.5, 4.0)),
+            "Амортизатор": ((350, 850), (40, 120), (40, 120), (2.0, 8.0)),
+            "Шаровая опора": ((70, 180), (60, 160), (60, 160), (0.4, 2.5)),
+            "Ступичный подшипник": ((50, 180), (50, 180), (25, 90), (0.3, 3.5)),
+            "Датчик кислорода": ((80, 220), (20, 50), (20, 50), (0.05, 0.3)),
+            "Катушка зажигания": ((80, 220), (25, 80), (25, 80), (0.1, 0.8)),
+            "Фара": ((300, 900), (180, 500), (150, 450), (2.0, 8.0)),
+            "Задний фонарь": ((200, 650), (120, 400), (100, 350), (1.0, 5.0)),
+            "Сцепление": ((200, 350), (200, 350), (40, 120), (4.0, 15.0)),
+            "Водяной насос": ((80, 240), (70, 220), (60, 180), (0.5, 4.0)),
+            "Термостат": ((40, 130), (40, 130), (30, 100), (0.05, 0.6)),
+        }
 
         for index in range(1, count + 1):
             part_name = random.choice(self.PART_NAMES)
-            manufacturer = random.choice(
-                self.PART_MANUFACTURERS
-            )
+            manufacturer = random.choice(self.PART_MANUFACTURERS)
             suffix = self.unique_suffix().upper()
+            full_name = f"{part_name} {manufacturer} {index}"
 
-            full_name = (
-                f"{part_name} {manufacturer} "
-                f"{index}"
+            category_name = self.PART_CATEGORY_MAP[part_name]
+            category = categories_by_name.get(category_name)
+            if category is None:
+                category = random.choice(categories)
+
+            length_range, width_range, height_range, weight_range = (
+                dimensions_by_part[part_name]
             )
 
             original_number = (
@@ -760,49 +906,31 @@ class Command(BaseCommand):
                 f"{suffix[:5]}"
             )
 
-            length = random.randint(50, 800)
-            width = random.randint(30, 500)
-            height = random.randint(20, 400)
-
             part = Part.objects.create(
-                category=random.choice(categories),
+                category=category,
                 name=full_name,
                 slug=self.unique_slug(full_name),
                 original_number=original_number,
                 manufacturer=manufacturer,
                 description=(
-                    f"Тестовая автомобильная запчасть "
-                    f"{full_name}. Подходит для ремонта "
-                    f"и технического обслуживания автомобиля."
+                    f"{part_name} производителя {manufacturer}. "
+                    f"Перед покупкой необходимо сверить OEM-номер "
+                    f"и параметры совместимости автомобиля."
                 ),
-                seo_title=(
-                    f"Купить {full_name} по OEM-номеру"
-                ),
+                seo_title=f"{full_name}: характеристики и совместимость",
                 seo_description=(
-                    f"Описание, совместимость и инструкции "
-                    f"для запчасти {full_name}."
+                    f"OEM-номер, совместимость и инструкции для {full_name}."
                 ),
                 seo_keywords=(
-                    f"{part_name}, {manufacturer}, "
-                    f"{original_number}, автозапчасть"
+                    f"{part_name}, {manufacturer}, {original_number}, автозапчасть"
                 ),
-                weight=self.random_decimal(
-                    0.05,
-                    50.0,
-                ),
+                weight=self.random_decimal(*weight_range),
                 dimensions={
-                    "length_mm": length,
-                    "width_mm": width,
-                    "height_mm": height,
+                    "length_mm": random.randint(*length_range),
+                    "width_mm": random.randint(*width_range),
+                    "height_mm": random.randint(*height_range),
                 },
-                is_active=random.choice(
-                    (
-                        True,
-                        True,
-                        True,
-                        False,
-                    )
-                ),
+                is_active=random.random() < 0.9,
             )
 
             parts.append(part)
@@ -1037,48 +1165,60 @@ class Command(BaseCommand):
         categories: list[ToolCategory],
     ) -> list[Tool]:
         """
-        Создает тестовые инструменты.
+        Создает инструменты с согласованной категорией и размером.
         """
 
         tools = []
         count = self.get_count()
+        categories_by_prefix = {
+            category.name.rsplit(" ", 1)[0]: category
+            for category in categories
+        }
 
-        sizes = (
-            "6 мм",
-            "8 мм",
-            "10 мм",
-            "12 мм",
-            "13 мм",
-            "14 мм",
-            "17 мм",
-            "19 мм",
-            "21 мм",
-            "22 мм",
-            "24 мм",
+        metric_sizes = (
+            "6 мм", "8 мм", "10 мм", "12 мм", "13 мм",
+            "14 мм", "17 мм", "19 мм", "21 мм", "22 мм", "24 мм",
+        )
+        drive_sizes = (
             "1/4 дюйма",
             "3/8 дюйма",
             "1/2 дюйма",
-            "Универсальный",
         )
 
         for index in range(1, count + 1):
             base_name = random.choice(self.TOOL_NAMES)
-            size = random.choice(sizes)
+
+            if base_name in {
+                "Торцевой ключ",
+                "Динамометрический ключ",
+                "Шестигранный ключ",
+            }:
+                size = random.choice(metric_sizes)
+            elif base_name in {"Набор головок", "Трещотка"}:
+                size = random.choice(drive_sizes)
+            else:
+                size = "Универсальный"
+
+            category_name = self.TOOL_CATEGORY_MAP[base_name]
+            category = next(
+                (
+                    item
+                    for item in categories
+                    if item.name.startswith(category_name)
+                ),
+                random.choice(categories),
+            )
+
             name = f"{base_name} {size} #{index}"
 
             tool = Tool.objects.create(
-                category=random.choice(categories),
+                category=category,
                 name=name,
                 description=(
-                    f"Тестовый инструмент «{name}». "
-                    f"Используется при ремонте и техническом "
-                    f"обслуживании автомобиля."
+                    f"{base_name} размера «{size}». "
+                    f"Предназначен для обслуживания и ремонта автомобиля."
                 ),
                 size=size,
-                amazon_url=(
-                    "https://www.amazon.com/s?"
-                    f"k={slugify(base_name)}"
-                ),
             )
 
             tools.append(tool)
@@ -1154,12 +1294,16 @@ class Command(BaseCommand):
         return part_tools
 
     def create_instructions(
-        self,
-        parts: list[Part],
-        users: list[User],
+            self,
+            parts: list[Part],
+            users: list[User],
     ) -> list[Instruction]:
         """
         Создает инструкции по ремонту.
+
+        Авторами инструкций назначаются только
+        пользователи, имеющие право модерировать
+        содержимое проекта.
         """
 
         instructions = []
@@ -1183,9 +1327,29 @@ class Command(BaseCommand):
             "Регулировка",
         )
 
+        authors = [
+            user
+            for user in users
+            if user.can_moderate
+        ]
+
+        if not authors:
+            authors = [
+                user
+                for user in users
+                if user.can_administrate
+            ]
+
+        if not authors:
+            raise RuntimeError(
+                "Не найден пользователь с правами "
+                "модератора или администратора."
+            )
+
         for index in range(1, count + 1):
             part = random.choice(parts)
             action = random.choice(instruction_actions)
+            author = random.choice(authors)
 
             title = (
                 f"{action}: {part.name} "
@@ -1226,7 +1390,7 @@ class Command(BaseCommand):
                     )
                 ),
                 version=1,
-                created_by=random.choice(users),
+                created_by=author,
             )
 
             instructions.append(instruction)
@@ -1569,33 +1733,58 @@ class Command(BaseCommand):
         plans: list[SubscriptionPlan],
     ) -> list[UserSubscription]:
         """
-        Создает подписки пользователей.
+        Создает пользовательские подписки без дублирования пары user/plan.
+
+        Активная подписка всегда имеет будущую дату окончания.
+        Обычный пользователь с активной оплачиваемой подпиской
+        переводится в роль PREMIUM. Роли MODERATOR и ADMIN не понижаются.
         """
 
         subscriptions = []
-        count = self.get_count()
+        target_count = min(
+            self.get_count(),
+            len(users) * len(plans),
+        )
+        used_pairs = set()
+        now = timezone.now()
 
-        for _ in range(count):
+        attempts = 0
+        while len(subscriptions) < target_count and attempts < target_count * 30:
+            attempts += 1
             user = random.choice(users)
             plan = random.choice(plans)
+            pair = (user.pk, plan.pk)
 
-            start_date = self.random_datetime(
-                days_back=365,
-            )
-            end_date = start_date + timedelta(
-                days=plan.duration_days,
-            )
+            if pair in used_pairs:
+                continue
+            used_pairs.add(pair)
 
-            is_active = (
-                end_date > timezone.now()
-                and random.choice(
-                    (
-                        True,
-                        True,
-                        False,
-                    )
+            should_be_active = random.random() < 0.35
+
+            if should_be_active:
+                start_date = now - timedelta(
+                    days=random.randint(0, max(1, plan.duration_days // 2)),
                 )
-            )
+                end_date = start_date + timedelta(days=plan.duration_days)
+                if end_date <= now:
+                    end_date = now + timedelta(
+                        days=random.randint(1, plan.duration_days),
+                    )
+                is_active = True
+
+                if (
+                    user.role == UserRole.USER
+                    and not user.can_moderate
+                    and not user.can_administrate
+                ):
+                    user.role = UserRole.PREMIUM
+                    user.save(update_fields=["role"])
+            else:
+                start_date = now - timedelta(
+                    days=random.randint(plan.duration_days + 1, 365),
+                )
+                end_date = start_date + timedelta(days=plan.duration_days)
+                is_active = False
 
             subscription = UserSubscription.objects.create(
                 user=user,
@@ -1603,14 +1792,8 @@ class Command(BaseCommand):
                 start_date=start_date,
                 end_date=end_date,
                 is_active=is_active,
-                auto_renew=random.choice(
-                    (
-                        True,
-                        False,
-                    )
-                ),
+                auto_renew=is_active and random.random() < 0.55,
             )
-
             subscriptions.append(subscription)
 
         self.print_created(
@@ -1626,52 +1809,65 @@ class Command(BaseCommand):
         subscriptions: list[UserSubscription],
     ) -> list[SubscriptionPayment]:
         """
-        Создает платежи за подписки.
+        Создает согласованные платежи за подписки.
+
+        Активная подписка получает успешный платеж. Для завершенной
+        подписки возможны paid, refunded, failed и pending.
+        Дата оплаты не предшествует началу подписки.
         """
 
         payments = []
-        count = self.get_count()
-
-        currencies = (
-            "USD",
-            "EUR",
-            "RUB",
-            "GBP",
+        target_count = min(
+            self.get_count(),
+            len(subscriptions),
         )
 
-        for _ in range(count):
-            subscription = random.choice(subscriptions)
+        selected_subscriptions = random.sample(
+            subscriptions,
+            target_count,
+        )
+
+        for subscription in selected_subscriptions:
             user = subscription.user
 
-            status = random.choice(
-                self.PAYMENT_STATUSES
-            )
+            if subscription.is_active:
+                status = "paid"
+            else:
+                status = random.choices(
+                    population=("paid", "refunded", "failed", "pending"),
+                    weights=(45, 15, 25, 15),
+                    k=1,
+                )[0]
 
             paid_at = None
-
-            if status in (
-                "paid",
-                "refunded",
-            ):
-                paid_at = self.random_datetime(
-                    days_back=365,
+            if status in ("paid", "refunded"):
+                latest_payment_time = min(
+                    subscription.end_date,
+                    timezone.now(),
+                )
+                interval_seconds = max(
+                    0,
+                    int(
+                        (
+                            latest_payment_time
+                            - subscription.start_date
+                        ).total_seconds()
+                    ),
+                )
+                paid_at = subscription.start_date + timedelta(
+                    seconds=random.randint(0, interval_seconds),
                 )
 
             payment = SubscriptionPayment.objects.create(
                 user=user,
                 subscription=subscription,
-                provider=random.choice(
-                    self.PAYMENT_PROVIDERS
-                ),
-                external_payment_id=(
-                    f"pay_{self.unique_suffix()}"
-                ),
+                provider=random.choice(self.PAYMENT_PROVIDERS),
+                external_payment_id=f"pay_{self.unique_suffix()}",
                 amount=subscription.plan.price,
-                currency=random.choice(currencies),
+                currency="EUR",
                 status=status,
                 paid_at=paid_at,
             )
-
             payments.append(payment)
 
         self.print_created(
@@ -1739,57 +1935,56 @@ class Command(BaseCommand):
         users: list[User],
     ) -> list[ChatParticipant]:
         """
-        Создает участников комнат чата.
+        Создает участников комнат.
+
+        Создатель каждой комнаты обязательно является участником,
+        поэтому он может читать сообщения и управлять комнатой
+        в соответствии с chat views.
         """
 
         participants = []
-        target_count = self.get_count()
         used_pairs = set()
 
-        max_combinations = (
-            len(rooms) * len(users)
-        )
+        for room in rooms:
+            if room.created_by_id is None:
+                continue
 
+            participant = ChatParticipant.objects.create(
+                room=room,
+                user=room.created_by,
+            )
+            participants.append(participant)
+            used_pairs.add((room.pk, room.created_by_id))
+
+        target_count = max(
+            len(participants),
+            self.get_count(),
+        )
         target_count = min(
             target_count,
-            max_combinations,
+            len(rooms) * len(users),
         )
 
         attempts = 0
-        max_attempts = target_count * 30
-
-        while (
-            len(participants) < target_count
-            and attempts < max_attempts
-        ):
+        while len(participants) < target_count and attempts < target_count * 30:
             attempts += 1
-
             room = random.choice(rooms)
             user = random.choice(users)
-
-            pair = (
-                room.pk,
-                user.pk,
-            )
+            pair = (room.pk, user.pk)
 
             if pair in used_pairs:
                 continue
-
             used_pairs.add(pair)
 
             participant = ChatParticipant.objects.create(
                 room=room,
                 user=user,
             )
-
             ChatParticipant.objects.filter(
-                pk=participant.pk
+                pk=participant.pk,
             ).update(
-                joined_at=self.random_datetime(
-                    days_back=180,
-                )
+                joined_at=self.random_datetime(days_back=180),
             )
-
             participant.refresh_from_db()
             participants.append(participant)
 
@@ -2024,9 +2219,7 @@ class Command(BaseCommand):
                 )
             )
 
-            user = random.choice(
-                users + [None]
-            )
+            user = random.choice(users)
 
             search_log = SearchLog.objects.create(
                 user=user,
@@ -2112,91 +2305,84 @@ class Command(BaseCommand):
         parts: list[Part],
     ) -> list[AIRequest]:
         """
-        Создает обращения пользователей к AI-сервису.
+        Создает обращения к AI только от пользователей,
+        имеющих платный или административный доступ.
+
+        Тип запроса, текст запроса и связанная запчасть согласованы.
         """
 
         ai_requests = []
         count = self.get_count()
 
-        prompt_templates = (
-            "Как заменить деталь {part}?",
-            "Подходит ли {part} для автомобиля {brand}?",
-            "Какие инструменты нужны для замены {part}?",
-            "Определи возможные причины неисправности {part}.",
-            "Создай пошаговую инструкцию для ремонта {part}.",
-            "Как проверить работоспособность детали {part}?",
-            "Какие признаки износа имеет {part}?",
-            "Найди совместимые аналоги для {part}.",
-            "Сколько времени занимает замена {part}?",
-            "Можно ли выполнить ремонт {part} самостоятельно?",
-        )
+        allowed_users = [
+            user
+            for user in users
+            if user.has_paid_access
+        ]
 
-        response_templates = (
-            (
-                "Для выполнения ремонта подготовьте автомобиль, "
-                "необходимые инструменты и новую запчасть. "
-                "Перед началом работ отключите аккумулятор "
-                "и соблюдайте требования безопасности."
+        if not allowed_users:
+            self.print_created("AIRequest", 0)
+            return ai_requests
+
+        prompt_templates = {
+            "part_search": "Найди аналоги детали {part} по OEM-номеру {oem}.",
+            "repair_question": "Какие признаки неисправности характерны для {part}?",
+            "instruction_generation": "Создай пошаговую инструкцию по замене {part}.",
+            "compatibility_check": (
+                "Проверь совместимость детали {part} с автомобилем {brand}."
             ),
-            (
-                "Совместимость необходимо проверять по OEM-номеру, "
-                "марке автомобиля, модели, году выпуска и типу двигателя."
+            "image_analysis": (
+                "Проанализируй изображение и проверь, похожа ли деталь на {part}."
             ),
-            (
-                "Для точной диагностики рекомендуется проверить "
-                "ошибки электронных блоков, состояние проводки "
-                "и механические повреждения детали."
+        }
+
+        response_templates = {
+            "part_search": (
+                "Для поиска аналога необходимо сопоставить OEM-номер, "
+                "производителя и параметры совместимости."
             ),
-            (
-                "Пошаговый ремонт включает подготовку автомобиля, "
-                "демонтаж старой детали, очистку посадочного места, "
-                "установку новой детали и контрольную проверку."
+            "repair_question": (
+                "Проверку следует начать с визуального осмотра, диагностики "
+                "ошибок и измерений согласно документации производителя."
             ),
-        )
+            "instruction_generation": (
+                "Работы выполняются после фиксации автомобиля, отключения "
+                "питания при необходимости и подготовки подходящих инструментов."
+            ),
+            "compatibility_check": (
+                "Совместимость подтверждается только после сверки OEM-номера, "
+                "модели, года выпуска, поколения и двигателя."
+            ),
+            "image_analysis": (
+                "Изображение позволяет выполнить предварительное распознавание, "
+                "но итог необходимо подтвердить по маркировке и OEM-номеру."
+            ),
+        }
 
         for _ in range(count):
-            user = random.choice(users)
+            user = random.choice(allowed_users)
             part = random.choice(parts)
+            request_type = random.choice(self.AI_REQUEST_TYPES)
             brand = random.choice(self.CAR_BRANDS)
-
-            prompt_template = random.choice(
-                prompt_templates
-            )
 
             ai_request = AIRequest.objects.create(
                 user=user,
-                part=random.choice(
-                    (
-                        part,
-                        part,
-                        part,
-                        None,
-                    )
-                ),
-                prompt=prompt_template.format(
+                part=part,
+                prompt=prompt_templates[request_type].format(
                     part=part.name,
+                    oem=part.original_number,
                     brand=brand,
                 ),
-                response=random.choice(
-                    response_templates
-                ),
-                tokens_used=random.randint(
-                    50,
-                    4000,
-                ),
-                request_type=random.choice(
-                    self.AI_REQUEST_TYPES
-                ),
+                response=response_templates[request_type],
+                tokens_used=random.randint(120, 1800),
+                request_type=request_type,
             )
 
             AIRequest.objects.filter(
-                pk=ai_request.pk
+                pk=ai_request.pk,
             ).update(
-                created_at=self.random_datetime(
-                    days_back=120,
-                )
+                created_at=self.random_datetime(days_back=120),
             )
-
             ai_request.refresh_from_db()
             ai_requests.append(ai_request)
 
@@ -2221,7 +2407,11 @@ class Command(BaseCommand):
 
         generated_instructions = []
 
-        available_requests = list(ai_requests)
+        available_requests = [
+            request
+            for request in ai_requests
+            if request.request_type == "instruction_generation"
+        ]
 
         target_count = min(
             self.get_count(),
@@ -2294,6 +2484,15 @@ class Command(BaseCommand):
 
         analyses = []
         count = self.get_count()
+        allowed_users = [
+            user
+            for user in users
+            if user.has_paid_access
+        ]
+
+        if not allowed_users:
+            self.print_created("AIImageAnalysis", 0)
+            return analyses
 
         possible_conditions = (
             "new",
@@ -2305,7 +2504,7 @@ class Command(BaseCommand):
         )
 
         for index in range(1, count + 1):
-            user = random.choice(users)
+            user = random.choice(allowed_users)
 
             detected_part = random.choice(
                 parts + [None]
@@ -2342,18 +2541,21 @@ class Command(BaseCommand):
                     if confidence_score is not None
                     else None
                 ),
-                "condition": random.choice(
-                    possible_conditions
+                "condition": (
+                    condition := random.choice(possible_conditions)
                 ),
-                "possible_damage": random.choice(
-                    (
-                        None,
-                        "Коррозия",
-                        "Механический износ",
-                        "Трещина",
-                        "Деформация",
-                        "Загрязнение",
+                "possible_damage": (
+                    random.choice(
+                        (
+                            "Коррозия",
+                            "Механический износ",
+                            "Трещина",
+                            "Деформация",
+                            "Загрязнение",
+                        )
                     )
+                    if condition in ("worn", "damaged")
+                    else None
                 ),
                 "recommendation": (
                     "Выполнить дополнительную проверку детали "

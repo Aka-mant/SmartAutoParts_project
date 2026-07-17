@@ -2,6 +2,7 @@ from django.contrib import admin
 from django.urls import path, include
 from django.conf.urls.static import static
 from django.conf import settings
+from django.views.generic import TemplateView
 
 
 from drf_yasg import openapi
@@ -39,6 +40,12 @@ urlpatterns = [
     path('api/analytics/', include('apps.analytics.urls'), name='analytics'),
 
     #
+    path("", TemplateView.as_view(template_name="base.html",), name="home",),
+    path("license-agreement/", TemplateView.as_view(template_name="legal/license_agreement.html",),name="license_agreement",),
+
+
+
+
 
 
 

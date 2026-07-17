@@ -1,3 +1,5 @@
+from django.db.models import QuerySet
+
 from rest_framework.generics import (
     CreateAPIView,
     DestroyAPIView,
@@ -8,27 +10,61 @@ from rest_framework.generics import (
 from rest_framework.permissions import IsAuthenticated
 
 from users.permissions import (
+    IsAdmin,
     IsModerator,
-    IsSuperuser,
-    IsOwner
+    IsOwner,
 )
 
 from .models import (
+    SubscriptionPayment,
     SubscriptionPlan,
     UserSubscription,
-    SubscriptionPayment
 )
 from .serializers import (
-    SubscriptionPlanSerializer,
-    SubscriptionPlanCreateSerializer,
-    SubscriptionPlanUpdateSerializer,
-    UserSubscriptionSerializer,
-    UserSubscriptionCreateSerializer,
-    UserSubscriptionUpdateSerializer,
-    SubscriptionPaymentSerializer,
     SubscriptionPaymentCreateSerializer,
+    SubscriptionPaymentSerializer,
     SubscriptionPaymentUpdateSerializer,
+    SubscriptionPlanCreateSerializer,
+    SubscriptionPlanSerializer,
+    SubscriptionPlanUpdateSerializer,
+    UserSubscriptionCreateSerializer,
+    UserSubscriptionSerializer,
+    UserSubscriptionUpdateSerializer,
 )
+
+
+class UserOwnedQuerySetMixin:
+    """
+    Ограничивает queryset объектами,
+    принадлежащими текущему пользователю.
+
+    Администраторы и системные
+    суперпользователи Django получают
+    доступ ко всем объектам.
+    """
+
+    owner_lookup = "user"
+
+    def get_queryset(self) -> QuerySet:
+        """
+        Возвращает queryset с учётом
+        прав текущего пользователя.
+        """
+
+        queryset = super().get_queryset()
+        user = self.request.user
+
+        if not user.is_authenticated:
+            return queryset.none()
+
+        if user.can_administrate:
+            return queryset
+
+        return queryset.filter(
+            **{
+                self.owner_lookup: user,
+            }
+        )
 
 
 class SubscriptionPlanListAPIView(ListAPIView):
@@ -36,7 +72,7 @@ class SubscriptionPlanListAPIView(ListAPIView):
     API-представление для получения
     списка тарифных планов подписки.
 
-    Доступно авторизованным
+    Доступно всем авторизованным
     пользователям.
     """
 
@@ -52,25 +88,27 @@ class SubscriptionPlanCreateAPIView(CreateAPIView):
     API-представление для создания
     тарифного плана подписки.
 
-    Доступно модераторам и
-    суперпользователям Django.
+    Доступ предоставляется:
+
+    - модераторам;
+    - администраторам;
+    - системным суперпользователям Django.
     """
 
     queryset = SubscriptionPlan.objects.all()
     serializer_class = SubscriptionPlanCreateSerializer
     permission_classes = [
         IsAuthenticated,
-        IsModerator | IsSuperuser,
+        IsModerator,
     ]
 
 
 class SubscriptionPlanRetrieveAPIView(RetrieveAPIView):
     """
     API-представление для получения
-    информации о тарифном плане
-    подписки.
+    информации о тарифном плане подписки.
 
-    Доступно авторизованным
+    Доступно всем авторизованным
     пользователям.
     """
 
@@ -86,15 +124,18 @@ class SubscriptionPlanUpdateAPIView(UpdateAPIView):
     API-представление для обновления
     тарифного плана подписки.
 
-    Доступно модераторам и
-    суперпользователям Django.
+    Доступ предоставляется:
+
+    - модераторам;
+    - администраторам;
+    - системным суперпользователям Django.
     """
 
     queryset = SubscriptionPlan.objects.all()
     serializer_class = SubscriptionPlanUpdateSerializer
     permission_classes = [
         IsAuthenticated,
-        IsModerator | IsSuperuser,
+        IsModerator,
     ]
 
 
@@ -103,45 +144,42 @@ class SubscriptionPlanDeleteAPIView(DestroyAPIView):
     API-представление для удаления
     тарифного плана подписки.
 
-    Доступно только системным
-    суперпользователям Django.
+    Доступ предоставляется:
+
+    - администраторам;
+    - системным суперпользователям Django.
     """
 
     queryset = SubscriptionPlan.objects.all()
     permission_classes = [
         IsAuthenticated,
-        IsSuperuser,
+        IsAdmin,
     ]
 
 
-class UserSubscriptionListAPIView(ListAPIView):
+class UserSubscriptionListAPIView(
+    UserOwnedQuerySetMixin,
+    ListAPIView,
+):
     """
     API-представление для получения
-    списка подписок текущего пользователя.
+    списка пользовательских подписок.
 
-    Суперпользователь Django имеет
-    доступ ко всем подпискам.
+    Обычный пользователь получает только
+    собственные подписки.
+
+    Администраторы и системные
+    суперпользователи получают все подписки.
     """
 
+    queryset = UserSubscription.objects.select_related(
+        "user",
+        "plan",
+    )
     serializer_class = UserSubscriptionSerializer
     permission_classes = [
         IsAuthenticated,
     ]
-
-    def get_queryset(self):
-        """
-        Возвращает подписки текущего
-        пользователя.
-
-        Суперпользователь получает
-        полный список подписок.
-        """
-        if self.request.user.is_superuser:
-            return UserSubscription.objects.all()
-
-        return UserSubscription.objects.filter(
-            user=self.request.user,
-        )
 
 
 class UserSubscriptionCreateAPIView(CreateAPIView):
@@ -149,7 +187,7 @@ class UserSubscriptionCreateAPIView(CreateAPIView):
     API-представление для создания
     пользовательской подписки.
 
-    Пользователь автоматически
+    Текущий пользователь автоматически
     назначается владельцем подписки.
     """
 
@@ -161,135 +199,133 @@ class UserSubscriptionCreateAPIView(CreateAPIView):
 
     def perform_create(self, serializer):
         """
-        Создает подписку для текущего
+        Создаёт подписку для текущего
         авторизованного пользователя.
+
+        Значение поля user, переданное
+        клиентом, не используется.
         """
+
         serializer.save(
             user=self.request.user,
         )
 
 
-class UserSubscriptionRetrieveAPIView(RetrieveAPIView):
+class UserSubscriptionRetrieveAPIView(
+    UserOwnedQuerySetMixin,
+    RetrieveAPIView,
+):
     """
     API-представление для получения
-    информации о пользовательской
-    подписке.
+    информации о пользовательской подписке.
 
     Пользователь может просматривать
     только собственные подписки.
+
+    Администраторы и системные
+    суперпользователи могут просматривать
+    любые подписки.
     """
 
+    queryset = UserSubscription.objects.select_related(
+        "user",
+        "plan",
+    )
     serializer_class = UserSubscriptionSerializer
     permission_classes = [
         IsAuthenticated,
-        IsOwner | IsSuperuser,
+        IsOwner,
     ]
 
-    def get_queryset(self):
-        """
-        Возвращает подписки текущего
-        пользователя.
 
-        Суперпользователь получает
-        доступ ко всем подпискам.
-        """
-        if self.request.user.is_superuser:
-            return UserSubscription.objects.all()
-
-        return UserSubscription.objects.filter(
-            user=self.request.user,
-        )
-
-
-class UserSubscriptionUpdateAPIView(UpdateAPIView):
+class UserSubscriptionUpdateAPIView(
+    UserOwnedQuerySetMixin,
+    UpdateAPIView,
+):
     """
     API-представление для обновления
     пользовательской подписки.
 
     Пользователь может изменять
-    только собственную подписку.
+    только собственные подписки.
+
+    Администраторы и системные
+    суперпользователи могут изменять
+    любые подписки.
     """
 
+    queryset = UserSubscription.objects.select_related(
+        "user",
+        "plan",
+    )
     serializer_class = UserSubscriptionUpdateSerializer
     permission_classes = [
         IsAuthenticated,
-        IsOwner | IsSuperuser,
+        IsOwner,
     ]
 
-    def get_queryset(self):
+    def perform_update(self, serializer):
         """
-        Возвращает подписки текущего
-        пользователя.
-
-        Суперпользователь получает
-        доступ ко всем подпискам.
+        Обновляет пользовательскую подписку,
+        сохраняя её текущего владельца.
         """
-        if self.request.user.is_superuser:
-            return UserSubscription.objects.all()
 
-        return UserSubscription.objects.filter(
-            user=self.request.user,
+        instance = self.get_object()
+
+        serializer.save(
+            user=instance.user,
         )
 
 
-class UserSubscriptionDeleteAPIView(DestroyAPIView):
+class UserSubscriptionDeleteAPIView(
+    UserOwnedQuerySetMixin,
+    DestroyAPIView,
+):
     """
     API-представление для удаления
     пользовательской подписки.
 
     Пользователь может удалить
     только собственную подписку.
+
+    Администраторы и системные
+    суперпользователи могут удалять
+    любые подписки.
     """
 
+    queryset = UserSubscription.objects.select_related(
+        "user",
+        "plan",
+    )
     permission_classes = [
         IsAuthenticated,
-        IsOwner | IsSuperuser,
+        IsOwner,
     ]
 
-    def get_queryset(self):
-        """
-        Возвращает подписки текущего
-        пользователя.
 
-        Суперпользователь получает
-        доступ ко всем подпискам.
-        """
-        if self.request.user.is_superuser:
-            return UserSubscription.objects.all()
-
-        return UserSubscription.objects.filter(
-            user=self.request.user,
-        )
-
-
-class SubscriptionPaymentListAPIView(ListAPIView):
+class SubscriptionPaymentListAPIView(
+    UserOwnedQuerySetMixin,
+    ListAPIView,
+):
     """
     API-представление для получения
-    списка платежей текущего пользователя.
+    списка платежей пользователя.
 
-    Суперпользователь Django имеет
-    доступ ко всем платежам.
+    Обычный пользователь получает только
+    собственные платежи.
+
+    Администраторы и системные
+    суперпользователи получают все платежи.
     """
 
+    queryset = SubscriptionPayment.objects.select_related(
+        "user",
+        "subscription",
+    )
     serializer_class = SubscriptionPaymentSerializer
     permission_classes = [
         IsAuthenticated,
     ]
-
-    def get_queryset(self):
-        """
-        Возвращает платежи текущего
-        пользователя.
-
-        Суперпользователь получает
-        полный список платежей.
-        """
-        if self.request.user.is_superuser:
-            return SubscriptionPayment.objects.all()
-
-        return SubscriptionPayment.objects.filter(
-            user=self.request.user,
-        )
 
 
 class SubscriptionPaymentCreateAPIView(CreateAPIView):
@@ -297,7 +333,7 @@ class SubscriptionPaymentCreateAPIView(CreateAPIView):
     API-представление для создания
     платежа за подписку.
 
-    Пользователь автоматически
+    Текущий пользователь автоматически
     назначается владельцем платежа.
     """
 
@@ -309,104 +345,106 @@ class SubscriptionPaymentCreateAPIView(CreateAPIView):
 
     def perform_create(self, serializer):
         """
-        Создает платеж для текущего
+        Создаёт платёж для текущего
         авторизованного пользователя.
+
+        Значение поля user, переданное
+        клиентом, не используется.
         """
+
         serializer.save(
             user=self.request.user,
         )
 
 
-class SubscriptionPaymentRetrieveAPIView(RetrieveAPIView):
+class SubscriptionPaymentRetrieveAPIView(
+    UserOwnedQuerySetMixin,
+    RetrieveAPIView,
+):
     """
     API-представление для получения
     информации о платеже.
 
     Пользователь может просматривать
     только собственные платежи.
+
+    Администраторы и системные
+    суперпользователи могут просматривать
+    любые платежи.
     """
 
+    queryset = SubscriptionPayment.objects.select_related(
+        "user",
+        "subscription",
+    )
     serializer_class = SubscriptionPaymentSerializer
     permission_classes = [
         IsAuthenticated,
-        IsOwner | IsSuperuser,
+        IsOwner,
     ]
 
-    def get_queryset(self):
-        """
-        Возвращает платежи текущего
-        пользователя.
 
-        Суперпользователь получает
-        доступ ко всем платежам.
-        """
-        if self.request.user.is_superuser:
-            return SubscriptionPayment.objects.all()
-
-        return SubscriptionPayment.objects.filter(
-            user=self.request.user,
-        )
-
-
-class SubscriptionPaymentUpdateAPIView(UpdateAPIView):
+class SubscriptionPaymentUpdateAPIView(
+    UserOwnedQuerySetMixin,
+    UpdateAPIView,
+):
     """
     API-представление для обновления
     информации о платеже.
 
     Пользователь может изменять
     только собственные платежи.
+
+    Администраторы и системные
+    суперпользователи могут изменять
+    любые платежи.
     """
 
+    queryset = SubscriptionPayment.objects.select_related(
+        "user",
+        "subscription",
+    )
     serializer_class = SubscriptionPaymentUpdateSerializer
     permission_classes = [
         IsAuthenticated,
-        IsOwner | IsSuperuser,
+        IsOwner,
     ]
 
-    def get_queryset(self):
+    def perform_update(self, serializer):
         """
-        Возвращает платежи текущего
-        пользователя.
-
-        Суперпользователь получает
-        доступ ко всем платежам.
+        Обновляет платёж, сохраняя
+        его текущего владельца.
         """
-        if self.request.user.is_superuser:
-            return SubscriptionPayment.objects.all()
 
-        return SubscriptionPayment.objects.filter(
-            user=self.request.user,
+        instance = self.get_object()
+
+        serializer.save(
+            user=instance.user,
         )
 
 
-class SubscriptionPaymentDeleteAPIView(DestroyAPIView):
+class SubscriptionPaymentDeleteAPIView(
+    UserOwnedQuerySetMixin,
+    DestroyAPIView,
+):
     """
     API-представление для удаления
     платежа.
 
     Пользователь может удалить
-    только собственный платеж.
+    только собственный платёж.
 
-    Суперпользователь Django имеет
-    доступ ко всем платежам.
+    Администраторы и системные
+    суперпользователи могут удалять
+    любые платежи.
     """
 
+    queryset = SubscriptionPayment.objects.select_related(
+        "user",
+        "subscription",
+    )
     permission_classes = [
         IsAuthenticated,
-        IsOwner | IsSuperuser,
+        IsOwner,
     ]
 
-    def get_queryset(self):
-        """
-        Возвращает платежи текущего
-        пользователя.
-
-        Суперпользователь получает
-        доступ ко всем платежам.
-        """
-        if self.request.user.is_superuser:
-            return SubscriptionPayment.objects.all()
-
-        return SubscriptionPayment.objects.filter(
-            user=self.request.user,
-        )

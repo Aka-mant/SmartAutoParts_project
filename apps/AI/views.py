@@ -1,3 +1,6 @@
+from django.db.models import QuerySet
+
+from rest_framework.exceptions import PermissionDenied
 from rest_framework.generics import (
     CreateAPIView,
     DestroyAPIView,
@@ -7,51 +10,120 @@ from rest_framework.generics import (
 )
 from rest_framework.permissions import IsAuthenticated
 
-from users.permissions import IsOwner, IsSuperuser
+from users.permissions import IsOwner
 
-from .models import AIRequest, AIGeneratedInstruction, AIImageAnalysis
+from .models import (
+    AIGeneratedInstruction,
+    AIImageAnalysis,
+    AIRequest,
+)
 from .serializers import (
-    AIRequestSerializer,
-    AIRequestCreateSerializer,
-    AIRequestUpdateSerializer,
-    AIGeneratedInstructionSerializer,
     AIGeneratedInstructionCreateSerializer,
-    AIGeneratedInstructionUpdateSerializer, AIImageAnalysisSerializer, AIImageAnalysisCreateSerializer,
+    AIGeneratedInstructionSerializer,
+    AIGeneratedInstructionUpdateSerializer,
+    AIImageAnalysisCreateSerializer,
+    AIImageAnalysisSerializer,
     AIImageAnalysisUpdateSerializer,
+    AIRequestCreateSerializer,
+    AIRequestSerializer,
+    AIRequestUpdateSerializer,
 )
 
 
-class AIRequestListAPIView(ListAPIView):
+class UserOwnedQuerySetMixin:
+    """
+    Ограничивает queryset объектами,
+    принадлежащими текущему пользователю.
+
+    Администраторы и системные
+    суперпользователи Django получают
+    доступ ко всем объектам.
+
+    Поле или путь до владельца задаётся
+    через атрибут owner_lookup.
+    """
+
+    owner_lookup = "user"
+
+    def get_queryset(self) -> QuerySet:
+        """
+        Возвращает queryset с учётом
+        прав текущего пользователя.
+        """
+
+        queryset = super().get_queryset()
+        user = self.request.user
+
+        if not user.is_authenticated:
+            return queryset.none()
+
+        if user.can_administrate:
+            return queryset
+
+        return queryset.filter(
+            **{
+                self.owner_lookup: user,
+            }
+        )
+
+
+class AIRequestOwnedQuerySetMixin(
+    UserOwnedQuerySetMixin,
+):
+    """
+    Ограничивает AI-запросы текущим
+    пользователем.
+    """
+
+    owner_lookup = "user"
+
+
+class AIGeneratedInstructionOwnedQuerySetMixin(
+    UserOwnedQuerySetMixin,
+):
+    """
+    Ограничивает AI-инструкции через
+    владельца связанного AI-запроса.
+    """
+
+    owner_lookup = "ai_request__user"
+
+
+class AIImageAnalysisOwnedQuerySetMixin(
+    UserOwnedQuerySetMixin,
+):
+    """
+    Ограничивает анализы изображений
+    текущим пользователем.
+    """
+
+    owner_lookup = "user"
+
+
+class AIRequestListAPIView(
+    AIRequestOwnedQuerySetMixin,
+    ListAPIView,
+):
     """
     API-представление для получения
     списка AI-запросов.
 
-    Пользователь может просматривать
-    только собственные запросы.
+    Обычный пользователь получает только
+    собственные AI-запросы.
 
-    Суперпользователь Django имеет
-    доступ ко всем запросам.
+    Администраторы и системные
+    суперпользователи получают все запросы.
     """
 
+    queryset = AIRequest.objects.select_related(
+        "user",
+        "part",
+        "instruction",
+    )
     serializer_class = AIRequestSerializer
     permission_classes = [
         IsAuthenticated,
     ]
-
-    def get_queryset(self):
-        """
-        Возвращает AI-запросы текущего
-        пользователя.
-
-        Суперпользователь получает
-        полный список запросов.
-        """
-        if self.request.user.is_superuser:
-            return AIRequest.objects.all()
-
-        return AIRequest.objects.filter(
-            user=self.request.user,
-        )
 
 
 class AIRequestCreateAPIView(CreateAPIView):
@@ -59,7 +131,7 @@ class AIRequestCreateAPIView(CreateAPIView):
     API-представление для создания
     AI-запроса.
 
-    Пользователь автоматически
+    Текущий пользователь автоматически
     назначается владельцем запроса.
     """
 
@@ -71,159 +143,151 @@ class AIRequestCreateAPIView(CreateAPIView):
 
     def perform_create(self, serializer):
         """
-        Создает AI-запрос для текущего
+        Создаёт AI-запрос для текущего
         авторизованного пользователя.
+
+        Значение поля user, переданное
+        клиентом, не используется.
         """
+
         serializer.save(
             user=self.request.user,
         )
 
 
-class AIRequestRetrieveAPIView(RetrieveAPIView):
+class AIRequestRetrieveAPIView(
+    AIRequestOwnedQuerySetMixin,
+    RetrieveAPIView,
+):
     """
     API-представление для получения
-    информации об AI-запросе.
+    отдельного AI-запроса.
 
-    Пользователь может просматривать
+    Обычный пользователь может просматривать
     только собственные запросы.
 
-    Суперпользователь Django имеет
-    доступ ко всем запросам.
+    Администраторы и системные
+    суперпользователи могут просматривать
+    любые запросы.
     """
 
+    queryset = AIRequest.objects.select_related(
+        "user",
+        "part",
+        "instruction",
+    )
     serializer_class = AIRequestSerializer
     permission_classes = [
         IsAuthenticated,
-        IsOwner | IsSuperuser,
+        IsOwner,
     ]
 
-    def get_queryset(self):
-        """
-        Возвращает AI-запросы текущего
-        пользователя.
 
-        Суперпользователь получает
-        доступ ко всем запросам.
-        """
-        if self.request.user.is_superuser:
-            return AIRequest.objects.all()
-
-        return AIRequest.objects.filter(
-            user=self.request.user,
-        )
-
-
-class AIRequestUpdateAPIView(UpdateAPIView):
+class AIRequestUpdateAPIView(
+    AIRequestOwnedQuerySetMixin,
+    UpdateAPIView,
+):
     """
     API-представление для обновления
     AI-запроса.
 
-    Пользователь может изменять
+    Обычный пользователь может изменять
     только собственные запросы.
 
-    Суперпользователь Django имеет
-    доступ ко всем запросам.
+    Администраторы и системные
+    суперпользователи могут изменять
+    любые запросы.
     """
 
+    queryset = AIRequest.objects.select_related(
+        "user",
+        "part",
+        "instruction",
+    )
     serializer_class = AIRequestUpdateSerializer
     permission_classes = [
         IsAuthenticated,
-        IsOwner | IsSuperuser,
+        IsOwner,
     ]
 
-    def get_queryset(self):
+    def perform_update(self, serializer):
         """
-        Возвращает AI-запросы текущего
-        пользователя.
-
-        Суперпользователь получает
-        доступ ко всем запросам.
+        Обновляет AI-запрос, сохраняя
+        его текущего владельца.
         """
-        if self.request.user.is_superuser:
-            return AIRequest.objects.all()
 
-        return AIRequest.objects.filter(
-            user=self.request.user,
+        instance = self.get_object()
+
+        serializer.save(
+            user=instance.user,
         )
 
 
-class AIRequestDeleteAPIView(DestroyAPIView):
+class AIRequestDeleteAPIView(
+    AIRequestOwnedQuerySetMixin,
+    DestroyAPIView,
+):
     """
     API-представление для удаления
     AI-запроса.
 
-    Пользователь может удалять
+    Обычный пользователь может удалять
     только собственные запросы.
 
-    Суперпользователь Django имеет
-    доступ ко всем запросам.
+    Администраторы и системные
+    суперпользователи могут удалять
+    любые запросы.
     """
 
-    permission_classes = [
-        IsAuthenticated,
-        IsOwner | IsSuperuser,
-    ]
-
-    def get_queryset(self):
-        """
-        Возвращает AI-запросы текущего
-        пользователя.
-
-        Суперпользователь получает
-        доступ ко всем запросам.
-        """
-        if self.request.user.is_superuser:
-            return AIRequest.objects.all()
-
-        return AIRequest.objects.filter(
-            user=self.request.user,
-        )
-
-
-class AIGeneratedInstructionListAPIView(ListAPIView):
-    """
-    API-представление для получения
-    списка AI-сгенерированных инструкций.
-
-    Пользователь может просматривать
-    только инструкции, созданные на
-    основе собственных AI-запросов.
-
-    Суперпользователь Django имеет
-    доступ ко всем записям.
-    """
-
-    serializer_class = (
-        AIGeneratedInstructionSerializer
+    queryset = AIRequest.objects.select_related(
+        "user",
     )
     permission_classes = [
         IsAuthenticated,
+        IsOwner,
     ]
 
-    def get_queryset(self):
-        """
-        Возвращает инструкции,
-        созданные по AI-запросам
-        текущего пользователя.
 
-        Суперпользователь получает
-        полный список записей.
-        """
-        if self.request.user.is_superuser:
-            return AIGeneratedInstruction.objects.all()
+class AIGeneratedInstructionListAPIView(
+    AIGeneratedInstructionOwnedQuerySetMixin,
+    ListAPIView,
+):
+    """
+    API-представление для получения списка
+    AI-сгенерированных инструкций.
 
-        return AIGeneratedInstruction.objects.filter(
-            ai_request__user=self.request.user,
-        )
+    Обычный пользователь получает только
+    инструкции, созданные на основе его
+    собственных AI-запросов.
+
+    Администраторы и системные
+    суперпользователи получают все записи.
+    """
+
+    queryset = AIGeneratedInstruction.objects.select_related(
+        "ai_request",
+        "ai_request__user",
+    )
+    serializer_class = AIGeneratedInstructionSerializer
+    permission_classes = [
+        IsAuthenticated,
+    ]
 
 
-class AIGeneratedInstructionCreateAPIView(CreateAPIView):
+class AIGeneratedInstructionCreateAPIView(
+    CreateAPIView,
+):
     """
     API-представление для создания
     AI-сгенерированной инструкции.
 
-    Доступно авторизованным
-    пользователям.
+    Обычный пользователь может создать
+    инструкцию только для собственного
+    AI-запроса.
+
+    Администраторы и системные
+    суперпользователи могут использовать
+    любой AI-запрос.
     """
 
     queryset = AIGeneratedInstruction.objects.all()
@@ -234,155 +298,177 @@ class AIGeneratedInstructionCreateAPIView(CreateAPIView):
         IsAuthenticated,
     ]
 
-
-class AIGeneratedInstructionRetrieveAPIView(RetrieveAPIView):
-    """
-    API-представление для получения
-    информации о AI-сгенерированной
-    инструкции.
-
-    Пользователь может просматривать
-    только собственные записи.
-
-    Суперпользователь Django имеет
-    доступ ко всем записям.
-    """
-
-    serializer_class = (
-        AIGeneratedInstructionSerializer
-    )
-    permission_classes = [
-        IsAuthenticated,
-        IsOwner | IsSuperuser,
-    ]
-
-    def get_queryset(self):
+    def perform_create(self, serializer):
         """
-        Возвращает инструкции,
-        созданные по AI-запросам
-        текущего пользователя.
-
-        Суперпользователь получает
-        доступ ко всем записям.
+        Проверяет принадлежность выбранного
+        AI-запроса текущему пользователю.
         """
-        if self.request.user.is_superuser:
-            return AIGeneratedInstruction.objects.all()
 
-        return AIGeneratedInstruction.objects.filter(
-            ai_request__user=self.request.user,
+        user = self.request.user
+        ai_request = serializer.validated_data.get(
+            "ai_request"
         )
 
+        if ai_request is None:
+            raise PermissionDenied(
+                "Необходимо указать AI-запрос."
+            )
 
-class AIGeneratedInstructionUpdateAPIView(UpdateAPIView):
+        if (
+            not user.can_administrate
+            and ai_request.user_id != user.pk
+        ):
+            raise PermissionDenied(
+                "Вы можете создавать инструкции "
+                "только для собственных AI-запросов."
+            )
+
+        serializer.save()
+
+
+class AIGeneratedInstructionRetrieveAPIView(
+    AIGeneratedInstructionOwnedQuerySetMixin,
+    RetrieveAPIView,
+):
+    """
+    API-представление для получения
+    AI-сгенерированной инструкции.
+
+    Обычный пользователь может просматривать
+    только инструкции, связанные с его
+    AI-запросами.
+
+    Администраторы и системные
+    суперпользователи могут просматривать
+    любые инструкции.
+    """
+
+    queryset = AIGeneratedInstruction.objects.select_related(
+        "ai_request",
+        "ai_request__user",
+    )
+    serializer_class = AIGeneratedInstructionSerializer
+    permission_classes = [
+        IsAuthenticated,
+        IsOwner,
+    ]
+
+
+class AIGeneratedInstructionUpdateAPIView(
+    AIGeneratedInstructionOwnedQuerySetMixin,
+    UpdateAPIView,
+):
     """
     API-представление для обновления
     AI-сгенерированной инструкции.
 
-    Пользователь может изменять
-    только собственные записи.
+    Обычный пользователь может изменять
+    только инструкции, связанные с его
+    AI-запросами.
 
-    Суперпользователь Django имеет
-    доступ ко всем записям.
+    Администраторы и системные
+    суперпользователи могут изменять
+    любые инструкции.
     """
 
+    queryset = AIGeneratedInstruction.objects.select_related(
+        "ai_request",
+        "ai_request__user",
+    )
     serializer_class = (
         AIGeneratedInstructionUpdateSerializer
     )
     permission_classes = [
         IsAuthenticated,
-        IsOwner | IsSuperuser,
+        IsOwner,
     ]
 
-    def get_queryset(self):
+    def perform_update(self, serializer):
         """
-        Возвращает инструкции,
-        созданные по AI-запросам
-        текущего пользователя.
-
-        Суперпользователь получает
-        доступ ко всем записям.
+        Проверяет новый AI-запрос при его
+        изменении и запрещает привязывать
+        инструкцию к чужому запросу.
         """
-        if self.request.user.is_superuser:
-            return AIGeneratedInstruction.objects.all()
 
-        return AIGeneratedInstruction.objects.filter(
-            ai_request__user=self.request.user,
+        user = self.request.user
+        instance = self.get_object()
+
+        ai_request = serializer.validated_data.get(
+            "ai_request",
+            instance.ai_request,
         )
 
+        if (
+            not user.can_administrate
+            and ai_request.user_id != user.pk
+        ):
+            raise PermissionDenied(
+                "Нельзя привязать инструкцию "
+                "к чужому AI-запросу."
+            )
 
-class AIGeneratedInstructionDeleteAPIView(DestroyAPIView):
+        serializer.save()
+
+
+class AIGeneratedInstructionDeleteAPIView(
+    AIGeneratedInstructionOwnedQuerySetMixin,
+    DestroyAPIView,
+):
     """
     API-представление для удаления
     AI-сгенерированной инструкции.
 
-    Пользователь может удалять
-    только собственные записи.
+    Обычный пользователь может удалять
+    только инструкции, связанные с его
+    AI-запросами.
 
-    Суперпользователь Django имеет
-    доступ ко всем записям.
+    Администраторы и системные
+    суперпользователи могут удалять
+    любые инструкции.
     """
 
+    queryset = AIGeneratedInstruction.objects.select_related(
+        "ai_request",
+        "ai_request__user",
+    )
     permission_classes = [
         IsAuthenticated,
-        IsOwner | IsSuperuser,
+        IsOwner,
     ]
 
-    def get_queryset(self):
-        """
-        Возвращает инструкции,
-        созданные по AI-запросам
-        текущего пользователя.
 
-        Суперпользователь получает
-        доступ ко всем записям.
-        """
-        if self.request.user.is_superuser:
-            return AIGeneratedInstruction.objects.all()
-
-        return AIGeneratedInstruction.objects.filter(
-            ai_request__user=self.request.user,
-        )
-
-
-class AIImageAnalysisListAPIView(ListAPIView):
+class AIImageAnalysisListAPIView(
+    AIImageAnalysisOwnedQuerySetMixin,
+    ListAPIView,
+):
     """
     API-представление для получения
     списка анализов изображений.
 
-    Пользователь может просматривать
-    только собственные анализы.
+    Обычный пользователь получает только
+    собственные анализы.
 
-    Суперпользователь Django имеет
-    доступ ко всем анализам.
+    Администраторы и системные
+    суперпользователи получают все анализы.
     """
 
+    queryset = AIImageAnalysis.objects.select_related(
+        "user",
+    )
     serializer_class = AIImageAnalysisSerializer
     permission_classes = [
         IsAuthenticated,
     ]
 
-    def get_queryset(self):
-        """
-        Возвращает анализы изображений
-        текущего пользователя.
 
-        Суперпользователь получает
-        полный список анализов.
-        """
-        if self.request.user.is_superuser:
-            return AIImageAnalysis.objects.all()
-
-        return AIImageAnalysis.objects.filter(
-            user=self.request.user,
-        )
-
-
-class AIImageAnalysisCreateAPIView(CreateAPIView):
+class AIImageAnalysisCreateAPIView(
+    CreateAPIView,
+):
     """
     API-представление для создания
     запроса на анализ изображения.
 
-    Пользователь автоматически
+    Текущий пользователь автоматически
     назначается владельцем анализа.
     """
 
@@ -394,111 +480,102 @@ class AIImageAnalysisCreateAPIView(CreateAPIView):
 
     def perform_create(self, serializer):
         """
-        Создает запрос на анализ
-        изображения для текущего
-        авторизованного пользователя.
+        Создаёт запрос на анализ изображения
+        для текущего пользователя.
+
+        Значение поля user, переданное
+        клиентом, не используется.
         """
+
         serializer.save(
             user=self.request.user,
         )
 
 
-class AIImageAnalysisRetrieveAPIView(RetrieveAPIView):
+class AIImageAnalysisRetrieveAPIView(
+    AIImageAnalysisOwnedQuerySetMixin,
+    RetrieveAPIView,
+):
     """
     API-представление для получения
     информации об анализе изображения.
 
-    Пользователь может просматривать
+    Обычный пользователь может просматривать
     только собственные анализы.
 
-    Суперпользователь Django имеет
-    доступ ко всем анализам.
+    Администраторы и системные
+    суперпользователи могут просматривать
+    любые анализы.
     """
 
+    queryset = AIImageAnalysis.objects.select_related(
+        "user",
+    )
     serializer_class = AIImageAnalysisSerializer
     permission_classes = [
         IsAuthenticated,
-        IsOwner | IsSuperuser,
+        IsOwner,
     ]
 
-    def get_queryset(self):
-        """
-        Возвращает анализы изображений
-        текущего пользователя.
 
-        Суперпользователь получает
-        доступ ко всем анализам.
-        """
-        if self.request.user.is_superuser:
-            return AIImageAnalysis.objects.all()
-
-        return AIImageAnalysis.objects.filter(
-            user=self.request.user,
-        )
-
-
-class AIImageAnalysisUpdateAPIView(UpdateAPIView):
+class AIImageAnalysisUpdateAPIView(
+    AIImageAnalysisOwnedQuerySetMixin,
+    UpdateAPIView,
+):
     """
     API-представление для обновления
     результата анализа изображения.
 
-    Пользователь может изменять
+    Обычный пользователь может изменять
     только собственные анализы.
 
-    Суперпользователь Django имеет
-    доступ ко всем анализам.
+    Администраторы и системные
+    суперпользователи могут изменять
+    любые анализы.
     """
 
+    queryset = AIImageAnalysis.objects.select_related(
+        "user",
+    )
     serializer_class = AIImageAnalysisUpdateSerializer
     permission_classes = [
         IsAuthenticated,
-        IsOwner | IsSuperuser,
+        IsOwner,
     ]
 
-    def get_queryset(self):
+    def perform_update(self, serializer):
         """
-        Возвращает анализы изображений
-        текущего пользователя.
-
-        Суперпользователь получает
-        доступ ко всем анализам.
+        Обновляет анализ изображения,
+        сохраняя текущего владельца.
         """
-        if self.request.user.is_superuser:
-            return AIImageAnalysis.objects.all()
 
-        return AIImageAnalysis.objects.filter(
-            user=self.request.user,
+        instance = self.get_object()
+
+        serializer.save(
+            user=instance.user,
         )
 
 
-class AIImageAnalysisDeleteAPIView(DestroyAPIView):
+class AIImageAnalysisDeleteAPIView(
+    AIImageAnalysisOwnedQuerySetMixin,
+    DestroyAPIView,
+):
     """
     API-представление для удаления
     анализа изображения.
 
-    Пользователь может удалять
+    Обычный пользователь может удалять
     только собственные анализы.
 
-    Суперпользователь Django имеет
-    доступ ко всем анализам.
+    Администраторы и системные
+    суперпользователи могут удалять
+    любые анализы.
     """
 
+    queryset = AIImageAnalysis.objects.select_related(
+        "user",
+    )
     permission_classes = [
         IsAuthenticated,
-        IsOwner | IsSuperuser,
+        IsOwner,
     ]
-
-    def get_queryset(self):
-        """
-        Возвращает анализы изображений
-        текущего пользователя.
-
-        Суперпользователь получает
-        доступ ко всем анализам.
-        """
-        if self.request.user.is_superuser:
-            return AIImageAnalysis.objects.all()
-
-        return AIImageAnalysis.objects.filter(
-            user=self.request.user,
-        )

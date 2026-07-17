@@ -1,28 +1,31 @@
 class UserOwnedQuerySetMixin:
     """
-    Миксин для ограничения доступа
-    к объектам пользователя.
+    Ограничивает queryset объектами
+    текущего пользователя.
 
-    Суперпользователь получает доступ
-    ко всем объектам.
-
-    Остальные пользователи получают
-    доступ только к собственным объектам.
+    Администраторы и системные
+    суперпользователи получают полный queryset.
     """
 
     user_field = "user"
 
     def get_queryset(self):
         """
-        Возвращает queryset с учетом
-        прав текущего пользователя.
+        Возвращает доступный текущему
+        пользователю queryset.
         """
-        queryset = super().get_queryset()
 
-        if self.request.user.is_superuser:
+        queryset = super().get_queryset()
+        user = self.request.user
+
+        if not user.is_authenticated:
+            return queryset.none()
+
+        if user.can_administrate:
             return queryset
 
         return queryset.filter(
-            **{self.user_field: self.request.user}
+            **{
+                self.user_field: user,
+            }
         )
-

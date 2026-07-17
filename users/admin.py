@@ -837,7 +837,7 @@ class ToolAdmin(admin.ModelAdmin):
         "category",
         "size",
         "has_image",
-        "has_amazon_url",
+        "has_ozon_url",
         "created_at",
     )
 
@@ -887,7 +887,7 @@ class ToolAdmin(admin.ModelAdmin):
             {
                 "fields": (
                     "image",
-                    "amazon_url",
+                    "ozon_url",
                 ),
             },
         ),
@@ -914,14 +914,14 @@ class ToolAdmin(admin.ModelAdmin):
 
     @admin.display(
         boolean=True,
-        description=_("Amazon URL"),
+        description=_("Ozon URL"),
     )
-    def has_amazon_url(self, obj):
+    def has_ozon_url(self, obj):
         """
         Показывает наличие ссылки
-        на Amazon.
+        на Ozon.
         """
-        return bool(obj.amazon_url)
+        return bool(obj.ozon_url)
 
 
 @admin.register(PartTool)

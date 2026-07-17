@@ -1,3 +1,5 @@
+from django.db.models import QuerySet
+
 from rest_framework.generics import (
     CreateAPIView,
     DestroyAPIView,
@@ -7,52 +9,108 @@ from rest_framework.generics import (
 )
 from rest_framework.permissions import IsAuthenticated
 
-from users.permissions import IsOwner, IsSuperuser, IsModerator
+from users.permissions import (
+    IsAdmin,
+    IsModerator,
+    IsOwner,
+)
 
-from .models import UserActivity, SearchLog, PopularPart
+from .models import (
+    PopularPart,
+    SearchLog,
+    UserActivity,
+)
 from .serializers import (
+    PopularPartCreateSerializer,
+    PopularPartSerializer,
+    PopularPartUpdateSerializer,
+    SearchLogCreateSerializer,
+    SearchLogSerializer,
+    SearchLogUpdateSerializer,
     UserActivityCreateSerializer,
     UserActivitySerializer,
-    UserActivityUpdateSerializer, SearchLogSerializer, SearchLogCreateSerializer, SearchLogUpdateSerializer,
-    PopularPartSerializer, PopularPartCreateSerializer, PopularPartUpdateSerializer,
+    UserActivityUpdateSerializer,
 )
 
 
-class UserActivityListAPIView(ListAPIView):
+class UserOwnedQuerySetMixin:
+    """
+    Ограничивает queryset объектами
+    текущего пользователя.
+
+    Пользователи с административными
+    правами получают полный queryset.
+    """
+
+    owner_lookup = "user"
+
+    def get_queryset(self) -> QuerySet:
+        """
+        Возвращает queryset с учётом
+        прав текущего пользователя.
+        """
+
+        queryset = super().get_queryset()
+        user = self.request.user
+
+        if not user.is_authenticated:
+            return queryset.none()
+
+        if user.can_administrate:
+            return queryset
+
+        return queryset.filter(
+            **{
+                self.owner_lookup: user,
+            }
+        )
+
+
+def get_client_ip(request) -> str | None:
+    """
+    Возвращает IP-адрес клиента.
+
+    Сначала проверяет заголовок
+    X-Forwarded-For, затем REMOTE_ADDR.
+
+    При наличии нескольких адресов в
+    X-Forwarded-For возвращает первый.
+    """
+
+    forwarded_for = request.META.get(
+        "HTTP_X_FORWARDED_FOR"
+    )
+
+    if forwarded_for:
+        return forwarded_for.split(",")[0].strip()
+
+    return request.META.get(
+        "REMOTE_ADDR"
+    )
+
+
+class UserActivityListAPIView(
+    UserOwnedQuerySetMixin,
+    ListAPIView,
+):
     """
     API-представление для получения
     списка действий пользователя.
 
-    Обычный пользователь видит только
+    Обычный пользователь получает только
     собственную историю активности.
 
-    Суперпользователь Django имеет
-    доступ ко всем записям.
+    Администраторы и системные
+    суперпользователи получают все записи.
     """
 
+    queryset = UserActivity.objects.select_related(
+        "user",
+    )
     serializer_class = UserActivitySerializer
     permission_classes = [
         IsAuthenticated,
     ]
-
-    def get_queryset(self):
-        """
-        Возвращает записи активности
-        текущего пользователя.
-
-        Суперпользователь получает
-        полный список записей.
-        """
-        queryset = UserActivity.objects.select_related(
-            "user",
-        )
-
-        if self.request.user.is_superuser:
-            return queryset.all()
-
-        return queryset.filter(
-            user=self.request.user,
-        )
 
 
 class UserActivityCreateAPIView(CreateAPIView):
@@ -72,15 +130,22 @@ class UserActivityCreateAPIView(CreateAPIView):
 
     def perform_create(self, serializer):
         """
-        Создает запись активности
+        Создаёт запись активности
         текущего пользователя.
+
+        Значение поля user, переданное
+        клиентом, не используется.
         """
+
         serializer.save(
             user=self.request.user,
         )
 
 
-class UserActivityRetrieveAPIView(RetrieveAPIView):
+class UserActivityRetrieveAPIView(
+    UserOwnedQuerySetMixin,
+    RetrieveAPIView,
+):
     """
     API-представление для получения
     отдельной записи активности.
@@ -88,146 +153,106 @@ class UserActivityRetrieveAPIView(RetrieveAPIView):
     Пользователь может просматривать
     только собственные записи.
 
-    Суперпользователь Django имеет
-    доступ ко всем записям.
+    Администраторы и системные
+    суперпользователи могут просматривать
+    любые записи.
     """
 
+    queryset = UserActivity.objects.select_related(
+        "user",
+    )
     serializer_class = UserActivitySerializer
     permission_classes = [
         IsAuthenticated,
-        IsOwner | IsSuperuser,
+        IsOwner,
     ]
 
-    def get_queryset(self):
-        """
-        Возвращает доступные текущему
-        пользователю записи активности.
-        """
-        queryset = UserActivity.objects.select_related(
-            "user",
-        )
 
-        if self.request.user.is_superuser:
-            return queryset.all()
-
-        return queryset.filter(
-            user=self.request.user,
-        )
-
-
-class UserActivityUpdateAPIView(UpdateAPIView):
+class UserActivityUpdateAPIView(
+    UserOwnedQuerySetMixin,
+    UpdateAPIView,
+):
     """
     API-представление для обновления
     записи активности пользователя.
 
-    Пользователь может изменять только
-    собственные записи.
+    Пользователь может изменять
+    только собственные записи.
 
-    Суперпользователь Django имеет
-    доступ ко всем записям.
+    Администраторы и системные
+    суперпользователи могут изменять
+    любые записи.
     """
 
+    queryset = UserActivity.objects.select_related(
+        "user",
+    )
     serializer_class = UserActivityUpdateSerializer
     permission_classes = [
         IsAuthenticated,
-        IsOwner | IsSuperuser,
+        IsOwner,
     ]
 
-    def get_queryset(self):
+    def perform_update(self, serializer):
         """
-        Возвращает доступные текущему
-        пользователю записи активности.
+        Обновляет запись, сохраняя
+        текущего владельца.
         """
-        if self.request.user.is_superuser:
-            return UserActivity.objects.all()
 
-        return UserActivity.objects.filter(
-            user=self.request.user,
+        instance = self.get_object()
+
+        serializer.save(
+            user=instance.user,
         )
 
 
-class UserActivityDeleteAPIView(DestroyAPIView):
+class UserActivityDeleteAPIView(
+    UserOwnedQuerySetMixin,
+    DestroyAPIView,
+):
     """
     API-представление для удаления
     записи активности пользователя.
 
-    Пользователь может удалять только
-    собственные записи.
+    Пользователь может удалять
+    только собственные записи.
 
-    Суперпользователь Django имеет
-    доступ ко всем записям.
+    Администраторы и системные
+    суперпользователи могут удалять
+    любые записи.
     """
 
+    queryset = UserActivity.objects.select_related(
+        "user",
+    )
     permission_classes = [
         IsAuthenticated,
-        IsOwner | IsSuperuser,
+        IsOwner,
     ]
 
-    def get_queryset(self):
-        """
-        Возвращает доступные текущему
-        пользователю записи активности.
-        """
-        if self.request.user.is_superuser:
-            return UserActivity.objects.all()
 
-        return UserActivity.objects.filter(
-            user=self.request.user,
-        )
-
-
-def get_client_ip(request):
-    """
-    Возвращает IP-адрес клиента.
-
-    Сначала проверяет заголовок
-    X-Forwarded-For, затем REMOTE_ADDR.
-    """
-    forwarded_for = request.META.get(
-        "HTTP_X_FORWARDED_FOR"
-    )
-
-    if forwarded_for:
-        return forwarded_for.split(",")[0].strip()
-
-    return request.META.get("REMOTE_ADDR")
-
-
-class SearchLogListAPIView(ListAPIView):
+class SearchLogListAPIView(
+    UserOwnedQuerySetMixin,
+    ListAPIView,
+):
     """
     API-представление для получения
     списка поисковых запросов.
 
-    Обычный пользователь видит только
+    Обычный пользователь получает только
     собственные поисковые запросы.
 
-    Суперпользователь Django имеет
-    доступ ко всем записям.
+    Администраторы и системные
+    суперпользователи получают все записи.
     """
 
+    queryset = SearchLog.objects.select_related(
+        "user",
+    )
     serializer_class = SearchLogSerializer
     permission_classes = [
         IsAuthenticated,
     ]
-
-    def get_queryset(self):
-        """
-        Возвращает поисковые запросы
-        текущего пользователя.
-
-        Суперпользователь получает
-        полный список записей.
-        """
-        queryset = SearchLog.objects.select_related(
-            "user",
-        )
-
-        if self.request.user.is_superuser:
-            return queryset.all()
-
-        return queryset.filter(
-            user=self.request.user,
-        )
 
 
 class SearchLogCreateAPIView(CreateAPIView):
@@ -247,10 +272,11 @@ class SearchLogCreateAPIView(CreateAPIView):
 
     def perform_create(self, serializer):
         """
-        Создает запись поискового запроса
+        Создаёт запись поискового запроса
         текущего пользователя и сохраняет
-        IP-адрес клиента.
+        его IP-адрес.
         """
+
         serializer.save(
             user=self.request.user,
             ip_address=get_client_ip(
@@ -259,7 +285,10 @@ class SearchLogCreateAPIView(CreateAPIView):
         )
 
 
-class SearchLogRetrieveAPIView(RetrieveAPIView):
+class SearchLogRetrieveAPIView(
+    UserOwnedQuerySetMixin,
+    RetrieveAPIView,
+):
     """
     API-представление для получения
     отдельной записи поискового запроса.
@@ -267,92 +296,85 @@ class SearchLogRetrieveAPIView(RetrieveAPIView):
     Пользователь может просматривать
     только собственные записи.
 
-    Суперпользователь Django имеет
-    доступ ко всем записям.
+    Администраторы и системные
+    суперпользователи могут просматривать
+    любые записи.
     """
 
+    queryset = SearchLog.objects.select_related(
+        "user",
+    )
     serializer_class = SearchLogSerializer
     permission_classes = [
         IsAuthenticated,
-        IsOwner | IsSuperuser,
+        IsOwner,
     ]
 
-    def get_queryset(self):
-        """
-        Возвращает доступные текущему
-        пользователю поисковые запросы.
-        """
-        queryset = SearchLog.objects.select_related(
-            "user",
-        )
 
-        if self.request.user.is_superuser:
-            return queryset.all()
-
-        return queryset.filter(
-            user=self.request.user,
-        )
-
-
-class SearchLogUpdateAPIView(UpdateAPIView):
+class SearchLogUpdateAPIView(
+    UserOwnedQuerySetMixin,
+    UpdateAPIView,
+):
     """
     API-представление для обновления
     записи поискового запроса.
 
-    Пользователь может изменять только
-    собственные записи.
+    Пользователь может изменять
+    только собственные записи.
 
-    Суперпользователь Django имеет
-    доступ ко всем записям.
+    Администраторы и системные
+    суперпользователи могут изменять
+    любые записи.
     """
 
+    queryset = SearchLog.objects.select_related(
+        "user",
+    )
     serializer_class = SearchLogUpdateSerializer
     permission_classes = [
         IsAuthenticated,
-        IsOwner | IsSuperuser,
+        IsOwner,
     ]
 
-    def get_queryset(self):
+    def perform_update(self, serializer):
         """
-        Возвращает доступные текущему
-        пользователю поисковые запросы.
-        """
-        if self.request.user.is_superuser:
-            return SearchLog.objects.all()
+        Обновляет поисковый запрос,
+        сохраняя владельца и IP-адрес.
 
-        return SearchLog.objects.filter(
-            user=self.request.user,
+        Клиент не может изменить эти поля.
+        """
+
+        instance = self.get_object()
+
+        serializer.save(
+            user=instance.user,
+            ip_address=instance.ip_address,
         )
 
 
-class SearchLogDeleteAPIView(DestroyAPIView):
+class SearchLogDeleteAPIView(
+    UserOwnedQuerySetMixin,
+    DestroyAPIView,
+):
     """
     API-представление для удаления
     записи поискового запроса.
 
-    Пользователь может удалять только
-    собственные записи.
+    Пользователь может удалять
+    только собственные записи.
 
-    Суперпользователь Django имеет
-    доступ ко всем записям.
+    Администраторы и системные
+    суперпользователи могут удалять
+    любые записи.
     """
 
+    queryset = SearchLog.objects.select_related(
+        "user",
+    )
     permission_classes = [
         IsAuthenticated,
-        IsOwner | IsSuperuser,
+        IsOwner,
     ]
-
-    def get_queryset(self):
-        """
-        Возвращает доступные текущему
-        пользователю поисковые запросы.
-        """
-        if self.request.user.is_superuser:
-            return SearchLog.objects.all()
-
-        return SearchLog.objects.filter(
-            user=self.request.user,
-        )
 
 
 class PopularPartListAPIView(ListAPIView):
@@ -360,40 +382,38 @@ class PopularPartListAPIView(ListAPIView):
     API-представление для получения
     списка популярных запчастей.
 
-    Доступно авторизованным
+    Доступно всем авторизованным
     пользователям.
     """
 
+    queryset = PopularPart.objects.select_related(
+        "part",
+    )
     serializer_class = PopularPartSerializer
     permission_classes = [
         IsAuthenticated,
     ]
 
-    def get_queryset(self):
-        """
-        Возвращает статистику популярных
-        запчастей с данными о запчастях.
-        """
-        return PopularPart.objects.select_related(
-            "part",
-        ).all()
-
 
 class PopularPartCreateAPIView(CreateAPIView):
     """
     API-представление для создания
-    записи статистики популярности
-    запчасти.
+    статистики популярности запчасти.
 
-    Доступно модераторам и
-    суперпользователям Django.
+    Доступ предоставляется:
+
+    - модераторам;
+    - администраторам;
+    - системным суперпользователям Django.
     """
 
-    queryset = PopularPart.objects.all()
+    queryset = PopularPart.objects.select_related(
+        "part",
+    )
     serializer_class = PopularPartCreateSerializer
     permission_classes = [
         IsAuthenticated,
-        IsModerator | IsSuperuser,
+        IsModerator,
     ]
 
 
@@ -403,23 +423,17 @@ class PopularPartRetrieveAPIView(RetrieveAPIView):
     отдельной записи статистики
     популярной запчасти.
 
-    Доступно авторизованным
+    Доступно всем авторизованным
     пользователям.
     """
 
+    queryset = PopularPart.objects.select_related(
+        "part",
+    )
     serializer_class = PopularPartSerializer
     permission_classes = [
         IsAuthenticated,
     ]
-
-    def get_queryset(self):
-        """
-        Возвращает статистику популярных
-        запчастей с данными о запчастях.
-        """
-        return PopularPart.objects.select_related(
-            "part",
-        ).all()
 
 
 class PopularPartUpdateAPIView(UpdateAPIView):
@@ -427,15 +441,20 @@ class PopularPartUpdateAPIView(UpdateAPIView):
     API-представление для обновления
     статистики популярной запчасти.
 
-    Доступно модераторам и
-    суперпользователям Django.
+    Доступ предоставляется:
+
+    - модераторам;
+    - администраторам;
+    - системным суперпользователям Django.
     """
 
-    queryset = PopularPart.objects.all()
+    queryset = PopularPart.objects.select_related(
+        "part",
+    )
     serializer_class = PopularPartUpdateSerializer
     permission_classes = [
         IsAuthenticated,
-        IsModerator | IsSuperuser,
+        IsModerator,
     ]
 
 
@@ -444,12 +463,16 @@ class PopularPartDeleteAPIView(DestroyAPIView):
     API-представление для удаления
     статистики популярной запчасти.
 
-    Доступно только системным
-    суперпользователям Django.
+    Доступ предоставляется:
+
+    - администраторам;
+    - системным суперпользователям Django.
     """
 
-    queryset = PopularPart.objects.all()
+    queryset = PopularPart.objects.select_related(
+        "part",
+    )
     permission_classes = [
         IsAuthenticated,
-        IsSuperuser,
+        IsAdmin,
     ]

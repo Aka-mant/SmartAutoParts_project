@@ -11,10 +11,10 @@ class UserRole(models.TextChoices):
     Роли пользователей в системе.
     """
 
-    GUEST = "guest", _("Гость")
     USER = "user", _("Пользователь")
     PREMIUM = "premium", _("Премиум")
     MODERATOR = "moderator", _("Модератор")
+    ADMIN = "admin", _("Администратор")
 
 
 
@@ -109,6 +109,7 @@ class User(AbstractUser):
                 self.role in (
             UserRole.PREMIUM,
             UserRole.MODERATOR,
+            UserRole.ADMIN,
         )
                 or self.is_superuser
         )
@@ -121,6 +122,22 @@ class User(AbstractUser):
 
         return (
                 self.role == UserRole.MODERATOR
+                or self.role == UserRole.ADMIN
+                or self.is_superuser
+        )
+
+    @property
+    def can_administrate(self):
+        """
+        Определяет, может ли пользователь
+        выполнять административные действия.
+
+        Доступ предоставляется пользователям
+        с ролью администратора, а также
+        системным суперпользователям Django.
+        """
+        return (
+                self.role == UserRole.ADMIN
                 or self.is_superuser
         )
 

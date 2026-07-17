@@ -1,0 +1,72 @@
+.hero-section {
+    background:
+        linear-gradient(rgba(0, 0, 0, 0.72), rgba(0, 0, 0, 0.72)),
+        url("https://via.placeholder.com/1920x1080")
+        no-repeat center center;
+    background-size: cover;
+    color: #ffffff;
+    padding: 100px 0;
+}
+
+.search-section,
+.features-section {
+    padding: 50px 0;
+}
+
+.search-section {
+    background-color: #f8f9fa;
+}
+
+.footer {
+    background-color: #343a40;
+    color: #ffffff;
+    padding: 40px 0 25px;
+}
+
+.footer a {
+    color: #ffffff;
+    text-decoration: none;
+}
+
+.footer a:hover {
+    text-decoration: underline;
+}
+
+.footer-links li + li {
+    margin-top: 0.4rem;
+}
+
+.card {
+    height: 100%;
+}
+
+.pricing-card .card-body {
+    min-height: 330px;
+}
+
+.action-button {
+    min-width: 190px;
+    min-height: 48px;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.header-action {
+    min-width: 110px;
+}
+
+.legal-document {
+    max-width: 900px;
+}
+
+.legal-document h2 {
+    margin-top: 2rem;
+    font-size: 1.4rem;
+}
+
+@media (max-width: 767.98px) {
+    .action-button {
+        width: 100%;
+    }
+}

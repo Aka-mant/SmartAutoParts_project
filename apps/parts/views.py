@@ -7,31 +7,34 @@ from rest_framework.generics import (
 )
 from rest_framework.permissions import IsAuthenticated
 
-from users.permissions import IsModerator, IsSuperuser
+from users.permissions import (
+    IsAdmin,
+    IsModerator,
+)
 
 from .models import (
-    PartCategory,
-    Part,
-    OEMNumber,
     Compatibility,
-    PartImage
+    OEMNumber,
+    Part,
+    PartCategory,
+    PartImage,
 )
 from .serializers import (
-    PartCategorySerializer,
-    PartCategoryCreateSerializer,
-    PartCategoryUpdateSerializer,
-    PartSerializer,
-    PartCreateSerializer,
-    PartUpdateSerializer,
-    OEMNumberSerializer,
-    OEMNumberCreateSerializer,
-    OEMNumberUpdateSerializer,
-    CompatibilitySerializer,
     CompatibilityCreateSerializer,
+    CompatibilitySerializer,
     CompatibilityUpdateSerializer,
-    PartImageSerializer,
+    OEMNumberCreateSerializer,
+    OEMNumberSerializer,
+    OEMNumberUpdateSerializer,
+    PartCategoryCreateSerializer,
+    PartCategorySerializer,
+    PartCategoryUpdateSerializer,
+    PartCreateSerializer,
     PartImageCreateSerializer,
+    PartImageSerializer,
     PartImageUpdateSerializer,
+    PartSerializer,
+    PartUpdateSerializer,
 )
 
 
@@ -40,7 +43,7 @@ class PartCategoryListAPIView(ListAPIView):
     API-представление для получения
     списка категорий запчастей.
 
-    Доступно авторизованным
+    Доступно всем авторизованным
     пользователям.
     """
 
@@ -56,15 +59,18 @@ class PartCategoryCreateAPIView(CreateAPIView):
     API-представление для создания
     категории запчастей.
 
-    Доступно модераторам и
-    суперпользователям Django.
+    Доступ предоставляется:
+
+    - модераторам;
+    - администраторам;
+    - системным суперпользователям Django.
     """
 
     queryset = PartCategory.objects.all()
     serializer_class = PartCategoryCreateSerializer
     permission_classes = [
         IsAuthenticated,
-        IsModerator | IsSuperuser,
+        IsModerator,
     ]
 
 
@@ -73,7 +79,7 @@ class PartCategoryRetrieveAPIView(RetrieveAPIView):
     API-представление для получения
     информации о категории запчастей.
 
-    Доступно авторизованным
+    Доступно всем авторизованным
     пользователям.
     """
 
@@ -89,15 +95,18 @@ class PartCategoryUpdateAPIView(UpdateAPIView):
     API-представление для обновления
     категории запчастей.
 
-    Доступно модераторам и
-    суперпользователям Django.
+    Доступ предоставляется:
+
+    - модераторам;
+    - администраторам;
+    - системным суперпользователям Django.
     """
 
     queryset = PartCategory.objects.all()
     serializer_class = PartCategoryUpdateSerializer
     permission_classes = [
         IsAuthenticated,
-        IsModerator | IsSuperuser,
+        IsModerator,
     ]
 
 
@@ -106,26 +115,31 @@ class PartCategoryDeleteAPIView(DestroyAPIView):
     API-представление для удаления
     категории запчастей.
 
-    Доступно только системным
-    суперпользователям Django.
+    Доступ предоставляется:
+
+    - администраторам;
+    - системным суперпользователям Django.
     """
 
     queryset = PartCategory.objects.all()
     permission_classes = [
         IsAuthenticated,
-        IsSuperuser,
+        IsAdmin,
     ]
+
 
 class PartListAPIView(ListAPIView):
     """
     API-представление для получения
     списка автомобильных запчастей.
 
-    Доступно авторизованным
+    Доступно всем авторизованным
     пользователям.
     """
 
-    queryset = Part.objects.all()
+    queryset = Part.objects.select_related(
+        "category",
+    )
     serializer_class = PartSerializer
     permission_classes = [
         IsAuthenticated,
@@ -137,29 +151,33 @@ class PartCreateAPIView(CreateAPIView):
     API-представление для создания
     автомобильной запчасти.
 
-    Доступно модераторам и
-    суперпользователям Django.
+    Доступ предоставляется:
+
+    - модераторам;
+    - администраторам;
+    - системным суперпользователям Django.
     """
 
     queryset = Part.objects.all()
     serializer_class = PartCreateSerializer
     permission_classes = [
         IsAuthenticated,
-        IsModerator | IsSuperuser,
+        IsModerator,
     ]
 
 
 class PartRetrieveAPIView(RetrieveAPIView):
     """
     API-представление для получения
-    информации об автомобильной
-    запчасти.
+    информации об автомобильной запчасти.
 
-    Доступно авторизованным
+    Доступно всем авторизованным
     пользователям.
     """
 
-    queryset = Part.objects.all()
+    queryset = Part.objects.select_related(
+        "category",
+    )
     serializer_class = PartSerializer
     permission_classes = [
         IsAuthenticated,
@@ -171,15 +189,20 @@ class PartUpdateAPIView(UpdateAPIView):
     API-представление для обновления
     автомобильной запчасти.
 
-    Доступно модераторам и
-    суперпользователям Django.
+    Доступ предоставляется:
+
+    - модераторам;
+    - администраторам;
+    - системным суперпользователям Django.
     """
 
-    queryset = Part.objects.all()
+    queryset = Part.objects.select_related(
+        "category",
+    )
     serializer_class = PartUpdateSerializer
     permission_classes = [
         IsAuthenticated,
-        IsModerator | IsSuperuser,
+        IsModerator,
     ]
 
 
@@ -188,26 +211,33 @@ class PartDeleteAPIView(DestroyAPIView):
     API-представление для удаления
     автомобильной запчасти.
 
-    Доступно только системным
-    суперпользователям Django.
+    Доступ предоставляется:
+
+    - администраторам;
+    - системным суперпользователям Django.
     """
 
-    queryset = Part.objects.all()
+    queryset = Part.objects.select_related(
+        "category",
+    )
     permission_classes = [
         IsAuthenticated,
-        IsSuperuser,
+        IsAdmin,
     ]
+
 
 class OEMNumberListAPIView(ListAPIView):
     """
     API-представление для получения
     списка OEM-номеров.
 
-    Доступно авторизованным
+    Доступно всем авторизованным
     пользователям.
     """
 
-    queryset = OEMNumber.objects.all()
+    queryset = OEMNumber.objects.select_related(
+        "part",
+    )
     serializer_class = OEMNumberSerializer
     permission_classes = [
         IsAuthenticated,
@@ -219,15 +249,18 @@ class OEMNumberCreateAPIView(CreateAPIView):
     API-представление для создания
     OEM-номера.
 
-    Доступно модераторам и
-    суперпользователям Django.
+    Доступ предоставляется:
+
+    - модераторам;
+    - администраторам;
+    - системным суперпользователям Django.
     """
 
     queryset = OEMNumber.objects.all()
     serializer_class = OEMNumberCreateSerializer
     permission_classes = [
         IsAuthenticated,
-        IsModerator | IsSuperuser,
+        IsModerator,
     ]
 
 
@@ -236,11 +269,13 @@ class OEMNumberRetrieveAPIView(RetrieveAPIView):
     API-представление для получения
     информации об OEM-номере.
 
-    Доступно авторизованным
+    Доступно всем авторизованным
     пользователям.
     """
 
-    queryset = OEMNumber.objects.all()
+    queryset = OEMNumber.objects.select_related(
+        "part",
+    )
     serializer_class = OEMNumberSerializer
     permission_classes = [
         IsAuthenticated,
@@ -252,15 +287,20 @@ class OEMNumberUpdateAPIView(UpdateAPIView):
     API-представление для обновления
     OEM-номера.
 
-    Доступно модераторам и
-    суперпользователям Django.
+    Доступ предоставляется:
+
+    - модераторам;
+    - администраторам;
+    - системным суперпользователям Django.
     """
 
-    queryset = OEMNumber.objects.all()
+    queryset = OEMNumber.objects.select_related(
+        "part",
+    )
     serializer_class = OEMNumberUpdateSerializer
     permission_classes = [
         IsAuthenticated,
-        IsModerator | IsSuperuser,
+        IsModerator,
     ]
 
 
@@ -269,14 +309,18 @@ class OEMNumberDeleteAPIView(DestroyAPIView):
     API-представление для удаления
     OEM-номера.
 
-    Доступно только системным
-    суперпользователям Django.
+    Доступ предоставляется:
+
+    - администраторам;
+    - системным суперпользователям Django.
     """
 
-    queryset = OEMNumber.objects.all()
+    queryset = OEMNumber.objects.select_related(
+        "part",
+    )
     permission_classes = [
         IsAuthenticated,
-        IsSuperuser,
+        IsAdmin,
     ]
 
 
@@ -285,11 +329,13 @@ class CompatibilityListAPIView(ListAPIView):
     API-представление для получения
     списка совместимостей запчастей.
 
-    Доступно авторизованным
+    Доступно всем авторизованным
     пользователям.
     """
 
-    queryset = Compatibility.objects.all()
+    queryset = Compatibility.objects.select_related(
+        "part",
+    )
     serializer_class = CompatibilitySerializer
     permission_classes = [
         IsAuthenticated,
@@ -301,29 +347,33 @@ class CompatibilityCreateAPIView(CreateAPIView):
     API-представление для создания
     записи совместимости.
 
-    Доступно модераторам и
-    суперпользователям Django.
+    Доступ предоставляется:
+
+    - модераторам;
+    - администраторам;
+    - системным суперпользователям Django.
     """
 
     queryset = Compatibility.objects.all()
     serializer_class = CompatibilityCreateSerializer
     permission_classes = [
         IsAuthenticated,
-        IsModerator | IsSuperuser,
+        IsModerator,
     ]
 
 
 class CompatibilityRetrieveAPIView(RetrieveAPIView):
     """
     API-представление для получения
-    информации о совместимости
-    запчасти.
+    информации о совместимости запчасти.
 
-    Доступно авторизованным
+    Доступно всем авторизованным
     пользователям.
     """
 
-    queryset = Compatibility.objects.all()
+    queryset = Compatibility.objects.select_related(
+        "part",
+    )
     serializer_class = CompatibilitySerializer
     permission_classes = [
         IsAuthenticated,
@@ -335,15 +385,20 @@ class CompatibilityUpdateAPIView(UpdateAPIView):
     API-представление для обновления
     записи совместимости.
 
-    Доступно модераторам и
-    суперпользователям Django.
+    Доступ предоставляется:
+
+    - модераторам;
+    - администраторам;
+    - системным суперпользователям Django.
     """
 
-    queryset = Compatibility.objects.all()
+    queryset = Compatibility.objects.select_related(
+        "part",
+    )
     serializer_class = CompatibilityUpdateSerializer
     permission_classes = [
         IsAuthenticated,
-        IsModerator | IsSuperuser,
+        IsModerator,
     ]
 
 
@@ -352,14 +407,18 @@ class CompatibilityDeleteAPIView(DestroyAPIView):
     API-представление для удаления
     записи совместимости.
 
-    Доступно только системным
-    суперпользователям Django.
+    Доступ предоставляется:
+
+    - администраторам;
+    - системным суперпользователям Django.
     """
 
-    queryset = Compatibility.objects.all()
+    queryset = Compatibility.objects.select_related(
+        "part",
+    )
     permission_classes = [
         IsAuthenticated,
-        IsSuperuser,
+        IsAdmin,
     ]
 
 
@@ -368,11 +427,13 @@ class PartImageListAPIView(ListAPIView):
     API-представление для получения
     списка изображений запчастей.
 
-    Доступно авторизованным
+    Доступно всем авторизованным
     пользователям.
     """
 
-    queryset = PartImage.objects.all()
+    queryset = PartImage.objects.select_related(
+        "part",
+    )
     serializer_class = PartImageSerializer
     permission_classes = [
         IsAuthenticated,
@@ -381,32 +442,36 @@ class PartImageListAPIView(ListAPIView):
 
 class PartImageCreateAPIView(CreateAPIView):
     """
-    API-представление для создания
+    API-представление для загрузки
     изображения запчасти.
 
-    Доступно модераторам и
-    суперпользователям Django.
+    Доступ предоставляется:
+
+    - модераторам;
+    - администраторам;
+    - системным суперпользователям Django.
     """
 
     queryset = PartImage.objects.all()
     serializer_class = PartImageCreateSerializer
     permission_classes = [
         IsAuthenticated,
-        IsModerator | IsSuperuser,
+        IsModerator,
     ]
 
 
 class PartImageRetrieveAPIView(RetrieveAPIView):
     """
     API-представление для получения
-    информации об изображении
-    запчасти.
+    информации об изображении запчасти.
 
-    Доступно авторизованным
+    Доступно всем авторизованным
     пользователям.
     """
 
-    queryset = PartImage.objects.all()
+    queryset = PartImage.objects.select_related(
+        "part",
+    )
     serializer_class = PartImageSerializer
     permission_classes = [
         IsAuthenticated,
@@ -418,15 +483,20 @@ class PartImageUpdateAPIView(UpdateAPIView):
     API-представление для обновления
     изображения запчасти.
 
-    Доступно модераторам и
-    суперпользователям Django.
+    Доступ предоставляется:
+
+    - модераторам;
+    - администраторам;
+    - системным суперпользователям Django.
     """
 
-    queryset = PartImage.objects.all()
+    queryset = PartImage.objects.select_related(
+        "part",
+    )
     serializer_class = PartImageUpdateSerializer
     permission_classes = [
         IsAuthenticated,
-        IsModerator | IsSuperuser,
+        IsModerator,
     ]
 
 
@@ -435,14 +505,16 @@ class PartImageDeleteAPIView(DestroyAPIView):
     API-представление для удаления
     изображения запчасти.
 
-    Доступно только системным
-    суперпользователям Django.
+    Доступ предоставляется:
+
+    - администраторам;
+    - системным суперпользователям Django.
     """
 
-    queryset = PartImage.objects.all()
+    queryset = PartImage.objects.select_related(
+        "part",
+    )
     permission_classes = [
         IsAuthenticated,
-        IsSuperuser,
+        IsAdmin,
     ]
-
-

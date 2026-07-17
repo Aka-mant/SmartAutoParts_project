@@ -7,14 +7,26 @@ from rest_framework.generics import (
 )
 from rest_framework.permissions import IsAuthenticated
 
-from users.permissions import IsModerator, IsSuperuser
+from users.permissions import (
+    IsAdmin,
+    IsModerator,
+)
 
-from .models import ToolCategory, Tool, PartTool
+from .models import (
+    PartTool,
+    Tool,
+    ToolCategory,
+)
 from .serializers import (
+    PartToolCreateSerializer,
+    PartToolSerializer,
+    PartToolUpdateSerializer,
     ToolCategoryCreateSerializer,
     ToolCategorySerializer,
-    ToolCategoryUpdateSerializer, ToolSerializer, ToolCreateSerializer, ToolUpdateSerializer, PartToolSerializer,
-    PartToolCreateSerializer, PartToolUpdateSerializer,
+    ToolCategoryUpdateSerializer,
+    ToolCreateSerializer,
+    ToolSerializer,
+    ToolUpdateSerializer,
 )
 
 
@@ -23,7 +35,7 @@ class ToolCategoryListAPIView(ListAPIView):
     API-представление для получения
     списка категорий инструментов.
 
-    Доступно авторизованным
+    Доступно всем авторизованным
     пользователям.
     """
 
@@ -39,15 +51,18 @@ class ToolCategoryCreateAPIView(CreateAPIView):
     API-представление для создания
     категории инструментов.
 
-    Доступно модераторам и
-    суперпользователям Django.
+    Доступ предоставляется:
+
+    - модераторам;
+    - администраторам;
+    - системным суперпользователям Django.
     """
 
     queryset = ToolCategory.objects.all()
     serializer_class = ToolCategoryCreateSerializer
     permission_classes = [
         IsAuthenticated,
-        IsModerator | IsSuperuser,
+        IsModerator,
     ]
 
 
@@ -56,7 +71,7 @@ class ToolCategoryRetrieveAPIView(RetrieveAPIView):
     API-представление для получения
     информации о категории инструментов.
 
-    Доступно авторизованным
+    Доступно всем авторизованным
     пользователям.
     """
 
@@ -72,15 +87,18 @@ class ToolCategoryUpdateAPIView(UpdateAPIView):
     API-представление для обновления
     категории инструментов.
 
-    Доступно модераторам и
-    суперпользователям Django.
+    Доступ предоставляется:
+
+    - модераторам;
+    - администраторам;
+    - системным суперпользователям Django.
     """
 
     queryset = ToolCategory.objects.all()
     serializer_class = ToolCategoryUpdateSerializer
     permission_classes = [
         IsAuthenticated,
-        IsModerator | IsSuperuser,
+        IsModerator,
     ]
 
 
@@ -89,26 +107,31 @@ class ToolCategoryDeleteAPIView(DestroyAPIView):
     API-представление для удаления
     категории инструментов.
 
-    Доступно только системным
-    суперпользователям Django.
+    Доступ предоставляется:
+
+    - администраторам;
+    - системным суперпользователям Django.
     """
 
     queryset = ToolCategory.objects.all()
     permission_classes = [
         IsAuthenticated,
-        IsSuperuser,
+        IsAdmin,
     ]
+
 
 class ToolListAPIView(ListAPIView):
     """
     API-представление для получения
     списка инструментов.
 
-    Доступно авторизованным
+    Доступно всем авторизованным
     пользователям.
     """
 
-    queryset = Tool.objects.all()
+    queryset = Tool.objects.select_related(
+        "category",
+    )
     serializer_class = ToolSerializer
     permission_classes = [
         IsAuthenticated,
@@ -120,15 +143,18 @@ class ToolCreateAPIView(CreateAPIView):
     API-представление для создания
     инструмента.
 
-    Доступно модераторам и
-    суперпользователям Django.
+    Доступ предоставляется:
+
+    - модераторам;
+    - администраторам;
+    - системным суперпользователям Django.
     """
 
     queryset = Tool.objects.all()
     serializer_class = ToolCreateSerializer
     permission_classes = [
         IsAuthenticated,
-        IsModerator | IsSuperuser,
+        IsModerator,
     ]
 
 
@@ -137,11 +163,13 @@ class ToolRetrieveAPIView(RetrieveAPIView):
     API-представление для получения
     информации об инструменте.
 
-    Доступно авторизованным
+    Доступно всем авторизованным
     пользователям.
     """
 
-    queryset = Tool.objects.all()
+    queryset = Tool.objects.select_related(
+        "category",
+    )
     serializer_class = ToolSerializer
     permission_classes = [
         IsAuthenticated,
@@ -153,15 +181,20 @@ class ToolUpdateAPIView(UpdateAPIView):
     API-представление для обновления
     инструмента.
 
-    Доступно модераторам и
-    суперпользователям Django.
+    Доступ предоставляется:
+
+    - модераторам;
+    - администраторам;
+    - системным суперпользователям Django.
     """
 
-    queryset = Tool.objects.all()
+    queryset = Tool.objects.select_related(
+        "category",
+    )
     serializer_class = ToolUpdateSerializer
     permission_classes = [
         IsAuthenticated,
-        IsModerator | IsSuperuser,
+        IsModerator,
     ]
 
 
@@ -170,15 +203,20 @@ class ToolDeleteAPIView(DestroyAPIView):
     API-представление для удаления
     инструмента.
 
-    Доступно только системным
-    суперпользователям Django.
+    Доступ предоставляется:
+
+    - администраторам;
+    - системным суперпользователям Django.
     """
 
-    queryset = Tool.objects.all()
+    queryset = Tool.objects.select_related(
+        "category",
+    )
     permission_classes = [
         IsAuthenticated,
-        IsSuperuser,
+        IsAdmin,
     ]
+
 
 class PartToolListAPIView(ListAPIView):
     """
@@ -186,11 +224,14 @@ class PartToolListAPIView(ListAPIView):
     списка связей между запчастями
     и инструментами.
 
-    Доступно авторизованным
+    Доступно всем авторизованным
     пользователям.
     """
 
-    queryset = PartTool.objects.all()
+    queryset = PartTool.objects.select_related(
+        "part",
+        "tool",
+    )
     serializer_class = PartToolSerializer
     permission_classes = [
         IsAuthenticated,
@@ -203,15 +244,18 @@ class PartToolCreateAPIView(CreateAPIView):
     связи между запчастью
     и инструментом.
 
-    Доступно модераторам и
-    суперпользователям Django.
+    Доступ предоставляется:
+
+    - модераторам;
+    - администраторам;
+    - системным суперпользователям Django.
     """
 
     queryset = PartTool.objects.all()
     serializer_class = PartToolCreateSerializer
     permission_classes = [
         IsAuthenticated,
-        IsModerator | IsSuperuser,
+        IsModerator,
     ]
 
 
@@ -221,11 +265,14 @@ class PartToolRetrieveAPIView(RetrieveAPIView):
     информации о связи между
     запчастью и инструментом.
 
-    Доступно авторизованным
+    Доступно всем авторизованным
     пользователям.
     """
 
-    queryset = PartTool.objects.all()
+    queryset = PartTool.objects.select_related(
+        "part",
+        "tool",
+    )
     serializer_class = PartToolSerializer
     permission_classes = [
         IsAuthenticated,
@@ -238,15 +285,21 @@ class PartToolUpdateAPIView(UpdateAPIView):
     связи между запчастью
     и инструментом.
 
-    Доступно модераторам и
-    суперпользователям Django.
+    Доступ предоставляется:
+
+    - модераторам;
+    - администраторам;
+    - системным суперпользователям Django.
     """
 
-    queryset = PartTool.objects.all()
+    queryset = PartTool.objects.select_related(
+        "part",
+        "tool",
+    )
     serializer_class = PartToolUpdateSerializer
     permission_classes = [
         IsAuthenticated,
-        IsModerator | IsSuperuser,
+        IsModerator,
     ]
 
 
@@ -256,12 +309,17 @@ class PartToolDeleteAPIView(DestroyAPIView):
     связи между запчастью
     и инструментом.
 
-    Доступно только системным
-    суперпользователям Django.
+    Доступ предоставляется:
+
+    - администраторам;
+    - системным суперпользователям Django.
     """
 
-    queryset = PartTool.objects.all()
+    queryset = PartTool.objects.select_related(
+        "part",
+        "tool",
+    )
     permission_classes = [
         IsAuthenticated,
-        IsSuperuser,
+        IsAdmin,
     ]

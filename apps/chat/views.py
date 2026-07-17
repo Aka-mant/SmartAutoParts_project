@@ -1,5 +1,6 @@
-from django.db.models import Q
+from django.db.models import Q, QuerySet
 
+from rest_framework.exceptions import PermissionDenied
 from rest_framework.generics import (
     CreateAPIView,
     DestroyAPIView,
@@ -10,21 +11,169 @@ from rest_framework.generics import (
 from rest_framework.permissions import IsAuthenticated
 
 from .models import (
-    ChatRoom,
+    ChatMessage,
     ChatParticipant,
-    ChatMessage
+    ChatRoom,
 )
 from .serializers import (
-    ChatRoomCreateSerializer,
-    ChatRoomSerializer,
-    ChatRoomUpdateSerializer,
+    ChatMessageCreateSerializer,
+    ChatMessageSerializer,
+    ChatMessageUpdateSerializer,
     ChatParticipantCreateSerializer,
     ChatParticipantSerializer,
     ChatParticipantUpdateSerializer,
-    ChatMessageSerializer,
-    ChatMessageCreateSerializer,
-    ChatMessageUpdateSerializer,
+    ChatRoomCreateSerializer,
+    ChatRoomSerializer,
+    ChatRoomUpdateSerializer,
 )
+
+
+def user_can_administrate(user) -> bool:
+    """
+    Проверяет, обладает ли пользователь
+    административными правами.
+    """
+
+    return bool(
+        user
+        and user.is_authenticated
+        and user.is_active
+        and user.can_administrate
+    )
+
+
+def available_rooms_queryset(user) -> QuerySet:
+    """
+    Возвращает комнаты, доступные
+    указанному пользователю.
+
+    Администраторы и суперпользователи
+    получают доступ ко всем комнатам.
+
+    Обычному пользователю доступны:
+
+    - публичные комнаты;
+    - созданные им комнаты;
+    - приватные комнаты, в которых
+      он является участником.
+    """
+
+    queryset = (
+        ChatRoom.objects
+        .select_related(
+            "created_by",
+        )
+        .prefetch_related(
+            "participants",
+            "participants__user",
+        )
+    )
+
+    if user_can_administrate(user):
+        return queryset
+
+    return queryset.filter(
+        Q(is_private=False)
+        | Q(created_by=user)
+        | Q(participants__user=user)
+    ).distinct()
+
+
+def manageable_rooms_queryset(user) -> QuerySet:
+    """
+    Возвращает комнаты, которыми
+    пользователь может управлять.
+
+    Администраторы и суперпользователи
+    могут управлять всеми комнатами.
+
+    Обычный пользователь может управлять
+    только созданными им комнатами.
+    """
+
+    queryset = ChatRoom.objects.select_related(
+        "created_by",
+    )
+
+    if user_can_administrate(user):
+        return queryset
+
+    return queryset.filter(
+        created_by=user,
+    )
+
+
+def available_participants_queryset(user) -> QuerySet:
+    """
+    Возвращает записи участников
+    доступных пользователю комнат.
+    """
+
+    queryset = (
+        ChatParticipant.objects
+        .select_related(
+            "room",
+            "room__created_by",
+            "user",
+        )
+    )
+
+    if user_can_administrate(user):
+        return queryset
+
+    return queryset.filter(
+        Q(room__is_private=False)
+        | Q(room__created_by=user)
+        | Q(room__participants__user=user)
+    ).distinct()
+
+
+def manageable_participants_queryset(user) -> QuerySet:
+    """
+    Возвращает участников комнат,
+    которыми пользователь может управлять.
+    """
+
+    queryset = (
+        ChatParticipant.objects
+        .select_related(
+            "room",
+            "room__created_by",
+            "user",
+        )
+    )
+
+    if user_can_administrate(user):
+        return queryset
+
+    return queryset.filter(
+        room__created_by=user,
+    )
+
+
+def available_messages_queryset(user) -> QuerySet:
+    """
+    Возвращает сообщения из комнат,
+    доступных пользователю.
+    """
+
+    queryset = (
+        ChatMessage.objects
+        .select_related(
+            "room",
+            "room__created_by",
+            "user",
+        )
+    )
+
+    if user_can_administrate(user):
+        return queryset
+
+    return queryset.filter(
+        Q(room__is_private=False)
+        | Q(room__created_by=user)
+        | Q(room__participants__user=user)
+    ).distinct()
 
 
 class ChatRoomListAPIView(ListAPIView):
@@ -32,12 +181,15 @@ class ChatRoomListAPIView(ListAPIView):
     API-представление для получения
     списка доступных комнат чата.
 
-    Пользователь видит все публичные комнаты,
-    созданные им приватные комнаты и приватные
-    комнаты, участником которых он является.
+    Пользователь видит:
 
-    Суперпользователь Django имеет доступ
-    ко всем комнатам.
+    - все публичные комнаты;
+    - созданные им комнаты;
+    - приватные комнаты, участником
+      которых он является.
+
+    Администраторы и системные
+    суперпользователи видят все комнаты.
     """
 
     serializer_class = ChatRoomSerializer
@@ -50,23 +202,9 @@ class ChatRoomListAPIView(ListAPIView):
         Возвращает комнаты, доступные
         текущему пользователю.
         """
-        if self.request.user.is_superuser:
-            return ChatRoom.objects.all()
 
-        return (
-            ChatRoom.objects.filter(
-                Q(is_private=False)
-                | Q(created_by=self.request.user)
-                | Q(participants__user=self.request.user)
-            )
-            .select_related(
-                "created_by",
-            )
-            .prefetch_related(
-                "participants",
-                "participants__user",
-            )
-            .distinct()
+        return available_rooms_queryset(
+            self.request.user,
         )
 
 
@@ -87,9 +225,10 @@ class ChatRoomCreateAPIView(CreateAPIView):
 
     def perform_create(self, serializer):
         """
-        Создает комнату и назначает
+        Создаёт комнату и назначает
         текущего пользователя создателем.
         """
+
         serializer.save(
             created_by=self.request.user,
         )
@@ -103,8 +242,12 @@ class ChatRoomRetrieveAPIView(RetrieveAPIView):
     Публичная комната доступна любому
     авторизованному пользователю.
 
-    Приватная комната доступна ее создателю,
-    участникам и суперпользователю Django.
+    Приватная комната доступна:
+
+    - её создателю;
+    - участникам комнаты;
+    - администраторам;
+    - системным суперпользователям Django.
     """
 
     serializer_class = ChatRoomSerializer
@@ -117,23 +260,9 @@ class ChatRoomRetrieveAPIView(RetrieveAPIView):
         Возвращает комнаты, доступные
         текущему пользователю.
         """
-        if self.request.user.is_superuser:
-            return ChatRoom.objects.all()
 
-        return (
-            ChatRoom.objects.filter(
-                Q(is_private=False)
-                | Q(created_by=self.request.user)
-                | Q(participants__user=self.request.user)
-            )
-            .select_related(
-                "created_by",
-            )
-            .prefetch_related(
-                "participants",
-                "participants__user",
-            )
-            .distinct()
+        return available_rooms_queryset(
+            self.request.user,
         )
 
 
@@ -142,8 +271,11 @@ class ChatRoomUpdateAPIView(UpdateAPIView):
     API-представление для обновления
     комнаты чата.
 
-    Изменять комнату может только ее
-    создатель или суперпользователь Django.
+    Изменять комнату могут:
+
+    - её создатель;
+    - администратор;
+    - системный суперпользователь Django.
     """
 
     serializer_class = ChatRoomUpdateSerializer
@@ -153,14 +285,27 @@ class ChatRoomUpdateAPIView(UpdateAPIView):
 
     def get_queryset(self):
         """
-        Возвращает комнаты, которые текущий
-        пользователь имеет право изменять.
+        Возвращает комнаты, которыми
+        текущий пользователь может управлять.
         """
-        if self.request.user.is_superuser:
-            return ChatRoom.objects.all()
 
-        return ChatRoom.objects.filter(
-            created_by=self.request.user,
+        return manageable_rooms_queryset(
+            self.request.user,
+        )
+
+    def perform_update(self, serializer):
+        """
+        Обновляет комнату, сохраняя
+        текущего создателя.
+
+        Поле created_by не может быть
+        изменено через API.
+        """
+
+        instance = self.get_object()
+
+        serializer.save(
+            created_by=instance.created_by,
         )
 
 
@@ -169,8 +314,11 @@ class ChatRoomDeleteAPIView(DestroyAPIView):
     API-представление для удаления
     комнаты чата.
 
-    Удалять комнату может только ее
-    создатель или суперпользователь Django.
+    Удалять комнату могут:
+
+    - её создатель;
+    - администратор;
+    - системный суперпользователь Django.
     """
 
     serializer_class = ChatRoomSerializer
@@ -180,14 +328,12 @@ class ChatRoomDeleteAPIView(DestroyAPIView):
 
     def get_queryset(self):
         """
-        Возвращает комнаты, которые текущий
-        пользователь имеет право удалять.
+        Возвращает комнаты, которые
+        текущий пользователь может удалить.
         """
-        if self.request.user.is_superuser:
-            return ChatRoom.objects.all()
 
-        return ChatRoom.objects.filter(
-            created_by=self.request.user,
+        return manageable_rooms_queryset(
+            self.request.user,
         )
 
 
@@ -196,12 +342,14 @@ class ChatParticipantListAPIView(ListAPIView):
     API-представление для получения
     списка участников комнат чата.
 
-    Пользователь видит участников публичных
-    комнат, а также доступных ему приватных
-    комнат.
+    Пользователь видит участников:
 
-    Суперпользователь Django имеет доступ
-    ко всем участникам.
+    - публичных комнат;
+    - созданных им комнат;
+    - доступных ему приватных комнат.
+
+    Администраторы и системные
+    суперпользователи видят все записи.
     """
 
     serializer_class = ChatParticipantSerializer
@@ -214,20 +362,9 @@ class ChatParticipantListAPIView(ListAPIView):
         Возвращает участников комнат,
         доступных текущему пользователю.
         """
-        if self.request.user.is_superuser:
-            return ChatParticipant.objects.all()
 
-        return (
-            ChatParticipant.objects.filter(
-                Q(room__is_private=False)
-                | Q(room__created_by=self.request.user)
-                | Q(room__participants__user=self.request.user)
-            )
-            .select_related(
-                "room",
-                "user",
-            )
-            .distinct()
+        return available_participants_queryset(
+            self.request.user,
         )
 
 
@@ -236,43 +373,39 @@ class ChatParticipantCreateAPIView(CreateAPIView):
     API-представление для добавления
     участника в комнату чата.
 
-    Добавлять участников может создатель
-    комнаты или суперпользователь Django.
+    Добавлять участников могут:
+
+    - создатель комнаты;
+    - администратор;
+    - системный суперпользователь Django.
     """
 
+    queryset = ChatParticipant.objects.select_related(
+        "room",
+        "room__created_by",
+        "user",
+    )
     serializer_class = ChatParticipantCreateSerializer
     permission_classes = [
         IsAuthenticated,
     ]
 
-    def get_queryset(self):
-        """
-        Возвращает участников комнат,
-        которыми управляет текущий
-        пользователь.
-        """
-        if self.request.user.is_superuser:
-            return ChatParticipant.objects.all()
-
-        return ChatParticipant.objects.filter(
-            room__created_by=self.request.user,
-        )
-
     def perform_create(self, serializer):
         """
-        Проверяет право текущего пользователя
-        добавлять участников в выбранную комнату.
+        Проверяет право пользователя
+        добавлять участника в выбранную комнату.
         """
+
+        user = self.request.user
         room = serializer.validated_data["room"]
 
         if (
-            not self.request.user.is_superuser
-            and room.created_by != self.request.user
+            not user_can_administrate(user)
+            and room.created_by_id != user.pk
         ):
-            from rest_framework.exceptions import PermissionDenied
-
             raise PermissionDenied(
-                "Добавлять участников может только создатель комнаты."
+                "Добавлять участников может только "
+                "создатель комнаты или администратор."
             )
 
         serializer.save()
@@ -281,11 +414,10 @@ class ChatParticipantCreateAPIView(CreateAPIView):
 class ChatParticipantRetrieveAPIView(RetrieveAPIView):
     """
     API-представление для получения
-    информации об участнике чата.
+    информации об участнике комнаты.
 
-    Запись доступна участникам публичных
-    комнат, участникам доступных приватных
-    комнат и суперпользователю Django.
+    Запись доступна пользователям,
+    имеющим доступ к соответствующей комнате.
     """
 
     serializer_class = ChatParticipantSerializer
@@ -298,20 +430,9 @@ class ChatParticipantRetrieveAPIView(RetrieveAPIView):
         Возвращает участников комнат,
         доступных текущему пользователю.
         """
-        if self.request.user.is_superuser:
-            return ChatParticipant.objects.all()
 
-        return (
-            ChatParticipant.objects.filter(
-                Q(room__is_private=False)
-                | Q(room__created_by=self.request.user)
-                | Q(room__participants__user=self.request.user)
-            )
-            .select_related(
-                "room",
-                "user",
-            )
-            .distinct()
+        return available_participants_queryset(
+            self.request.user,
         )
 
 
@@ -320,9 +441,11 @@ class ChatParticipantUpdateAPIView(UpdateAPIView):
     API-представление для обновления
     участника комнаты чата.
 
-    Изменять участников может только
-    создатель соответствующей комнаты
-    или суперпользователь Django.
+    Изменять участников могут:
+
+    - создатель соответствующей комнаты;
+    - администратор;
+    - системный суперпользователь Django.
     """
 
     serializer_class = ChatParticipantUpdateSerializer
@@ -333,34 +456,34 @@ class ChatParticipantUpdateAPIView(UpdateAPIView):
     def get_queryset(self):
         """
         Возвращает записи участников,
-        которыми может управлять текущий
-        пользователь.
+        которыми пользователь может управлять.
         """
-        if self.request.user.is_superuser:
-            return ChatParticipant.objects.all()
 
-        return ChatParticipant.objects.filter(
-            room__created_by=self.request.user,
+        return manageable_participants_queryset(
+            self.request.user,
         )
 
     def perform_update(self, serializer):
         """
         Проверяет право пользователя
-        перемещать участника в другую комнату.
+        перенести участника в другую комнату.
         """
+
+        user = self.request.user
+        instance = self.get_object()
+
         room = serializer.validated_data.get(
             "room",
-            serializer.instance.room,
+            instance.room,
         )
 
         if (
-            not self.request.user.is_superuser
-            and room.created_by != self.request.user
+            not user_can_administrate(user)
+            and room.created_by_id != user.pk
         ):
-            from rest_framework.exceptions import PermissionDenied
-
             raise PermissionDenied(
-                "Изменять участников может только создатель комнаты."
+                "Перемещать участников может только "
+                "создатель комнаты или администратор."
             )
 
         serializer.save()
@@ -371,8 +494,11 @@ class ChatParticipantDeleteAPIView(DestroyAPIView):
     API-представление для удаления
     участника из комнаты чата.
 
-    Удалять участников может создатель
-    комнаты или суперпользователь Django.
+    Удалять участника могут:
+
+    - создатель комнаты;
+    - администратор;
+    - системный суперпользователь Django.
 
     Пользователь также может самостоятельно
     покинуть комнату.
@@ -389,26 +515,41 @@ class ChatParticipantDeleteAPIView(DestroyAPIView):
         которые текущий пользователь
         имеет право удалить.
         """
-        if self.request.user.is_superuser:
-            return ChatParticipant.objects.all()
 
-        return ChatParticipant.objects.filter(
-            Q(room__created_by=self.request.user)
-            | Q(user=self.request.user)
+        user = self.request.user
+
+        queryset = (
+            ChatParticipant.objects
+            .select_related(
+                "room",
+                "room__created_by",
+                "user",
+            )
+        )
+
+        if user_can_administrate(user):
+            return queryset
+
+        return queryset.filter(
+            Q(room__created_by=user)
+            | Q(user=user)
         ).distinct()
+
 
 class ChatMessageListAPIView(ListAPIView):
     """
     API-представление для получения
     списка сообщений чата.
 
-    Пользователь видит сообщения публичных
-    комнат, созданных им приватных комнат
-    и приватных комнат, участником которых
-    он является.
+    Пользователь видит сообщения:
 
-    Суперпользователь Django имеет доступ
-    ко всем сообщениям.
+    - публичных комнат;
+    - созданных им комнат;
+    - приватных комнат, участником
+      которых он является.
+
+    Администраторы и системные
+    суперпользователи видят все сообщения.
     """
 
     serializer_class = ChatMessageSerializer
@@ -421,20 +562,9 @@ class ChatMessageListAPIView(ListAPIView):
         Возвращает сообщения комнат,
         доступных текущему пользователю.
         """
-        if self.request.user.is_superuser:
-            return ChatMessage.objects.all()
 
-        return (
-            ChatMessage.objects.filter(
-                Q(room__is_private=False)
-                | Q(room__created_by=self.request.user)
-                | Q(room__participants__user=self.request.user)
-            )
-            .select_related(
-                "room",
-                "user",
-            )
-            .distinct()
+        return available_messages_queryset(
+            self.request.user,
         )
 
 
@@ -445,6 +575,9 @@ class ChatMessageCreateAPIView(CreateAPIView):
 
     Автором сообщения автоматически
     назначается текущий пользователь.
+
+    Отправить сообщение можно только
+    в доступную пользователю комнату.
     """
 
     queryset = ChatMessage.objects.all()
@@ -455,11 +588,27 @@ class ChatMessageCreateAPIView(CreateAPIView):
 
     def perform_create(self, serializer):
         """
-        Создает сообщение и назначает
-        текущего пользователя автором.
+        Проверяет доступ пользователя
+        к выбранной комнате и создаёт
+        сообщение от его имени.
         """
+
+        user = self.request.user
+        room = serializer.validated_data["room"]
+
+        has_room_access = (
+            available_rooms_queryset(user)
+            .filter(pk=room.pk)
+            .exists()
+        )
+
+        if not has_room_access:
+            raise PermissionDenied(
+                "У вас нет доступа к этой комнате."
+            )
+
         serializer.save(
-            user=self.request.user,
+            user=user,
         )
 
 
@@ -470,9 +619,6 @@ class ChatMessageRetrieveAPIView(RetrieveAPIView):
 
     Сообщение доступно пользователям,
     имеющим доступ к соответствующей комнате.
-
-    Суперпользователь Django имеет
-    доступ ко всем сообщениям.
     """
 
     serializer_class = ChatMessageSerializer
@@ -485,20 +631,9 @@ class ChatMessageRetrieveAPIView(RetrieveAPIView):
         Возвращает сообщения комнат,
         доступных текущему пользователю.
         """
-        if self.request.user.is_superuser:
-            return ChatMessage.objects.all()
 
-        return (
-            ChatMessage.objects.filter(
-                Q(room__is_private=False)
-                | Q(room__created_by=self.request.user)
-                | Q(room__participants__user=self.request.user)
-            )
-            .select_related(
-                "room",
-                "user",
-            )
-            .distinct()
+        return available_messages_queryset(
+            self.request.user,
         )
 
 
@@ -507,11 +642,12 @@ class ChatMessageUpdateAPIView(UpdateAPIView):
     API-представление для обновления
     сообщения чата.
 
-    Пользователь может изменять только
-    собственные сообщения.
+    Обычный пользователь может изменять
+    только собственные сообщения.
 
-    Суперпользователь Django имеет
-    доступ ко всем сообщениям.
+    Администраторы и системные
+    суперпользователи могут изменять
+    любые сообщения.
     """
 
     serializer_class = ChatMessageUpdateSerializer
@@ -522,14 +658,54 @@ class ChatMessageUpdateAPIView(UpdateAPIView):
     def get_queryset(self):
         """
         Возвращает сообщения, которые
-        текущий пользователь имеет право
-        изменять.
+        пользователь может изменять.
         """
-        if self.request.user.is_superuser:
-            return ChatMessage.objects.all()
 
-        return ChatMessage.objects.filter(
-            user=self.request.user,
+        user = self.request.user
+
+        queryset = ChatMessage.objects.select_related(
+            "room",
+            "room__created_by",
+            "user",
+        )
+
+        if user_can_administrate(user):
+            return queryset
+
+        return queryset.filter(
+            user=user,
+        )
+
+    def perform_update(self, serializer):
+        """
+        Обновляет сообщение, сохраняя
+        его автора.
+
+        При изменении комнаты проверяет,
+        что пользователь имеет к ней доступ.
+        """
+
+        user = self.request.user
+        instance = self.get_object()
+
+        room = serializer.validated_data.get(
+            "room",
+            instance.room,
+        )
+
+        has_room_access = (
+            available_rooms_queryset(user)
+            .filter(pk=room.pk)
+            .exists()
+        )
+
+        if not has_room_access:
+            raise PermissionDenied(
+                "У вас нет доступа к выбранной комнате."
+            )
+
+        serializer.save(
+            user=instance.user,
         )
 
 
@@ -538,14 +714,12 @@ class ChatMessageDeleteAPIView(DestroyAPIView):
     API-представление для удаления
     сообщения чата.
 
-    Пользователь может удалять собственные
-    сообщения.
+    Удалять сообщение могут:
 
-    Создатель комнаты может удалять любые
-    сообщения своей комнаты.
-
-    Суперпользователь Django имеет
-    доступ ко всем сообщениям.
+    - автор сообщения;
+    - создатель комнаты;
+    - администратор;
+    - системный суперпользователь Django.
     """
 
     serializer_class = ChatMessageSerializer
@@ -556,13 +730,21 @@ class ChatMessageDeleteAPIView(DestroyAPIView):
     def get_queryset(self):
         """
         Возвращает сообщения, которые
-        текущий пользователь имеет право
-        удалить.
+        текущий пользователь может удалить.
         """
-        if self.request.user.is_superuser:
-            return ChatMessage.objects.all()
 
-        return ChatMessage.objects.filter(
-            Q(user=self.request.user)
-            | Q(room__created_by=self.request.user)
+        user = self.request.user
+
+        queryset = ChatMessage.objects.select_related(
+            "room",
+            "room__created_by",
+            "user",
+        )
+
+        if user_can_administrate(user):
+            return queryset
+
+        return queryset.filter(
+            Q(user=user)
+            | Q(room__created_by=user)
         ).distinct()

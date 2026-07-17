@@ -77,10 +77,10 @@ class Tool(models.Model):
         verbose_name=_("Image"),
     )
 
-    amazon_url = models.URLField(
+    ozon_url = models.URLField(
         max_length=1000,
         blank=True,
-        verbose_name=_("Amazon URL"),
+        verbose_name=_("Ozon URL"),
     )
 
     created_at = models.DateTimeField(
