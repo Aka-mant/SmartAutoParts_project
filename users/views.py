@@ -3,8 +3,11 @@ from django.contrib.auth.forms import AuthenticationForm
 from django.contrib.auth.mixins import LoginRequiredMixin
 from django.views.generic import DetailView, ListView, TemplateView
 from django.urls import reverse_lazy
-from django.shortcuts import redirect
+from django.shortcuts import redirect, render
 from django.contrib.auth.mixins import UserPassesTestMixin
+from django.db import transaction
+from django.views import View
+from django.contrib import messages
 
 
 from rest_framework.generics import (
@@ -44,6 +47,11 @@ from .serializers import (
     UserTokenObtainSerializer,
     UserUpdateSerializer,
 )
+from .forms import (
+    ProfileUpdateForm,
+    UserProfileUpdateForm,
+)
+
 
 
 class UserListAPIView(ListAPIView):
@@ -541,3 +549,191 @@ class UserRegistrationPageView(
 
     def handle_no_permission(self):
         return redirect("users:profile_detail")
+
+
+class ProfileUpdatePageView(LoginRequiredMixin, View):
+    """
+    HTML-представление для редактирования профиля.
+
+    Позволяет одновременно изменить данные пользователя
+    и дополнительную информацию его профиля.
+    """
+
+    template_name = "users/profile_update.html"
+    login_url = reverse_lazy("users:login")
+
+    def get_profile(self):
+        """
+        Возвращает профиль текущего пользователя.
+
+        Если профиль отсутствует, создаёт его.
+        """
+        profile, _ = Profile.objects.get_or_create(
+            user=self.request.user,
+        )
+
+        return profile
+
+    def get(self, request, *args, **kwargs):
+        """
+        Отображает страницу редактирования профиля.
+        """
+        profile = self.get_profile()
+
+        user_form = UserProfileUpdateForm(
+            instance=request.user,
+        )
+
+        profile_form = ProfileUpdateForm(
+            instance=profile,
+        )
+
+        context = {
+            "user_form": user_form,
+            "profile_form": profile_form,
+        }
+
+        return self.render_page(
+            request=request,
+            context=context,
+        )
+
+    def post(self, request, *args, **kwargs):
+        """
+        Проверяет и сохраняет обе формы.
+        """
+        profile = self.get_profile()
+
+        user_form = UserProfileUpdateForm(
+            request.POST,
+            request.FILES,
+            instance=request.user,
+        )
+
+        profile_form = ProfileUpdateForm(
+            request.POST,
+            instance=profile,
+        )
+
+        if user_form.is_valid() and profile_form.is_valid():
+            with transaction.atomic():
+                user_form.save()
+                profile_form.save()
+
+            messages.success(
+                request,
+                "Профиль успешно обновлён.",
+            )
+
+            return redirect(
+                "users:profile_detail",
+            )
+
+        context = {
+            "user_form": user_form,
+            "profile_form": profile_form,
+        }
+
+        return self.render_page(
+            request=request,
+            context=context,
+        )
+
+    def render_page(self, request, context):
+        """
+        Рендерит шаблон страницы.
+        """
+        from django.shortcuts import render
+
+        return render(
+            request,
+            self.template_name,
+            context,
+        )
+
+class ProfileUpdatePageView(LoginRequiredMixin, View):
+    """
+    HTML-представление страницы редактирования профиля.
+
+    Обрабатывает две формы:
+
+    - данные модели пользователя;
+    - дополнительные данные модели профиля.
+    """
+
+    template_name = "users/profile_update.html"
+    login_url = reverse_lazy("users:login")
+
+    def get_profile(self):
+        """
+        Получает или создаёт профиль
+        текущего пользователя.
+        """
+        profile, _ = Profile.objects.get_or_create(
+            user=self.request.user,
+        )
+
+        return profile
+
+    def get(self, request, *args, **kwargs):
+        """
+        Отображает заполненные формы.
+        """
+        profile = self.get_profile()
+
+        context = {
+            "user_form": UserProfileUpdateForm(
+                instance=request.user,
+            ),
+            "profile_form": ProfileUpdateForm(
+                instance=profile,
+            ),
+        }
+
+        return render(
+            request,
+            self.template_name,
+            context,
+        )
+
+    def post(self, request, *args, **kwargs):
+        """
+        Сохраняет изменения пользователя и профиля.
+        """
+        profile = self.get_profile()
+
+        user_form = UserProfileUpdateForm(
+            request.POST,
+            request.FILES,
+            instance=request.user,
+        )
+
+        profile_form = ProfileUpdateForm(
+            request.POST,
+            instance=profile,
+        )
+
+        if user_form.is_valid() and profile_form.is_valid():
+            with transaction.atomic():
+                user_form.save()
+                profile_form.save()
+
+            messages.success(
+                request,
+                "Данные профиля успешно обновлены.",
+            )
+
+            return redirect(
+                "users:profile_detail",
+            )
+
+        context = {
+            "user_form": user_form,
+            "profile_form": profile_form,
+        }
+
+        return render(
+            request,
+            self.template_name,
+            context,
+        )

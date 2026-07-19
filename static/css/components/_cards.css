@@ -1,0 +1,30 @@
+/* =========================
+   CARDS
+   ========================= */
+
+.card {
+    height: 100%;
+    border: 1px solid var(--sap-border);
+    border-radius: var(--sap-radius);
+    box-shadow: 0 8px 30px rgba(15, 23, 42, 0.04);
+    transition:
+        transform 0.25s ease,
+        box-shadow 0.25s ease,
+        border-color 0.25s ease;
+}
+
+
+.feature-card,
+.review-card,
+.pricing-card {
+    overflow: hidden;
+}
+
+
+.feature-card:hover,
+.review-card:hover,
+.pricing-card:hover {
+    transform: translateY(-6px);
+    border-color: rgba(37, 99, 235, 0.3);
+    box-shadow: var(--sap-shadow-hover);
+}

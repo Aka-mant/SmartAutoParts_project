@@ -1,0 +1,558 @@
+{% extends "base.html" %}
+
+{% block title %}
+    Редактирование профиля — SmartAutoParts
+{% endblock %}
+
+{% block content %}
+
+<section class="account-section">
+
+    <div class="container">
+
+        <!-- Заголовок страницы -->
+
+        <div class="account-page-header">
+
+            <div class="account-page-heading">
+
+                <h1 class="account-page-title">
+                    Редактирование профиля
+                </h1>
+
+                <p class="account-page-description">
+                    Измените личные данные, информацию
+                    об автомобиле и настройки профиля.
+                </p>
+
+            </div>
+
+            <a
+                href="{% url 'users:profile_detail' %}"
+                class="btn btn-outline-secondary account-header-button"
+            >
+                <i class="bi bi-arrow-left"></i>
+                Назад к профилю
+            </a>
+
+        </div>
+
+        <!-- Форма редактирования -->
+
+        <form
+            method="post"
+            enctype="multipart/form-data"
+            class="profile-edit-form"
+        >
+            {% csrf_token %}
+
+            <!-- Общие ошибки формы пользователя -->
+
+            {% if user_form.non_field_errors %}
+
+                <div class="alert alert-danger">
+
+                    {% for error in user_form.non_field_errors %}
+                        <div>{{ error }}</div>
+                    {% endfor %}
+
+                </div>
+
+            {% endif %}
+
+            <!-- Общие ошибки формы профиля -->
+
+            {% if profile_form.non_field_errors %}
+
+                <div class="alert alert-danger">
+
+                    {% for error in profile_form.non_field_errors %}
+                        <div>{{ error }}</div>
+                    {% endfor %}
+
+                </div>
+
+            {% endif %}
+
+            <div class="row g-4 align-items-start">
+
+                <!-- Левая колонка -->
+
+                <div class="col-lg-4">
+
+                    <div class="profile-edit-sidebar">
+
+                        <div class="account-card text-center">
+
+                            <div class="account-card-header">
+
+                                <div class="account-card-icon">
+                                    <i class="bi bi-person-circle"></i>
+                                </div>
+
+                                <h2 class="account-card-title">
+                                    Аватар
+                                </h2>
+
+                            </div>
+
+                            <div class="profile-avatar-large">
+
+                                {% if request.user.avatar %}
+
+                                    <img
+                                        src="{{ request.user.avatar.url }}"
+                                        alt="Аватар пользователя"
+                                    >
+
+                                {% else %}
+
+                                    <i class="bi bi-person-circle"></i>
+
+                                {% endif %}
+
+                            </div>
+
+                            <div class="mt-4">
+
+                                <label
+                                    class="form-label"
+                                    for="{{ user_form.avatar.id_for_label }}"
+                                >
+                                    Изображение профиля
+                                </label>
+
+                                {{ user_form.avatar }}
+
+                                {% if user_form.avatar.help_text %}
+
+                                    <div class="form-text">
+                                        {{ user_form.avatar.help_text }}
+                                    </div>
+
+                                {% endif %}
+
+                                {% if user_form.avatar.errors %}
+
+                                    <div class="text-danger small mt-2">
+
+                                        {% for error in user_form.avatar.errors %}
+                                            <div>{{ error }}</div>
+                                        {% endfor %}
+
+                                    </div>
+
+                                {% endif %}
+
+                            </div>
+
+                        </div>
+
+                    </div>
+
+                </div>
+
+                <!-- Правая колонка -->
+
+                <div class="col-lg-8">
+
+                    <div class="profile-edit-content">
+
+                        <!-- Основная информация -->
+
+                        <div class="account-card">
+
+                            <div class="account-card-header">
+
+                                <div class="account-card-icon">
+                                    <i class="bi bi-person-vcard"></i>
+                                </div>
+
+                                <h2 class="account-card-title">
+                                    Основная информация
+                                </h2>
+
+                            </div>
+
+                            <div class="row">
+
+                                <div class="col-md-6 mb-3">
+
+                                    <label
+                                        class="form-label"
+                                        for="{{ user_form.first_name.id_for_label }}"
+                                    >
+                                        Имя
+                                    </label>
+
+                                    {{ user_form.first_name }}
+
+                                    {% if user_form.first_name.errors %}
+
+                                        <div class="text-danger small mt-1">
+
+                                            {% for error in user_form.first_name.errors %}
+                                                <div>{{ error }}</div>
+                                            {% endfor %}
+
+                                        </div>
+
+                                    {% endif %}
+
+                                </div>
+
+                                <div class="col-md-6 mb-3">
+
+                                    <label
+                                        class="form-label"
+                                        for="{{ user_form.last_name.id_for_label }}"
+                                    >
+                                        Фамилия
+                                    </label>
+
+                                    {{ user_form.last_name }}
+
+                                    {% if user_form.last_name.errors %}
+
+                                        <div class="text-danger small mt-1">
+
+                                            {% for error in user_form.last_name.errors %}
+                                                <div>{{ error }}</div>
+                                            {% endfor %}
+
+                                        </div>
+
+                                    {% endif %}
+
+                                </div>
+
+                                <div class="col-md-6 mb-3">
+
+                                    <label
+                                        class="form-label"
+                                        for="{{ user_form.username.id_for_label }}"
+                                    >
+                                        Имя пользователя
+                                    </label>
+
+                                    {{ user_form.username }}
+
+                                    {% if user_form.username.errors %}
+
+                                        <div class="text-danger small mt-1">
+
+                                            {% for error in user_form.username.errors %}
+                                                <div>{{ error }}</div>
+                                            {% endfor %}
+
+                                        </div>
+
+                                    {% endif %}
+
+                                </div>
+
+                                <div class="col-md-6 mb-3">
+
+                                    <label
+                                        class="form-label"
+                                        for="{{ user_form.email.id_for_label }}"
+                                    >
+                                        Email
+                                    </label>
+
+                                    {{ user_form.email }}
+
+                                    {% if user_form.email.errors %}
+
+                                        <div class="text-danger small mt-1">
+
+                                            {% for error in user_form.email.errors %}
+                                                <div>{{ error }}</div>
+                                            {% endfor %}
+
+                                        </div>
+
+                                    {% endif %}
+
+                                </div>
+
+                            </div>
+
+                        </div>
+                                                <!-- Местоположение и настройки -->
+
+                        <div class="account-card">
+
+                            <div class="account-card-header">
+
+                                <div class="account-card-icon">
+                                    <i class="bi bi-geo-alt"></i>
+                                </div>
+
+                                <h2 class="account-card-title">
+                                    Местоположение и настройки
+                                </h2>
+
+                            </div>
+
+                            <div class="row">
+
+                                <div class="col-md-6 mb-3">
+
+                                    <label
+                                        class="form-label"
+                                        for="{{ profile_form.country.id_for_label }}"
+                                    >
+                                        Страна
+                                    </label>
+
+                                    {{ profile_form.country }}
+
+                                    {% if profile_form.country.errors %}
+
+                                        <div class="text-danger small mt-1">
+
+                                            {% for error in profile_form.country.errors %}
+                                                <div>{{ error }}</div>
+                                            {% endfor %}
+
+                                        </div>
+
+                                    {% endif %}
+
+                                </div>
+
+                                <div class="col-md-6 mb-3">
+
+                                    <label
+                                        class="form-label"
+                                        for="{{ profile_form.city.id_for_label }}"
+                                    >
+                                        Город
+                                    </label>
+
+                                    {{ profile_form.city }}
+
+                                    {% if profile_form.city.errors %}
+
+                                        <div class="text-danger small mt-1">
+
+                                            {% for error in profile_form.city.errors %}
+                                                <div>{{ error }}</div>
+                                            {% endfor %}
+
+                                        </div>
+
+                                    {% endif %}
+
+                                </div>
+
+                                <div class="col-12 mb-3">
+
+                                    <label
+                                        class="form-label"
+                                        for="{{ profile_form.preferred_language.id_for_label }}"
+                                    >
+                                        Предпочитаемый язык
+                                    </label>
+
+                                    {{ profile_form.preferred_language }}
+
+                                    {% if profile_form.preferred_language.errors %}
+
+                                        <div class="text-danger small mt-1">
+
+                                            {% for error in profile_form.preferred_language.errors %}
+                                                <div>{{ error }}</div>
+                                            {% endfor %}
+
+                                        </div>
+
+                                    {% endif %}
+
+                                </div>
+
+                            </div>
+
+                        </div>
+
+                        <!-- Информация об автомобиле -->
+
+                        <div class="account-card">
+
+                            <div class="account-card-header">
+
+                                <div class="account-card-icon">
+                                    <i class="bi bi-car-front"></i>
+                                </div>
+
+                                <h2 class="account-card-title">
+                                    Информация об автомобиле
+                                </h2>
+
+                            </div>
+
+                            <div class="row">
+
+                                <div class="col-md-6 mb-3">
+
+                                    <label
+                                        class="form-label"
+                                        for="{{ profile_form.car_brand.id_for_label }}"
+                                    >
+                                        Марка автомобиля
+                                    </label>
+
+                                    {{ profile_form.car_brand }}
+
+                                    {% if profile_form.car_brand.errors %}
+
+                                        <div class="text-danger small mt-1">
+
+                                            {% for error in profile_form.car_brand.errors %}
+                                                <div>{{ error }}</div>
+                                            {% endfor %}
+
+                                        </div>
+
+                                    {% endif %}
+
+                                </div>
+
+                                <div class="col-md-6 mb-3">
+
+                                    <label
+                                        class="form-label"
+                                        for="{{ profile_form.car_model.id_for_label }}"
+                                    >
+                                        Модель автомобиля
+                                    </label>
+
+                                    {{ profile_form.car_model }}
+
+                                    {% if profile_form.car_model.errors %}
+
+                                        <div class="text-danger small mt-1">
+
+                                            {% for error in profile_form.car_model.errors %}
+                                                <div>{{ error }}</div>
+                                            {% endfor %}
+
+                                        </div>
+
+                                    {% endif %}
+
+                                </div>
+
+                                <div class="col-md-6 mb-3">
+
+                                    <label
+                                        class="form-label"
+                                        for="{{ profile_form.car_year.id_for_label }}"
+                                    >
+                                        Год выпуска
+                                    </label>
+
+                                    {{ profile_form.car_year }}
+
+                                    {% if profile_form.car_year.errors %}
+
+                                        <div class="text-danger small mt-1">
+
+                                            {% for error in profile_form.car_year.errors %}
+                                                <div>{{ error }}</div>
+                                            {% endfor %}
+
+                                        </div>
+
+                                    {% endif %}
+
+                                </div>
+
+                            </div>
+
+                        </div>
+
+                        <!-- Информация о пользователе -->
+
+                        <div class="account-card">
+
+                            <div class="account-card-header">
+
+                                <div class="account-card-icon">
+                                    <i class="bi bi-card-text"></i>
+                                </div>
+
+                                <h2 class="account-card-title">
+                                    О себе
+                                </h2>
+
+                            </div>
+
+                            <div class="mb-0">
+
+                                <label
+                                    class="form-label"
+                                    for="{{ profile_form.bio.id_for_label }}"
+                                >
+                                    Краткая информация
+                                </label>
+
+                                {{ profile_form.bio }}
+
+                                {% if profile_form.bio.errors %}
+
+                                    <div class="text-danger small mt-1">
+
+                                        {% for error in profile_form.bio.errors %}
+                                            <div>{{ error }}</div>
+                                        {% endfor %}
+
+                                    </div>
+
+                                {% endif %}
+
+                                <div class="form-text">
+                                    Расскажите немного о себе
+                                    и своём автомобиле.
+                                </div>
+
+                            </div>
+
+                        </div>
+
+                    </div>
+
+                    <!-- Кнопки формы -->
+
+                    <div class="profile-edit-actions">
+
+                        <a
+                            href="{% url 'users:profile_detail' %}"
+                            class="btn btn-outline-secondary"
+                        >
+                            <i class="bi bi-x-circle me-2"></i>
+                            Отмена
+                        </a>
+
+                        <button
+                            type="submit"
+                            class="btn btn-primary"
+                        >
+                            <i class="bi bi-check-circle me-2"></i>
+                            Сохранить изменения
+                        </button>
+
+                    </div>
+
+                </div>
+
+            </div>
+
+        </form>
+
+    </div>
+
+</section>
+
+{% endblock %}

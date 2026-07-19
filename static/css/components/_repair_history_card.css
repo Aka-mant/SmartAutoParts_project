@@ -1,0 +1,9 @@
+.history-icon-repair {
+    color: #0f766e;
+    background: #ccfbf1;
+}
+
+.history-status.warning {
+    color: #92400e;
+    background: #fef3c7;
+}

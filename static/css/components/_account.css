@@ -1,0 +1,166 @@
+/* =========================
+   ACCOUNT PAGES
+   ========================= */
+
+.account-section {
+    min-height: calc(100vh - 76px);
+    padding: clamp(4rem, 8vw, 7rem) 0;
+    background:
+        radial-gradient(
+            circle at 10% 10%,
+            rgba(20, 184, 166, 0.08),
+            transparent 28%
+        ),
+        radial-gradient(
+            circle at 90% 5%,
+            rgba(37, 99, 235, 0.1),
+            transparent 30%
+        ),
+        var(--sap-soft);
+}
+
+.account-page-header {
+    display: flex;
+    align-items: flex-end;
+    justify-content: space-between;
+    gap: 2rem;
+    margin-bottom: 2.5rem;
+}
+
+.account-page-title {
+    margin-bottom: 0.75rem;
+    color: var(--sap-dark);
+    font-size: clamp(2.25rem, 5vw, 3.5rem);
+    font-weight: 800;
+    line-height: 1.08;
+    letter-spacing: -0.05em;
+}
+
+.account-page-description {
+    max-width: 650px;
+    margin-bottom: 0;
+    color: var(--sap-muted);
+    font-size: 1.05rem;
+}
+
+.account-header-button {
+    display: inline-flex;
+    min-height: 48px;
+    flex: 0 0 auto;
+    align-items: center;
+    justify-content: center;
+    gap: 0.55rem;
+    padding-right: 1.25rem;
+    padding-left: 1.25rem;
+    border-radius: 0.8rem;
+    font-weight: 700;
+}
+
+.account-card {
+    height: 100%;
+    padding: clamp(1.5rem, 4vw, 2.25rem);
+    background: rgba(255, 255, 255, 0.96);
+    border: 1px solid var(--sap-border);
+    border-radius: var(--sap-radius);
+    box-shadow: var(--sap-shadow);
+}
+
+.account-card-header {
+    margin-bottom: 1.75rem;
+    padding-bottom: 1.25rem;
+    border-bottom: 1px solid var(--sap-border);
+}
+
+.account-card-header > div {
+    display: flex;
+    gap: 0.85rem;
+    align-items: center;
+}
+
+.account-card-header h2 {
+    margin: 0;
+    color: var(--sap-dark);
+    font-size: 1.35rem;
+    font-weight: 750;
+}
+
+.account-card-icon {
+    display: grid;
+    width: 2.75rem;
+    height: 2.75rem;
+    flex: 0 0 auto;
+    place-items: center;
+    color: var(--sap-primary);
+    background: #eff6ff;
+    border-radius: 0.8rem;
+    font-size: 1.2rem;
+}
+
+/* Empty state */
+
+.account-empty-state {
+    max-width: 480px;
+    margin: 0 auto;
+    padding: 3rem 1rem;
+    text-align: center;
+}
+
+.account-empty-state > span {
+    display: grid;
+    width: 4rem;
+    height: 4rem;
+    margin: 0 auto 1.25rem;
+    place-items: center;
+    color: var(--sap-primary);
+    background: #eff6ff;
+    border-radius: 1.2rem;
+    font-size: 1.6rem;
+}
+
+.account-empty-state h2 {
+    margin-bottom: 0.75rem;
+    color: var(--sap-dark);
+    font-size: 1.5rem;
+    font-weight: 750;
+}
+
+.account-empty-state p {
+    margin-bottom: 1.5rem;
+    color: var(--sap-muted);
+}
+
+/* Pagination */
+
+.account-pagination {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 1rem;
+    margin-top: 2rem;
+    padding-top: 1.5rem;
+    border-top: 1px solid var(--sap-border);
+}
+
+.pagination-button {
+    display: inline-flex;
+    min-height: 42px;
+    align-items: center;
+    justify-content: center;
+    gap: 0.4rem;
+    padding: 0.6rem 1rem;
+    color: var(--sap-primary);
+    background: #eff6ff;
+    border-radius: 0.75rem;
+    font-weight: 700;
+    text-decoration: none;
+}
+
+.pagination-button:hover {
+    color: #ffffff;
+    background: var(--sap-primary);
+}
+
+.pagination-current {
+    color: var(--sap-muted);
+    font-size: 0.9rem;
+}

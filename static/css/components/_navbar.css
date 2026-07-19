@@ -1,0 +1,115 @@
+/* =========================
+   HEADER
+   ========================= */
+
+.site-header {
+    z-index: 1030;
+}
+
+
+.site-header .navbar {
+    min-height: 76px;
+    background: rgba(15, 23, 42, 0.94);
+    border-bottom: 1px solid rgba(255, 255, 255, 0.08);
+    backdrop-filter: blur(16px);
+}
+
+
+.navbar-brand,
+.footer-brand {
+    color: #ffffff;
+    font-size: 1.15rem;
+    font-weight: 750;
+    letter-spacing: -0.025em;
+    text-decoration: none;
+}
+
+
+.brand-mark {
+    display: inline-grid;
+    width: 2.25rem;
+    height: 2.25rem;
+    place-items: center;
+    color: #ffffff;
+    background:
+        linear-gradient(
+            135deg,
+            var(--sap-primary),
+            var(--sap-accent)
+        );
+    border-radius: 0.7rem;
+    box-shadow: 0 8px 24px rgba(37, 99, 235, 0.35);
+}
+
+
+.navbar-nav {
+    gap: 0.2rem;
+}
+
+
+.navbar-dark .navbar-nav .nav-link {
+    padding: 0.65rem 0.9rem;
+    color: rgba(255, 255, 255, 0.72);
+    font-size: 0.95rem;
+    font-weight: 550;
+    border-radius: 0.65rem;
+}
+
+
+.navbar-dark .navbar-nav .nav-link:hover,
+.navbar-dark .navbar-nav .nav-link:focus {
+    color: #ffffff;
+    background: rgba(255, 255, 255, 0.08);
+}
+
+
+.header-action {
+    min-width: 112px;
+    border-radius: 0.75rem;
+    font-weight: 650;
+}
+
+.site-header .dropdown-menu {
+    min-width: 220px;
+    margin-top: 0.75rem;
+    padding: 0.5rem;
+    background: #ffffff;
+    border: 1px solid var(--sap-border);
+    border-radius: 0.9rem;
+    box-shadow: var(--sap-shadow);
+}
+
+.site-header .dropdown-item {
+    padding: 0.7rem 0.85rem;
+    color: #334155;
+    border-radius: 0.65rem;
+    font-size: 0.92rem;
+    font-weight: 550;
+}
+
+.site-header .dropdown-item:hover,
+.site-header .dropdown-item:focus {
+    color: var(--sap-primary);
+    background: #eff6ff;
+}
+
+.site-header .dropdown-item.text-danger:hover,
+.site-header .dropdown-item.text-danger:focus {
+    color: #dc2626 !important;
+    background: #fef2f2;
+}
+
+.site-header .dropdown-divider {
+    margin: 0.4rem 0;
+    border-color: var(--sap-border);
+}
+
+.site-header .dropdown-menu form {
+    margin: 0;
+}
+
+.site-header .dropdown-menu button.dropdown-item {
+    width: 100%;
+    border: 0;
+    text-align: left;
+}

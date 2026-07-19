@@ -1,0 +1,8 @@
+/* =========================
+   FORMS
+   ========================= */
+
+.form-check-input:checked {
+    background-color: var(--sap-primary);
+    border-color: var(--sap-primary);
+}

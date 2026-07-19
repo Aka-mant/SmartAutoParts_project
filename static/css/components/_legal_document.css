@@ -1,0 +1,72 @@
+/* =========================
+   LEGAL DOCUMENT
+   ========================= */
+
+.legal-document {
+    max-width: 920px;
+    padding: clamp(1.5rem, 4vw, 3.5rem);
+    background: #ffffff;
+    border: 1px solid var(--sap-border);
+    border-radius: var(--sap-radius-lg);
+    box-shadow: var(--sap-shadow);
+}
+
+
+.legal-document header {
+    padding-bottom: 2rem;
+    border-bottom: 1px solid var(--sap-border);
+}
+
+
+.legal-document h1 {
+    font-size: clamp(2rem, 5vw, 3.3rem);
+    font-weight: 800;
+    line-height: 1.1;
+    letter-spacing: -0.045em;
+}
+
+
+.legal-document h2 {
+    margin-top: 3rem;
+    margin-bottom: 1rem;
+    padding-top: 0.25rem;
+    color: var(--sap-dark);
+    font-size: 1.35rem;
+    font-weight: 750;
+    letter-spacing: -0.02em;
+}
+
+
+.legal-document p,
+.legal-document li {
+    color: #475569;
+}
+
+
+.legal-document ul,
+.legal-document ol {
+    padding-left: 1.25rem;
+}
+
+
+.legal-document li + li {
+    margin-top: 0.5rem;
+}
+
+
+.legal-document .alert-info {
+    margin: 2rem 0 2.5rem;
+    padding: 1.15rem 1.25rem;
+    color: #164e63;
+    background: #ecfeff;
+    border-color: #a5f3fc;
+    border-radius: var(--sap-radius-sm);
+}
+
+
+.legal-document address {
+    padding: 1.25rem;
+    background: var(--sap-soft);
+    border-radius: var(--sap-radius-sm);
+    font-style: normal;
+}

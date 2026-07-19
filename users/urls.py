@@ -23,6 +23,7 @@ from .views import (
     UserTokenObtainPairView,
     UserUpdateAPIView,
     UserRegistrationPageView,
+    ProfileUpdatePageView,
 )
 
 app_name = UsersConfig.name
@@ -51,6 +52,11 @@ urlpatterns = [
         "profile/",
         ProfileDetailView.as_view(),
         name="profile_detail",
+    ),
+    path(
+        "profile/edit/",
+        ProfileUpdatePageView.as_view(),
+        name="profile_update",
     ),
     path(
         "search-history/",
@@ -111,7 +117,7 @@ urlpatterns = [
     path(
         "api/profile/update/",
         ProfileUpdateAPIView.as_view(),
-        name="profile_update",
+        name="api_profile_update",
     ),
 
     # API истории поиска

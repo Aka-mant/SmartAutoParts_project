@@ -1,0 +1,283 @@
+/* =========================
+   MOBILE
+   ========================= */
+
+@media (max-width: 767.98px) {
+    .site-header .navbar {
+        min-height: 68px;
+    }
+
+
+    .hero-section {
+        padding: 5rem 0;
+    }
+
+
+    .hero-content {
+        max-width: 100%;
+    }
+
+
+    .hero-title {
+        font-size: clamp(2.2rem, 11vw, 3.25rem);
+        letter-spacing: -0.04em;
+    }
+
+
+    .hero-section .lead {
+        margin-bottom: 2.5rem !important;
+    }
+
+
+    .hero-search-form {
+        flex-direction: column;
+        align-items: stretch;
+        gap: 0.75rem;
+        padding: 0.6rem;
+    }
+
+
+    .hero-search-input {
+        width: 100%;
+    }
+
+
+    .hero-search-form .form-control,
+    .hero-search-button {
+        width: 100%;
+        min-width: 0;
+    }
+
+
+    .hero-search-form .form-control {
+        height: 54px;
+    }
+
+
+    .hero-search-button {
+        height: 54px;
+    }
+
+
+    .hero-meta {
+        gap: 0.75rem !important;
+    }
+
+
+    .hero-meta span {
+        width: 100%;
+    }
+
+
+    .action-button {
+        width: 100%;
+        min-width: 0;
+    }
+
+
+    .content-section {
+        padding: 4rem 0;
+    }
+
+
+    .section-heading {
+        margin-bottom: 2.25rem;
+    }
+
+
+    .section-heading h2 {
+        font-size: clamp(1.8rem, 8vw, 2.4rem);
+    }
+
+
+    .feature-card .card-body,
+    .review-card .card-body {
+        padding: 1.5rem;
+    }
+
+
+    .pricing-card .card-header {
+        padding: 1.5rem 1.5rem 0;
+    }
+
+
+    .pricing-card .card-body {
+        min-height: auto;
+        padding: 1.25rem 1.5rem 1.5rem;
+    }
+
+
+    .footer {
+        padding-top: 3.5rem;
+    }
+
+
+    .footer-bottom {
+        margin-top: 2.5rem;
+    }
+
+
+    .legal-document {
+        padding: 1.35rem;
+        border-right: 0;
+        border-left: 0;
+        border-radius: 0;
+        box-shadow: none;
+    }
+
+
+    .legal-document h2 {
+        margin-top: 2.25rem;
+    }
+    .auth-section {
+        min-height: auto;
+        padding: 2.5rem 0;
+    }
+
+    .auth-card {
+        padding: 1.75rem;
+        border-radius: var(--sap-radius);
+    }
+
+    .auth-title {
+        font-size: 2.15rem;
+    }
+
+    .auth-description {
+        font-size: 0.92rem;
+    }
+
+    .auth-input-group .form-control {
+        min-height: 55px;
+        padding-left: 3rem;
+        padding-right: 3rem;
+    }
+
+    .auth-submit-button {
+        min-height: 55px;
+    }
+
+    .auth-icon {
+        width: 3.5rem;
+        height: 3.5rem;
+        font-size: 1.4rem;
+    }
+
+    .auth-security {
+        flex-direction: column;
+        text-align: center;
+        gap: 0.5rem;
+    }
+
+    .auth-divider {
+        margin: 1.5rem 0;
+    }
+
+    .auth-register-text {
+        font-size: 0.95rem;
+    }
+    .account-section {
+        padding: 2.75rem 0;
+    }
+
+    .account-page-header {
+        flex-direction: column;
+        align-items: stretch;
+        gap: 1.25rem;
+        margin-bottom: 1.75rem;
+    }
+
+    .account-page-title {
+        font-size: 2.35rem;
+    }
+
+    .account-page-description {
+        font-size: 0.95rem;
+    }
+
+    .account-header-button {
+        width: 100%;
+    }
+
+    .account-card {
+        padding: 1.5rem;
+    }
+
+    .profile-summary-card {
+        display: block;
+        text-align: center;
+    }
+
+    .profile-avatar {
+        width: 5.75rem;
+        height: 5.75rem;
+        margin: 0 auto 1rem;
+    }
+
+    .profile-summary-card .profile-role {
+        justify-self: auto;
+    }
+
+    .profile-information-grid {
+        grid-template-columns: 1fr;
+    }
+
+    .history-item {
+        gap: 0.85rem;
+    }
+
+    .history-title-row {
+        flex-direction: column;
+        gap: 0.5rem;
+    }
+
+    .history-status {
+        align-self: flex-start;
+    }
+
+    .account-pagination {
+        flex-wrap: wrap;
+    }
+    .profile-edit-form .account-card {
+        padding: 22px;
+        border-radius: 18px;
+    }
+
+    .profile-edit-form .account-card-header {
+        gap: 12px;
+        margin-bottom: 20px;
+    }
+
+    .profile-edit-form .account-card-icon {
+        width: 42px;
+        height: 42px;
+        border-radius: 12px;
+        font-size: 19px;
+    }
+
+    .profile-edit-form .account-card-title {
+        font-size: 18px;
+    }
+
+    .profile-avatar-large {
+        width: 140px;
+        height: 140px;
+        font-size: 90px;
+    }
+
+    .profile-edit-form .form-control,
+    .profile-edit-form .form-select {
+        min-height: 46px;
+        border-radius: 11px;
+    }
+
+    .profile-edit-actions {
+        flex-direction: column-reverse;
+        align-items: stretch;
+        gap: 10px;
+    }
+
+    .profile-edit-actions .btn {
+        width: 100%;
+    }
+}
