@@ -168,6 +168,12 @@ STATICFILES_DIRS = [
 
 STATIC_ROOT = BASE_DIR / "staticfiles"
 
+LOGIN_URL = "users:login"
+
+LOGIN_REDIRECT_URL = "users:dashboard"
+
+LOGOUT_REDIRECT_URL = "users:login"
+
 DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
 REST_FRAMEWORK = {
     'default_filter_backends': ['django_filters.rest_framework.DjangoFilterBackend'],

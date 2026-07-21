@@ -1,0 +1,76 @@
+<div class="card border-0 shadow-sm h-100">
+    <div class="card-header bg-transparent border-0 pt-4 px-4">
+        <div class="d-flex justify-content-between align-items-center">
+            <h2 class="h5 mb-0">
+                <i class="bi bi-clock-history text-primary me-2"></i>
+                Последние поиски
+            </h2>
+
+            <a
+                href="{% url 'users:search_history' %}"
+                class="btn btn-sm btn-outline-primary"
+            >
+                Все
+            </a>
+        </div>
+    </div>
+
+    <div class="card-body p-0">
+        {% if recent_searches %}
+            <div class="list-group list-group-flush">
+                {% for search in recent_searches %}
+                    <a
+                        href="{% url 'users:part_search' %}?q={{ search.search_query|urlencode }}"
+                        class="list-group-item
+                               list-group-item-action
+                               border-0
+                               px-4
+                               py-3"
+                    >
+                        <div
+                            class="d-flex justify-content-between
+                                   align-items-start gap-3"
+                        >
+                            <div class="min-w-0">
+                                <div class="fw-semibold text-break">
+                                    {% firstof search.search_query search.original_number %}
+                                </div>
+
+                                {% if search.original_number %}
+                                    <div class="text-muted small">
+                                        OEM:
+                                        {{ search.original_number }}
+                                    </div>
+                                {% endif %}
+
+                                <div class="text-muted small mt-1">
+                                    {{ search.searched_at|date:"d.m.Y H:i" }}
+                                </div>
+                            </div>
+
+                            {% if search.result_found %}
+                                <span class="badge text-bg-success flex-shrink-0">
+                                    <i class="bi bi-check-circle me-1"></i>
+                                    Найдено
+                                </span>
+                            {% else %}
+                                <span class="badge text-bg-secondary flex-shrink-0">
+                                    <i class="bi bi-x-circle me-1"></i>
+                                    Не найдено
+                                </span>
+                            {% endif %}
+                        </div>
+                    </a>
+                {% endfor %}
+            </div>
+        {% else %}
+            <div class="text-center text-muted px-4 py-5">
+                <i class="bi bi-clock-history fs-2 d-block mb-2"></i>
+
+                <p class="mb-0">
+                    История поиска пока пуста.
+                </p>
+            </div>
+        {% endif %}
+    </div>
+</div>

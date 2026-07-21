@@ -1,0 +1,122 @@
+/* =========================================================
+   Search Pagination
+   ========================================================= */
+
+.search-pagination {
+    display: flex;
+    justify-content: center;
+
+    margin-top: 2rem;
+}
+
+.search-pagination__list {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
+    gap: .4rem;
+
+    margin: 0;
+    padding: 0;
+
+    list-style: none;
+}
+
+
+/* =========================================================
+   Pagination Items
+   ========================================================= */
+
+.search-pagination__item {
+    display: flex;
+}
+
+.search-pagination__link {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+
+    min-width: 42px;
+    min-height: 42px;
+
+    padding: .45rem .8rem;
+
+    border: 1px solid #dfe6ee;
+    border-radius: .65rem;
+
+    background: #fff;
+
+    color: #285f90;
+    text-decoration: none;
+    font-weight: 600;
+
+    transition:
+        background-color .2s ease,
+        color .2s ease,
+        border-color .2s ease,
+        transform .2s ease;
+}
+
+.search-pagination__link:hover {
+    background: var(--bs-primary);
+    border-color: var(--bs-primary);
+
+    color: #fff;
+
+    transform: translateY(-2px);
+}
+
+.search-pagination__link:focus-visible {
+    outline: none;
+
+    box-shadow:
+        0 0 0 .25rem
+        rgba(13,110,253,.25);
+}
+
+
+/* =========================================================
+   States
+   ========================================================= */
+
+.search-pagination__link.is-current {
+    background: var(--bs-primary);
+    border-color: var(--bs-primary);
+
+    color: #fff;
+
+    cursor: default;
+    pointer-events: none;
+}
+
+.search-pagination__link.is-disabled {
+    background: #f8f9fa;
+    border-color: #e5e7eb;
+
+    color: #adb5bd;
+
+    cursor: default;
+    pointer-events: none;
+}
+
+
+/* =========================================================
+   Previous / Next
+   ========================================================= */
+
+.search-pagination__link--previous,
+.search-pagination__link--next {
+    padding-inline: 1rem;
+    font-weight: 700;
+}
+
+.search-pagination__ellipsis {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+
+    min-width: 42px;
+
+    color: #6c757d;
+
+    user-select: none;
+}

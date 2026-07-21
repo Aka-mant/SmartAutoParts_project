@@ -1,0 +1,9 @@
+.usage-limits { display:grid; gap:1rem; }
+.usage-limit { display:grid; gap:.45rem; }
+.usage-limit__header { display:flex; justify-content:space-between; gap:1rem; font-size:.88rem; }
+.usage-limit__name { font-weight:650; }
+.usage-limit__value { color:#687386; }
+.usage-progress { height:8px; overflow:hidden; border-radius:999px; background:#e8edf2; }
+.usage-progress__bar { height:100%; border-radius:inherit; background:#3478b8; }
+.usage-progress__bar.is-warning { background:#e5a100; }
+.usage-progress__bar.is-danger { background:#dc3545; }

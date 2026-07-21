@@ -25,6 +25,7 @@ schema_view = get_schema_view(
 )
 
 
+
 urlpatterns = [
 
     path('admin/', admin.site.urls),
@@ -38,6 +39,7 @@ urlpatterns = [
     path('api/AI/', include('apps.AI.urls'), name='AI'),
     path('api/chat/', include('apps.chat.urls'), name='chat'),
     path('api/analytics/', include('apps.analytics.urls'), name='analytics'),
+
 
     #
     path("", TemplateView.as_view(template_name="base.html",), name="home",),
@@ -56,7 +58,6 @@ urlpatterns = [
     path('swagger/', schema_view.with_ui('swagger', cache_timeout=0), name='schema-swagger-ui'),
     path('redoc/', schema_view.with_ui('redoc', cache_timeout=0), name='schema-redoc'),
 ]
-
 if settings.DEBUG:
     urlpatterns += static(
         settings.MEDIA_URL,

@@ -1,0 +1,34 @@
+{% if not has_chat_access or not has_image_analysis_access %}
+    <div class="card border-0 shadow-sm bg-primary text-white overflow-hidden">
+        <div class="card-body p-4 p-lg-5 position-relative">
+            <div class="row align-items-center position-relative">
+                <div class="col-lg-8">
+                    <span class="badge bg-white text-primary mb-3">
+                        Premium
+                    </span>
+
+                    <h2 class="h3">
+                        Откройте все возможности SmartAutoParts
+                    </h2>
+
+                    <p class="mb-4 opacity-75">
+                        Получите расширенный лимит AI-запросов,
+                        доступ к чату и анализу изображений деталей.
+                    </p>
+
+                    <a
+                        href="#"
+                        class="btn btn-light text-primary fw-semibold"
+                    >
+                        <i class="bi bi-gem me-2"></i>
+                        Выбрать тариф
+                    </a>
+                </div>
+
+                <div class="col-lg-4 text-center d-none d-lg-block">
+                    <i class="bi bi-stars display-1 opacity-75"></i>
+                </div>
+            </div>
+        </div>
+    </div>
+{% endif %}

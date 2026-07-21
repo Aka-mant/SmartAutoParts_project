@@ -1,0 +1,28 @@
+<section class="dashboard-section mb-4">
+    <div class="card border-0 shadow-sm">
+        <div class="empty-state">
+            <div class="empty-state__icon">
+                <i class="bi bi-search"></i>
+            </div>
+
+            <h2 class="empty-state__title">
+                Запчасти не найдены
+            </h2>
+
+            <p class="empty-state__text">
+                По запросу
+                <strong>«{{ search_query }}»</strong>
+                нет подходящих результатов.
+
+                Проверьте OEM-номер или попробуйте выполнить
+                поиск по названию детали.
+            </p>
+
+            <a
+                    href="{% url 'users:part_search' %}"
+                    class="btn btn-primary"
+            >
+                Новый поиск
+            </a>
+        </div>
+</section>

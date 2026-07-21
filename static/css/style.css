@@ -1,5 +1,9 @@
 @charset "UTF-8";
 
+/* =========================================================
+   Global components
+   ========================================================= */
+
 @import url("components/_base.css");
 @import url("components/_navbar.css");
 @import url("components/_hero.css");
@@ -19,7 +23,28 @@
 @import url("components/_search_history_card.css");
 @import url("components/_repair_history_card.css");
 @import url("components/_profile_edit.css");
+
+
+/* =========================================================
+   Dashboard components
+   ========================================================= */
+
+@import url("dashboard.css");
+
+
+/* =========================================================
+   Responsive
+   Must remain after all components
+   ========================================================= */
+
 @import url("media/_media992.css");
 @import url("media/_media768.css");
 @import url("media/_media576.css");
+
+
+/* =========================================================
+   Print
+   Must remain last
+   ========================================================= */
+
 @import url("media/_print.css");

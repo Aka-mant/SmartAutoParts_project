@@ -11,13 +11,30 @@
             к инструкциям, схемам и видеоматериалам.
             </p>
 
-            <form class="hero-search-form">
+            <form
+                method="get"
+                action="{% url 'users:part_search' %}"
+                class="hero-search-form"
+                role="search"
+            >
                 <div class="search-input">
+                    <label
+                        for="hero-part-search"
+                        class="visually-hidden"
+                    >
+                        OEM-номер, название или производитель
+                    </label>
+
                     <input
-                        type="text"
+                        type="search"
+                        id="hero-part-search"
+                        name="q"
+                        value="{{ request.GET.q|default:'' }}"
                         class="form-control form-control-lg"
-                        placeholder="Введите номер автозапчасти..."
-                        aria-label="Номер автозапчасти"
+                        placeholder="Введите OEM-номер запчасти..."
+                        aria-label="OEM-номер, название или производитель"
+                        autocomplete="off"
+                        required
                     >
                 </div>
 
@@ -25,6 +42,11 @@
                     class="btn btn-primary btn-lg action-button"
                     type="submit"
                 >
+                    <i
+                        class="bi bi-search me-2"
+                        aria-hidden="true"
+                    ></i>
+
                     Найти
                 </button>
             </form>
@@ -153,7 +175,7 @@
                         </ul>
 
                         <a
-                            href="#"
+                            href="{% url 'users:part_search' %}"
                             class="btn btn-outline-secondary action-button mt-auto"
                         >
                             Попробовать
@@ -178,12 +200,21 @@
                             <li>История поиска</li>
                         </ul>
 
-                        <a
-                            href="#"
-                            class="btn btn-primary action-button mt-auto"
-                        >
-                            Зарегистрироваться
-                        </a>
+                        {% if request.user.is_authenticated %}
+                            <a
+                                href="{% url 'users:dashboard' %}"
+                                class="btn btn-primary action-button mt-auto"
+                            >
+                                Перейти в Dashboard
+                            </a>
+                        {% else %}
+                            <a
+                                href="{% url 'users:register' %}"
+                                class="btn btn-primary action-button mt-auto"
+                            >
+                                Зарегистрироваться
+                            </a>
+                        {% endif %}
                     </div>
                 </div>
             </div>
@@ -206,12 +237,13 @@
                             <li>Новые функции первыми</li>
                         </ul>
 
-                        <a
-                            href="#"
+                        <button
+                            type="button"
                             class="btn btn-dark action-button mt-auto"
+                            disabled
                         >
-                            Оформить подписку
-                        </a>
+                            Оформление скоро будет доступно
+                        </button>
                     </div>
                 </div>
             </div>

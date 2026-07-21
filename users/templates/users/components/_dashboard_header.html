@@ -1,0 +1,105 @@
+<header class="dashboard-header">
+    <div class="dashboard-header__avatar">
+        {% if request.user.avatar %}
+            <img
+                src="{{ request.user.avatar.url }}"
+                alt="Аватар пользователя {{ request.user.username }}"
+            >
+        {% else %}
+            <span class="dashboard-header__avatar-placeholder">
+                <i
+                    class="bi bi-person"
+                    aria-hidden="true"
+                ></i>
+            </span>
+        {% endif %}
+    </div>
+
+    <div class="dashboard-header__content">
+        <p class="dashboard-header__eyebrow">
+            Добро пожаловать
+        </p>
+
+        <h1 class="dashboard-header__title">
+            {% if request.user.get_full_name %}
+                {{ request.user.get_full_name }}
+            {% else %}
+                {{ request.user.username }}
+            {% endif %}
+        </h1>
+
+        <div class="dashboard-header__badges">
+            <span class="badge rounded-pill text-bg-primary">
+                <i
+                    class="bi bi-person-badge me-1"
+                    aria-hidden="true"
+                ></i>
+
+                {{ request.user.get_role_display }}
+            </span>
+
+            {% if request.user.is_superuser %}
+                <span class="badge rounded-pill text-bg-danger">
+                    <i
+                        class="bi bi-shield-lock me-1"
+                        aria-hidden="true"
+                    ></i>
+
+                    Суперпользователь
+                </span>
+            {% endif %}
+        </div>
+
+        {% if request.user.profile %}
+            <div class="dashboard-header__meta">
+                {% if request.user.profile.car_brand %}
+                    <span class="dashboard-header__meta-item">
+                        <i
+                            class="bi bi-car-front"
+                            aria-hidden="true"
+                        ></i>
+
+                        {{ request.user.profile.car_brand }}
+                        {{ request.user.profile.car_model }}
+                    </span>
+                {% endif %}
+
+                {% if request.user.profile.car_year %}
+                    <span class="dashboard-header__meta-item">
+                        <i
+                            class="bi bi-calendar3"
+                            aria-hidden="true"
+                        ></i>
+
+                        {{ request.user.profile.car_year }} год
+                    </span>
+                {% endif %}
+
+                {% if request.user.profile.city %}
+                    <span class="dashboard-header__meta-item">
+                        <i
+                            class="bi bi-geo-alt"
+                            aria-hidden="true"
+                        ></i>
+
+                        {{ request.user.profile.city }}
+                    </span>
+                {% endif %}
+            </div>
+        {% endif %}
+    </div>
+
+    <div class="dashboard-header__actions">
+        <a
+            href="{% url 'users:profile_detail' %}"
+            class="btn btn-outline-light"
+        >
+            <i
+                class="bi bi-person-circle me-2"
+                aria-hidden="true"
+            ></i>
+
+            Открыть профиль
+        </a>
+    </div>
+</header>

@@ -1,3 +1,5 @@
+from datetime import timedelta
+
 from django.contrib.auth import views as auth_views
 from django.contrib.auth.forms import AuthenticationForm
 from django.contrib.auth.mixins import LoginRequiredMixin
@@ -5,7 +7,10 @@ from django.views.generic import DetailView, ListView, TemplateView
 from django.urls import reverse_lazy
 from django.shortcuts import redirect, render
 from django.contrib.auth.mixins import UserPassesTestMixin
+from django.core.exceptions import FieldError
 from django.db import transaction
+from django.db.models import Q
+from django.utils import timezone
 from django.views import View
 from django.contrib import messages
 
@@ -22,6 +27,10 @@ from rest_framework.permissions import (
     IsAuthenticated,
 )
 from rest_framework_simplejwt.views import TokenObtainPairView
+
+from apps.AI.models import AIRequest
+from apps.parts.models import Part
+from apps.subscriptions.models import UserSubscription
 
 from .mixins.mixins import UserOwnedQuerySetMixin
 from .models import (
@@ -52,6 +61,440 @@ from .forms import (
     UserProfileUpdateForm,
 )
 
+
+
+
+class UserDashboardView(LoginRequiredMixin, TemplateView):
+    """
+    HTML-представление личного кабинета пользователя.
+
+    Отображает профиль, активную подписку, доступные
+    возможности тарифа, последние поиски, историю ремонтов,
+    незавершённый ремонт, AI-запросы и рекомендации деталей.
+    """
+
+    template_name = "users/dashboard.html"
+    login_url = reverse_lazy("users:login")
+    redirect_field_name = "next"
+
+    free_search_limit = 10
+    free_ai_limit = 3
+
+    recent_searches_limit = 4
+    recent_repairs_limit = 4
+    recommended_parts_limit = 3
+
+    def get_subscription(self):
+        """
+        Возвращает последнюю действующую подписку пользователя.
+        """
+
+        return (
+            UserSubscription.objects
+            .filter(
+                user=self.request.user,
+                is_active=True,
+                start_date__lte=timezone.now(),
+                end_date__gte=timezone.now(),
+            )
+            .select_related("plan")
+            .order_by("-end_date")
+            .first()
+        )
+
+    def get_recent_searches(self):
+        """
+        Возвращает последние поисковые запросы пользователя.
+        """
+
+        return (
+            SearchHistory.objects
+            .filter(user=self.request.user)
+            .order_by("-searched_at")[:self.recent_searches_limit]
+        )
+
+    def get_recent_repairs(self):
+        """
+        Возвращает последние записи истории ремонта.
+
+        Обычный пользователь видит только собственные записи.
+        Администратор, модератор и суперпользователь
+        видят записи всех пользователей.
+        """
+
+        queryset = (
+            RepairHistory.objects
+            .select_related(
+                "user",
+                "instruction",
+                "instruction__part",
+            )
+            .order_by("-created_at")
+        )
+
+        can_view_all = (
+                self.request.user.is_superuser
+                or self.request.user.is_staff
+
+        )
+
+        if not can_view_all:
+            queryset = queryset.filter(
+                user=self.request.user,
+            )
+
+        return queryset[:self.recent_repairs_limit]
+
+    def get_active_repair(self):
+        """
+        Возвращает последний незавершённый ремонт.
+        """
+
+        repair = (
+            RepairHistory.objects
+            .filter(
+                user=self.request.user,
+                completed=False,
+            )
+            .select_related(
+                "instruction",
+                "instruction__part",
+            )
+            .order_by("-created_at")
+            .first()
+        )
+
+        if repair is None:
+            return None
+
+        total_steps = self.get_instruction_steps_count(
+            repair.instruction,
+        )
+        current_step = self.get_current_repair_step(
+            repair=repair,
+            total_steps=total_steps,
+        )
+
+        return {
+            "object": repair,
+            "instruction": repair.instruction,
+            "part": repair.instruction.part,
+            "current_step": current_step,
+            "total_steps": total_steps,
+            "progress_percent": self.calculate_percent(
+                used=current_step,
+                limit=total_steps,
+            ),
+            "created_at": repair.created_at,
+        }
+
+    @staticmethod
+    def get_instruction_steps_count(instruction):
+        """
+        Возвращает количество шагов инструкции.
+        """
+
+        related_names = (
+            "steps",
+            "instruction_steps",
+            "instructionstep_set",
+        )
+
+        for related_name in related_names:
+            related_manager = getattr(
+                instruction,
+                related_name,
+                None,
+            )
+
+            if related_manager is None:
+                continue
+
+            try:
+                return related_manager.count()
+            except (AttributeError, TypeError):
+                continue
+
+        return 0
+
+    @staticmethod
+    def get_current_repair_step(repair, total_steps):
+        """
+        Возвращает текущий шаг ремонта.
+        """
+
+        current_step = getattr(repair, "current_step", None)
+
+        if current_step is not None:
+            return current_step
+
+        return 1 if total_steps > 0 else 0
+
+    def get_ai_requests_queryset(self):
+        """
+        Возвращает AI-запросы текущего пользователя.
+        """
+
+        return (
+            AIRequest.objects
+            .filter(user=self.request.user)
+            .order_by("-created_at")
+        )
+
+    def get_ai_requests_used(self, subscription):
+        """
+        Возвращает количество AI-запросов за текущий период.
+        """
+
+        queryset = self.get_ai_requests_queryset()
+
+        if subscription is not None:
+            return queryset.filter(
+                created_at__gte=subscription.start_date,
+                created_at__lte=subscription.end_date,
+            ).count()
+
+        return queryset.filter(
+            created_at__date=timezone.localdate(),
+        ).count()
+
+    def get_image_analysis_used(self, subscription):
+        """
+        Возвращает количество запросов анализа изображений.
+        """
+
+        try:
+            queryset = self.get_ai_requests_queryset().filter(
+                request_type="image",
+            )
+        except FieldError:
+            return 0
+
+        if subscription is not None:
+            queryset = queryset.filter(
+                created_at__gte=subscription.start_date,
+                created_at__lte=subscription.end_date,
+            )
+        else:
+            queryset = queryset.filter(
+                created_at__date=timezone.localdate(),
+            )
+
+        return queryset.count()
+
+    def get_searches_used(self):
+        """
+        Возвращает количество поисков за текущий день.
+        """
+
+        return (
+            SearchHistory.objects
+            .filter(
+                user=self.request.user,
+                searched_at__date=timezone.localdate(),
+            )
+            .count()
+        )
+
+    @staticmethod
+    def calculate_percent(used, limit):
+        """
+        Рассчитывает процент использования лимита.
+        """
+
+        if limit <= 0:
+            return 0
+
+        percent = round(used / limit * 100)
+        return min(max(percent, 0), 100)
+
+    @staticmethod
+    def calculate_remaining(used, limit):
+        """
+        Возвращает количество оставшихся операций.
+        """
+
+        if limit <= 0:
+            return 0
+
+        return max(limit - used, 0)
+
+    @staticmethod
+    def is_subscription_expiring(subscription):
+        """
+        Проверяет, истекает ли подписка в ближайшие семь дней.
+        """
+
+        if subscription is None:
+            return False
+
+        now = timezone.now()
+        return now <= subscription.end_date <= now + timedelta(days=7)
+
+    def get_recommended_parts(self):
+        """
+        Возвращает детали, совместимые с автомобилем профиля.
+
+        Если совместимость определить нельзя, возвращает
+        последние активные детали.
+        """
+
+        queryset = (
+            Part.objects
+            .filter(is_active=True)
+            .select_related("category")
+        )
+
+        profile = getattr(self.request.user, "profile", None)
+
+        if profile is None:
+            return queryset.order_by(
+                "-created_at",
+            )[:self.recommended_parts_limit]
+
+        car_brand = profile.car_brand.strip()
+        car_model = profile.car_model.strip()
+        car_year = profile.car_year
+
+        if not car_brand and not car_model:
+            return queryset.order_by(
+                "-created_at",
+            )[:self.recommended_parts_limit]
+
+        compatibility_filter = Q()
+
+        if car_brand:
+            compatibility_filter &= Q(
+                compatibilities__car_make__iexact=car_brand,
+            )
+
+        if car_model:
+            compatibility_filter &= Q(
+                compatibilities__car_model__iexact=car_model,
+            )
+
+        if car_year:
+            compatibility_filter &= (
+                Q(compatibilities__car_year_from__isnull=True)
+                | Q(compatibilities__car_year_from__lte=car_year)
+            )
+            compatibility_filter &= (
+                Q(compatibilities__car_year_to__isnull=True)
+                | Q(compatibilities__car_year_to__gte=car_year)
+            )
+
+        try:
+            recommended_parts = list(
+                queryset
+                .filter(compatibility_filter)
+                .distinct()
+                .order_by("-created_at")[:self.recommended_parts_limit]
+            )
+        except FieldError:
+            recommended_parts = []
+
+        if recommended_parts:
+            return recommended_parts
+
+        return queryset.order_by(
+            "-created_at",
+        )[:self.recommended_parts_limit]
+
+    def get_context_data(self, **kwargs):
+        """
+        Формирует контекст страницы личного кабинета.
+        """
+
+        context = super().get_context_data(**kwargs)
+
+        user = self.request.user
+        profile, _ = Profile.objects.get_or_create(user=user)
+        subscription = self.get_subscription()
+
+        has_active_subscription = subscription is not None
+        searches_used = self.get_searches_used()
+        ai_requests_used = self.get_ai_requests_used(subscription)
+        image_analysis_used = self.get_image_analysis_used(
+            subscription,
+        )
+
+        if subscription is not None:
+            ai_limit = subscription.plan.max_ai_requests
+            has_chat_access = subscription.plan.has_chat_access
+            has_image_analysis_access = (
+                subscription.plan.has_image_analysis
+            )
+        else:
+            ai_limit = self.free_ai_limit
+            has_chat_access = False
+            has_image_analysis_access = False
+
+        context.update(
+            {
+                "dashboard_user": user,
+                "profile": profile,
+                "has_active_subscription": (
+                    has_active_subscription
+                ),
+                "subscription": subscription,
+                "subscription_plan": (
+                    subscription.plan
+                    if subscription is not None
+                    else None
+                ),
+                "subscription_end_date": (
+                    subscription.end_date
+                    if subscription is not None
+                    else None
+                ),
+                "subscription_is_expiring": (
+                    self.is_subscription_expiring(subscription)
+                ),
+                "auto_renew": (
+                    subscription.auto_renew
+                    if subscription is not None
+                    else False
+                ),
+                "has_chat_access": has_chat_access,
+                "has_image_analysis_access": (
+                    has_image_analysis_access
+                ),
+                "recent_searches": self.get_recent_searches(),
+                "recent_repairs": self.get_recent_repairs(),
+                "active_repair": self.get_active_repair(),
+                "searches_used": searches_used,
+                "search_limit": self.free_search_limit,
+                "searches_remaining": self.calculate_remaining(
+                    used=searches_used,
+                    limit=self.free_search_limit,
+                ),
+                "searches_percent": self.calculate_percent(
+                    used=searches_used,
+                    limit=self.free_search_limit,
+                ),
+                "ai_requests_used": ai_requests_used,
+                "ai_limit": ai_limit,
+                "ai_requests_remaining": self.calculate_remaining(
+                    used=ai_requests_used,
+                    limit=ai_limit,
+                ),
+                "ai_requests_percent": self.calculate_percent(
+                    used=ai_requests_used,
+                    limit=ai_limit,
+                ),
+                "image_analysis_used": image_analysis_used,
+                "last_ai_request": (
+                    self.get_ai_requests_queryset().first()
+                ),
+                "recommended_parts": (
+                    self.get_recommended_parts()
+                    if has_active_subscription
+                    else []
+                ),
+            }
+        )
+
+        return context
 
 
 class UserListAPIView(ListAPIView):
@@ -405,7 +848,7 @@ class UserLoginView(auth_views.LoginView):
     template_name = "users/login.html"
     authentication_form = AuthenticationForm
     redirect_authenticated_user = True
-    next_page = reverse_lazy("users:profile_detail")
+    next_page = reverse_lazy("users:dashboard")
 
 
     def get_form(self, form_class=None):
@@ -651,89 +1094,111 @@ class ProfileUpdatePageView(LoginRequiredMixin, View):
             context,
         )
 
-class ProfileUpdatePageView(LoginRequiredMixin, View):
+
+class PartSearchPageView(ListView):
     """
-    HTML-представление страницы редактирования профиля.
+    Страница поиска автомобильных запчастей.
 
-    Обрабатывает две формы:
+    Выполняет поиск по OEM-номеру, названию,
+    производителю и описанию запчасти.
 
-    - данные модели пользователя;
-    - дополнительные данные модели профиля.
+    Для авторизованного пользователя сохраняет
+    поисковый запрос в истории.
     """
 
-    template_name = "users/profile_update.html"
-    login_url = reverse_lazy("users:login")
+    model = Part
+    template_name = "users/part_search_results.html"
+    context_object_name = "parts"
+    paginate_by = 12
 
-    def get_profile(self):
+    def get_queryset(self):
         """
-        Получает или создаёт профиль
-        текущего пользователя.
+        Возвращает найденные активные запчасти.
         """
-        profile, _ = Profile.objects.get_or_create(
-            user=self.request.user,
-        )
 
-        return profile
+        search_query = self.request.GET.get("q", "").strip()
 
-    def get(self, request, *args, **kwargs):
-        """
-        Отображает заполненные формы.
-        """
-        profile = self.get_profile()
+        if not search_query:
+            return Part.objects.none()
 
-        context = {
-            "user_form": UserProfileUpdateForm(
-                instance=request.user,
-            ),
-            "profile_form": ProfileUpdateForm(
-                instance=profile,
-            ),
-        }
+        normalized_query = self.normalize_search_query(search_query)
 
-        return render(
-            request,
-            self.template_name,
-            context,
-        )
-
-    def post(self, request, *args, **kwargs):
-        """
-        Сохраняет изменения пользователя и профиля.
-        """
-        profile = self.get_profile()
-
-        user_form = UserProfileUpdateForm(
-            request.POST,
-            request.FILES,
-            instance=request.user,
-        )
-
-        profile_form = ProfileUpdateForm(
-            request.POST,
-            instance=profile,
-        )
-
-        if user_form.is_valid() and profile_form.is_valid():
-            with transaction.atomic():
-                user_form.save()
-                profile_form.save()
-
-            messages.success(
-                request,
-                "Данные профиля успешно обновлены.",
+        queryset = (
+            Part.objects
+            .filter(is_active=True)
+            .filter(
+                Q(normalized_original_number__icontains=normalized_query)
+                | Q(name__icontains=search_query)
+                | Q(manufacturer__icontains=search_query)
+                | Q(description__icontains=search_query)
             )
+            .select_related("category")
+            .distinct()
+        )
 
-            return redirect(
-                "users:profile_detail",
-            )
+        self.save_search_history(
+            search_query=search_query,
+            result_found=queryset.exists(),
+        )
 
-        context = {
-            "user_form": user_form,
-            "profile_form": profile_form,
-        }
+        return queryset
 
-        return render(
-            request,
-            self.template_name,
-            context,
+    def get_context_data(self, **kwargs):
+        """
+        Добавляет данные поиска в контекст шаблона.
+        """
+
+        context = super().get_context_data(**kwargs)
+
+        search_query = self.request.GET.get("q", "").strip()
+
+        context["search_query"] = search_query
+        context["search_performed"] = bool(search_query)
+        context["result_count"] = (
+            context["paginator"].count
+            if context.get("paginator")
+            else 0
+        )
+
+        return context
+
+    def save_search_history(
+        self,
+        search_query: str,
+        result_found: bool,
+    ) -> None:
+        """
+        Сохраняет запрос авторизованного пользователя.
+
+        При переходе по страницам пагинации повторная
+        запись истории не создаётся.
+        """
+
+        user = self.request.user
+
+        if not user.is_authenticated:
+            return
+
+        if self.request.GET.get("page"):
+            return
+
+        SearchHistory.objects.create(
+            user=user,
+            original_number=search_query,
+            search_query=search_query,
+            result_found=result_found,
+        )
+
+    @staticmethod
+    def normalize_search_query(search_query: str) -> str:
+        """
+        Удаляет пробелы и разделители из OEM-номера.
+        """
+
+        return (
+            search_query
+            .replace("-", "")
+            .replace(" ", "")
+            .replace(".", "")
+            .upper()
         )

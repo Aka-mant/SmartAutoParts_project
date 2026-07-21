@@ -74,6 +74,14 @@ class Part(models.Model):
         verbose_name=_("Original number"),
     )
 
+    normalized_original_number = models.CharField(
+        max_length=255,
+        blank=True,
+        db_index=True,
+        editable=False,
+        verbose_name=_("Normalized original number"),
+    )
+
     manufacturer = models.CharField(
         max_length=255,
         blank=True,
@@ -145,6 +153,21 @@ class Part(models.Model):
 
     def __str__(self):
         return f"{self.name} ({self.original_number})"
+
+    def save(self, *args, **kwargs):
+        """
+        Нормализует OEM-номер перед сохранением.
+        """
+
+        self.normalized_original_number = (
+            self.original_number
+            .replace("-", "")
+            .replace(" ", "")
+            .replace(".", "")
+            .upper()
+        )
+
+        super().save(*args, **kwargs)
 
 
 class OEMNumber(models.Model):

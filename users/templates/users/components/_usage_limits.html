@@ -1,0 +1,85 @@
+<div class="card border-0 shadow-sm h-100">
+    <div class="card-header bg-transparent border-0 pt-4 px-4">
+        <h2 class="h5 mb-0">
+            <i class="bi bi-speedometer2 text-primary me-2"></i>
+            Использование сервиса
+        </h2>
+    </div>
+
+    <div class="card-body p-4">
+        <div class="mb-4">
+            <div class="d-flex justify-content-between align-items-center mb-2">
+                <span class="fw-semibold">
+                    AI-запросы
+                </span>
+
+                <span class="badge text-bg-light border">
+                    {{ ai_requests_used }} / {{ ai_limit }}
+                </span>
+            </div>
+
+            <div
+                class="progress"
+                role="progressbar"
+                aria-label="Использование AI-запросов"
+                aria-valuenow="{{ ai_requests_percent }}"
+                aria-valuemin="0"
+                aria-valuemax="100"
+                style="height: 10px;"
+            >
+                <div
+                    class="progress-bar progress-bar-striped"
+                    style="width: {{ ai_requests_percent }}%;"
+                ></div>
+            </div>
+
+            <div class="d-flex justify-content-between mt-2 text-muted small">
+                <span>Использовано {{ ai_requests_percent }}%</span>
+                <span>Осталось: {{ ai_requests_remaining }}</span>
+            </div>
+        </div>
+
+        <div class="d-flex justify-content-between align-items-center p-3 rounded-3 bg-body-tertiary">
+            <div>
+                <div class="fw-semibold">
+                    <i class="bi bi-image me-2"></i>
+                    Анализ изображений
+                </div>
+
+                <div class="text-muted small">
+                    Выполнено запросов
+                </div>
+            </div>
+
+            <span class="display-6 fw-semibold">
+                {{ image_analysis_used }}
+            </span>
+        </div>
+
+        <div class="mt-3">
+            {% if has_chat_access %}
+                <span class="badge text-bg-success me-2">
+                    <i class="bi bi-chat-dots me-1"></i>
+                    AI-чат доступен
+                </span>
+            {% else %}
+                <span class="badge text-bg-secondary me-2">
+                    <i class="bi bi-chat-dots me-1"></i>
+                    AI-чат недоступен
+                </span>
+            {% endif %}
+
+            {% if has_image_analysis_access %}
+                <span class="badge text-bg-success">
+                    <i class="bi bi-camera me-1"></i>
+                    Анализ доступен
+                </span>
+            {% else %}
+                <span class="badge text-bg-secondary">
+                    <i class="bi bi-camera me-1"></i>
+                    Анализ недоступен
+                </span>
+            {% endif %}
+        </div>
+    </div>
+</div>

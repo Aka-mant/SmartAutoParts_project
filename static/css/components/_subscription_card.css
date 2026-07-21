@@ -1,0 +1,10 @@
+.subscription-card { display:grid; gap:1rem; }
+.subscription-card__top { display:flex; align-items:flex-start; justify-content:space-between; gap:1rem; }
+.subscription-card__plan { margin:0; font-size:1.35rem; font-weight:800; }
+.subscription-card__status { padding:.3rem .6rem; border-radius:999px; font-size:.78rem; font-weight:700; }
+.subscription-card__details { display:grid; gap:.55rem; color:#596579; }
+.subscription-card__detail { display:flex; justify-content:space-between; gap:1rem; }
+.subscription-card.is-free .subscription-card__status { background:#e9ecef; color:#495057; }
+.subscription-card.is-premium { background:linear-gradient(155deg, #fffdf3, #fff); border-color:#ecd990; }
+.subscription-card.is-premium .subscription-card__status { background:#fff1b8; color:#745800; }
+.subscription-card.is-expiring { border-color:#ffc107; }

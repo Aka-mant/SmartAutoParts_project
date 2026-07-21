@@ -2,7 +2,6 @@
    TABLET
    ========================= */
 
-
 @media (max-width: 991.98px) {
     .site-header .dropdown-menu {
         margin-top: 0.5rem;
@@ -12,6 +11,18 @@
     .site-header .header-action {
         width: 100%;
     }
+
+    .site-header .navbar-collapse {
+        margin-top: 0.8rem;
+        padding: 1rem;
+        border-radius: 1rem;
+        background: rgba(255, 255, 255, 0.05);
+    }
+
+    /* =========================
+       AUTH
+       ========================= */
+
     .auth-section {
         min-height: auto;
         padding: 3rem 0;
@@ -30,10 +41,7 @@
         font-size: 0.95rem;
     }
 
-    .auth-input-group .form-control {
-        min-height: 56px;
-    }
-
+    .auth-input-group .form-control,
     .auth-submit-button {
         min-height: 56px;
     }
@@ -47,6 +55,11 @@
     .auth-security {
         font-size: 0.8rem;
     }
+
+    /* =========================
+       ACCOUNT
+       ========================= */
+
     .account-section {
         min-height: auto;
         padding: 3.5rem 0;
@@ -72,8 +85,8 @@
     .profile-summary-card {
         display: grid;
         grid-template-columns: auto 1fr auto;
-        gap: 1.25rem;
         align-items: center;
+        gap: 1.25rem;
         text-align: left;
     }
 
@@ -91,6 +104,11 @@
     .history-item {
         padding: 1.15rem;
     }
+
+    /* =========================
+       PROFILE EDIT
+       ========================= */
+
     .profile-edit-form .account-card {
         padding: 24px;
         border-radius: 20px;
@@ -109,16 +127,104 @@
     .profile-edit-actions {
         padding-top: 20px;
     }
-    .site-header .navbar-collapse {
-        margin-top: 0.8rem;
-        padding: 1rem;
-        background: rgba(255, 255, 255, 0.05);
-        border-radius: 1rem;
-    }
 
+    /* =========================
+       PRICING
+       ========================= */
 
     .pricing-card-featured,
     .pricing-card-featured:hover {
         transform: none;
+    }
+
+    /* =========================
+       DASHBOARD
+       ========================= */
+
+    .dashboard-grid {
+        grid-template-columns: 1fr;
+    }
+
+    .quick-actions-grid,
+    .part-card-grid {
+        grid-template-columns: repeat(2, minmax(0, 1fr));
+    }
+
+    .dashboard-header {
+        grid-template-columns: auto 1fr;
+    }
+
+    .dashboard-header__content {
+        align-items: flex-start;
+    }
+
+    .dashboard-header__actions {
+        grid-column: 1 / -1;
+        width: 100%;
+    }
+
+    .dashboard-header__actions .btn {
+        width: 100%;
+    }
+
+    /* =========================
+       SEARCH RESULTS
+       ========================= */
+
+    .search-results-page {
+        padding-block: 2rem;
+    }
+
+    .search-results-layout {
+        gap: 1.25rem;
+    }
+
+    .search-results-header {
+        gap: 1rem;
+    }
+
+    .search-results-header__title {
+        font-size: 1.35rem;
+    }
+
+    .search-results-header__count {
+        font-size: 0.85rem;
+    }
+
+    .search-results-info {
+        flex-wrap: wrap;
+    }
+
+    .search-access-notice {
+        padding: 1rem;
+    }
+
+    .part-card__description {
+        display: -webkit-box;
+        overflow: hidden;
+        -webkit-box-orient: vertical;
+        -webkit-line-clamp: 2;
+        line-clamp: 2;
+    }
+
+    .part-card__footer {
+        gap: 0.75rem;
+    }
+
+    /* =========================
+       SEARCH PAGINATION
+       ========================= */
+
+    .search-pagination {
+        margin-top: 1.75rem;
+    }
+
+    .search-pagination__list {
+        gap: 0.35rem;
+    }
+
+    .search-pagination__link {
+        min-width: 40px;
+        min-height: 40px;
     }
 }

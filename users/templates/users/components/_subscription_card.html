@@ -1,0 +1,96 @@
+<article class="dashboard-card subscription-card is-free">
+    <div class="subscription-card__top">
+        <div>
+            <p class="dashboard-muted mb-1">
+                Текущий тариф
+            </p>
+
+            <h2 class="subscription-card__plan">
+                Бесплатный
+            </h2>
+        </div>
+
+        <span class="subscription-card__status">
+            Активен
+        </span>
+    </div>
+
+    <div class="subscription-card__body">
+        <div class="usage-limits">
+            <div class="usage-limits__header">
+                <span class="usage-limits__title">
+                    AI-запросы
+                </span>
+
+                <span class="usage-limits__value">
+                    {{ ai_requests_used|default:0 }}
+                    /
+                    {{ ai_requests_limit|default:3 }}
+                </span>
+            </div>
+
+            <div
+                class="usage-limits__progress"
+                role="progressbar"
+                aria-valuenow="{{ ai_usage_percent|default:0 }}"
+                aria-valuemin="0"
+                aria-valuemax="100"
+            >
+                <div
+                    class="usage-limits__progress-bar"
+                    style="width: {{ ai_usage_percent|default:0 }}%;"
+                ></div>
+            </div>
+
+            <div class="usage-limits__meta">
+                <span>
+                    Использовано
+                    {{ ai_usage_percent|default:0 }}%
+                </span>
+
+                <span>
+                    Осталось:
+                    {{ ai_requests_remaining|default:3 }}
+                </span>
+            </div>
+        </div>
+
+        <div class="subscription-card__feature">
+            <div>
+                <div class="subscription-card__feature-title">
+                    <i class="bi bi-image me-2"></i>
+                    Анализ изображений
+                </div>
+
+                <div class="subscription-card__feature-text">
+                    Выполнено запросов
+                </div>
+            </div>
+
+            <span class="subscription-card__feature-value">
+                {{ image_requests_used|default:0 }}
+            </span>
+        </div>
+
+        <div class="subscription-card__badges">
+            <span class="badge text-bg-secondary">
+                <i class="bi bi-chat-dots me-1"></i>
+                AI-чат недоступен
+            </span>
+
+            <span class="badge text-bg-secondary">
+                <i class="bi bi-camera me-1"></i>
+                Анализ недоступен
+            </span>
+        </div>
+    </div>
+
+    <div class="subscription-card__footer">
+        <a
+            href="#"
+            class="btn btn-primary w-100"
+        >
+            Перейти на Premium
+        </a>
+    </div>
+</article>

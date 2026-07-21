@@ -1,0 +1,85 @@
+<div class="card border-0 shadow-sm h-100">
+    <div class="card-header bg-transparent border-0 pt-4 px-4">
+        <div class="d-flex justify-content-between align-items-center">
+            <h2 class="h5 mb-0">
+                <i class="bi bi-gem text-primary me-2"></i>
+                Подписка
+            </h2>
+
+            {% if subscription %}
+                <span class="badge text-bg-success">Активна</span>
+            {% else %}
+                <span class="badge text-bg-secondary">Не оформлена</span>
+            {% endif %}
+        </div>
+    </div>
+
+    <div class="card-body p-4">
+        {% if subscription %}
+            <h3 class="h4 mb-2">
+                {{ subscription.plan.name }}
+            </h3>
+
+            {% if subscription.plan.description %}
+                <p class="text-muted">
+                    {{ subscription.plan.description|truncatechars:140 }}
+                </p>
+            {% endif %}
+
+            <dl class="row small mb-0">
+                <dt class="col-6 text-muted fw-normal">Стоимость</dt>
+                <dd class="col-6 text-end fw-semibold">
+                    {{ subscription.plan.price }} ₽
+                </dd>
+
+                <dt class="col-6 text-muted fw-normal">Действует до</dt>
+                <dd class="col-6 text-end fw-semibold">
+                    {{ subscription.end_date|date:"d.m.Y" }}
+                </dd>
+
+                <dt class="col-6 text-muted fw-normal">Автопродление</dt>
+                <dd class="col-6 text-end">
+                    {% if subscription.auto_renew %}
+                        <span class="text-success">
+                            <i class="bi bi-check-circle me-1"></i>
+                            Включено
+                        </span>
+                    {% else %}
+                        <span class="text-muted">
+                            <i class="bi bi-dash-circle me-1"></i>
+                            Выключено
+                        </span>
+                    {% endif %}
+                </dd>
+            </dl>
+
+            {% if subscription_is_expiring %}
+                <div class="alert alert-warning d-flex align-items-start mt-3 mb-0">
+                    <i class="bi bi-exclamation-triangle me-2"></i>
+                    <div>
+                        Срок подписки скоро закончится.
+                    </div>
+                </div>
+            {% endif %}
+        {% else %}
+            <div class="text-center py-3">
+                <div class="rounded-circle bg-secondary-subtle text-secondary d-inline-flex p-3 mb-3">
+                    <i class="bi bi-gem fs-2"></i>
+                </div>
+
+                <h3 class="h6">Нет активной подписки</h3>
+
+                <p class="text-muted small">
+                    Оформите тариф, чтобы открыть расширенные функции.
+                </p>
+
+                <a
+                    href="{% url 'subscriptions:plans' %}"
+                    class="btn btn-primary"
+                >
+                    Посмотреть тарифы
+                </a>
+            </div>
+        {% endif %}
+    </div>
+</div>

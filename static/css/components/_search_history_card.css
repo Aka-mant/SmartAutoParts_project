@@ -1,5 +1,5 @@
 .history-icon-search {
-    color: var(--sap-primary);
+    color: var(--sap-primary, #2563eb);
     background: #eff6ff;
 }
 

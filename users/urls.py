@@ -6,6 +6,7 @@ from .views import (
     ProfileDetailView,
     ProfileRetrieveAPIView,
     ProfileUpdateAPIView,
+    ProfileUpdatePageView,
     RepairHistoryCreateAPIView,
     RepairHistoryDeleteAPIView,
     RepairHistoryListAPIView,
@@ -15,18 +16,21 @@ from .views import (
     SearchHistoryListAPIView,
     SearchHistoryPageView,
     UserCreateAPIView,
+    UserDashboardView,
     UserDeleteAPIView,
     UserListAPIView,
     UserLoginView,
     UserLogoutView,
+    UserRegistrationPageView,
     UserRetrieveAPIView,
     UserTokenObtainPairView,
     UserUpdateAPIView,
-    UserRegistrationPageView,
-    ProfileUpdatePageView,
+    PartSearchPageView,
 )
 
+
 app_name = UsersConfig.name
+
 
 urlpatterns = [
     # HTML-аутентификация
@@ -40,11 +44,25 @@ urlpatterns = [
         UserLogoutView.as_view(),
         name="logout",
     ),
+
     # Регистрация
     path(
         "register/",
         UserRegistrationPageView.as_view(),
         name="register",
+    ),
+
+    # Dashboard
+    path(
+        "dashboard/",
+        UserDashboardView.as_view(),
+        name="dashboard",
+    ),
+# Поиск запчастей
+    path(
+        "search/",
+        PartSearchPageView.as_view(),
+        name="part_search",
     ),
 
     # HTML-страницы личного кабинета
@@ -154,4 +172,3 @@ urlpatterns = [
         name="repair_history_delete",
     ),
 ]
-

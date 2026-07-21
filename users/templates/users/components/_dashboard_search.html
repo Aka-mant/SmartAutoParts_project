@@ -1,0 +1,52 @@
+<section class="dashboard-section">
+    <form
+        method="get"
+        action="{% url 'users:part_search' %}"
+        class="part-search"
+        role="search"
+    >
+        <div class="part-search__content">
+            <div class="part-search__heading">
+                <h2 class="part-search__title">
+                    Найти автозапчасть
+                </h2>
+
+                <p class="part-search__description">
+                    Введите OEM-номер, название детали
+                    или производителя
+                </p>
+            </div>
+
+            <div class="part-search__form">
+                <label
+                    for="dashboard-search-input"
+                    class="visually-hidden"
+                >
+                    Поисковый запрос
+                </label>
+
+                <input
+                    id="dashboard-search-input"
+                    type="search"
+                    name="q"
+                    class="form-control form-control-lg"
+                    placeholder="Например: FEB-66790-3C4AC"
+                    autocomplete="off"
+                    required
+                >
+
+                <button
+                    type="submit"
+                    class="btn btn-primary btn-lg"
+                >
+                    <i
+                        class="bi bi-search me-2"
+                        aria-hidden="true"
+                    ></i>
+
+                    Найти
+                </button>
+            </div>
+        </div>
+    </form>
+</section>

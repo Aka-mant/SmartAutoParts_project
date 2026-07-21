@@ -1,15 +1,20 @@
+{% load static %}
+
 <header class="site-header sticky-top">
     <nav
-        class="navbar navbar-expand-lg navbar-dark"
+        class="navbar navbar-expand-lg navbar-dark shadow-sm"
         aria-label="Основная навигация"
     >
         <div class="container">
             <a
-                class="navbar-brand d-inline-flex align-items-center gap-2"
+                class="navbar-brand d-inline-flex align-items-center gap-2 fw-semibold"
                 href="{% url 'home' %}"
             >
-                <span class="brand-mark" aria-hidden="true">
-                    <i class="bi bi-gear-wide-connected"></i>
+                <span
+                    class="brand-mark"
+                    aria-hidden="true"
+                >
+                    <i class="bi bi-gear-wide-connected fs-4"></i>
                 </span>
 
                 <span>SmartAutoParts</span>
@@ -37,7 +42,21 @@
                             class="nav-link"
                             href="{% url 'home' %}"
                         >
+                            <i
+                                class="bi bi-house-door me-1"
+                                aria-hidden="true"
+                            ></i>
+
                             Главная
+                        </a>
+                    </li>
+                    <li class="nav-item">
+                        <a
+                            class="nav-link"
+                            href="{% url 'users:part_search' %}"
+                        >
+                            <i class="bi bi-search me-1"></i>
+                            Найти запчасть
                         </a>
                     </li>
 
@@ -46,6 +65,11 @@
                             class="nav-link"
                             href="{% url 'home' %}#features"
                         >
+                            <i
+                                class="bi bi-grid me-1"
+                                aria-hidden="true"
+                            ></i>
+
                             Возможности
                         </a>
                     </li>
@@ -55,6 +79,11 @@
                             class="nav-link"
                             href="{% url 'home' %}#pricing"
                         >
+                            <i
+                                class="bi bi-gem me-1"
+                                aria-hidden="true"
+                            ></i>
+
                             Тарифы
                         </a>
                     </li>
@@ -64,35 +93,111 @@
                             class="nav-link"
                             href="{% url 'home' %}#reviews"
                         >
+                            <i
+                                class="bi bi-chat-square-quote me-1"
+                                aria-hidden="true"
+                            ></i>
+
                             Отзывы
                         </a>
                     </li>
 
                     {% if user.is_authenticated %}
+                        <li class="nav-item">
+                            <a
+                                class="nav-link"
+                                href="{% url 'users:dashboard' %}"
+                            >
+                                <i
+                                    class="bi bi-speedometer2 me-1"
+                                    aria-hidden="true"
+                                ></i>
+
+                                Dashboard
+                            </a>
+                        </li>
+
                         <li
-                            class="nav-item dropdown
-                                   ms-lg-2 mt-3 mt-lg-0"
+                            class="nav-item dropdown ms-lg-3 mt-3 mt-lg-0"
                         >
                             <button
                                 class="btn btn-light header-action
-                                       dropdown-toggle"
+                                       dropdown-toggle d-flex
+                                       align-items-center gap-2"
                                 type="button"
                                 id="userDropdown"
                                 data-bs-toggle="dropdown"
                                 aria-expanded="false"
                             >
-                                <i
-                                    class="bi bi-person-circle me-1"
-                                    aria-hidden="true"
-                                ></i>
+                                {% if user.avatar %}
+                                    <img
+                                        src="{{ user.avatar.url }}"
+                                        alt="Аватар пользователя {{ user.username }}"
+                                        class="rounded-circle border"
+                                        width="34"
+                                        height="34"
+                                        style="object-fit: cover;"
+                                    >
+                                {% else %}
+                                    <span
+                                        class="rounded-circle bg-primary-subtle
+                                               text-primary d-inline-flex
+                                               align-items-center
+                                               justify-content-center"
+                                        style="width: 34px; height: 34px;"
+                                        aria-hidden="true"
+                                    >
+                                        <i class="bi bi-person-fill"></i>
+                                    </span>
+                                {% endif %}
 
-                                {{ user.username }}
+                                <span class="text-start lh-sm">
+                                    <span class="d-block fw-semibold">
+                                        {{ user.username }}
+                                    </span>
+
+                                    <small class="text-muted">
+                                        {{ user.get_role_display }}
+                                    </small>
+                                </span>
                             </button>
 
                             <ul
-                                class="dropdown-menu dropdown-menu-end"
+                                class="dropdown-menu dropdown-menu-end shadow border-0 mt-2"
                                 aria-labelledby="userDropdown"
                             >
+                                <li>
+                                    <div class="dropdown-header">
+                                        <div class="fw-semibold text-body">
+                                            {{ user.get_full_name|default:user.username }}
+                                        </div>
+
+                                        {% if user.email %}
+                                            <div class="small text-muted">
+                                                {{ user.email }}
+                                            </div>
+                                        {% endif %}
+                                    </div>
+                                </li>
+
+                                <li>
+                                    <hr class="dropdown-divider">
+                                </li>
+
+                                <li>
+                                    <a
+                                        class="dropdown-item"
+                                        href="{% url 'users:dashboard' %}"
+                                    >
+                                        <i
+                                            class="bi bi-speedometer2 me-2"
+                                            aria-hidden="true"
+                                        ></i>
+
+                                        Dashboard
+                                    </a>
+                                </li>
+
                                 <li>
                                     <a
                                         class="dropdown-item"
@@ -104,6 +209,20 @@
                                         ></i>
 
                                         Профиль
+                                    </a>
+                                </li>
+
+                                <li>
+                                    <a
+                                        class="dropdown-item"
+                                        href="{% url 'users:profile_update' %}"
+                                    >
+                                        <i
+                                            class="bi bi-pencil-square me-2"
+                                            aria-hidden="true"
+                                        ></i>
+
+                                        Редактировать профиль
                                     </a>
                                 </li>
 
@@ -135,6 +254,26 @@
                                     </a>
                                 </li>
 
+                                {% if user.is_staff or user.is_superuser %}
+                                    <li>
+                                        <hr class="dropdown-divider">
+                                    </li>
+
+                                    <li>
+                                        <a
+                                            class="dropdown-item"
+                                            href="{% url 'admin:index' %}"
+                                        >
+                                            <i
+                                                class="bi bi-shield-lock me-2"
+                                                aria-hidden="true"
+                                            ></i>
+
+                                            Администрирование
+                                        </a>
+                                    </li>
+                                {% endif %}
+
                                 <li>
                                     <hr class="dropdown-divider">
                                 </li>
@@ -163,10 +302,10 @@
                         </li>
                     {% else %}
                         <li
-                            class="nav-item ms-lg-2 mt-3 mt-lg-0 d-grid"
+                            class="nav-item ms-lg-3 mt-3 mt-lg-0 d-grid"
                         >
                             <a
-                                class="btn btn-light header-action"
+                                class="btn btn-outline-light header-action"
                                 href="{% url 'users:login' %}"
                             >
                                 <i
@@ -175,6 +314,22 @@
                                 ></i>
 
                                 Войти
+                            </a>
+                        </li>
+
+                        <li
+                            class="nav-item ms-lg-2 mt-2 mt-lg-0 d-grid"
+                        >
+                            <a
+                                class="btn btn-warning header-action"
+                                href="{% url 'users:register' %}"
+                            >
+                                <i
+                                    class="bi bi-person-plus me-1"
+                                    aria-hidden="true"
+                                ></i>
+
+                                Регистрация
                             </a>
                         </li>
                     {% endif %}

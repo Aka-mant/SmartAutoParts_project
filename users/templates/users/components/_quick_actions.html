@@ -1,0 +1,83 @@
+<section class="dashboard-section mb-4">
+    <div class="dashboard-section__header">
+        <div>
+            <h2 class="dashboard-section__title">
+                Быстрые действия
+            </h2>
+
+            <p class="dashboard-section__description">
+                Основные разделы личного кабинета
+            </p>
+        </div>
+    </div>
+
+    <div class="quick-actions-grid">
+        <a
+            href="{% url 'users:part_search' %}"
+            class="quick-action-card"
+        >
+            <span class="quick-action-card__icon">
+                <i class="bi bi-search"></i>
+            </span>
+
+            <h3 class="quick-action-card__title">
+                Найти запчасть
+            </h3>
+
+            <p class="quick-action-card__text">
+                Поиск по OEM-номеру или названию
+            </p>
+        </a>
+
+        <a
+            href="{% url 'users:search_history' %}"
+            class="quick-action-card"
+        >
+            <span class="quick-action-card__icon">
+                <i class="bi bi-clock-history"></i>
+            </span>
+
+            <h3 class="quick-action-card__title">
+                История поиска
+            </h3>
+
+            <p class="quick-action-card__text">
+                Просмотр предыдущих запросов
+            </p>
+        </a>
+
+        <a
+            href="{% url 'users:repair_history_list' %}"
+            class="quick-action-card"
+        >
+            <span class="quick-action-card__icon">
+                <i class="bi bi-tools"></i>
+            </span>
+
+            <h3 class="quick-action-card__title">
+                История ремонта
+            </h3>
+
+            <p class="quick-action-card__text">
+                Выполненные и текущие ремонты
+            </p>
+        </a>
+
+        <a
+            href="{% url 'users:profile_detail' %}"
+            class="quick-action-card"
+        >
+            <span class="quick-action-card__icon">
+                <i class="bi bi-person"></i>
+            </span>
+
+            <h3 class="quick-action-card__title">
+                Мой профиль
+            </h3>
+
+            <p class="quick-action-card__text">
+                Автомобиль и личные данные
+            </p>
+        </a>
+    </div>
+</section>
