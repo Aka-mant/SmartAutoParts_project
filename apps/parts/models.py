@@ -120,8 +120,8 @@ class Part(models.Model):
     dimensions = models.JSONField(
         null=True,
         blank=True,
-        verbose_name=_("Dimensions"),
-        help_text=_("Part dimensions in JSON format."),
+        verbose_name=_("Sizes"),
+        help_text=_("Part sizes in JSON format."),
     )
 
     is_active = models.BooleanField(
