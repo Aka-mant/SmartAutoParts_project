@@ -1,0 +1,398 @@
+/* =========================
+   SMALL MOBILE
+   ========================= */
+
+@media (max-width: 575.98px) {
+    .hero-section {
+        padding: 4rem 0;
+    }
+
+    .hero-title {
+        font-size: clamp(2rem, 12vw, 2.75rem);
+    }
+
+    .hero-search-form {
+        padding: 0.5rem;
+        border-radius: 0.9rem;
+    }
+
+    .hero-search-form .form-control,
+    .hero-search-button {
+        height: 52px;
+        border-radius: 0.7rem;
+    }
+
+    .feature-icon {
+        width: 2.75rem;
+        height: 2.75rem;
+    }
+
+    .legal-document {
+        padding: 1.1rem;
+    }
+
+    /* =========================
+       AUTH
+       ========================= */
+
+    .auth-section {
+        min-height: auto;
+        padding: 2rem 0;
+    }
+
+    .auth-card {
+        padding: 1.4rem;
+        border-right: 0;
+        border-left: 0;
+        border-radius: 0;
+    }
+
+    .auth-title {
+        font-size: 2rem;
+    }
+
+    .auth-input-group .form-control,
+    .auth-submit-button {
+        min-height: 54px;
+    }
+
+    /* =========================
+       ACCOUNT
+       ========================= */
+
+    .account-section {
+        min-height: auto;
+        padding: 2rem 0;
+    }
+
+    .account-page-header {
+        padding-right: 0.25rem;
+        padding-left: 0.25rem;
+    }
+
+    .account-page-title {
+        font-size: 2rem;
+    }
+
+    .account-card {
+        padding: 1.25rem;
+        border-right: 0;
+        border-left: 0;
+        border-radius: 0;
+        box-shadow: none;
+    }
+
+    .account-card-header {
+        margin-bottom: 1.25rem;
+    }
+
+    .account-card-header h2 {
+        font-size: 1.2rem;
+    }
+
+    .profile-avatar {
+        width: 5.25rem;
+        height: 5.25rem;
+        font-size: 2rem;
+    }
+
+    .profile-name {
+        font-size: 1.35rem;
+    }
+
+    .profile-information-item,
+    .profile-bio {
+        padding: 0.9rem;
+    }
+
+    /* =========================
+       HISTORY
+       ========================= */
+
+    .history-item {
+        align-items: flex-start;
+        padding: 1rem;
+        border-radius: 0.85rem;
+    }
+
+    .history-icon {
+        width: 2.6rem;
+        height: 2.6rem;
+        font-size: 1.05rem;
+    }
+
+    .history-title-row {
+        flex-direction: column;
+        align-items: flex-start;
+        gap: 0.5rem;
+    }
+
+    .history-title-row h2 {
+        font-size: 1rem;
+    }
+
+    .history-content p {
+        font-size: 0.9rem;
+    }
+
+    .history-status {
+        align-self: flex-start;
+    }
+
+    .account-empty-state {
+        padding: 2rem 0.5rem;
+    }
+
+    .account-pagination {
+        flex-direction: column;
+        align-items: stretch;
+    }
+
+    .pagination-button {
+        width: 100%;
+    }
+
+    .pagination-current {
+        order: -1;
+        text-align: center;
+    }
+
+    /* =========================
+       PROFILE EDIT
+       ========================= */
+
+    .profile-edit-form .account-card {
+        padding: 18px;
+        border-radius: 16px;
+    }
+
+    .profile-edit-form .account-card-header {
+        align-items: flex-start;
+        gap: 10px;
+        margin-bottom: 18px;
+    }
+
+    .profile-edit-form .account-card-icon {
+        width: 40px;
+        height: 40px;
+        border-radius: 11px;
+        font-size: 18px;
+    }
+
+    .profile-edit-form .account-card-title {
+        padding-top: 8px;
+        font-size: 17px;
+    }
+
+    .profile-avatar-large {
+        width: 125px;
+        height: 125px;
+        border-width: 4px;
+        font-size: 80px;
+    }
+
+    .profile-edit-form .form-label {
+        font-size: 13px;
+    }
+
+    .profile-edit-form .form-control,
+    .profile-edit-form .form-select {
+        min-height: 44px;
+        padding: 10px 12px;
+        border-radius: 10px;
+        font-size: 14px;
+    }
+
+    .profile-edit-form textarea.form-control {
+        min-height: 120px;
+    }
+
+    .profile-edit-form input[type="file"] {
+        font-size: 13px;
+    }
+
+    .profile-edit-form input[type="file"]::file-selector-button {
+        margin-right: 8px;
+        padding: 7px 10px;
+        font-size: 12px;
+    }
+
+    .profile-edit-actions {
+        padding-top: 16px;
+    }
+
+    .profile-edit-actions .btn {
+        min-height: 46px;
+        padding: 10px 16px;
+        border-radius: 11px;
+        font-size: 14px;
+    }
+
+    /* =========================
+       DASHBOARD
+       ========================= */
+
+    .dashboard-page {
+        padding: 1rem 0 2.5rem;
+    }
+
+    .dashboard-container {
+        gap: 1rem;
+    }
+
+    .dashboard-card,
+    .part-search,
+    .part-search-card,
+    .dashboard-header {
+        padding: 1rem;
+        border-radius: 0.9rem;
+    }
+
+    .dashboard-header {
+        grid-template-columns: 1fr;
+        gap: 1rem;
+        text-align: center;
+    }
+
+    .dashboard-header__avatar {
+        width: 52px;
+        height: 52px;
+        margin: 0 auto;
+    }
+
+    .dashboard-header__badges,
+    .dashboard-header__meta {
+        justify-content: center;
+    }
+
+    .dashboard-header__actions {
+        width: 100%;
+    }
+
+    .dashboard-header__actions .btn {
+        width: 100%;
+    }
+
+    .quick-actions-grid,
+    .part-card-grid {
+        grid-template-columns: 1fr;
+    }
+
+    .quick-action-card {
+        min-height: auto;
+    }
+
+    .dashboard-section__header,
+    .dashboard-card__header,
+    .ai-assistant__footer,
+    .continue-repair__footer {
+        align-items: flex-start;
+        flex-direction: column;
+    }
+
+    /* =========================
+       SEARCH RESULTS
+       ========================= */
+
+    .search-results-page {
+        padding-block: 1rem;
+    }
+
+    .search-results-layout {
+        gap: 0.9rem;
+    }
+
+    .search-results-header {
+        gap: 0.75rem;
+    }
+
+    .search-results-header__title {
+        font-size: 1.1rem;
+    }
+
+    .search-results-header__subtitle {
+        font-size: 0.88rem;
+    }
+
+    .search-results-header__count {
+        width: fit-content;
+        font-size: 0.8rem;
+    }
+
+    .search-results-info {
+        font-size: 0.85rem;
+    }
+
+    .search-access-notice {
+        flex-direction: column;
+        align-items: stretch;
+        gap: 0.75rem;
+    }
+
+    .search-access-notice__icon {
+        width: 40px;
+        height: 40px;
+        font-size: 1rem;
+    }
+
+    .search-access-notice__actions {
+        display: grid;
+    }
+
+    .search-access-notice__actions .btn {
+        width: 100%;
+    }
+
+    .part-card__description {
+        font-size: 0.85rem;
+    }
+
+    .part-card__badges {
+        gap: 0.35rem;
+    }
+
+    .part-card__badge {
+        font-size: 0.7rem;
+    }
+
+    .part-card__footer {
+        gap: 0.5rem;
+    }
+
+    .part-card__price {
+        font-size: 0.95rem;
+    }
+
+    .part-card__stock {
+        font-size: 0.8rem;
+    }
+
+    /* =========================
+       SEARCH PAGINATION
+       ========================= */
+
+    .search-pagination {
+        margin-top: 1.25rem;
+    }
+
+    .search-pagination__list {
+        gap: 0.25rem;
+    }
+
+    .search-pagination__link {
+        min-width: 34px;
+        min-height: 34px;
+        padding: 0.35rem 0.55rem;
+        border-radius: 0.5rem;
+        font-size: 0.82rem;
+    }
+
+    .search-pagination__link--previous,
+    .search-pagination__link--next {
+        padding-inline: 0.65rem;
+    }
+
+    .search-pagination__ellipsis {
+        min-width: 34px;
+    }
+}

@@ -1,0 +1,7 @@
+.premium-feature { position:relative; overflow:hidden; }
+.premium-feature__body { filter:none; transition:filter .2s ease; }
+.premium-feature.is-locked .premium-feature__body { filter:blur(1.5px); opacity:.45; pointer-events:none; }
+.premium-feature__overlay { position:absolute; inset:0; z-index:2; display:grid; place-content:center; justify-items:center; gap:.65rem; padding:1.25rem; text-align:center; background:rgba(255,255,255,.78); backdrop-filter:blur(4px); }
+.premium-feature__lock { width:46px; height:46px; display:grid; place-items:center; border-radius:50%; background:#ece8ff; color:#5d3fd3; }
+.premium-feature__overlay-title { margin:0; font-weight:800; }
+.premium-feature__overlay-text { margin:0; max-width:310px; color:#687386; font-size:.9rem; }

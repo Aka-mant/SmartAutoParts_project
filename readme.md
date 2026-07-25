@@ -195,6 +195,27 @@ SmartAutoParts_project/
 
 ---
 
+# 🚀 Локальный запуск
+
+Для запуска нужен Python 3.12.
+
+```bash
+python -m venv .venv
+source .venv/bin/activate
+pip install -r requirements.txt
+python manage.py migrate
+python manage.py runserver
+```
+
+После запуска откройте `http://127.0.0.1:8000/`.
+
+Главная страница реализована обычными Django HTML-шаблонами. Поисковая
+форма отправляет GET-запрос в существующий маршрут `/users/search/`,
+поэтому серверная логика поиска, авторизация, кабинет и история
+пользователя работают без отдельного React/Next.js-приложения.
+
+---
+
 # 📦 Описание приложений
 
 ---

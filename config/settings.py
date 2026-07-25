@@ -201,6 +201,13 @@ SIMPLE_JWT = {
     'ACCESS_TOKEN_LIFETIME': timedelta(minutes=60),
     "REFRESH_TOKEN_LIFETIME": timedelta(days=7),
 }
+
+# Срок актуальности опубликованной ремонтной инструкции. Повторная выдача
+# до истечения срока всё равно создаёт AIRequest и расходует лимит тарифа.
+AI_INSTRUCTION_CACHE_TTL_DAYS = int(
+    os.getenv("AI_INSTRUCTION_CACHE_TTL_DAYS", "365")
+)
+
 CORS_ALLOWED_ORIGINS = [
     "http://read-only.example.com",
     "http://read-and-write.example.com",

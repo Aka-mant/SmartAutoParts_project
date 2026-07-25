@@ -325,6 +325,40 @@
         width: 100%;
     }
 
+    .dashboard-section {
+        width: 100%;
+        max-width: 100%;
+        min-width: 0;
+    }
+
+    .dashboard-section > * {
+        width: 100%;
+        max-width: 100%;
+        min-width: 0;
+    }
+
+    .dashboard-section__header {
+        align-items: flex-start;
+        flex-direction: column;
+    }
+
+    .dashboard-section__link {
+        white-space: normal;
+    }
+
+    .part-search__content {
+        grid-template-columns: minmax(0, 1fr);
+        gap: 1.25rem;
+    }
+
+    .part-search__form {
+        grid-template-columns: minmax(0, 1fr);
+    }
+
+    .part-search__form .btn {
+        width: 100%;
+    }
+
     /* =========================
        SEARCH RESULTS
        ========================= */

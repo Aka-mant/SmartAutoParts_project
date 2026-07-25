@@ -1,0 +1,27 @@
+/* =========================
+   REVIEWS
+   ========================= */
+
+.review-card .card-body {
+    display: flex;
+    flex-direction: column;
+    padding: 2rem;
+}
+
+
+.review-quote {
+    height: 2.6rem;
+
+    color: var(--sap-primary);
+
+    font-family: Georgia, serif;
+    font-size: 4rem;
+    line-height: 1;
+}
+
+
+.blockquote-footer {
+    margin-top: auto;
+    color: #334155;
+    font-weight: 650;
+}

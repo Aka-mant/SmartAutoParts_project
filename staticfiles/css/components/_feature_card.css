@@ -1,0 +1,34 @@
+/* =========================
+   FEATURES
+   ========================= */
+
+.feature-card .card-body {
+    padding: 2rem;
+}
+
+
+.feature-icon {
+    display: inline-grid;
+    width: 3rem;
+    height: 3rem;
+    margin-bottom: 1.35rem;
+    place-items: center;
+
+    color: var(--sap-primary);
+    background: #eff6ff;
+
+    border-radius: 0.9rem;
+    font-size: 1.3rem;
+}
+
+
+.feature-card .card-title {
+    margin-bottom: 0.75rem;
+    font-size: 1.12rem;
+    font-weight: 700;
+}
+
+
+.card-text {
+    color: var(--sap-muted);
+}

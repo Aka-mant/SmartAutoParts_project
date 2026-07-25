@@ -158,10 +158,22 @@ class AIGeneratedInstructionSerializer(serializers.ModelSerializer):
             "instruction",
             "instruction_title",
             "generated_content",
+            "version_number",
+            "is_cached",
+            "moderation_status",
+            "moderation_note",
+            "reviewed_by",
+            "reviewed_at",
             "created_at",
         )
         read_only_fields = (
             "id",
+            "version_number",
+            "is_cached",
+            "moderation_status",
+            "moderation_note",
+            "reviewed_by",
+            "reviewed_at",
             "created_at",
         )
 

@@ -1,309 +1,363 @@
-<section class="hero-section">
-    <div class="container">
-        <div class="hero-content mx-auto text-center">
-            <span class="section-eyebrow hero-eyebrow">Поиск по OEM-номеру</span>
-            <h1 class="hero-title">
-                Найдите инструкцию по установке автозапчасти
+<section class="sap-hero" id="home">
+    <div class="sap-hero-grid" aria-hidden="true"></div>
+    <div class="sap-hero-glow sap-hero-glow-one" aria-hidden="true"></div>
+    <div class="sap-hero-glow sap-hero-glow-two" aria-hidden="true"></div>
+
+    <div class="container sap-hero-layout">
+        <div class="sap-hero-copy">
+            <div class="sap-eyebrow">
+                <span aria-hidden="true"></span>
+                Ремонт начинается с точного номера
+            </div>
+
+            <h1>
+                Запчасть найдена.
+                <span>Теперь разберёмся, как её установить.</span>
             </h1>
 
-            <p class="lead mb-5">
-            Введите оригинальный номер запчасти и получите доступ
-            к инструкциям, схемам и видеоматериалам.
+            <p class="sap-hero-lead">
+                Введите OEM-номер и получите карточку детали, проверку
+                совместимости, пошаговую инструкцию и список инструментов.
             </p>
 
             <form
+                class="sap-search"
+                id="search"
                 method="get"
                 action="{% url 'users:part_search' %}"
-                class="hero-search-form"
                 role="search"
             >
-                <div class="search-input">
-                    <label
-                        for="hero-part-search"
-                        class="visually-hidden"
-                    >
-                        OEM-номер, название или производитель
-                    </label>
-
+                <label class="visually-hidden" for="home-part-search">
+                    OEM-номер, название или производитель
+                </label>
+                <div class="sap-search-control">
+                    <span class="sap-search-icon" aria-hidden="true">
+                        <i class="bi bi-search"></i>
+                    </span>
                     <input
-                        type="search"
-                        id="hero-part-search"
+                        id="home-part-search"
                         name="q"
-                        value="{{ request.GET.q|default:'' }}"
-                        class="form-control form-control-lg"
-                        placeholder="Введите OEM-номер запчасти..."
-                        aria-label="OEM-номер, название или производитель"
+                        type="search"
+                        placeholder="Например, DEN-10428-699C4"
                         autocomplete="off"
+                        spellcheck="false"
                         required
                     >
+                    <button type="submit">
+                        Найти деталь
+                        <i class="bi bi-arrow-right" aria-hidden="true"></i>
+                    </button>
                 </div>
-
-                <button
-                    class="btn btn-primary btn-lg action-button"
-                    type="submit"
-                >
-                    <i
-                        class="bi bi-search me-2"
-                        aria-hidden="true"
-                    ></i>
-
-                    Найти
-                </button>
             </form>
 
-            <div class="hero-meta d-flex flex-wrap justify-content-center gap-3">
-                <span><i class="bi bi-check-circle-fill" aria-hidden="true"></i> Проверенные материалы</span>
-                <span><i class="bi bi-lightning-charge-fill" aria-hidden="true"></i> Быстрый поиск</span>
-                <span><i class="bi bi-shield-check" aria-hidden="true"></i> Безопасные рекомендации</span>
+            <div class="sap-quick-searches" aria-label="Примеры OEM-номеров">
+                <span>Попробуйте:</span>
+                <a href="{% url 'users:part_search' %}?q=DEN-10428-699C4">DEN-10428-699C4</a>
+                <a href="{% url 'users:part_search' %}?q=GAT-17085-314BB">GAT-17085-314BB</a>
+                <a href="{% url 'users:part_search' %}?q=BOS-91363-8BCA7">BOS-91363-8BCA7</a>
             </div>
+
+            <div class="sap-trust-row">
+                <span>
+                    <i class="bi bi-check-circle" aria-hidden="true"></i>
+                    Проверенные материалы
+                </span>
+                <span>
+                    <i class="bi bi-shield-check" aria-hidden="true"></i>
+                    Безопасные рекомендации
+                </span>
+            </div>
+        </div>
+
+        <div class="sap-hero-visual" aria-label="Пример карточки найденной детали">
+            <span class="sap-orbit sap-orbit-one" aria-hidden="true"></span>
+            <span class="sap-orbit sap-orbit-two" aria-hidden="true"></span>
+
+            <article class="sap-scan-card">
+                <div class="sap-scan-card-top">
+                    <span class="sap-status-dot" aria-hidden="true"></span>
+                    <span>Деталь распознана</span>
+                    <strong>98% совпадение</strong>
+                </div>
+
+                <div class="sap-part-illustration" aria-hidden="true">
+                    <span class="sap-part-ring sap-ring-outer"></span>
+                    <span class="sap-part-ring sap-ring-middle"></span>
+                    <span class="sap-part-ring sap-ring-inner"></span>
+                    <span class="sap-part-spoke sap-spoke-one"></span>
+                    <span class="sap-part-spoke sap-spoke-two"></span>
+                    <span class="sap-part-spoke sap-spoke-three"></span>
+                    <span class="sap-part-center"></span>
+                    <span class="sap-scan-line"></span>
+                </div>
+
+                <div class="sap-scan-info">
+                    <div>
+                        <small>OEM-номер</small>
+                        <strong>DEN-10428-699C4</strong>
+                    </div>
+                    <span>
+                        <i class="bi bi-check-lg" aria-hidden="true"></i>
+                        Проверено
+                    </span>
+                </div>
+            </article>
+
+            <div class="sap-floating-card sap-floating-tools">
+                <span class="sap-floating-icon">
+                    <i class="bi bi-tools" aria-hidden="true"></i>
+                </span>
+                <span>
+                    <small>Инструменты</small>
+                    <strong>3 позиции</strong>
+                </span>
+            </div>
+
+            <div class="sap-floating-card sap-floating-guide">
+                <span class="sap-floating-icon sap-floating-icon-blue">
+                    <i class="bi bi-journal-check" aria-hidden="true"></i>
+                </span>
+                <span>
+                    <small>Инструкция</small>
+                    <strong>4 шага</strong>
+                </span>
+            </div>
+        </div>
+    </div>
+
+    <div class="container sap-stats-strip">
+        <div><strong>44</strong><span>детали в базе</span></div>
+        <div><strong>45</strong><span>инструкций</span></div>
+        <div><strong>31</strong><span>проверка совместимости</span></div>
+        <div><strong>24/7</strong><span>доступ к материалам</span></div>
+    </div>
+</section>
+
+<section class="sap-section sap-features" id="features">
+    <div class="container">
+        <div class="sap-section-heading">
+            <div>
+                <span class="sap-section-kicker">Возможности сервиса</span>
+                <h2>Всё для уверенного ремонта — в одном окне</h2>
+            </div>
+            <p>
+                От точной идентификации детали до последнего шага установки.
+                Без десятков вкладок и случайных советов.
+            </p>
+        </div>
+
+        <div class="sap-feature-grid">
+            <article class="sap-feature-card">
+                <span class="sap-feature-icon">
+                    <i class="bi bi-upc-scan" aria-hidden="true"></i>
+                </span>
+                <h3>Поиск по OEM-номеру</h3>
+                <p>Находите оригинальную деталь и аналоги по полному или частичному номеру.</p>
+                <a href="{% url 'users:part_search' %}">
+                    Найти деталь <i class="bi bi-chevron-right" aria-hidden="true"></i>
+                </a>
+            </article>
+
+            <article class="sap-feature-card">
+                <span class="sap-feature-icon sap-feature-icon-teal">
+                    <i class="bi bi-car-front" aria-hidden="true"></i>
+                </span>
+                <h3>Проверка совместимости</h3>
+                <p>Сверяйте характеристики детали с автомобилем перед покупкой и установкой.</p>
+                <a href="{% url 'users:part_search' %}">
+                    Проверить номер <i class="bi bi-chevron-right" aria-hidden="true"></i>
+                </a>
+            </article>
+
+            <article class="sap-feature-card">
+                <span class="sap-feature-icon sap-feature-icon-violet">
+                    <i class="bi bi-journal-text" aria-hidden="true"></i>
+                </span>
+                <h3>Пошаговые инструкции</h3>
+                <p>Следуйте понятному сценарию ремонта с оценкой сложности и времени.</p>
+                <a href="{% url 'users:part_search' %}">
+                    Открыть каталог <i class="bi bi-chevron-right" aria-hidden="true"></i>
+                </a>
+            </article>
+
+            <article class="sap-feature-card">
+                <span class="sap-feature-icon sap-feature-icon-amber">
+                    <i class="bi bi-tools" aria-hidden="true"></i>
+                </span>
+                <h3>Списки инструментов</h3>
+                <p>Подготовьте всё необходимое заранее и не прерывайте работу в процессе.</p>
+                <a href="{% url 'users:part_search' %}">
+                    Начать поиск <i class="bi bi-chevron-right" aria-hidden="true"></i>
+                </a>
+            </article>
         </div>
     </div>
 </section>
 
-<section id="features" class="content-section search-section">
-    <div class="container">
-        <div class="section-heading text-center mx-auto">
-            <span class="section-eyebrow">Возможности сервиса</span>
-            <h2>Всё необходимое для уверенного ремонта</h2>
-            <p>От поиска нужной детали до понятной инструкции и списка инструментов.</p>
+<section class="sap-section sap-process" id="process">
+    <div class="container sap-process-layout">
+        <div class="sap-process-copy">
+            <span class="sap-section-kicker sap-light-kicker">Три понятных шага</span>
+            <h2>От номера на упаковке до готового ремонта</h2>
+            <p>
+                SmartAutoParts собирает разрозненную техническую информацию
+                в единый последовательный сценарий.
+            </p>
+            <a class="sap-secondary-button" href="{% url 'users:part_search' %}">
+                Проверить OEM-номер
+                <i class="bi bi-arrow-right" aria-hidden="true"></i>
+            </a>
         </div>
 
-        <div class="row g-4">
-            <div class="col-md-4">
-                <article class="card feature-card h-100">
-                    <div class="card-body">
-                        <span class="feature-icon" aria-hidden="true"><i class="bi bi-list-check"></i></span>
-                        <h3 class="card-title">Инструкции по установке</h3>
-                        <p class="card-text">
-                            Подробные пошаговые инструкции по замене
-                            и установке автозапчастей.
-                        </p>
-                    </div>
-                </article>
-            </div>
-
-            <div class="col-md-4">
-                <article class="card feature-card h-100">
-                    <div class="card-body">
-                        <span class="feature-icon" aria-hidden="true"><i class="bi bi-diagram-3"></i></span>
-                        <h3 class="card-title">Технические схемы</h3>
-                        <p class="card-text">
-                            Схемы установки и подключения для сложных
-                            узлов и агрегатов.
-                        </p>
-                    </div>
-                </article>
-            </div>
-
-            <div class="col-md-4">
-                <article class="card feature-card h-100">
-                    <div class="card-body">
-                        <span class="feature-icon" aria-hidden="true"><i class="bi bi-play-btn"></i></span>
-                        <h3 class="card-title">Видеоматериалы</h3>
-                        <p class="card-text">
-                            Обучающие видео с YouTube по установке
-                            и ремонту автозапчастей.
-                        </p>
-                    </div>
-                </article>
-            </div>
-
-            <div class="col-md-4">
-                <article class="card feature-card h-100">
-                    <div class="card-body">
-                        <span class="feature-icon" aria-hidden="true"><i class="bi bi-tools"></i></span>
-                        <h3 class="card-title">Список инструментов</h3>
-                        <p class="card-text">
-                            Полный перечень инструментов, необходимых
-                            для ремонта.
-                        </p>
-                    </div>
-                </article>
-            </div>
-
-            <div class="col-md-4">
-                <article class="card feature-card h-100">
-                    <div class="card-body">
-                        <span class="feature-icon" aria-hidden="true"><i class="bi bi-stars"></i></span>
-                        <h3 class="card-title">AI-помощь</h3>
-                        <p class="card-text">
-                            Генерация инструкций и анализ изображений
-                            с помощью искусственного интеллекта.
-                        </p>
-                    </div>
-                </article>
-            </div>
-
-            <div class="col-md-4">
-                <article class="card feature-card h-100">
-                    <div class="card-body">
-                        <span class="feature-icon" aria-hidden="true"><i class="bi bi-chat-dots"></i></span>
-                        <h3 class="card-title">Внутренний чат</h3>
-                        <p class="card-text">
-                            Общение с другими пользователями
-                            и экспертами в чате.
-                        </p>
-                    </div>
-                </article>
-            </div>
+        <div class="sap-process-steps">
+            <article>
+                <span>01</span>
+                <div>
+                    <h3>Введите номер</h3>
+                    <p>Подойдёт OEM-код, номер аналога, название или производитель.</p>
+                </div>
+            </article>
+            <article>
+                <span>02</span>
+                <div>
+                    <h3>Сверьте деталь</h3>
+                    <p>Проверьте характеристики, аналоги и совместимость с автомобилем.</p>
+                </div>
+            </article>
+            <article>
+                <span>03</span>
+                <div>
+                    <h3>Следуйте инструкции</h3>
+                    <p>Подготовьте инструменты и выполняйте работу шаг за шагом.</p>
+                </div>
+            </article>
         </div>
     </div>
 </section>
 
-<section id="pricing" class="content-section pricing-section">
-    <div class="container">
-        <div class="section-heading text-center mx-auto">
-            <span class="section-eyebrow">Простой выбор</span>
-            <h2>Выберите подходящий тариф</h2>
-            <p>Начните бесплатно и подключайте дополнительные функции по мере необходимости.</p>
+<section class="sap-section sap-ai">
+    <div class="container sap-ai-panel">
+        <div class="sap-ai-copy">
+            <span class="sap-section-kicker">
+                <i class="bi bi-stars" aria-hidden="true"></i>
+                SmartAutoParts AI
+            </span>
+            <h2>Не знаете номер? Покажите деталь.</h2>
+            <p>
+                Загрузите фотографию, опишите неисправность и получите подсказку
+                по идентификации, совместимости и следующему шагу диагностики.
+            </p>
+            <div class="sap-ai-actions">
+                {% if user.is_authenticated %}
+                    <a class="sap-primary-button" href="{% url 'users:dashboard' %}">
+                        <i class="bi bi-camera" aria-hidden="true"></i>
+                        Открыть личный кабинет
+                    </a>
+                {% else %}
+                    <a class="sap-primary-button" href="{% url 'users:register' %}">
+                        <i class="bi bi-camera" aria-hidden="true"></i>
+                        Попробовать AI-анализ
+                    </a>
+                {% endif %}
+                <span>Доступно в тарифе Premium</span>
+            </div>
         </div>
 
-        <div class="row g-4 align-items-stretch">
-            <div class="col-md-4">
-                <div class="card pricing-card text-center h-100">
-                    <div class="card-header">
-                        <h3 class="mb-0">Гость</h3>
-                    </div>
-
-                    <div class="card-body d-flex flex-column">
-                        <p>Бесплатный доступ к базовому поиску</p>
-
-                        <ul class="list-unstyled mb-4">
-                            <li>Поиск по номеру запчасти</li>
-                            <li>Ограниченный доступ к инструкциям</li>
-                            <li>Превью схем и видео</li>
-                        </ul>
-
-                        <a
-                            href="{% url 'users:part_search' %}"
-                            class="btn btn-outline-secondary action-button mt-auto"
-                        >
-                            Попробовать
-                        </a>
-                    </div>
+        <article class="sap-assistant-demo" aria-label="Пример диалога с AI-помощником">
+            <div class="sap-assistant-head">
+                <span><i class="bi bi-stars" aria-hidden="true"></i></span>
+                <div>
+                    <strong>AI-помощник</strong>
+                    <small><i aria-hidden="true"></i> онлайн</small>
                 </div>
             </div>
-
-            <div class="col-md-4">
-                <div class="card pricing-card pricing-card-featured text-center h-100">
-                    <div class="pricing-badge">Популярный</div>
-                    <div class="card-header">
-                        <h3 class="mb-0">Пользователь</h3>
-                    </div>
-
-                    <div class="card-body d-flex flex-column">
-                        <p>Полный доступ к базовым функциям</p>
-
-                        <ul class="list-unstyled mb-4">
-                            <li>Все инструкции и схемы</li>
-                            <li>Список инструментов</li>
-                            <li>История поиска</li>
-                        </ul>
-
-                        {% if request.user.is_authenticated %}
-                            <a
-                                href="{% url 'users:dashboard' %}"
-                                class="btn btn-primary action-button mt-auto"
-                            >
-                                Перейти в Dashboard
-                            </a>
-                        {% else %}
-                            <a
-                                href="{% url 'users:register' %}"
-                                class="btn btn-primary action-button mt-auto"
-                            >
-                                Зарегистрироваться
-                            </a>
-                        {% endif %}
-                    </div>
-                </div>
+            <p class="sap-message sap-user-message">
+                Появился гул спереди после 60 км/ч. Что проверить?
+            </p>
+            <p class="sap-message sap-ai-message">
+                Начните с проверки ступичного подшипника и состояния шин.
+                Я подготовлю безопасный порядок диагностики.
+            </p>
+            <div class="sap-assistant-suggestion">
+                <i class="bi bi-tools" aria-hidden="true"></i>
+                Подобрать инструменты для проверки
             </div>
+        </article>
+    </div>
+</section>
 
-            <div class="col-md-4">
-                <div class="card pricing-card text-center h-100">
-                    <div class="card-header">
-                        <h3 class="mb-0">Премиум</h3>
-                    </div>
+<section class="sap-section sap-plans" id="pricing">
+    <div class="container">
+        <div class="sap-center-heading">
+            <span class="sap-section-kicker">Простой выбор</span>
+            <h2>Начните бесплатно. Расширяйте возможности по мере необходимости.</h2>
+            <p>Все тарифы сохраняют основной сценарий поиска по OEM-номеру.</p>
+        </div>
 
-                    <div class="card-body d-flex flex-column">
-                        <p>Полный доступ ко всем функциям</p>
-
-                        <ul class="list-unstyled mb-4">
-                            <li>Расширенные инструкции</li>
-                            <li>Видеоматериалы</li>
-                            <li>Анализ изображений запчастей</li>
-                            <li>Внутренний чат</li>
-                            <li>Приоритетная поддержка</li>
-                            <li>Новые функции первыми</li>
-                        </ul>
-
-                        <button
-                            type="button"
-                            class="btn btn-dark action-button mt-auto"
-                            disabled
-                        >
-                            Оформление скоро будет доступно
-                        </button>
-                    </div>
+        <div class="sap-plan-grid">
+            <article class="sap-plan-card">
+                <div class="sap-plan-name">
+                    <span><i class="bi bi-search" aria-hidden="true"></i></span>
+                    <div><small>Для знакомства</small><h3>Гость</h3></div>
                 </div>
-            </div>
+                <div class="sap-price"><strong>0 ₽</strong><span>навсегда</span></div>
+                <ul>
+                    <li><i class="bi bi-check-lg"></i> Базовый OEM-поиск</li>
+                    <li><i class="bi bi-check-lg"></i> Карточки деталей</li>
+                    <li><i class="bi bi-check-lg"></i> Превью инструкций</li>
+                </ul>
+                <a href="{% url 'users:part_search' %}">Попробовать поиск</a>
+            </article>
+
+            <article class="sap-plan-card sap-featured-plan">
+                <span class="sap-popular-badge">Популярный</span>
+                <div class="sap-plan-name">
+                    <span><i class="bi bi-person" aria-hidden="true"></i></span>
+                    <div><small>Для самостоятельного ремонта</small><h3>Пользователь</h3></div>
+                </div>
+                <div class="sap-price"><strong>Бесплатно</strong><span>после регистрации</span></div>
+                <ul>
+                    <li><i class="bi bi-check-lg"></i> Полные инструкции и схемы</li>
+                    <li><i class="bi bi-check-lg"></i> Списки инструментов</li>
+                    <li><i class="bi bi-check-lg"></i> История поиска и ремонта</li>
+                </ul>
+                {% if user.is_authenticated %}
+                    <a href="{% url 'users:dashboard' %}">Открыть кабинет</a>
+                {% else %}
+                    <a href="{% url 'users:register' %}">Зарегистрироваться</a>
+                {% endif %}
+            </article>
+
+            <article class="sap-plan-card sap-premium-plan">
+                <div class="sap-plan-name">
+                    <span><i class="bi bi-stars" aria-hidden="true"></i></span>
+                    <div><small>Максимум возможностей</small><h3>Premium</h3></div>
+                </div>
+                <div class="sap-price"><strong>По подписке</strong><span>несколько тарифов</span></div>
+                <ul>
+                    <li><i class="bi bi-check-lg"></i> AI-анализ фотографий</li>
+                    <li><i class="bi bi-check-lg"></i> Персональные рекомендации</li>
+                    <li><i class="bi bi-check-lg"></i> Внутренний чат и поддержка</li>
+                </ul>
+                {% if user.is_authenticated %}
+                    <a href="{% url 'users:dashboard' %}">Узнать больше</a>
+                {% else %}
+                    <a href="{% url 'users:register' %}">Создать аккаунт</a>
+                {% endif %}
+            </article>
         </div>
     </div>
 </section>
 
-<section id="reviews" class="content-section reviews-section">
-    <div class="container">
-        <div class="section-heading text-center mx-auto">
-            <span class="section-eyebrow">Отзывы</span>
-            <h2>Что говорят пользователи</h2>
-            <p>Практический опыт людей, которые уже используют SmartAutoParts.</p>
+<section class="sap-cta">
+    <div class="container sap-cta-inner">
+        <div>
+            <span class="sap-section-kicker sap-light-kicker">Готовы начать?</span>
+            <h2>Найдите нужную деталь за несколько секунд.</h2>
         </div>
-
-        <div class="row g-4 align-items-stretch">
-            <div class="col-md-4">
-                <div class="card review-card h-100">
-                    <div class="card-body d-flex flex-column">
-                        <div class="review-quote" aria-hidden="true">“</div>
-                        <p class="card-text">
-                            «Очень удобно искать инструкции по номеру
-                            запчасти. Спас меня при замене тормозной системы!»
-                        </p>
-                        <footer class="blockquote-footer mt-auto">
-                            Алексей, автовладелец
-                        </footer>
-                    </div>
-                </div>
-            </div>
-
-            <div class="col-md-4">
-                <div class="card review-card h-100">
-                    <div class="card-body d-flex flex-column">
-                        <div class="review-quote" aria-hidden="true">“</div>
-                        <p class="card-text">
-                            «AI-помощник составил отличную пошаговую
-                            инструкцию. Очень экономит время!»
-                        </p>
-                        <footer class="blockquote-footer mt-auto">
-                            Мария, автомеханик
-                        </footer>
-                    </div>
-                </div>
-            </div>
-
-            <div class="col-md-4">
-                <div class="card review-card h-100">
-                    <div class="card-body d-flex flex-column">
-                        <div class="review-quote" aria-hidden="true">“</div>
-                        <p class="card-text">
-                            «Видеоматериалы с YouTube помогают визуально
-                            понять процесс установки.»
-                        </p>
-                        <footer class="blockquote-footer mt-auto">
-                            Дмитрий, автолюбитель
-                        </footer>
-                    </div>
-                </div>
-            </div>
-        </div>
+        <a class="sap-secondary-button" href="{% url 'users:part_search' %}">
+            <i class="bi bi-search" aria-hidden="true"></i>
+            Перейти к поиску
+        </a>
     </div>
 </section>

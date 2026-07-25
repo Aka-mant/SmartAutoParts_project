@@ -1,0 +1,6 @@
+.continue-repair__summary { display:flex; justify-content:space-between; gap:1rem; margin-bottom:.8rem; }
+.continue-repair__title { margin:0; font-weight:750; }
+.continue-repair__meta { color:#687386; font-size:.85rem; }
+.continue-repair__progress { height:10px; overflow:hidden; border-radius:999px; background:#e8edf2; }
+.continue-repair__bar { height:100%; border-radius:inherit; background:#2e8b57; }
+.continue-repair__footer { display:flex; justify-content:space-between; align-items:center; gap:1rem; margin-top:1rem; }

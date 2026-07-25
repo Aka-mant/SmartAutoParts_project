@@ -1,0 +1,233 @@
+/* =========================================================
+   Search Results
+   ========================================================= */
+
+.search-results-page {
+    min-height: calc(100vh - 160px);
+    padding-block: 2.5rem;
+    background:
+        linear-gradient(
+            180deg,
+            rgba(13, 110, 253, 0.04),
+            transparent 320px
+        );
+}
+
+.search-results-layout {
+    display: grid;
+    gap: 1.5rem;
+}
+
+
+/* =========================================================
+   Search Header
+   ========================================================= */
+
+.search-results-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: flex-end;
+    gap: 1rem;
+}
+
+.search-results-header__content {
+    min-width: 0;
+}
+
+.search-results-header__title {
+    margin: 0;
+    color: #263244;
+    font-size: 1.5rem;
+    font-weight: 800;
+    line-height: 1.3;
+}
+
+.search-results-header__subtitle {
+    margin-top: .4rem;
+    color: #687386;
+    font-size: .95rem;
+}
+
+.search-results-header__query {
+    color: var(--bs-primary);
+    word-break: break-word;
+}
+
+.search-results-header__count {
+    display: inline-flex;
+    align-items: center;
+    gap: .4rem;
+    padding: .45rem .85rem;
+    border-radius: 999px;
+    background: rgba(13,110,253,.08);
+    color: var(--bs-primary);
+    font-weight: 700;
+    white-space: nowrap;
+}
+
+
+/* =========================================================
+   Search Notice
+   ========================================================= */
+
+.search-access-notice {
+    display: flex;
+    align-items: flex-start;
+    gap: 1rem;
+
+    padding: 1rem 1.25rem;
+
+    background: #fff;
+    border: 1px solid #dfe6ee;
+    border-radius: 1rem;
+}
+
+.search-access-notice--authenticated {
+    border-color: rgba(25,135,84,.25);
+    background: rgba(25,135,84,.05);
+}
+
+.search-access-notice__icon {
+    flex-shrink: 0;
+
+    display: flex;
+    align-items: center;
+    justify-content: center;
+
+    width: 46px;
+    height: 46px;
+
+    border-radius: 50%;
+
+    background: rgba(13,110,253,.08);
+
+    color: var(--bs-primary);
+
+    font-size: 1.2rem;
+}
+
+.search-access-notice--authenticated
+.search-access-notice__icon {
+    background: rgba(25,135,84,.12);
+    color: var(--bs-success);
+}
+
+.search-access-notice__content {
+    flex: 1;
+}
+
+.search-access-notice__title {
+    margin-bottom: .35rem;
+    color: #263244;
+    font-weight: 700;
+}
+
+.search-access-notice__text {
+    margin-bottom: 0;
+    color: #687386;
+    line-height: 1.6;
+}
+
+.search-access-notice__actions {
+    display: flex;
+    flex-wrap: wrap;
+    gap: .75rem;
+
+    margin-top: 1rem;
+}
+
+
+/* =========================================================
+   Search Statistics
+   ========================================================= */
+
+.search-results-info {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 1rem;
+
+    color: #687386;
+    font-size: .92rem;
+}
+
+.search-results-info__filters {
+    display: flex;
+    flex-wrap: wrap;
+    gap: .5rem;
+}
+
+
+/* =========================================================
+   Part Card Extensions
+   (extends _part_card.css)
+   ========================================================= */
+
+.part-card__description {
+    display: -webkit-box;
+
+    overflow: hidden;
+
+    margin: 0;
+
+    color: #687386;
+
+    line-height: 1.55;
+
+    -webkit-box-orient: vertical;
+    -webkit-line-clamp: 3;
+
+    line-clamp: 3;
+}
+
+.part-card__badges {
+    display: flex;
+    flex-wrap: wrap;
+    gap: .45rem;
+}
+
+.part-card__badge {
+    display: inline-flex;
+    align-items: center;
+
+    padding: .28rem .6rem;
+
+    border-radius: 999px;
+
+    background: rgba(13,110,253,.08);
+
+    color: var(--bs-primary);
+
+    font-size: .75rem;
+    font-weight: 600;
+}
+
+.part-card__badge--available {
+    background: rgba(25,135,84,.12);
+    color: var(--bs-success);
+}
+
+.part-card__badge--unavailable {
+    background: rgba(108,117,125,.12);
+    color: var(--bs-secondary);
+}
+
+.part-card__footer {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    gap: 1rem;
+
+    margin-top: auto;
+    padding-top: .75rem;
+}
+
+.part-card__price {
+    font-size: 1.1rem;
+    font-weight: 700;
+}
+
+.part-card__stock {
+    color: #687386;
+    font-size: .85rem;
+}

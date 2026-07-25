@@ -1148,6 +1148,10 @@ class AIGeneratedInstructionAdmin(admin.ModelAdmin):
         "id",
         "ai_request",
         "instruction",
+        "version_number",
+        "is_cached",
+        "moderation_status",
+        "reviewed_by",
         "created_at",
     )
 
@@ -1157,6 +1161,8 @@ class AIGeneratedInstructionAdmin(admin.ModelAdmin):
     )
 
     list_filter = (
+        "moderation_status",
+        "is_cached",
         "created_at",
     )
 
@@ -1167,6 +1173,12 @@ class AIGeneratedInstructionAdmin(admin.ModelAdmin):
     )
 
     readonly_fields = (
+        "version_number",
+        "is_cached",
+        "moderation_status",
+        "moderation_note",
+        "reviewed_by",
+        "reviewed_at",
         "created_at",
     )
 
@@ -1187,6 +1199,19 @@ class AIGeneratedInstructionAdmin(admin.ModelAdmin):
                     "ai_request",
                     "instruction",
                     "generated_content",
+                    "version_number",
+                    "is_cached",
+                ),
+            },
+        ),
+        (
+            _("Moderation"),
+            {
+                "fields": (
+                    "moderation_status",
+                    "moderation_note",
+                    "reviewed_by",
+                    "reviewed_at",
                 ),
             },
         ),
