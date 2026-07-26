@@ -7,3 +7,25 @@
     color: #92400e;
     background: #fef3c7;
 }
+
+.repair-history-progress {
+    display: grid;
+    gap: 0.65rem;
+    margin: 1rem 0;
+}
+
+.repair-history-progress__meta {
+    display: flex;
+    justify-content: space-between;
+    color: #475569;
+    font-size: 0.875rem;
+    font-weight: 700;
+}
+
+.repair-history-progress .progress {
+    height: 8px;
+}
+
+.repair-step-navigation--history {
+    margin-top: 0.15rem;
+}

@@ -4,3 +4,26 @@
 .continue-repair__progress { height:10px; overflow:hidden; border-radius:999px; background:#e8edf2; }
 .continue-repair__bar { height:100%; border-radius:inherit; background:#2e8b57; }
 .continue-repair__footer { display:flex; justify-content:space-between; align-items:center; gap:1rem; margin-top:1rem; }
+
+.repair-step-navigation {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+    gap: 0.75rem;
+}
+
+.repair-step-navigation form {
+    margin: 0;
+}
+
+.repair-step-navigation .btn {
+    min-height: 42px;
+}
+
+@media (max-width: 575.98px) {
+    .repair-step-navigation,
+    .repair-step-navigation form,
+    .repair-step-navigation .btn {
+        width: 100%;
+    }
+}

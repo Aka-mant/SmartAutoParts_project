@@ -1,6 +1,19 @@
-from django.db.models import QuerySet
+import logging
 
-from rest_framework.exceptions import PermissionDenied
+from django.conf import settings
+from django.contrib import messages
+from django.contrib.auth.mixins import LoginRequiredMixin
+from django.shortcuts import redirect, render
+from django.views import View
+
+from django.db.models import Q, QuerySet
+
+from rest_framework import status
+from rest_framework.exceptions import (
+    APIException,
+    PermissionDenied,
+    ValidationError,
+)
 from rest_framework.generics import (
     CreateAPIView,
     DestroyAPIView,
@@ -9,9 +22,25 @@ from rest_framework.generics import (
     UpdateAPIView,
 )
 from rest_framework.permissions import IsAuthenticated
+from rest_framework.response import Response
 
 from users.permissions import IsOwner
+from apps.parts.models import Part
+from apps.subscriptions.access import (
+    get_active_subscription,
+    is_moderator_only,
+    is_privileged_user,
+)
+from apps.chat.views import chat_request_is_limited
 
+from .services import (
+    AIAccessDenied,
+    AIImageValidationError,
+    AIRequestRejected,
+    AIServiceError,
+    AIQuotaService,
+    SmartAutoPartsAIService,
+)
 from .models import (
     AIGeneratedInstruction,
     AIImageAnalysis,
@@ -28,6 +57,9 @@ from .serializers import (
     AIRequestSerializer,
     AIRequestUpdateSerializer,
 )
+
+
+logger = logging.getLogger(__name__)
 
 
 class UserOwnedQuerySetMixin:
@@ -118,7 +150,7 @@ class AIRequestListAPIView(
     queryset = AIRequest.objects.select_related(
         "user",
         "part",
-        "instruction",
+        "tool_recommendation",
     )
     serializer_class = AIRequestSerializer
     permission_classes = [
@@ -150,6 +182,10 @@ class AIRequestCreateAPIView(CreateAPIView):
         клиентом, не используется.
         """
 
+        AIQuotaService().check(
+            self.request.user,
+            feature="chat",
+        )
         serializer.save(
             user=self.request.user,
         )
@@ -174,7 +210,7 @@ class AIRequestRetrieveAPIView(
     queryset = AIRequest.objects.select_related(
         "user",
         "part",
-        "instruction",
+        "tool_recommendation",
     )
     serializer_class = AIRequestSerializer
     permission_classes = [
@@ -202,7 +238,7 @@ class AIRequestUpdateAPIView(
     queryset = AIRequest.objects.select_related(
         "user",
         "part",
-        "instruction",
+        "tool_recommendation",
     )
     serializer_class = AIRequestUpdateSerializer
     permission_classes = [
@@ -478,17 +514,47 @@ class AIImageAnalysisCreateAPIView(
         IsAuthenticated,
     ]
 
-    def perform_create(self, serializer):
+    def create(self, request, *args, **kwargs):
         """
-        Создаёт запрос на анализ изображения
-        для текущего пользователя.
-
-        Значение поля user, переданное
-        клиентом, не используется.
+        Валидирует тариф и файл, выполняет автоматическую мультимодальную
+        модерацию и только затем сохраняет результат распознавания.
         """
 
-        serializer.save(
-            user=self.request.user,
+        serializer = self.get_serializer(data=request.data)
+        serializer.is_valid(raise_exception=True)
+
+        try:
+            result = SmartAutoPartsAIService().analyze_part_image(
+                user=request.user,
+                image=serializer.validated_data["image"],
+            )
+        except AIRequestRejected as error:
+            raise ValidationError(
+                {
+                    "image": [
+                        "Изображение отклонено автоматической модерацией: "
+                        f"{error}"
+                    ]
+                }
+            ) from error
+        except AIAccessDenied as error:
+            raise PermissionDenied(str(error)) from error
+        except AIImageValidationError as error:
+            raise ValidationError({"image": [str(error)]}) from error
+        except AIServiceError as error:
+            provider_error = APIException(
+                "AI-сервис временно недоступен. Повторите запрос позднее."
+            )
+            provider_error.status_code = status.HTTP_503_SERVICE_UNAVAILABLE
+            raise provider_error from error
+
+        response_serializer = AIImageAnalysisSerializer(
+            result.image_analysis,
+            context=self.get_serializer_context(),
+        )
+        return Response(
+            response_serializer.data,
+            status=status.HTTP_201_CREATED,
         )
 
 
@@ -579,3 +645,166 @@ class AIImageAnalysisDeleteAPIView(
         IsAuthenticated,
         IsOwner,
     ]
+
+
+# ============================================================================
+# HTML-интерфейс AI-помощника
+# ============================================================================
+
+
+class AIChatPageView(LoginRequiredMixin, View):
+    """Показывает AI-чат и обрабатывает новый модерируемый запрос."""
+
+    login_url = "users:login"
+    template_name = "AI/chat.html"
+
+    @staticmethod
+    def has_access(user):
+        if is_moderator_only(user):
+            return False
+        if is_privileged_user(user):
+            return True
+        subscription = get_active_subscription(user)
+        return bool(
+            subscription
+            and subscription.plan.has_chat_access
+            and subscription.plan.get_feature_limit("chat") > 0
+        )
+
+    def dispatch(self, request, *args, **kwargs):
+        if (
+            request.user.is_authenticated
+            and not self.has_access(request.user)
+        ):
+            if is_moderator_only(request.user):
+                messages.info(
+                    request,
+                    "Модератор проверяет ответы AI, "
+                    "но не отправляет AI-запросы.",
+                )
+                return redirect("users:dashboard")
+            messages.warning(
+                request,
+                "AI-помощник недоступен на текущем тарифе.",
+            )
+            return redirect("subscriptions_web:plans")
+        return super().dispatch(request, *args, **kwargs)
+
+    def get(self, request):
+        privileged = is_privileged_user(request.user)
+        subscription = get_active_subscription(request.user)
+        conversations = list(
+            AIRequest.objects.filter(
+                user=request.user,
+                request_type__in=("chat", "chat_blocked"),
+            )
+            .select_related("part")
+            .order_by("-created_at")[:30]
+        )
+        conversations.reverse()
+
+        quota_context = {
+            "ai_unlimited": privileged,
+            "ai_total_used": 0,
+            "ai_total_limit": 0,
+            "ai_total_remaining": 0,
+            "ai_chat_used": 0,
+            "ai_chat_limit": 0,
+            "ai_chat_remaining": 0,
+        }
+        if subscription is not None and not privileged:
+            period_requests = AIRequest.objects.filter(
+                user=request.user,
+                created_at__gte=subscription.start_date,
+                created_at__lt=subscription.end_date,
+            ).exclude(request_type__endswith="_blocked")
+            chat_requests = period_requests.filter(
+                Q(request_type="chat")
+                | Q(request_type__startswith="tool_recommendation")
+            )
+            total_limit = int(subscription.plan.max_ai_requests)
+            chat_limit = subscription.plan.get_feature_limit("chat")
+            total_used = period_requests.count()
+            chat_used = chat_requests.count()
+            quota_context.update(
+                {
+                    "ai_total_used": total_used,
+                    "ai_total_limit": total_limit,
+                    "ai_total_remaining": max(
+                        total_limit - total_used,
+                        0,
+                    ),
+                    "ai_chat_used": chat_used,
+                    "ai_chat_limit": chat_limit,
+                    "ai_chat_remaining": max(
+                        chat_limit - chat_used,
+                        0,
+                    ),
+                }
+            )
+
+        return render(
+            request,
+            self.template_name,
+            {
+                "conversations": conversations,
+                "subscription": subscription,
+                "parts": Part.objects.filter(is_active=True).order_by(
+                    "name"
+                )[:200],
+                **quota_context,
+            },
+        )
+
+    def post(self, request):
+        message = request.POST.get("message", "").strip()
+        part_id = request.POST.get("part", "").strip()
+        if not 3 <= len(message) <= 500:
+            messages.error(
+                request,
+                "Вопрос должен содержать от 3 до 500 символов.",
+            )
+            return redirect("ai_web:chat")
+
+        if chat_request_is_limited(
+            request,
+            scope="ai",
+            limit=settings.AI_CHAT_RATE_LIMIT,
+        ):
+            messages.error(
+                request,
+                "Слишком много запросов. Подождите немного и повторите.",
+            )
+            return redirect("ai_web:chat")
+
+        part = None
+        if part_id:
+            part = Part.objects.filter(
+                pk=part_id,
+                is_active=True,
+            ).first()
+            if part is None:
+                messages.error(request, "Выбранная деталь не найдена.")
+                return redirect("ai_web:chat")
+
+        try:
+            SmartAutoPartsAIService().answer_chat(
+                user=request.user,
+                message=message,
+                part=part,
+            )
+        except AIRequestRejected as error:
+            messages.error(
+                request,
+                f"Запрос отклонён модерацией: {error}",
+            )
+        except AIAccessDenied as error:
+            messages.warning(request, str(error))
+        except AIServiceError as error:
+            logger.exception("AI chat request failed", exc_info=error)
+            messages.error(
+                request,
+                "AI-помощник временно недоступен. Повторите запрос позднее.",
+            )
+
+        return redirect("ai_web:chat")

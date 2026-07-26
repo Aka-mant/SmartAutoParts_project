@@ -1,6 +1,11 @@
+from urllib.parse import urlencode
+
 from django.contrib.auth.models import AbstractUser
 from django.conf import settings
+from django.core.validators import MinValueValidator
 from django.db import models
+from django.utils import timezone
+from django.urls import reverse
 from django.utils.translation import gettext_lazy as _
 
 from apps.instructions.models import Instruction
@@ -98,6 +103,13 @@ class User(AbstractUser):
     def __str__(self):
         return self.email
 
+    def save(self, *args, **kwargs):
+        """Синхронизирует служебные роли с доступом в Django Admin."""
+
+        if self.role in (UserRole.MODERATOR, UserRole.ADMIN):
+            self.is_staff = True
+        return super().save(*args, **kwargs)
+
 
     @property
     def has_paid_access(self) -> bool:
@@ -105,14 +117,15 @@ class User(AbstractUser):
         Имеет доступ к платным функциям.
         """
 
-        return (
-                self.role in (
-            UserRole.PREMIUM,
-            UserRole.MODERATOR,
-            UserRole.ADMIN,
-        )
-                or self.is_superuser
-        )
+        if self.can_administrate:
+            return True
+
+        now = timezone.now()
+        return self.subscriptions.filter(
+            is_active=True,
+            start_date__lte=now,
+            end_date__gt=now,
+        ).exists()
 
     @property
     def can_moderate(self) -> bool:
@@ -140,6 +153,14 @@ class User(AbstractUser):
                 self.role == UserRole.ADMIN
                 or self.is_superuser
         )
+
+    def has_accepted_user_agreement(self, version=None) -> bool:
+        """Возвращает факт принятия указанной редакции соглашения."""
+
+        current_version = version or settings.USER_AGREEMENT_VERSION
+        return self.agreement_acceptances.filter(
+            agreement_version=current_version,
+        ).exists()
 
 
 
@@ -210,6 +231,53 @@ class Profile(models.Model):
         return f"{self.user.email} - {self.car_brand or _('No car')}"
 
 
+class UserAgreementAcceptance(models.Model):
+    """Фиксирует принятие пользователем действующей редакции соглашения."""
+
+    user = models.ForeignKey(
+        settings.AUTH_USER_MODEL,
+        on_delete=models.CASCADE,
+        related_name="agreement_acceptances",
+        verbose_name=_("User"),
+    )
+    agreement_version = models.CharField(
+        max_length=32,
+        verbose_name=_("Agreement version"),
+    )
+    accepted_at = models.DateTimeField(
+        auto_now_add=True,
+        verbose_name=_("Accepted at"),
+    )
+    ip_address = models.GenericIPAddressField(
+        null=True,
+        blank=True,
+        verbose_name=_("IP address"),
+    )
+    user_agent = models.CharField(
+        max_length=500,
+        blank=True,
+        verbose_name=_("User agent"),
+    )
+
+    class Meta:
+        db_table = "users_useragreementacceptance"
+        ordering = ("-accepted_at",)
+        verbose_name = _("User agreement acceptance")
+        verbose_name_plural = _("User agreement acceptances")
+        constraints = (
+            models.UniqueConstraint(
+                fields=("user", "agreement_version"),
+                name="unique_user_agreement_version_acceptance",
+            ),
+        )
+
+    def __str__(self):
+        return (
+            f"{self.user.email} — {self.agreement_version} "
+            f"({self.accepted_at:%d.%m.%Y %H:%M})"
+        )
+
+
 class SearchHistory(models.Model):
     """
     Модель истории поисковых запросов пользователя.
@@ -259,6 +327,23 @@ class SearchHistory(models.Model):
     def __str__(self):
         return f"{self.search_query} ({self.searched_at: %d.%m.%Y  %H:%M})"
 
+    def get_search_results_url(self) -> str:
+        """
+        Возвращает страницу результатов для запроса из истории.
+
+        В первую очередь используется OEM-номер, который отображается
+        заголовком карточки. Для старых записей без OEM-номера применяется
+        сохранённая поисковая строка.
+        """
+
+        query = (self.original_number or self.search_query).strip()
+        search_url = reverse("users:part_search")
+
+        if not query:
+            return search_url
+
+        return f"{search_url}?{urlencode({'q': query})}"
+
 
 class RepairHistory(models.Model):
     """
@@ -289,6 +374,13 @@ class RepairHistory(models.Model):
         verbose_name=_("Completed"),
     )
 
+    current_step = models.PositiveIntegerField(
+        default=1,
+        validators=(MinValueValidator(1),),
+        verbose_name=_("Current step"),
+        help_text=_("Current step of the unfinished repair."),
+    )
+
     notes = models.TextField(
         blank=True,
         verbose_name=_("Notes"),
@@ -300,11 +392,22 @@ class RepairHistory(models.Model):
         verbose_name=_("Created at"),
     )
 
+    progress_updated_at = models.DateTimeField(
+        auto_now=True,
+        verbose_name=_("Progress updated at"),
+    )
+
     class Meta:
         db_table = "users_repairhistory"
         ordering = ("-created_at",)
         verbose_name = _("Repair history")
         verbose_name_plural = _("Repair history")
+        constraints = [
+            models.CheckConstraint(
+                condition=models.Q(current_step__gte=1),
+                name="repair_history_current_step_gte_1",
+            ),
+        ]
 
     def __str__(self):
         status = _("Completed") if self.completed else _("In progress")

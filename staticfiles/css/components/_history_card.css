@@ -86,6 +86,36 @@
     text-decoration: none;
 }
 
+.history-item-link:focus-visible {
+    color: inherit;
+    border-color: rgba(37, 99, 235, 0.55);
+    outline: 3px solid rgba(37, 99, 235, 0.2);
+    outline-offset: 3px;
+    text-decoration: none;
+}
+
+.history-link-arrow {
+    display: grid;
+    place-items: center;
+    align-self: center;
+    flex: 0 0 auto;
+    width: 2rem;
+    height: 2rem;
+    color: #64748b;
+    border-radius: 50%;
+    transition:
+        color 0.2s ease,
+        background-color 0.2s ease,
+        transform 0.2s ease;
+}
+
+.history-item-link:hover .history-link-arrow,
+.history-item-link:focus-visible .history-link-arrow {
+    color: var(--sap-primary, #2563eb);
+    background: #eff6ff;
+    transform: translateX(3px);
+}
+
 .history-title {
     margin: 0;
     color: var(--sap-dark, #0f172a);

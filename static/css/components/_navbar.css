@@ -48,11 +48,24 @@
 
 
 .navbar-dark .navbar-nav .nav-link {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.45rem;
     padding: 0.65rem 0.9rem;
     color: rgba(255, 255, 255, 0.72);
     font-size: 0.95rem;
     font-weight: 550;
     border-radius: 0.65rem;
+    line-height: 1.2;
+    white-space: nowrap;
+}
+
+.navbar-dark .navbar-nav .nav-link > i {
+    flex: 0 0 1.15rem;
+    width: 1.15rem;
+    margin-right: 0 !important;
+    text-align: center;
+    line-height: 1;
 }
 
 
@@ -173,4 +186,3 @@
         width: 100%;
     }
 }
-

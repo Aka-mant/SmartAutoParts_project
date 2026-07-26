@@ -34,22 +34,29 @@ from django.conf import settings
 from django.core.exceptions import ObjectDoesNotExist
 from django.core.files.base import ContentFile
 from django.db import transaction
-from django.db.models import Prefetch
+from django.db.models import Prefetch, Q
 from django.utils import timezone
-from django.utils.text import get_valid_filename
-from PIL import Image, UnidentifiedImageError
+from django.utils.text import get_valid_filename, slugify
+from PIL import Image, ImageOps, UnidentifiedImageError
 from pydantic import BaseModel, ConfigDict
 
-from apps.AI.models import AIGeneratedInstruction, AIImageAnalysis, AIRequest
+from apps.AI.models import (
+    AIGeneratedInstruction,
+    AIImageAnalysis,
+    AIRequest,
+    AIToolRecommendation,
+)
 from apps.AI.prompts import (
     CHAT_SYSTEM_PROMPT,
     IMAGE_ANALYSIS_SYSTEM_PROMPT,
     INSTRUCTION_SYSTEM_PROMPT,
     MODERATION_SYSTEM_PROMPT,
+    TOOL_RECOMMENDATION_SYSTEM_PROMPT,
     build_chat_prompt,
     build_image_analysis_prompt,
     build_instruction_prompt,
     build_moderation_prompt,
+    build_tool_recommendation_prompt,
 )
 from apps.chat.models import ChatMessage, ChatParticipant, ChatRoom
 from apps.instructions.models import (
@@ -59,6 +66,10 @@ from apps.instructions.models import (
 )
 from apps.parts.models import Part
 from apps.subscriptions.models import UserSubscription
+from apps.subscriptions.access import (
+    is_moderator_only,
+    is_privileged_user,
+)
 from apps.tools.models import PartTool
 
 logger = logging.getLogger(__name__)
@@ -172,6 +183,7 @@ class PartImageAnalysisOutput(StrictOutputModel):
     """Структурированный результат визуального анализа детали."""
 
     is_automotive_part: bool
+    is_automotive_tool: bool
     part_name: str
     part_category: str
     manufacturer: str
@@ -240,6 +252,17 @@ class ChatServiceResult:
     ai_request: AIRequest
     answer: str
     moderation: ModerationDecision
+
+
+@dataclass(frozen=True)
+class ToolRecommendationServiceResult:
+    """Результат AI-подбора инструментов для детали."""
+
+    ai_request: AIRequest
+    generated_recommendation: AIToolRecommendation
+    answer: str
+    moderation: ModerationDecision
+    requires_moderation: bool = True
 
 
 @dataclass(frozen=True)
@@ -516,7 +539,7 @@ class OpenAIGateway:
                 moderation={"model": self.moderation_model},
                 safety_identifier=safety_identifier,
                 store=False,
-                verbosity=verbosity,
+                text={"verbosity": verbosity},
             )
         except Exception as exc:  # pragma: no cover - сетевой код.
             logger.exception("OpenAI structured generation failed")
@@ -578,7 +601,7 @@ class OpenAIGateway:
                 moderation={"model": self.moderation_model},
                 safety_identifier=safety_identifier,
                 store=False,
-                verbosity=verbosity,
+                text={"verbosity": verbosity},
             )
         except Exception as exc:  # pragma: no cover - сетевой код.
             logger.exception("OpenAI image analysis failed")
@@ -853,7 +876,19 @@ class AIQuotaService:
         if not getattr(user, "is_active", False):
             raise AIAccessDenied("Аккаунт пользователя неактивен.")
 
-        if bool(getattr(user, "has_paid_access", False)):
+        if not user.has_accepted_user_agreement():
+            raise AIAccessDenied(
+                "Перед использованием AI-функций примите "
+                "пользовательское соглашение."
+            )
+
+        if is_moderator_only(user):
+            raise AIAccessDenied(
+                "Модератор может проверять ответы AI, "
+                "но не отправлять запросы к AI."
+            )
+
+        if is_privileged_user(user):
             return None
 
         now = timezone.now()
@@ -878,6 +913,13 @@ class AIQuotaService:
                 "Текущий тариф не включает доступ к AI-чату."
             )
         if (
+            feature == "instruction"
+            and not subscription.plan.has_instruction_generation
+        ):
+            raise AIAccessDenied(
+                "Текущий тариф не включает AI-инструкции."
+            )
+        if (
             feature == "image_analysis"
             and not subscription.plan.has_image_analysis
         ):
@@ -886,27 +928,51 @@ class AIQuotaService:
             )
 
         maximum = int(subscription.plan.max_ai_requests)
+        feature_maximum = subscription.plan.get_feature_limit(feature)
         zero_is_unlimited = bool(
             getattr(settings, "AI_ZERO_QUOTA_IS_UNLIMITED", False)
         )
-        if maximum == 0 and not zero_is_unlimited:
+        if (
+            (maximum == 0 or feature_maximum == 0)
+            and not zero_is_unlimited
+        ):
             raise AIQuotaExceeded(
-                "На текущем тарифе не предусмотрены AI-запросы."
+                "На текущем тарифе не предусмотрены запросы этой AI-функции."
             )
 
+        period_requests = AIRequest.objects.filter(
+            user=user,
+            created_at__gte=subscription.start_date,
+            created_at__lt=subscription.end_date,
+        ).exclude(request_type__endswith="_blocked")
+
         if maximum > 0:
-            used = (
-                AIRequest.objects.filter(
-                    user=user,
-                    created_at__gte=subscription.start_date,
-                    created_at__lt=subscription.end_date,
-                )
-                .exclude(request_type__endswith="_blocked")
-                .count()
-            )
+            used = period_requests.count()
             if used >= maximum:
                 raise AIQuotaExceeded(
                     "Лимит AI-запросов по подписке исчерпан."
+                )
+
+        if feature_maximum > 0:
+            feature_filters = {
+                "chat": Q(
+                    Q(request_type="chat")
+                    | Q(request_type__startswith="tool_recommendation")
+                ),
+                "instruction": Q(request_type__startswith="repair_instruction"),
+                "image_analysis": Q(
+                    request_type__in=(
+                        "image_analysis",
+                        "image_analysis_rejected",
+                    )
+                ),
+            }
+            feature_used = period_requests.filter(
+                feature_filters.get(feature, Q())
+            ).count()
+            if feature_used >= feature_maximum:
+                raise AIQuotaExceeded(
+                    "Лимит запросов выбранной AI-функции исчерпан."
                 )
 
         return subscription
@@ -1132,6 +1198,7 @@ class ProjectContextBuilder:
             {
                 "instruction": item.instruction.title,
                 "completed": item.completed,
+                "current_step": item.current_step,
                 "notes": ProjectContextBuilder._trim(item.notes, 1_000),
                 "created_at": item.created_at.isoformat(),
             }
@@ -1237,6 +1304,45 @@ class ImageInputValidator:
             )
 
         mime_type, extension = self._FORMAT_MAP[format_name]
+        max_side = int(
+            getattr(settings, "AI_IMAGE_STORAGE_MAX_SIDE", 1600)
+        )
+        quality = int(
+            getattr(settings, "AI_IMAGE_STORAGE_QUALITY", 82)
+        )
+        quality = min(max(quality, 45), 95)
+        try:
+            with Image.open(BytesIO(content)) as opened:
+                prepared = ImageOps.exif_transpose(opened)
+                prepared.thumbnail(
+                    (max_side, max_side),
+                    Image.Resampling.LANCZOS,
+                )
+                width, height = prepared.size
+                output_buffer = BytesIO()
+                save_options: dict[str, Any] = {"optimize": True}
+                if format_name == "JPEG":
+                    if prepared.mode not in {"RGB", "L"}:
+                        prepared = prepared.convert("RGB")
+                    save_options.update(
+                        quality=quality,
+                        progressive=True,
+                    )
+                elif format_name == "WEBP":
+                    save_options.update(quality=quality, method=6)
+                prepared.save(
+                    output_buffer,
+                    format=format_name,
+                    **save_options,
+                )
+                compressed = output_buffer.getvalue()
+                if compressed:
+                    content = compressed
+        except (OSError, ValueError) as exc:
+            raise AIImageValidationError(
+                "Не удалось безопасно подготовить изображение."
+            ) from exc
+
         original_name = os.path.basename(
             str(getattr(image, "name", "part"))
         )
@@ -1354,6 +1460,371 @@ class ImageCatalogBuilder:
                 return catalog.parts_by_id.get(part_id)
 
         return catalog.parts_by_id.get(output.matched_part_id)
+
+
+class AIInstructionModerationService:
+    """Публикует или отклоняет проверенные AI-инструкции без вызова OpenAI."""
+
+    def approve(
+        self,
+        *,
+        moderator: Any,
+        generated_instruction: AIGeneratedInstruction | int,
+        moderation_note: str = "",
+    ) -> AIGeneratedInstruction:
+        """
+        Публикует новую инструкцию или новую версию существующей.
+
+        Для первого AI-черновика объект ``Instruction`` создаётся
+        автоматически. Для обновления прежняя редакция архивируется в
+        ``InstructionVersion``.
+        """
+
+        self._assert_can_moderate(moderator)
+        generated_id = (
+            generated_instruction.pk
+            if isinstance(generated_instruction, AIGeneratedInstruction)
+            else generated_instruction
+        )
+
+        with transaction.atomic():
+            generated = (
+                AIGeneratedInstruction.objects.select_for_update()
+                .select_related(
+                    "instruction",
+                    "ai_request",
+                    "ai_request__part",
+                )
+                .get(pk=generated_id)
+            )
+            self._assert_pending(generated)
+
+            if generated.instruction_id is None:
+                instruction = self._create_published_instruction(
+                    generated=generated,
+                    moderator=moderator,
+                )
+                generated.instruction = instruction
+            else:
+                instruction = self._publish_existing_revision(
+                    generated=generated,
+                    moderator=moderator,
+                )
+
+            generated.moderation_status = (
+                AIGeneratedInstruction.ModerationStatus.APPROVED
+            )
+            generated.moderation_note = moderation_note.strip()
+            generated.reviewed_by = moderator
+            generated.reviewed_at = timezone.now()
+            generated.save(
+                update_fields=(
+                    "instruction",
+                    "moderation_status",
+                    "moderation_note",
+                    "reviewed_by",
+                    "reviewed_at",
+                )
+            )
+
+        return generated
+
+    def reject(
+        self,
+        *,
+        moderator: Any,
+        generated_instruction: AIGeneratedInstruction | int,
+        moderation_note: str,
+    ) -> AIGeneratedInstruction:
+        """Отклоняет AI-черновик и сохраняет обязательную причину."""
+
+        self._assert_can_moderate(moderator)
+        note = moderation_note.strip()
+        if not note:
+            raise ValueError("Укажите причину отклонения AI-инструкции.")
+
+        generated_id = (
+            generated_instruction.pk
+            if isinstance(generated_instruction, AIGeneratedInstruction)
+            else generated_instruction
+        )
+        with transaction.atomic():
+            generated = (
+                AIGeneratedInstruction.objects.select_for_update()
+                .get(pk=generated_id)
+            )
+            self._assert_pending(generated)
+            generated.moderation_status = (
+                AIGeneratedInstruction.ModerationStatus.REJECTED
+            )
+            generated.moderation_note = note
+            generated.reviewed_by = moderator
+            generated.reviewed_at = timezone.now()
+            generated.save(
+                update_fields=(
+                    "moderation_status",
+                    "moderation_note",
+                    "reviewed_by",
+                    "reviewed_at",
+                )
+            )
+
+        return generated
+
+    @staticmethod
+    def _assert_pending(generated: AIGeneratedInstruction) -> None:
+        if generated.is_cached:
+            raise AIServiceError(
+                "Кэшированная выдача уже содержит опубликованную версию."
+            )
+        if (
+            generated.moderation_status
+            != AIGeneratedInstruction.ModerationStatus.PENDING
+        ):
+            raise AIServiceError(
+                "Решение по этой AI-инструкции уже принято."
+            )
+
+    def _publish_existing_revision(
+        self,
+        *,
+        generated: AIGeneratedInstruction,
+        moderator: Any,
+    ) -> Instruction:
+        instruction = Instruction.objects.select_for_update().get(
+            pk=generated.instruction_id,
+        )
+        expected_version = instruction.version + 1
+        if generated.version_number != expected_version:
+            raise AIServiceError(
+                "Опубликованная инструкция уже изменилась. "
+                "AI-версию необходимо пересоздать на актуальной основе."
+            )
+
+        InstructionVersion.objects.get_or_create(
+            instruction=instruction,
+            version_number=instruction.version,
+            defaults={
+                "content": instruction.content,
+                "changelog": (
+                    "Архив опубликованной версии перед "
+                    f"публикацией AI-редакции v{generated.version_number}."
+                ),
+                "created_by": moderator,
+            },
+        )
+        instruction.content = generated.generated_content
+        instruction.version = generated.version_number
+        instruction.updated_by = moderator
+        instruction.is_published = True
+        if instruction.published_at is None:
+            instruction.published_at = timezone.now()
+        instruction.save(
+            update_fields=(
+                "content",
+                "version",
+                "updated_by",
+                "is_published",
+                "published_at",
+                "updated_at",
+            )
+        )
+        return instruction
+
+    def _create_published_instruction(
+        self,
+        *,
+        generated: AIGeneratedInstruction,
+        moderator: Any,
+    ) -> Instruction:
+        part = generated.ai_request.part
+        if part is None:
+            raise AIServiceError(
+                "Нельзя опубликовать инструкцию без связанной детали."
+            )
+
+        title = self._extract_title(
+            generated.generated_content,
+            fallback=f"Инструкция по ремонту: {part.name}",
+        )
+        return Instruction.objects.create(
+            part=part,
+            title=title,
+            slug=self._unique_slug(title, generated.pk),
+            short_description=self._extract_summary(
+                generated.generated_content
+            ),
+            content=generated.generated_content,
+            difficulty=self._extract_difficulty(
+                generated.generated_content
+            ),
+            estimated_time=self._extract_estimated_time(
+                generated.generated_content
+            ),
+            version=max(generated.version_number, 1),
+            created_by=moderator,
+            updated_by=moderator,
+            is_published=True,
+        )
+
+    @staticmethod
+    def _extract_title(content: str, *, fallback: str) -> str:
+        for line in content.splitlines():
+            cleaned = line.strip()
+            if cleaned.startswith("# "):
+                return cleaned[2:].strip()[:255] or fallback[:255]
+        return fallback[:255]
+
+    @staticmethod
+    def _extract_summary(content: str) -> str:
+        for line in content.splitlines():
+            cleaned = line.strip()
+            if (
+                cleaned
+                and not cleaned.startswith(("#", "-", ">", "**"))
+            ):
+                return cleaned[:1_500]
+        return ""
+
+    @staticmethod
+    def _extract_difficulty(content: str) -> str:
+        match = re.search(
+            r"\*\*Сложность:\*\*\s*(easy|medium|hard|expert)\b",
+            content,
+            re.IGNORECASE,
+        )
+        return match.group(1).lower() if match else ""
+
+    @staticmethod
+    def _extract_estimated_time(content: str) -> int | None:
+        match = re.search(
+            r"\*\*Ориентировочное время:\*\*\s*(\d+)",
+            content,
+            re.IGNORECASE,
+        )
+        return int(match.group(1)) if match else None
+
+    @staticmethod
+    def _unique_slug(title: str, generated_id: int) -> str:
+        base = slugify(title, allow_unicode=True)[:220]
+        if not base:
+            base = f"ai-instruction-{generated_id}"
+
+        candidate = base
+        suffix = 2
+        while Instruction.objects.filter(slug=candidate).exists():
+            candidate = f"{base[:240 - len(str(suffix))]}-{suffix}"
+            suffix += 1
+        return candidate
+
+    @staticmethod
+    def _assert_can_moderate(user: Any) -> None:
+        if not getattr(user, "is_authenticated", False):
+            raise AIAccessDenied("Для модерации необходимо войти в аккаунт.")
+        if not (
+            bool(getattr(user, "can_moderate", False))
+            or bool(getattr(user, "can_administrate", False))
+            or bool(getattr(user, "is_superuser", False))
+        ):
+            raise AIAccessDenied(
+                "Публиковать AI-версии может только модератор."
+            )
+
+
+class AIToolRecommendationModerationService:
+    """Одобряет или отклоняет AI-рекомендации инструментов."""
+
+    def approve(
+        self,
+        *,
+        moderator: Any,
+        recommendation: AIToolRecommendation | int,
+        moderation_note: str = "",
+    ) -> AIToolRecommendation:
+        """Разрешает показывать проверенную рекомендацию пользователю."""
+
+        AIInstructionModerationService._assert_can_moderate(moderator)
+        return self._review(
+            moderator=moderator,
+            recommendation=recommendation,
+            status=AIToolRecommendation.ModerationStatus.APPROVED,
+            moderation_note=moderation_note,
+        )
+
+    def reject(
+        self,
+        *,
+        moderator: Any,
+        recommendation: AIToolRecommendation | int,
+        moderation_note: str,
+    ) -> AIToolRecommendation:
+        """Отклоняет рекомендацию с обязательной причиной."""
+
+        AIInstructionModerationService._assert_can_moderate(moderator)
+        note = moderation_note.strip()
+        if not note:
+            raise ValueError(
+                "Укажите причину отклонения рекомендации инструментов."
+            )
+        return self._review(
+            moderator=moderator,
+            recommendation=recommendation,
+            status=AIToolRecommendation.ModerationStatus.REJECTED,
+            moderation_note=note,
+        )
+
+    @staticmethod
+    def _review(
+        *,
+        moderator: Any,
+        recommendation: AIToolRecommendation | int,
+        status: str,
+        moderation_note: str,
+    ) -> AIToolRecommendation:
+        recommendation_id = (
+            recommendation.pk
+            if isinstance(recommendation, AIToolRecommendation)
+            else recommendation
+        )
+        with transaction.atomic():
+            reviewed = (
+                AIToolRecommendation.objects.select_for_update()
+                .select_related("ai_request")
+                .get(pk=recommendation_id)
+            )
+            if (
+                reviewed.moderation_status
+                != AIToolRecommendation.ModerationStatus.PENDING
+            ):
+                raise AIServiceError(
+                    "Решение по этой рекомендации уже принято."
+                )
+
+            reviewed.moderation_status = status
+            reviewed.moderation_note = moderation_note.strip()
+            reviewed.reviewed_by = moderator
+            reviewed.reviewed_at = timezone.now()
+            reviewed.save(
+                update_fields=(
+                    "moderation_status",
+                    "moderation_note",
+                    "reviewed_by",
+                    "reviewed_at",
+                )
+            )
+
+            suffix = (
+                "approved"
+                if status
+                == AIToolRecommendation.ModerationStatus.APPROVED
+                else "rejected"
+            )
+            reviewed.ai_request.request_type = (
+                f"tool_recommendation_{suffix}"
+            )
+            reviewed.ai_request.save(update_fields=("request_type",))
+
+        return reviewed
 
 
 class SmartAutoPartsAIService:
@@ -1534,10 +2005,18 @@ class SmartAutoPartsAIService:
             image_data_url=validated.data_url,
         )
         if image_moderation.flagged:
+            categories_text = ", ".join(image_moderation.categories)
             blocked = ModerationDecision(
                 allowed=False,
                 category="openai_image_safety",
-                reason="Изображение заблокировано политикой безопасности.",
+                reason=(
+                    "Изображение заблокировано политикой безопасности"
+                    + (
+                        f" ({categories_text})."
+                        if categories_text
+                        else "."
+                    )
+                ),
                 risk_level="critical",
                 requires_professional=False,
                 tokens_used=decision.tokens_used,
@@ -1621,6 +2100,34 @@ class SmartAutoPartsAIService:
             provider.parsed,
             catalog=catalog,
         )
+        if not (
+            output.is_automotive_part
+            or output.is_automotive_tool
+        ):
+            rejected = ModerationDecision(
+                allowed=False,
+                category="non_automotive_image",
+                reason=(
+                    "На фотографии не обнаружена автомобильная "
+                    "запчасть или инструмент."
+                ),
+                risk_level="low",
+                tokens_used=decision.tokens_used + provider.tokens_used,
+            )
+            ai_request = AIRequest.objects.create(
+                user=user,
+                part=None,
+                prompt=prompt_text,
+                response=rejected.reason,
+                tokens_used=rejected.tokens_used,
+                request_type="image_analysis_rejected",
+            )
+            raise AIRequestRejected(
+                rejected.reason,
+                decision=rejected,
+                ai_request=ai_request,
+            )
+
         detected_part = self.image_catalog.resolve_detected_part(
             output=output,
             catalog=catalog,
@@ -1672,6 +2179,23 @@ class SmartAutoPartsAIService:
                     "gpt-5.6-sol",
                 ),
             }
+            if output.confidence_score > 70:
+                suggested_original_number = (
+                    detected_part.original_number
+                    if detected_part is not None
+                    else next(
+                        (
+                            number.strip()
+                            for number in output.visible_oem_numbers
+                            if number.strip()
+                        ),
+                        "",
+                    )
+                )
+                if suggested_original_number:
+                    payload["suggested_original_number"] = (
+                        suggested_original_number
+                    )
             analysis = AIImageAnalysis.objects.create(
                 user=user,
                 image=ContentFile(
@@ -1681,6 +2205,22 @@ class SmartAutoPartsAIService:
                 detected_part=detected_part,
                 confidence_score=confidence,
                 analysis_result=payload,
+                moderation_status="approved",
+                moderation_categories=list(
+                    image_moderation.categories
+                ),
+                moderation_model=getattr(
+                    self.gateway,
+                    "moderation_model",
+                    str(
+                        getattr(
+                            settings,
+                            "OPENAI_MODERATION_MODEL",
+                            "omni-moderation-latest",
+                        )
+                    ),
+                ),
+                moderation_checked_at=timezone.now(),
             )
 
         return ImageAnalysisServiceResult(
@@ -1689,6 +2229,128 @@ class SmartAutoPartsAIService:
             payload=payload,
             detected_part=detected_part,
             moderation=decision,
+        )
+
+    def recommend_part_tools(
+        self,
+        *,
+        user: Any,
+        part: Part | int,
+        goal: str,
+    ) -> ToolRecommendationServiceResult:
+        """
+        Подбирает инструменты для детали с учётом каталога проекта.
+
+        Ответ сохраняется как AIRequest, расходует лимит AI-чата и проходит
+        ту же модерацию, что остальные пользовательские запросы. Каталог
+        Tool/PartTool автоматически не изменяется.
+        """
+
+        if self.enforce_access:
+            self.quota.check(user, feature="chat")
+
+        resolved_part = self._part_instance(part)
+        prompt_text = goal.strip()
+        if not prompt_text:
+            raise ValueError("Опишите задачу для подбора инструментов.")
+
+        safety_identifier = self._safety_identifier(user)
+        decision = self.moderation.moderate(
+            prompt_text,
+            safety_identifier=safety_identifier,
+        )
+        if not decision.allowed:
+            ai_request = self._save_blocked_request(
+                user=user,
+                part=resolved_part,
+                prompt=prompt_text,
+                request_type="tool_recommendation_blocked",
+                decision=decision,
+            )
+            raise AIRequestRejected(
+                decision.reason,
+                decision=decision,
+                ai_request=ai_request,
+            )
+
+        project_context = self.context_builder.build(
+            user=user,
+            part=resolved_part,
+        )
+
+        try:
+            provider = self.gateway.generate_text(
+                system_prompt=TOOL_RECOMMENDATION_SYSTEM_PROMPT,
+                user_prompt=build_tool_recommendation_prompt(
+                    goal=prompt_text,
+                    project_context=project_context,
+                ),
+                reasoning_effort=str(
+                    getattr(
+                        settings,
+                        "OPENAI_TOOL_REASONING_EFFORT",
+                        "low",
+                    )
+                ),
+                max_output_tokens=int(
+                    getattr(
+                        settings,
+                        "OPENAI_TOOL_MAX_OUTPUT_TOKENS",
+                        3_000,
+                    )
+                ),
+                safety_identifier=safety_identifier,
+                verbosity=str(
+                    getattr(
+                        settings,
+                        "OPENAI_TOOL_VERBOSITY",
+                        "medium",
+                    )
+                ),
+            )
+        except AIContentBlocked as exc:
+            blocked = ModerationDecision(
+                allowed=False,
+                category="openai_generation_safety",
+                reason=str(exc),
+                risk_level="critical",
+                requires_professional=True,
+                tokens_used=decision.tokens_used,
+            )
+            ai_request = self._save_blocked_request(
+                user=user,
+                part=resolved_part,
+                prompt=prompt_text,
+                request_type="tool_recommendation_blocked",
+                decision=blocked,
+            )
+            raise AIRequestRejected(
+                str(exc),
+                decision=blocked,
+                ai_request=ai_request,
+            ) from exc
+
+        with transaction.atomic():
+            ai_request = AIRequest.objects.create(
+                user=user,
+                part=resolved_part,
+                prompt=prompt_text,
+                response=provider.text,
+                tokens_used=decision.tokens_used + provider.tokens_used,
+                request_type="tool_recommendation_moderation_pending",
+            )
+            generated_recommendation = (
+                AIToolRecommendation.objects.create(
+                    ai_request=ai_request,
+                    generated_content=provider.text,
+                )
+            )
+        return ToolRecommendationServiceResult(
+            ai_request=ai_request,
+            generated_recommendation=generated_recommendation,
+            answer=provider.text,
+            moderation=decision,
+            requires_moderation=True,
         )
 
     def generate_repair_instruction(
@@ -1848,6 +2510,10 @@ class SmartAutoPartsAIService:
                             "Архив опубликованной версии перед "
                             f"AI-обновлением до v{proposed_version}."
                         ),
+                        "created_by": (
+                            locked_instruction.updated_by
+                            or locked_instruction.created_by
+                        ),
                     },
                 )
 
@@ -1903,91 +2569,13 @@ class SmartAutoPartsAIService:
         generated_instruction: AIGeneratedInstruction | int,
         moderation_note: str = "",
     ) -> AIGeneratedInstruction:
-        """
-        Публикует проверенную AI-версию и увеличивает ``Instruction.version``.
+        """Делегирует публикацию независимому сервису модерации."""
 
-        Метод разрешён только модератору, администратору или суперпользователю.
-        Обновление выполняется под блокировкой строк, чтобы два модератора не
-        смогли одновременно опубликовать разные версии с одним номером.
-        """
-
-        self._assert_can_moderate(moderator)
-        generated_id = (
-            generated_instruction.pk
-            if isinstance(generated_instruction, AIGeneratedInstruction)
-            else generated_instruction
+        return AIInstructionModerationService().approve(
+            moderator=moderator,
+            generated_instruction=generated_instruction,
+            moderation_note=moderation_note,
         )
-
-        with transaction.atomic():
-            generated = (
-                AIGeneratedInstruction.objects.select_for_update()
-                .select_related("instruction")
-                .get(pk=generated_id)
-            )
-            if generated.is_cached:
-                raise AIServiceError(
-                    "Кэшированная выдача уже содержит опубликованную версию."
-                )
-            if (
-                generated.moderation_status
-                != AIGeneratedInstruction.ModerationStatus.PENDING
-            ):
-                raise AIServiceError(
-                    "Решение по этой AI-инструкции уже принято."
-                )
-            if generated.instruction_id is None:
-                raise AIServiceError(
-                    "Для публикации новой инструкции сначала свяжите "
-                    "AI-черновик с объектом Instruction."
-                )
-
-            instruction = Instruction.objects.select_for_update().get(
-                pk=generated.instruction_id,
-            )
-            expected_version = instruction.version + 1
-            if generated.version_number != expected_version:
-                raise AIServiceError(
-                    "Опубликованная инструкция уже изменилась. "
-                    "AI-версию необходимо пересоздать на актуальной основе."
-                )
-
-            InstructionVersion.objects.get_or_create(
-                instruction=instruction,
-                version_number=instruction.version,
-                defaults={
-                    "content": instruction.content,
-                    "changelog": (
-                        "Архив опубликованной версии перед "
-                        f"публикацией AI-редакции v{generated.version_number}."
-                    ),
-                },
-            )
-            instruction.content = generated.generated_content
-            instruction.version = generated.version_number
-            instruction.save(
-                update_fields=(
-                    "content",
-                    "version",
-                    "updated_at",
-                )
-            )
-
-            generated.moderation_status = (
-                AIGeneratedInstruction.ModerationStatus.APPROVED
-            )
-            generated.moderation_note = moderation_note.strip()
-            generated.reviewed_by = moderator
-            generated.reviewed_at = timezone.now()
-            generated.save(
-                update_fields=(
-                    "moderation_status",
-                    "moderation_note",
-                    "reviewed_by",
-                    "reviewed_at",
-                )
-            )
-
-        return generated
 
     def reject_generated_instruction(
         self,
@@ -1996,46 +2584,43 @@ class SmartAutoPartsAIService:
         generated_instruction: AIGeneratedInstruction | int,
         moderation_note: str,
     ) -> AIGeneratedInstruction:
-        """Отклоняет AI-версию, не меняя опубликованную инструкцию."""
+        """Делегирует отклонение независимому сервису модерации."""
 
-        self._assert_can_moderate(moderator)
-        note = moderation_note.strip()
-        if not note:
-            raise ValueError("Укажите причину отклонения AI-инструкции.")
-
-        generated_id = (
-            generated_instruction.pk
-            if isinstance(generated_instruction, AIGeneratedInstruction)
-            else generated_instruction
+        return AIInstructionModerationService().reject(
+            moderator=moderator,
+            generated_instruction=generated_instruction,
+            moderation_note=moderation_note,
         )
-        with transaction.atomic():
-            generated = AIGeneratedInstruction.objects.select_for_update().get(
-                pk=generated_id,
-            )
-            if (
-                generated.moderation_status
-                != AIGeneratedInstruction.ModerationStatus.PENDING
-            ):
-                raise AIServiceError(
-                    "Решение по этой AI-инструкции уже принято."
-                )
 
-            generated.moderation_status = (
-                AIGeneratedInstruction.ModerationStatus.REJECTED
-            )
-            generated.moderation_note = note
-            generated.reviewed_by = moderator
-            generated.reviewed_at = timezone.now()
-            generated.save(
-                update_fields=(
-                    "moderation_status",
-                    "moderation_note",
-                    "reviewed_by",
-                    "reviewed_at",
-                )
-            )
+    def approve_tool_recommendation(
+        self,
+        *,
+        moderator: Any,
+        recommendation: AIToolRecommendation | int,
+        moderation_note: str = "",
+    ) -> AIToolRecommendation:
+        """Делегирует одобрение рекомендации инструментов."""
 
-        return generated
+        return AIToolRecommendationModerationService().approve(
+            moderator=moderator,
+            recommendation=recommendation,
+            moderation_note=moderation_note,
+        )
+
+    def reject_tool_recommendation(
+        self,
+        *,
+        moderator: Any,
+        recommendation: AIToolRecommendation | int,
+        moderation_note: str,
+    ) -> AIToolRecommendation:
+        """Делегирует отклонение рекомендации инструментов."""
+
+        return AIToolRecommendationModerationService().reject(
+            moderator=moderator,
+            recommendation=recommendation,
+            moderation_note=moderation_note,
+        )
 
     def _resolve_saved_instruction(
         self,
@@ -2263,10 +2848,13 @@ class SmartAutoPartsAIService:
         *,
         detected_part: Part | None,
     ) -> str:
-        if not output.is_automotive_part:
+        if not (
+            output.is_automotive_part
+            or output.is_automotive_tool
+        ):
             return (
-                "На изображении не удалось подтвердить наличие "
-                "автомобильной запчасти."
+                "На изображении не обнаружена автомобильная "
+                "запчасть или инструмент."
             )
 
         detected_text = (
@@ -2275,7 +2863,10 @@ class SmartAutoPartsAIService:
             else "точного совпадения в каталоге не подтверждено"
         )
         lines = [
-            f"Предполагаемая деталь: {output.part_name or 'не определена'}.",
+            (
+                "Предполагаемый объект: "
+                f"{output.part_name or 'не определён'}."
+            ),
             f"Совпадение SmartAutoParts: {detected_text}.",
             f"Уверенность анализа: {output.confidence_score:.2f}%.",
             f"Состояние: {output.condition}.",

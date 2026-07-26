@@ -1,5 +1,7 @@
 from django.conf import settings
 from django.db import models
+from django.urls import reverse
+from django.utils import timezone
 from django.utils.translation import gettext_lazy as _
 
 from apps.parts.models import Part
@@ -15,6 +17,12 @@ class Instruction(models.Model):
     SEO-информацию, уровень сложности, примерное время
     выполнения и сведения об авторе.
     """
+
+    class Difficulty(models.TextChoices):
+        EASY = "easy", _("Легко")
+        MEDIUM = "medium", _("Средняя")
+        HARD = "hard", _("Сложно")
+        EXPERT = "expert", _("Экспертная")
 
     part = models.ForeignKey(
         Part,
@@ -46,6 +54,7 @@ class Instruction(models.Model):
 
     difficulty = models.CharField(
         max_length=50,
+        choices=Difficulty.choices,
         blank=True,
         verbose_name=_("Difficulty"),
     )
@@ -76,6 +85,27 @@ class Instruction(models.Model):
         verbose_name=_("Created by"),
     )
 
+    updated_by = models.ForeignKey(
+        settings.AUTH_USER_MODEL,
+        on_delete=models.SET_NULL,
+        related_name="updated_instructions",
+        null=True,
+        blank=True,
+        verbose_name=_("Updated by"),
+    )
+
+    is_published = models.BooleanField(
+        default=True,
+        db_index=True,
+        verbose_name=_("Published"),
+    )
+
+    published_at = models.DateTimeField(
+        null=True,
+        blank=True,
+        verbose_name=_("Published at"),
+    )
+
     created_at = models.DateTimeField(
         auto_now_add=True,
         verbose_name=_("Created at"),
@@ -91,9 +121,30 @@ class Instruction(models.Model):
         ordering = ("title",)
         verbose_name = _("Instruction")
         verbose_name_plural = _("Instructions")
+        indexes = [
+            models.Index(
+                fields=["is_published", "difficulty"],
+                name="instruction_public_diff_idx",
+            ),
+            models.Index(
+                fields=["part", "premium_only"],
+                name="instruction_part_premium_idx",
+            ),
+        ]
 
     def __str__(self):
         return self.title
+
+    def get_absolute_url(self):
+        return reverse(
+            "instructions_web:detail",
+            kwargs={"slug": self.slug},
+        )
+
+    def save(self, *args, **kwargs):
+        if self.is_published and self.published_at is None:
+            self.published_at = timezone.now()
+        super().save(*args, **kwargs)
 
 class InstructionVersion(models.Model):
     """
@@ -125,6 +176,15 @@ class InstructionVersion(models.Model):
         help_text=_("Description of changes made in this version."),
     )
 
+    created_by = models.ForeignKey(
+        settings.AUTH_USER_MODEL,
+        on_delete=models.SET_NULL,
+        related_name="instruction_versions",
+        null=True,
+        blank=True,
+        verbose_name=_("Created by"),
+    )
+
     created_at = models.DateTimeField(
         auto_now_add=True,
         verbose_name=_("Created at"),
@@ -135,6 +195,12 @@ class InstructionVersion(models.Model):
         ordering = ("-version_number",)
         verbose_name = _("Instruction version")
         verbose_name_plural = _("Instruction versions")
+        constraints = [
+            models.UniqueConstraint(
+                fields=["instruction", "version_number"],
+                name="instruction_version_number_uniq",
+            )
+        ]
 
     def __str__(self):
         return (

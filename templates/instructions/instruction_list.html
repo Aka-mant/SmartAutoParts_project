@@ -1,0 +1,119 @@
+{% extends "base.html" %}
+
+{% block title %}Инструкции по ремонту — SmartAutoParts{% endblock %}
+
+{% block content %}
+<section class="instructions-page">
+    <div class="container">
+        <header class="catalog-hero">
+            <span class="section-eyebrow">База знаний</span>
+            <h1>Пошаговые инструкции по ремонту</h1>
+            <p>
+                Проверенные последовательности работ, списки инструментов,
+                предупреждения и контрольные проверки для конкретных деталей.
+            </p>
+        </header>
+
+        <form class="instruction-filters" method="get">
+            <div class="instruction-filters__search">
+                <label class="visually-hidden" for="instruction-query">Поиск инструкций</label>
+                <i class="bi bi-search" aria-hidden="true"></i>
+                <input
+                    id="instruction-query"
+                    type="search"
+                    name="q"
+                    value="{{ search_query }}"
+                    placeholder="Название, OEM-номер или деталь"
+                >
+            </div>
+            <select name="difficulty" aria-label="Сложность">
+                <option value="">Любая сложность</option>
+                {% for value, label in difficulty_options %}
+                    <option value="{{ value }}"{% if selected_difficulty == value %} selected{% endif %}>
+                        {{ label }}
+                    </option>
+                {% endfor %}
+            </select>
+            <select name="category" aria-label="Категория детали">
+                <option value="">Все категории</option>
+                {% for category in categories %}
+                    <option value="{{ category.slug }}"{% if selected_category == category.slug %} selected{% endif %}>
+                        {{ category.name }}
+                    </option>
+                {% endfor %}
+            </select>
+            <button class="btn btn-primary" type="submit">Найти</button>
+            {% if search_query or selected_difficulty or selected_category %}
+                <a class="btn btn-outline-secondary" href="{% url 'instructions_web:list' %}">
+                    Сбросить
+                </a>
+            {% endif %}
+        </form>
+
+        <div class="instruction-results-heading">
+            <h2>
+                {% if search_query %}Результаты по запросу «{{ search_query }}»{% else %}Все инструкции{% endif %}
+            </h2>
+            <span>{{ paginator.count }} материалов</span>
+        </div>
+
+        <div class="instruction-card-grid">
+            {% for instruction in instructions %}
+                <article class="instruction-card">
+                    <a class="instruction-card__visual" href="{{ instruction.get_absolute_url }}">
+                        {% with image=instruction.images.first %}
+                            {% if image %}
+                                <img src="{{ image.image.url }}" alt="{{ image.description|default:instruction.title }}">
+                            {% else %}
+                                <span><i class="bi bi-journal-check" aria-hidden="true"></i></span>
+                            {% endif %}
+                        {% endwith %}
+                        {% if instruction.premium_only and not user.can_administrate %}
+                            <span class="instruction-card__premium">
+                                <i class="bi bi-gem" aria-hidden="true"></i> По подписке
+                            </span>
+                        {% endif %}
+                    </a>
+                    <div class="instruction-card__body">
+                        <div class="instruction-card__meta">
+                            <span>{{ instruction.get_difficulty_display|default:"Без категории" }}</span>
+                            {% if instruction.estimated_time %}
+                                <span><i class="bi bi-clock" aria-hidden="true"></i> {{ instruction.estimated_time }} мин</span>
+                            {% endif %}
+                            <span><i class="bi bi-list-ol" aria-hidden="true"></i> {{ instruction.steps_count }} шагов</span>
+                        </div>
+                        <h3><a href="{{ instruction.get_absolute_url }}">{{ instruction.title }}</a></h3>
+                        <p>{{ instruction.short_description|default:instruction.content|truncatechars:150 }}</p>
+                        <a class="instruction-card__part" href="{{ instruction.part.get_absolute_url }}">
+                            <i class="bi bi-gear" aria-hidden="true"></i>
+                            {{ instruction.part.name }} · {{ instruction.part.original_number }}
+                        </a>
+                    </div>
+                </article>
+            {% empty %}
+                <div class="catalog-empty">
+                    <i class="bi bi-search" aria-hidden="true"></i>
+                    <h2>Инструкции не найдены</h2>
+                    <p>Измените параметры поиска или сбросьте фильтры.</p>
+                </div>
+            {% endfor %}
+        </div>
+
+        {% if is_paginated %}
+            <nav class="catalog-pagination" aria-label="Страницы инструкций">
+                {% if page_obj.has_previous %}
+                    <a href="?q={{ search_query|urlencode }}&difficulty={{ selected_difficulty|urlencode }}&category={{ selected_category|urlencode }}&page={{ page_obj.previous_page_number }}">
+                        <i class="bi bi-chevron-left"></i> Назад
+                    </a>
+                {% endif %}
+                <span>Страница {{ page_obj.number }} из {{ paginator.num_pages }}</span>
+                {% if page_obj.has_next %}
+                    <a href="?q={{ search_query|urlencode }}&difficulty={{ selected_difficulty|urlencode }}&category={{ selected_category|urlencode }}&page={{ page_obj.next_page_number }}">
+                        Далее <i class="bi bi-chevron-right"></i>
+                    </a>
+                {% endif %}
+            </nav>
+        {% endif %}
+    </div>
+</section>
+{% endblock %}

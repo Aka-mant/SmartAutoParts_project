@@ -1,6 +1,5 @@
 from django.urls import path
 
-from .apps import SubscriptionsConfig
 from .views import (
     # SubscriptionPlan
     SubscriptionPlanListAPIView,
@@ -22,11 +21,15 @@ from .views import (
     SubscriptionPaymentRetrieveAPIView,
     SubscriptionPaymentUpdateAPIView,
     SubscriptionPaymentDeleteAPIView,
+
+    # HTML
+    SubscriptionCheckoutPageView,
+    SubscriptionPlansPageView,
 )
 
-app_name = SubscriptionsConfig.name
+app_name = "subscriptions_api"
 
-urlpatterns = [
+api_urlpatterns = [
     # ==========================
     # Тарифные планы
     # ==========================
@@ -114,3 +117,15 @@ urlpatterns = [
         name="subscription_payment_delete",
     ),
 ]
+
+web_urlpatterns = [
+    path("", SubscriptionPlansPageView.as_view(), name="plans"),
+    path(
+        "payment/<int:plan_id>/",
+        SubscriptionCheckoutPageView.as_view(),
+        name="payment",
+    ),
+]
+
+# Совместимость с прямым include("apps.subscriptions.urls").
+urlpatterns = api_urlpatterns

@@ -26,11 +26,14 @@ OPENAI_INSTRUCTION_REASONING_EFFORT = "medium"
 OPENAI_MODERATION_REASONING_EFFORT = "low"
 
 OPENAI_CHAT_MAX_OUTPUT_TOKENS = 2_500
+OPENAI_TOOL_MAX_OUTPUT_TOKENS = 3_000
 OPENAI_INSTRUCTION_MAX_OUTPUT_TOKENS = 12_000
 OPENAI_MODERATION_MAX_OUTPUT_TOKENS = 700
 OPENAI_IMAGE_MAX_OUTPUT_TOKENS = 2_500
 
 OPENAI_CHAT_VERBOSITY = "medium"
+OPENAI_TOOL_VERBOSITY = "medium"
+OPENAI_TOOL_REASONING_EFFORT = "low"
 OPENAI_INSTRUCTION_VERBOSITY = "high"
 OPENAI_IMAGE_VERBOSITY = "medium"
 OPENAI_IMAGE_REASONING_EFFORT = "low"
@@ -105,7 +108,34 @@ structured_payload = result.payload
 не публикуется автоматически в `Instruction`. Перед публикацией инструкцию
 должен проверить технический редактор или модератор.
 
-## 5. Анализ фотографии запчасти
+Карточка детали формирует запрос только из данных проекта. Новая версия
+сохраняется со статусом `pending` и публикуется только после проверки в:
+
+```text
+/admin/AI/aigeneratedinstruction/
+```
+
+## 5. Подбор и модерация инструментов
+
+```python
+result = service.recommend_part_tools(
+    user=request.user,
+    part=part,
+    goal=server_goal,
+)
+```
+
+Ответ сохраняется как `AIToolRecommendation` со статусом `pending`.
+Непроверенный текст не выдаётся пользователю. Модерация доступна в:
+
+```text
+/admin/AI/aitoolrecommendation/
+```
+
+Одобрение открывает результат пользователю, а отклонение требует причину.
+Каталог `Tool` и связи `PartTool` автоматически не изменяются.
+
+## 6. Анализ фотографии запчасти
 
 ```python
 result = service.analyze_part_image(
@@ -129,7 +159,26 @@ PNG, WEBP и статический GIF.
 `AIImageAnalysis`. Изображение, заблокированное модерацией, в хранилище
 проекта не записывается.
 
-## 6. Проверка
+HTML-загрузка:
+
+```text
+/parts/image-analysis/
+```
+
+API-загрузка:
+
+```text
+POST /api/AI/image-analyses/create/
+Content-Type: multipart/form-data
+image=<file>
+```
+
+Оба интерфейса используют один поток: тарифный лимит, локальную валидацию,
+автоматическую мультимодальную модерацию `omni-moderation-latest`,
+структурированное распознавание и сопоставление с каталогом. Успешная запись
+содержит модель, время и результат автоматической модерации.
+
+## 7. Проверка
 
 ```bash
 python manage.py check

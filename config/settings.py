@@ -65,6 +65,7 @@ MIDDLEWARE = [
     'django.middleware.common.CommonMiddleware',
     'django.middleware.csrf.CsrfViewMiddleware',
     'django.contrib.auth.middleware.AuthenticationMiddleware',
+    'users.middleware.UserAgreementRequiredMiddleware',
     'django.contrib.messages.middleware.MessageMiddleware',
     'django.middleware.clickjacking.XFrameOptionsMiddleware',
 ]
@@ -175,6 +176,23 @@ LOGIN_REDIRECT_URL = "users:dashboard"
 LOGOUT_REDIRECT_URL = "users:login"
 
 DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
+
+USER_AGREEMENT_VERSION = os.getenv(
+    "USER_AGREEMENT_VERSION",
+    "2026-07-26",
+)
+
+COMMUNITY_CHAT_RATE_LIMIT = int(
+    os.getenv("COMMUNITY_CHAT_RATE_LIMIT", "12")
+)
+AI_CHAT_RATE_LIMIT = int(os.getenv("AI_CHAT_RATE_LIMIT", "6"))
+CHAT_BURST_RATE_LIMIT = int(os.getenv("CHAT_BURST_RATE_LIMIT", "4"))
+CHAT_RATE_WINDOW_SECONDS = int(
+    os.getenv("CHAT_RATE_WINDOW_SECONDS", "60")
+)
+CHAT_BURST_WINDOW_SECONDS = int(
+    os.getenv("CHAT_BURST_WINDOW_SECONDS", "10")
+)
 REST_FRAMEWORK = {
     'default_filter_backends': ['django_filters.rest_framework.DjangoFilterBackend'],
     'DEFAULT_AUTHENTICATION_CLASSES': (
@@ -206,6 +224,25 @@ SIMPLE_JWT = {
 # до истечения срока всё равно создаёт AIRequest и расходует лимит тарифа.
 AI_INSTRUCTION_CACHE_TTL_DAYS = int(
     os.getenv("AI_INSTRUCTION_CACHE_TTL_DAYS", "365")
+)
+
+# Серверная конфигурация OpenAI. Ключ не должен попадать в HTML/JavaScript.
+OPENAI_API_KEY = os.getenv("OPENAI_API_KEY", "")
+OPENAI_AI_MODEL = os.getenv("OPENAI_AI_MODEL", "gpt-5.6-sol")
+OPENAI_MODERATION_MODEL = os.getenv(
+    "OPENAI_MODERATION_MODEL",
+    "omni-moderation-latest",
+)
+OPENAI_TOOL_REASONING_EFFORT = os.getenv(
+    "OPENAI_TOOL_REASONING_EFFORT",
+    "low",
+)
+OPENAI_TOOL_MAX_OUTPUT_TOKENS = int(
+    os.getenv("OPENAI_TOOL_MAX_OUTPUT_TOKENS", "3000")
+)
+OPENAI_TOOL_VERBOSITY = os.getenv(
+    "OPENAI_TOOL_VERBOSITY",
+    "medium",
 )
 
 CORS_ALLOWED_ORIGINS = [

@@ -1,4 +1,5 @@
-{% if not has_chat_access or not has_image_analysis_access %}
+{% if not is_service_privileged and not is_ai_moderator %}
+{% if not has_chat_access or not has_instruction_access or not has_image_analysis_access %}
     <div class="card border-0 shadow-sm bg-primary text-white overflow-hidden">
         <div class="card-body p-4 p-lg-5 position-relative">
             <div class="row align-items-center position-relative">
@@ -13,11 +14,11 @@
 
                     <p class="mb-4 opacity-75">
                         Получите расширенный лимит AI-запросов,
-                        доступ к чату и анализу изображений деталей.
+                        доступ к чату, инструкциям и анализу изображений деталей.
                     </p>
 
                     <a
-                        href="#"
+                        href="{% url 'subscriptions_web:plans' %}"
                         class="btn btn-light text-primary fw-semibold"
                     >
                         <i class="bi bi-gem me-2"></i>
@@ -31,4 +32,5 @@
             </div>
         </div>
     </div>
+{% endif %}
 {% endif %}

@@ -1,0 +1,352 @@
+.pricing-page,
+.part-detail-page,
+.instructions-page,
+.instruction-detail-page {
+    min-height: 70vh;
+    padding: clamp(3rem, 6vw, 6rem) 0;
+    background:
+        radial-gradient(circle at 8% 0%, rgba(37, 99, 235, 0.08), transparent 28rem),
+        var(--sap-soft);
+}
+
+.catalog-hero {
+    max-width: 780px;
+    margin: 0 auto clamp(2rem, 5vw, 4rem);
+}
+
+.catalog-hero h1 {
+    margin: 0.75rem 0 1rem;
+    font-size: clamp(2.2rem, 5vw, 4.25rem);
+    font-weight: 800;
+    line-height: 1.05;
+    letter-spacing: -0.055em;
+}
+
+.catalog-hero p {
+    margin: 0;
+    color: var(--sap-muted);
+    font-size: clamp(1rem, 2vw, 1.18rem);
+}
+
+.pricing-current,
+.pricing-note {
+    display: flex;
+    max-width: 900px;
+    margin: 0 auto 2rem;
+    align-items: center;
+    gap: 0.75rem;
+    padding: 1rem 1.25rem;
+    color: #0f766e;
+    background: #f0fdfa;
+    border: 1px solid #99f6e4;
+    border-radius: 1rem;
+}
+
+.payment-layout {
+    display: grid;
+    max-width: 1120px;
+    margin: 0 auto;
+    grid-template-columns: minmax(0, 0.8fr) minmax(0, 1.2fr);
+    gap: clamp(1.25rem, 3vw, 2.5rem);
+    align-items: start;
+}
+
+.payment-summary,
+.payment-form {
+    padding: clamp(1.4rem, 3vw, 2.25rem);
+    background: #fff;
+    border: 1px solid var(--sap-border);
+    border-radius: var(--sap-radius-lg);
+    box-shadow: var(--sap-shadow);
+}
+
+.payment-summary {
+    position: sticky;
+    top: 7rem;
+}
+
+.payment-summary h1,
+.payment-form h2 {
+    margin: 0.55rem 0 0.65rem;
+    font-weight: 800;
+    letter-spacing: -0.035em;
+}
+
+.payment-summary > p,
+.payment-form header > p {
+    color: var(--sap-muted);
+}
+
+.payment-summary__price {
+    display: flex;
+    margin: 1.75rem 0;
+    align-items: baseline;
+    gap: 0.65rem;
+}
+
+.payment-summary__price strong {
+    font-size: clamp(2rem, 5vw, 3rem);
+    line-height: 1;
+}
+
+.payment-summary__price span {
+    color: var(--sap-muted);
+}
+
+.payment-summary ul {
+    display: grid;
+    margin: 0;
+    padding: 0;
+    gap: 0.85rem;
+    list-style: none;
+}
+
+.payment-summary li {
+    display: flex;
+    gap: 0.65rem;
+    color: #334155;
+}
+
+.payment-summary li i {
+    color: var(--sap-accent);
+}
+
+.payment-methods {
+    display: grid;
+    margin: 1.5rem 0;
+    padding: 0;
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    gap: 0.75rem;
+    border: 0;
+}
+
+.payment-method {
+    position: relative;
+    display: grid;
+    min-width: 0;
+    padding: 0.9rem;
+    grid-template-columns: auto minmax(0, 1fr) auto;
+    gap: 0.75rem;
+    align-items: center;
+    border: 1px solid var(--sap-border);
+    border-radius: 1rem;
+    cursor: pointer;
+    transition: border-color 0.18s ease, box-shadow 0.18s ease;
+}
+
+.payment-method:has(input:checked) {
+    border-color: var(--sap-primary);
+    box-shadow: 0 0 0 3px rgba(37, 99, 235, 0.12);
+}
+
+.payment-method input {
+    position: absolute;
+    opacity: 0;
+    pointer-events: none;
+}
+
+.payment-method__icon {
+    display: grid;
+    width: 2.65rem;
+    height: 2.65rem;
+    place-items: center;
+    color: var(--sap-primary);
+    background: #eff6ff;
+    border-radius: 0.8rem;
+    font-size: 1.15rem;
+}
+
+.payment-method strong,
+.payment-method small {
+    display: block;
+}
+
+.payment-method small {
+    margin-top: 0.15rem;
+    color: var(--sap-muted);
+    font-size: 0.78rem;
+}
+
+.payment-method__check {
+    color: var(--sap-primary);
+    opacity: 0;
+}
+
+.payment-method:has(input:checked) .payment-method__check {
+    opacity: 1;
+}
+
+.payment-form__total {
+    display: flex;
+    margin: 1rem 0 1.25rem;
+    padding-top: 1rem;
+    justify-content: space-between;
+    align-items: center;
+    border-top: 1px solid var(--sap-border);
+}
+
+.payment-form__total strong {
+    font-size: 1.35rem;
+}
+
+.pricing-grid {
+    display: grid;
+    grid-template-columns: repeat(3, minmax(0, 1fr));
+    gap: 1.5rem;
+    align-items: stretch;
+}
+
+.pricing-plan {
+    position: relative;
+    display: flex;
+    min-width: 0;
+    flex-direction: column;
+    padding: clamp(1.4rem, 3vw, 2rem);
+    background: #fff;
+    border: 1px solid var(--sap-border);
+    border-radius: var(--sap-radius-lg);
+    box-shadow: var(--sap-shadow);
+}
+
+.pricing-plan--featured {
+    border: 2px solid var(--sap-primary);
+    transform: translateY(-0.75rem);
+    box-shadow: 0 24px 64px rgba(37, 99, 235, 0.16);
+}
+
+.pricing-plan__badge {
+    position: absolute;
+    top: 0;
+    left: 50%;
+    padding: 0.4rem 0.9rem;
+    color: #fff;
+    background: var(--sap-primary);
+    border-radius: 0 0 0.8rem 0.8rem;
+    font-size: 0.78rem;
+    font-weight: 750;
+    transform: translateX(-50%);
+    white-space: nowrap;
+}
+
+.pricing-plan__header {
+    display: flex;
+    gap: 1rem;
+    margin-top: 0.5rem;
+}
+
+.pricing-plan__icon {
+    display: grid;
+    width: 3rem;
+    height: 3rem;
+    flex: 0 0 3rem;
+    place-items: center;
+    color: var(--sap-primary);
+    background: #eff6ff;
+    border-radius: 1rem;
+    font-size: 1.25rem;
+}
+
+.pricing-plan h2 {
+    margin: 0 0 0.35rem;
+    font-size: 1.5rem;
+    font-weight: 780;
+}
+
+.pricing-plan__header p {
+    margin: 0;
+    color: var(--sap-muted);
+    font-size: 0.92rem;
+}
+
+.pricing-plan__price {
+    display: flex;
+    margin: 1.75rem 0;
+    align-items: baseline;
+    gap: 0.55rem;
+}
+
+.pricing-plan__price strong {
+    font-size: clamp(2rem, 4vw, 2.7rem);
+    line-height: 1;
+    letter-spacing: -0.045em;
+}
+
+.pricing-plan__price span {
+    color: var(--sap-muted);
+}
+
+.pricing-plan__features {
+    display: grid;
+    margin: 0 0 2rem;
+    padding: 0;
+    gap: 0.9rem;
+    list-style: none;
+}
+
+.pricing-plan__features li {
+    display: flex;
+    gap: 0.75rem;
+    color: #334155;
+}
+
+.pricing-plan__features > li > i {
+    margin-top: 0.18rem;
+    color: var(--sap-accent);
+}
+
+.pricing-plan > .btn {
+    margin-top: auto;
+}
+
+.pricing-note {
+    margin-top: 2rem;
+    margin-bottom: 0;
+    color: #475569;
+    background: #fff;
+    border-color: var(--sap-border);
+}
+
+@media (max-width: 991.98px) {
+    .pricing-grid {
+        grid-template-columns: 1fr;
+        max-width: 680px;
+        margin-inline: auto;
+    }
+
+    .pricing-plan--featured {
+        transform: none;
+    }
+
+    .payment-layout {
+        grid-template-columns: 1fr;
+        max-width: 760px;
+    }
+
+    .payment-summary {
+        position: static;
+    }
+}
+
+@media (max-width: 575.98px) {
+    .pricing-page,
+    .part-detail-page,
+    .instructions-page,
+    .instruction-detail-page {
+        padding: 2rem 0 3rem;
+    }
+
+    .pricing-current,
+    .pricing-note {
+        align-items: flex-start;
+    }
+
+    .payment-methods {
+        grid-template-columns: 1fr;
+    }
+
+    .payment-summary,
+    .payment-form {
+        padding: 1.15rem;
+        border-radius: 1rem;
+    }
+}

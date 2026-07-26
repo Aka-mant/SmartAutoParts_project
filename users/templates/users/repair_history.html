@@ -35,7 +35,9 @@
                             <div class="history-content">
                                 <div class="history-title-row">
                                     <h2>
-                                        {{ item.instruction.title }}
+                                        <a href="{{ item.instruction.get_absolute_url }}">
+                                            {{ item.instruction.title }}
+                                        </a>
                                     </h2>
 
                                     {% if item.completed %}
@@ -53,6 +55,67 @@
                                     <p>{{ item.notes }}</p>
                                 {% else %}
                                     <p>Заметки не добавлены.</p>
+                                {% endif %}
+
+                                {% if not item.completed %}
+                                    <div class="repair-history-progress">
+                                        <div class="repair-history-progress__meta">
+                                            <span>
+                                                Шаг {{ item.current_step }}
+                                                из {{ item.total_steps }}
+                                            </span>
+                                        </div>
+
+                                        <div
+                                            class="progress"
+                                            role="progressbar"
+                                            aria-label="Прогресс ремонта"
+                                            aria-valuenow="{{ item.current_step }}"
+                                            aria-valuemin="0"
+                                            aria-valuemax="{{ item.total_steps }}"
+                                        >
+                                            <div
+                                                class="progress-bar bg-success"
+                                                style="width: {% widthratio item.current_step item.total_steps 100 %}%;"
+                                            ></div>
+                                        </div>
+
+                                        <div class="repair-step-navigation repair-step-navigation--history">
+                                            <form
+                                                method="post"
+                                                action="{% url 'users:repair_step_navigation' item.pk %}"
+                                            >
+                                                {% csrf_token %}
+                                                <input type="hidden" name="action" value="previous">
+                                                <input type="hidden" name="next" value="{{ request.get_full_path }}">
+                                                <button
+                                                    type="submit"
+                                                    class="btn btn-sm btn-outline-secondary"
+                                                    {% if item.current_step <= 1 %}disabled{% endif %}
+                                                >
+                                                    <i class="bi bi-arrow-left me-1"></i>
+                                                    Предыдущий шаг
+                                                </button>
+                                            </form>
+
+                                            <form
+                                                method="post"
+                                                action="{% url 'users:repair_step_navigation' item.pk %}"
+                                            >
+                                                {% csrf_token %}
+                                                <input type="hidden" name="action" value="next">
+                                                <input type="hidden" name="next" value="{{ request.get_full_path }}">
+                                                <button
+                                                    type="submit"
+                                                    class="btn btn-sm btn-primary"
+                                                    {% if item.total_steps == 0 or item.current_step >= item.total_steps %}disabled{% endif %}
+                                                >
+                                                    Следующий шаг
+                                                    <i class="bi bi-arrow-right ms-1"></i>
+                                                </button>
+                                            </form>
+                                        </div>
+                                    </div>
                                 {% endif %}
 
                                 <time datetime="{{ item.created_at|date:'c' }}">
@@ -78,10 +141,10 @@
                     </p>
 
                     <a
-                        href="{% url 'home' %}"
+                        href="{% url 'instructions_web:list' %}"
                         class="btn btn-primary"
                     >
-                        Перейти к поиску
+                        Открыть инструкции
                     </a>
                 </div>
             {% endif %}

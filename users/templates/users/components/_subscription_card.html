@@ -1,96 +1,118 @@
+{% if is_service_privileged %}
+<article class="dashboard-card subscription-card is-premium">
+    <div class="subscription-card__top">
+        <div>
+            <p class="dashboard-muted mb-1">Доступ к сервису</p>
+            <h2 class="subscription-card__plan">Служебный</h2>
+        </div>
+        <span class="subscription-card__status">Безлимит</span>
+    </div>
+    <div class="subscription-card__details">
+        <div class="subscription-card__detail">
+            <span>Все AI-запросы</span>
+            <strong>Безлимит</strong>
+        </div>
+        <div class="subscription-card__detail">
+            <span>AI-чат</span>
+            <strong>Безлимит</strong>
+        </div>
+        <div class="subscription-card__detail">
+            <span>Инструкции</span>
+            <strong>Безлимит</strong>
+        </div>
+        <div class="subscription-card__detail">
+            <span>Анализ изображений</span>
+            <strong>Безлимит</strong>
+        </div>
+    </div>
+</article>
+{% elif is_ai_moderator %}
 <article class="dashboard-card subscription-card is-free">
     <div class="subscription-card__top">
         <div>
-            <p class="dashboard-muted mb-1">
-                Текущий тариф
-            </p>
-
-            <h2 class="subscription-card__plan">
-                Бесплатный
-            </h2>
+            <p class="dashboard-muted mb-1">Роль в сервисе</p>
+            <h2 class="subscription-card__plan">Модератор</h2>
         </div>
-
-        <span class="subscription-card__status">
-            Активен
-        </span>
+        <span class="subscription-card__status">Активен</span>
+    </div>
+    <p class="dashboard-muted mb-0">
+        Доступна проверка ответов AI. Отправка AI-запросов для этой роли отключена.
+    </p>
+</article>
+{% elif has_active_subscription %}
+<article class="dashboard-card subscription-card is-premium {% if subscription_is_expiring %}is-expiring{% endif %}">
+    <div class="subscription-card__top">
+        <div>
+            <p class="dashboard-muted mb-1">Текущий тариф</p>
+            <h2 class="subscription-card__plan">{{ subscription_plan.name }}</h2>
+        </div>
+        <span class="subscription-card__status">Активен</span>
     </div>
 
-    <div class="subscription-card__body">
-        <div class="usage-limits">
-            <div class="usage-limits__header">
-                <span class="usage-limits__title">
-                    AI-запросы
-                </span>
-
-                <span class="usage-limits__value">
-                    {{ ai_requests_used|default:0 }}
-                    /
-                    {{ ai_requests_limit|default:3 }}
-                </span>
-            </div>
-
-            <div
-                class="usage-limits__progress"
-                role="progressbar"
-                aria-valuenow="{{ ai_usage_percent|default:0 }}"
-                aria-valuemin="0"
-                aria-valuemax="100"
-            >
-                <div
-                    class="usage-limits__progress-bar"
-                    style="width: {{ ai_usage_percent|default:0 }}%;"
-                ></div>
-            </div>
-
-            <div class="usage-limits__meta">
-                <span>
-                    Использовано
-                    {{ ai_usage_percent|default:0 }}%
-                </span>
-
-                <span>
-                    Осталось:
-                    {{ ai_requests_remaining|default:3 }}
-                </span>
-            </div>
+    <div class="subscription-card__details">
+        <div class="subscription-card__detail">
+            <span>Действует до</span>
+            <strong>{{ subscription_end_date|date:"d.m.Y" }}</strong>
         </div>
-
-        <div class="subscription-card__feature">
-            <div>
-                <div class="subscription-card__feature-title">
-                    <i class="bi bi-image me-2"></i>
-                    Анализ изображений
-                </div>
-
-                <div class="subscription-card__feature-text">
-                    Выполнено запросов
-                </div>
-            </div>
-
-            <span class="subscription-card__feature-value">
-                {{ image_requests_used|default:0 }}
-            </span>
+        <div class="subscription-card__detail">
+            <span>Все AI-запросы</span>
+            <strong>{{ ai_requests_remaining }} из {{ ai_limit }}</strong>
         </div>
-
-        <div class="subscription-card__badges">
-            <span class="badge text-bg-secondary">
-                <i class="bi bi-chat-dots me-1"></i>
-                AI-чат недоступен
-            </span>
-
-            <span class="badge text-bg-secondary">
-                <i class="bi bi-camera me-1"></i>
-                Анализ недоступен
-            </span>
+        <div class="subscription-card__detail">
+            <span>AI-чат и инструменты</span>
+            <strong>{{ chat_requests_remaining }} из {{ chat_limit }}</strong>
+        </div>
+        <div class="subscription-card__detail">
+            <span>Инструкции</span>
+            <strong>{{ instruction_requests_remaining }} из {{ instruction_limit }}</strong>
+        </div>
+        <div class="subscription-card__detail">
+            <span>Анализ изображений</span>
+            <strong>{{ image_analysis_remaining }} из {{ image_analysis_limit }}</strong>
         </div>
     </div>
 
     <div class="subscription-card__footer">
         <a
-            href="#"
-            class="btn btn-primary w-100"
+            href="{% url 'subscriptions_web:plans' %}"
+            class="btn btn-outline-primary w-100"
         >
-            Перейти на Premium
+            Управление тарифом
         </a>
     </div>
 </article>
+{% else %}
+<article class="dashboard-card subscription-card is-free">
+    <div class="subscription-card__top">
+        <div>
+            <p class="dashboard-muted mb-1">Текущий тариф</p>
+            <h2 class="subscription-card__plan">Без подписки</h2>
+        </div>
+        <span class="subscription-card__status">Базовый доступ</span>
+    </div>
+
+    <div class="subscription-card__feature">
+        <div>
+            <div class="subscription-card__feature-title">
+                <i class="bi bi-search me-2" aria-hidden="true"></i>
+                Поиск по базе
+            </div>
+            <div class="subscription-card__feature-text">
+                Доступен без AI-функций
+            </div>
+        </div>
+        <span class="subscription-card__feature-value">
+            {{ searches_used|default:0 }}
+        </span>
+    </div>
+
+    <div class="subscription-card__footer">
+        <a
+            href="{% url 'subscriptions_web:plans' %}"
+            class="btn btn-primary w-100"
+        >
+            Выбрать тариф
+        </a>
+    </div>
+</article>
+{% endif %}

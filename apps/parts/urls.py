@@ -1,6 +1,5 @@
 from django.urls import path
 
-from .apps import PartsConfig
 from .views import (
     # PartCategory
     PartCategoryListAPIView,
@@ -36,11 +35,18 @@ from .views import (
     PartImageRetrieveAPIView,
     PartImageUpdateAPIView,
     PartImageDeleteAPIView,
+
+    # HTML
+    PartDetailPageView,
+    PartImageAnalysisResultView,
+    PartImageAnalysisUploadView,
+    PartInstructionRequestView,
+    PartToolRecommendationRequestView,
 )
 
-app_name = PartsConfig.name
+app_name = "parts_api"
 
-urlpatterns = [
+api_urlpatterns = [
     # ==========================
     # Категории запчастей
     # ==========================
@@ -186,3 +192,30 @@ urlpatterns = [
         name="part_image_delete",
     ),
 ]
+
+web_urlpatterns = [
+    path(
+        "image-analysis/",
+        PartImageAnalysisUploadView.as_view(),
+        name="image_analysis",
+    ),
+    path(
+        "image-analysis/<int:pk>/",
+        PartImageAnalysisResultView.as_view(),
+        name="image_analysis_result",
+    ),
+    path(
+        "<str:slug>/request-instruction/",
+        PartInstructionRequestView.as_view(),
+        name="request_instruction",
+    ),
+    path(
+        "<str:slug>/request-tools/",
+        PartToolRecommendationRequestView.as_view(),
+        name="request_tools",
+    ),
+    path("<str:slug>/", PartDetailPageView.as_view(), name="detail"),
+]
+
+# Совместимость с прямым include("apps.parts.urls").
+urlpatterns = api_urlpatterns

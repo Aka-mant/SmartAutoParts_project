@@ -40,13 +40,13 @@
                                 {% endif %}
 
                                 <div class="d-flex justify-content-between align-items-center">
-                                    <span class="fw-semibold">
-                                        {{ part.price }} ₽
+                                    <span class="small text-muted">
+                                        {{ part.manufacturer|default:"Производитель не указан" }}
                                     </span>
 
                                     {% if part.slug %}
                                         <a
-                                            href="{% url 'parts:part_detail' part.slug %}"
+                                            href="{{ part.get_absolute_url }}"
                                             class="btn btn-sm btn-outline-primary"
                                         >
                                             Подробнее

@@ -102,7 +102,7 @@ class ToolSerializer(serializers.ModelSerializer):
             "description",
             "size",
             "image",
-            "amazon_url",
+            "ozon_url",
             "created_at",
         )
         read_only_fields = (
@@ -124,7 +124,7 @@ class ToolCreateSerializer(serializers.ModelSerializer):
             "description",
             "size",
             "image",
-            "amazon_url",
+            "ozon_url",
         )
 
 
@@ -141,7 +141,7 @@ class ToolUpdateSerializer(serializers.ModelSerializer):
             "description",
             "size",
             "image",
-            "amazon_url",
+            "ozon_url",
         )
 
 

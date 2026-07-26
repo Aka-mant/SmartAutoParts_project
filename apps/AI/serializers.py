@@ -35,6 +35,46 @@ class AIRequestSerializer(serializers.ModelSerializer):
         default=None,
     )
 
+    response = serializers.SerializerMethodField()
+
+    def get_response(self, obj):
+        """
+        Не раскрывает непроверенную рекомендацию инструментов пользователю.
+
+        После одобрения исходный ответ становится доступен через историю
+        AI-запросов. Модераторы видят материал на любом этапе.
+        """
+
+        request = self.context.get("request")
+        user = getattr(request, "user", None)
+        can_moderate = bool(
+            user
+            and (
+                getattr(user, "can_moderate", False)
+                or getattr(user, "can_administrate", False)
+                or getattr(user, "is_superuser", False)
+            )
+        )
+        if not obj.request_type.startswith("tool_recommendation"):
+            return obj.response
+
+        try:
+            recommendation = obj.tool_recommendation
+        except AttributeError:
+            return obj.response
+
+        if (
+            can_moderate
+            or recommendation.moderation_status == "approved"
+        ):
+            return obj.response
+        if recommendation.moderation_status == "rejected":
+            return (
+                "Рекомендация отклонена модератором: "
+                f"{recommendation.moderation_note}"
+            )
+        return "Рекомендация ожидает технической модерации."
+
     class Meta:
         model = AIRequest
         fields = (
@@ -87,6 +127,10 @@ class AIRequestCreateSerializer(serializers.ModelSerializer):
             raise serializers.ValidationError(
                 "Текст запроса не может быть пустым."
             )
+        if len(value) > 500:
+            raise serializers.ValidationError(
+                "Текст запроса не должен превышать 500 символов."
+            )
 
         return value
 
@@ -110,6 +154,11 @@ class AIRequestUpdateSerializer(serializers.ModelSerializer):
             "tokens_used",
             "request_type",
         )
+        read_only_fields = (
+            "response",
+            "tokens_used",
+            "request_type",
+        )
 
     def validate_prompt(self, value):
         """
@@ -121,6 +170,10 @@ class AIRequestUpdateSerializer(serializers.ModelSerializer):
         if not value:
             raise serializers.ValidationError(
                 "Текст запроса не может быть пустым."
+            )
+        if len(value) > 500:
+            raise serializers.ValidationError(
+                "Текст запроса не должен превышать 500 символов."
             )
 
         return value
@@ -301,6 +354,10 @@ class AIImageAnalysisSerializer(serializers.ModelSerializer):
             "detected_part_original_number",
             "confidence_score",
             "analysis_result",
+            "moderation_status",
+            "moderation_categories",
+            "moderation_model",
+            "moderation_checked_at",
             "created_at",
         )
         read_only_fields = (
@@ -309,6 +366,10 @@ class AIImageAnalysisSerializer(serializers.ModelSerializer):
             "detected_part",
             "confidence_score",
             "analysis_result",
+            "moderation_status",
+            "moderation_categories",
+            "moderation_model",
+            "moderation_checked_at",
             "created_at",
         )
 
@@ -322,11 +383,24 @@ class AIImageAnalysisCreateSerializer(serializers.ModelSerializer):
     в API-представлении.
     """
 
+    confirm_automotive_content = serializers.BooleanField(
+        write_only=True,
+        required=True,
+    )
+
     class Meta:
         model = AIImageAnalysis
         fields = (
             "image",
+            "confirm_automotive_content",
         )
+
+    def validate_confirm_automotive_content(self, value):
+        if value is not True:
+            raise serializers.ValidationError(
+                "Подтвердите, что на фото изображена запчасть или инструмент."
+            )
+        return value
 
 
 class AIImageAnalysisUpdateSerializer(serializers.ModelSerializer):

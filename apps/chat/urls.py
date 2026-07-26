@@ -22,11 +22,14 @@ from .views import (
     ChatMessageRetrieveAPIView,
     ChatMessageUpdateAPIView,
     ChatMessageDeleteAPIView,
+    ChatMessageCreatePageView,
+    ChatRoomCreatePageView,
+    ChatRoomPageView,
 )
 
 app_name = ChatConfig.name
 
-urlpatterns = [
+api_urlpatterns = [
     # ==========================
     # Комнаты чата
     # ==========================
@@ -114,3 +117,20 @@ urlpatterns = [
         name="chat_message_delete",
     ),
 ]
+
+web_urlpatterns = [
+    path("", ChatRoomPageView.as_view(), name="rooms"),
+    path(
+        "rooms/create/",
+        ChatRoomCreatePageView.as_view(),
+        name="room_create",
+    ),
+    path(
+        "rooms/<int:room_id>/messages/create/",
+        ChatMessageCreatePageView.as_view(),
+        name="message_create",
+    ),
+]
+
+# Совместимость с прямым include("apps.chat.urls").
+urlpatterns = api_urlpatterns

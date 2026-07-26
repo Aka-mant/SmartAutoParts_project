@@ -18,10 +18,15 @@
                 <h2 class="footer-title">Навигация</h2>
                 <ul class="list-unstyled footer-links mb-0">
                     <li><a href="{% url 'home' %}">Главная</a></li>
-                    <li><a href="{% url 'home' %}#features">Возможности</a></li>
-                    <li><a href="{% url 'home' %}#pricing">Тарифы</a></li>
+                    <li><a href="{% url 'users:part_search' %}">Найти запчасть</a></li>
+                    {% if user.is_authenticated %}
+                        <li><a href="{% url 'instructions_web:list' %}">Инструкции</a></li>
+                    {% endif %}
+                    {% if not user.can_administrate %}
+                        <li><a href="{% url 'subscriptions_web:plans' %}">Тарифы</a></li>
+                    {% endif %}
                     <li><a href="{% url 'home' %}#process">Как это работает</a></li>
-                    <li><a href="{% url 'license_agreement' %}">Лицензионное соглашение</a></li>
+                    <li><a href="{% url 'users:user_agreement' %}">Пользовательское соглашение</a></li>
                 </ul>
             </div>
 

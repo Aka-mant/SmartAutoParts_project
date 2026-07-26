@@ -10,7 +10,6 @@
 @import url("components/_sections.css");
 @import url("components/_cards.css");
 @import url("components/_feature_card.css");
-@import url("components/_pricing_card.css");
 @import url("components/_buttons.css");
 @import url("components/_review_card.css");
 @import url("components/_footer.css");
@@ -24,6 +23,11 @@
 @import url("components/_repair_history_card.css");
 @import url("components/_profile_edit.css");
 @import url("components/_sites_html.css");
+@import url("components/_pricing_page.css");
+@import url("components/_part_detail.css");
+@import url("components/_image_analysis.css");
+@import url("components/_instructions.css");
+@import url("components/_ai_assistant.css");
 
 
 /* =========================================================

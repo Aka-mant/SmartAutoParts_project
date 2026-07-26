@@ -48,11 +48,24 @@
 
 
 .navbar-dark .navbar-nav .nav-link {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.45rem;
     padding: 0.65rem 0.9rem;
     color: rgba(255, 255, 255, 0.72);
     font-size: 0.95rem;
     font-weight: 550;
     border-radius: 0.65rem;
+    line-height: 1.2;
+    white-space: nowrap;
+}
+
+.navbar-dark .navbar-nav .nav-link > i {
+    flex: 0 0 1.15rem;
+    width: 1.15rem;
+    margin-right: 0 !important;
+    text-align: center;
+    line-height: 1;
 }
 
 
@@ -112,4 +125,64 @@
     width: 100%;
     border: 0;
     text-align: left;
+}
+
+/* Раскрытое меню только при ширине от 1440px */
+@media (min-width: 1440px) {
+    .navbar-expand-sap {
+        flex-wrap: nowrap;
+        justify-content: flex-start;
+    }
+
+    .navbar-expand-sap .navbar-nav {
+        flex-direction: row;
+    }
+
+    .navbar-expand-sap .navbar-collapse {
+        display: flex !important;
+        flex-basis: auto;
+    }
+
+    .navbar-expand-sap .navbar-toggler {
+        display: none;
+    }
+
+    .navbar-expand-sap .navbar-nav .dropdown-menu {
+        position: absolute;
+    }
+}
+
+/* Группировка элементов при ширине до 1439px */
+@media (max-width: 1439.98px) {
+    .navbar-expand-sap .navbar-collapse {
+        padding: 1rem 0 1.25rem;
+    }
+
+    .navbar-expand-sap .navbar-nav {
+        align-items: stretch !important;
+        gap: 0.35rem;
+    }
+
+    .navbar-expand-sap .nav-item {
+        width: 100%;
+        margin-inline: 0 !important;
+    }
+
+    .navbar-expand-sap .nav-link {
+        display: flex;
+        width: 100%;
+        align-items: center;
+        padding: 0.75rem 1rem;
+    }
+
+    .navbar-expand-sap .header-action {
+        width: 100%;
+        justify-content: flex-start;
+        text-align: left;
+    }
+
+    .navbar-expand-sap .dropdown-menu {
+        position: static;
+        width: 100%;
+    }
 }

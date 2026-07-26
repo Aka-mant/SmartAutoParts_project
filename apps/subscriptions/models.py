@@ -39,16 +39,55 @@ class SubscriptionPlan(models.Model):
         help_text=_("Maximum number of AI requests available within the subscription."),
     )
 
+    max_chat_requests = models.PositiveIntegerField(
+        null=True,
+        blank=True,
+        verbose_name=_("Maximum chat requests"),
+        help_text=_("Chat request limit. Empty value inherits the total AI limit."),
+    )
+
+    max_instruction_requests = models.PositiveIntegerField(
+        null=True,
+        blank=True,
+        verbose_name=_("Maximum instruction requests"),
+        help_text=_("Instruction request limit. Empty value inherits the total AI limit."),
+    )
+
+    max_image_analyses = models.PositiveIntegerField(
+        null=True,
+        blank=True,
+        verbose_name=_("Maximum image analyses"),
+        help_text=_("Image analysis limit. Empty value inherits the total AI limit."),
+    )
+
     has_chat_access = models.BooleanField(
         default=False,
         verbose_name=_("Chat access"),
         help_text=_("Allows access to the AI chat."),
     )
 
+    has_instruction_generation = models.BooleanField(
+        default=True,
+        verbose_name=_("Instruction generation"),
+        help_text=_("Allows generating and retrieving AI repair instructions."),
+    )
+
     has_image_analysis = models.BooleanField(
         default=False,
         verbose_name=_("Image analysis"),
         help_text=_("Allows using AI image analysis."),
+    )
+
+    is_public = models.BooleanField(
+        default=True,
+        db_index=True,
+        verbose_name=_("Public"),
+        help_text=_("Display the plan on the public pricing page."),
+    )
+
+    sort_order = models.PositiveSmallIntegerField(
+        default=0,
+        verbose_name=_("Sort order"),
     )
 
     created_at = models.DateTimeField(
@@ -58,12 +97,32 @@ class SubscriptionPlan(models.Model):
 
     class Meta:
         db_table = "subscriptions_subscriptionplan"
-        ordering = ("price",)
+        ordering = ("sort_order", "price", "id")
         verbose_name = _("Subscription plan")
         verbose_name_plural = _("Subscription plans")
 
     def __str__(self):
-        return f"{self.name} (${self.price})"
+        return f"{self.name} ({self.price} ₽)"
+
+    def get_feature_limit(self, feature: str) -> int:
+        """
+        Возвращает лимит отдельной AI-функции.
+
+        ``None`` у старых тарифов означает наследование общего лимита,
+        а ноль — явное отсутствие операций по функции.
+        """
+
+        field_by_feature = {
+            "chat": "max_chat_requests",
+            "instruction": "max_instruction_requests",
+            "image_analysis": "max_image_analyses",
+        }
+        field_name = field_by_feature.get(feature)
+        if field_name is None:
+            return int(self.max_ai_requests)
+
+        value = getattr(self, field_name)
+        return int(self.max_ai_requests if value is None else value)
 
 
 class UserSubscription(models.Model):

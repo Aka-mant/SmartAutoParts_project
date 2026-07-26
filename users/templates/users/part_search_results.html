@@ -237,16 +237,31 @@
                                     </p>
 
                                     <div class="mt-auto">
-
-
-                                        <button
-                                            type="button"
-                                            class="btn btn-outline-primary w-100"
-                                            disabled
-                                        >
-                                            <i class="bi bi-info-circle me-1"></i>
-                                            Карточка детали
-                                        </button>
+                                        {% if can_view_part_cards %}
+                                            <a
+                                                href="{{ part.get_absolute_url }}"
+                                                class="btn btn-outline-primary w-100"
+                                            >
+                                                <i class="bi bi-info-circle me-1"></i>
+                                                Карточка детали
+                                            </a>
+                                        {% elif user.is_authenticated %}
+                                            <a
+                                                href="{% url 'subscriptions_web:plans' %}"
+                                                class="btn btn-outline-primary w-100"
+                                            >
+                                                <i class="bi bi-gem me-1" aria-hidden="true"></i>
+                                                Выбрать тариф для просмотра
+                                            </a>
+                                        {% else %}
+                                            <a
+                                                href="{% url 'users:login' %}?next={{ part.get_absolute_url|urlencode }}"
+                                                class="btn btn-outline-secondary w-100"
+                                            >
+                                                <i class="bi bi-lock me-1" aria-hidden="true"></i>
+                                                Войдите для просмотра
+                                            </a>
+                                        {% endif %}
                                     </div>
                                 </div>
                             </article>

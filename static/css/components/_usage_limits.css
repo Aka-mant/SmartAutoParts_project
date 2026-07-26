@@ -7,3 +7,29 @@
 .usage-progress__bar { height:100%; border-radius:inherit; background:#3478b8; }
 .usage-progress__bar.is-warning { background:#e5a100; }
 .usage-progress__bar.is-danger { background:#dc3545; }
+.usage-feature-list {
+    display: grid;
+    gap: 0.75rem;
+}
+
+.usage-feature {
+    display: grid;
+    grid-template-columns: minmax(0, 1fr) auto;
+    gap: 0.45rem 1rem;
+    padding: 0.85rem;
+    background: var(--sap-soft);
+    border-radius: 0.8rem;
+}
+
+.usage-feature > span {
+    font-weight: 650;
+}
+
+.usage-feature > span i {
+    margin-right: 0.35rem;
+    color: var(--sap-primary);
+}
+
+.usage-feature .progress {
+    grid-column: 1 / -1;
+}

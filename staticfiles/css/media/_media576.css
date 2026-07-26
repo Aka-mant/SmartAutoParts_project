@@ -290,6 +290,31 @@
         flex-direction: column;
     }
 
+    .dashboard-section {
+        margin-inline: 0;
+    }
+
+    .dashboard-section__title {
+        font-size: 1.1rem;
+    }
+
+    .dashboard-section__description {
+        font-size: 0.875rem;
+        line-height: 1.5;
+    }
+
+    .dashboard-section .part-search {
+        width: 100%;
+        padding: 1rem;
+        border-radius: 0.9rem;
+    }
+
+    .dashboard-section .form-control,
+    .dashboard-section .btn {
+        min-height: 50px;
+        font-size: 0.95rem;
+    }
+
     /* =========================
        SEARCH RESULTS
        ========================= */
