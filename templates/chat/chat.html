@@ -64,6 +64,12 @@
                         <span>{% if selected_room.is_private %}Приватная комната{% else %}Открытая комната{% endif %}</span>
                     </header>
                     <div class="community-chat__messages" aria-live="polite">
+                        {% if moderation_notice %}
+                            <div class="community-message community-message--moderator" role="alert">
+                                <strong>Автомодератор</strong>
+                                <p>{{ moderation_notice }}</p>
+                            </div>
+                        {% endif %}
                         {% for item in room_messages %}
                             <div class="community-message{% if item.user_id == request.user.pk %} is-own{% endif %}">
                                 <strong>{{ item.user.get_full_name|default:item.user.username }}</strong>

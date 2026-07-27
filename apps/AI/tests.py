@@ -14,6 +14,7 @@ from PIL import Image
 from rest_framework.test import APIClient
 
 from apps.AI.models import (
+    AIContentPurchase,
     AIGeneratedInstruction,
     AIImageAnalysis,
     AIRequest,
@@ -24,6 +25,7 @@ from apps.AI.services import (
     AIQuotaExceeded,
     AIRequestRejected,
     DomainModerationOutput,
+    ModerationDecision,
     OpenAIGateway,
     PartImageAnalysisOutput,
     ProviderModerationResult,
@@ -37,6 +39,7 @@ from apps.AI.services import (
 from apps.instructions.models import Instruction, InstructionVersion
 from apps.parts.models import Part, PartCategory
 from apps.subscriptions.models import SubscriptionPlan, UserSubscription
+from apps.tools.models import PartTool, Tool, ToolCategory
 from users.models import UserAgreementAcceptance
 
 
@@ -377,6 +380,14 @@ class SmartAutoPartsAIServiceTests(TestCase):
         self.assertEqual(result.ai_request.request_type, "chat")
         self.assertEqual(result.ai_request.tokens_used, 120)
         self.assertEqual(result.ai_request.part, self.part)
+        purchase = AIContentPurchase.objects.get(
+            source_request=result.ai_request
+        )
+        self.assertEqual(
+            purchase.content_type,
+            AIContentPurchase.ContentType.CHAT,
+        )
+        self.assertEqual(purchase.content_key, f"chat:{result.ai_request.pk}")
 
     def test_recommend_part_tools_uses_ai_and_saves_request(self):
         result = self.service.recommend_part_tools(
@@ -401,6 +412,45 @@ class SmartAutoPartsAIServiceTests(TestCase):
             result.generated_recommendation.generated_content,
             result.answer,
         )
+        purchase = AIContentPurchase.objects.get(
+            source_request=result.ai_request
+        )
+        self.assertEqual(
+            purchase.content_key,
+            f"tools:{self.part.pk}",
+        )
+
+    def test_stored_tools_are_charged_without_openai_generation(self):
+        category = ToolCategory.objects.create(
+            name="Диагностические инструменты",
+            slug="diagnostic-tools",
+        )
+        tool = Tool.objects.create(
+            category=category,
+            name="Мультиметр",
+            size="CAT III",
+        )
+        PartTool.objects.create(
+            part=self.part,
+            tool=tool,
+            required=True,
+        )
+
+        ai_request = self.service.purchase_stored_part_tools(
+            user=self.user,
+            part=self.part,
+        )
+
+        self.assertIsNotNone(ai_request)
+        self.assertEqual(
+            ai_request.request_type,
+            "tool_recommendation_cached",
+        )
+        self.assertIn(tool.name, ai_request.response)
+        purchase = AIContentPurchase.objects.get(
+            source_request=ai_request
+        )
+        self.assertEqual(purchase.source, AIContentPurchase.Source.DATABASE)
 
     def test_superuser_requests_instruction_and_tools_without_subscription(self):
         superuser = get_user_model().objects.create_superuser(
@@ -507,6 +557,11 @@ class SmartAutoPartsAIServiceTests(TestCase):
             AIGeneratedInstruction.ModerationStatus.APPROVED,
         )
         self.assertEqual(self.gateway.repair_generation_calls, 0)
+        purchase = AIContentPurchase.objects.get(
+            source_request=result.ai_request
+        )
+        self.assertEqual(purchase.instruction, instruction)
+        self.assertEqual(purchase.source, AIContentPurchase.Source.DATABASE)
 
         with self.assertRaises(AIQuotaExceeded):
             service.generate_repair_instruction(
@@ -888,8 +943,57 @@ class AIChatWebPageTests(TestCase):
         self.assertContains(response, "ai-request-status")
         self.assertContains(response, reverse("chat_web:rooms"))
         self.assertContains(response, 'id="ai-part-search"')
+        self.assertNotContains(response, 'id="ai-part"')
+        self.assertContains(response, 'name="part_query"')
         self.assertContains(response, "Безлимит", count=2)
         self.assertContains(response, 'maxlength="500"')
+        self.assertNotContains(response, "data-confirm=")
+
+    @patch("apps.AI.views.SmartAutoPartsAIService")
+    def test_rejection_reason_is_rendered_inside_ai_chat(
+        self,
+        service_class,
+    ):
+        service_class.return_value.answer_chat.side_effect = (
+            AIRequestRejected(
+                "Запрос содержит небезопасную рекомендацию.",
+                decision=ModerationDecision(
+                    allowed=False,
+                    category="unsafe",
+                    reason="Запрос содержит небезопасную рекомендацию.",
+                ),
+            )
+        )
+
+        self.client.post(
+            reverse("ai_web:chat"),
+            {"message": "Проверь этот небезопасный запрос"},
+        )
+        response = self.client.get(reverse("ai_web:chat"))
+
+        self.assertContains(response, "assistant-message--moderator")
+        self.assertContains(
+            response,
+            "Запрос содержит небезопасную рекомендацию.",
+        )
+
+    def test_administrator_without_tariff_has_no_unlimited_ai_access(self):
+        administrator = get_user_model().objects.create_user(
+            username="ai-chat-admin",
+            email="ai-chat-admin@example.com",
+            password="safe-test-password",
+            role="admin",
+            is_staff=True,
+        )
+        self.client.force_login(administrator)
+
+        response = self.client.get(reverse("ai_web:chat"))
+
+        self.assertRedirects(
+            response,
+            reverse("subscriptions_web:plans"),
+            fetch_redirect_response=False,
+        )
 
     @patch("apps.AI.views.SmartAutoPartsAIService")
     def test_ai_helper_delegates_chat_request(self, service_class):
@@ -908,6 +1012,104 @@ class AIChatWebPageTests(TestCase):
             message="Как проверить деталь?",
             part=None,
         )
+
+    @patch("apps.AI.views.SmartAutoPartsAIService")
+    def test_part_query_is_resolved_from_database_before_ai(
+        self,
+        service_class,
+    ):
+        part = Part.objects.create(
+            name="Генератор",
+            slug="chat-alternator",
+            original_number="ALT-42-001",
+            manufacturer="Smart",
+        )
+
+        self.client.post(
+            reverse("ai_web:chat"),
+            {
+                "message": "Как проверить этот генератор?",
+                "part_query": "ALT-42-001",
+            },
+        )
+
+        service_class.return_value.answer_chat.assert_called_once_with(
+            user=self.superuser,
+            message="Как проверить этот генератор?",
+            part=part,
+        )
+
+    @patch("apps.AI.views.SmartAutoPartsAIService")
+    def test_unknown_part_query_sends_message_without_link(
+        self,
+        service_class,
+    ):
+        self.client.post(
+            reverse("ai_web:chat"),
+            {
+                "message": "Проверь номер UNKNOWN-55 из сообщения.",
+                "part_query": "UNKNOWN-55",
+            },
+        )
+
+        service_class.return_value.answer_chat.assert_called_once_with(
+            user=self.superuser,
+            message="Проверь номер UNKNOWN-55 из сообщения.",
+            part=None,
+        )
+
+    def test_regular_user_sees_only_purchased_chat_answers(self):
+        user = get_user_model().objects.create_user(
+            username="paid-chat-user",
+            email="paid-chat-user@example.com",
+            password="safe-test-password",
+        )
+        UserAgreementAcceptance.objects.create(
+            user=user,
+            agreement_version=settings.USER_AGREEMENT_VERSION,
+        )
+        plan = SubscriptionPlan.objects.create(
+            name="AI chat test",
+            price="100.00",
+            duration_days=30,
+            max_ai_requests=10,
+            max_chat_requests=10,
+            has_chat_access=True,
+            is_public=False,
+        )
+        subscription = UserSubscription.objects.create(
+            user=user,
+            plan=plan,
+            start_date=timezone.now() - timedelta(days=1),
+            end_date=timezone.now() + timedelta(days=29),
+            is_active=True,
+        )
+        bought = AIRequest.objects.create(
+            user=user,
+            prompt="Купленный вопрос",
+            response="Купленный ответ",
+            request_type="chat",
+        )
+        AIContentPurchase.objects.create(
+            user=user,
+            subscription=subscription,
+            content_type=AIContentPurchase.ContentType.CHAT,
+            content_key=f"chat:{bought.pk}",
+            source_request=bought,
+            source=AIContentPurchase.Source.AI,
+        )
+        AIRequest.objects.create(
+            user=user,
+            prompt="Старый вопрос без списания",
+            response="Не купленный ответ",
+            request_type="chat",
+        )
+        self.client.force_login(user)
+
+        response = self.client.get(reverse("ai_web:chat"))
+
+        self.assertContains(response, "Купленный ответ")
+        self.assertNotContains(response, "Не купленный ответ")
 
     def test_moderator_cannot_open_ai_helper(self):
         moderator = get_user_model().objects.create_user(

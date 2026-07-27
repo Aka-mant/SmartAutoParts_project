@@ -29,6 +29,12 @@
         <div class="assistant-layout">
             <article class="assistant-chat">
                 <div class="assistant-chat__messages" aria-live="polite">
+                    {% if moderation_notice %}
+                        <div class="assistant-message assistant-message--moderator" role="alert">
+                            <span>Автомодератор</span>
+                            <p>{{ moderation_notice }}</p>
+                        </div>
+                    {% endif %}
                     {% for item in conversations %}
                         <div class="assistant-message assistant-message--user">
                             <span>Вы</span>
@@ -50,25 +56,35 @@
                     {% endfor %}
                 </div>
 
-                <form method="post" class="assistant-form ai-request-form">
+                <form
+                    method="post"
+                    class="assistant-form ai-request-form"
+                    {% if not ai_unlimited %}
+                        data-confirm="Новый ответ AI будет списан с остатка вашего тарифа. Продолжить?"
+                    {% endif %}
+                >
                     {% csrf_token %}
-                    <label for="ai-part">Связанная деталь</label>
+                    <label for="ai-part-search">Связанная деталь</label>
                     <input
                         id="ai-part-search"
+                        name="part_query"
                         type="search"
                         class="form-control"
+                        list="ai-part-options"
                         placeholder="Найти деталь по названию или оригинальному номеру"
                         autocomplete="off"
-                        aria-controls="ai-part"
                     >
-                    <select id="ai-part" name="part" class="form-select">
-                        <option value="">Без привязки к детали</option>
+                    <datalist id="ai-part-options">
                         {% for part in parts %}
-                            <option value="{{ part.pk }}">
-                                {{ part.name }} · {{ part.original_number }}
+                            <option value="{{ part.original_number }}">
+                                {{ part.name }}{% if part.manufacturer %} · {{ part.manufacturer }}{% endif %}
                             </option>
                         {% endfor %}
-                    </select>
+                    </datalist>
+                    <small class="assistant-form__hint">
+                        Сначала ищем деталь в каталоге. Если совпадения нет,
+                        вопрос будет отправлен без привязки к карточке.
+                    </small>
 
                     <label for="ai-message">Ваш вопрос</label>
                     <textarea
@@ -80,6 +96,12 @@
                         required
                         placeholder="До 500 символов. Например: как безопасно проверить совместимость детали?"
                     ></textarea>
+                    {% if not ai_unlimited %}
+                        <p class="assistant-form__charge-warning">
+                            <i class="bi bi-exclamation-circle" aria-hidden="true"></i>
+                            Каждый новый ответ списывает 1 AI-запрос с остатка тарифа.
+                        </p>
+                    {% endif %}
 
                     <div class="ai-request-status" hidden aria-live="polite">
                         <div class="progress" role="progressbar" aria-valuemin="0" aria-valuemax="100">
@@ -134,27 +156,4 @@
         </div>
     </div>
 </section>
-{% endblock %}
-
-{% block extra_js %}
-<script>
-document.addEventListener("DOMContentLoaded", () => {
-    const search = document.getElementById("ai-part-search");
-    const select = document.getElementById("ai-part");
-    if (!search || !select) return;
-
-    const options = Array.from(select.options);
-    search.addEventListener("input", () => {
-        const query = search.value.trim().toLocaleLowerCase("ru");
-        options.forEach((option, index) => {
-            option.hidden = index > 0 && !option.textContent
-                .toLocaleLowerCase("ru")
-                .includes(query);
-        });
-        if (select.selectedOptions[0]?.hidden) {
-            select.value = "";
-        }
-    });
-});
-</script>
 {% endblock %}

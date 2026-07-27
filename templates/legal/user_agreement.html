@@ -628,9 +628,14 @@
             </p>
 
             <div class="border-top pt-4 mt-5">
-                <div class="d-grid d-sm-flex gap-2">
+                <div class="legal-document-actions d-grid d-sm-flex gap-2">
                     {% if user.is_authenticated %}
-                        {% if agreement_already_accepted %}
+                        {% if agreement_not_required %}
+                            <span class="btn btn-success disabled" aria-disabled="true">
+                                <i class="bi bi-shield-check me-1" aria-hidden="true"></i>
+                                Для вашей роли принятие не требуется
+                            </span>
+                        {% elif agreement_already_accepted %}
                             <span class="btn btn-success disabled" aria-disabled="true">
                                 <i class="bi bi-check-circle me-1" aria-hidden="true"></i>
                                 Текущая редакция принята
@@ -672,7 +677,7 @@
 
                     <button
                         type="button"
-                        class="btn btn-outline-secondary"
+                        class="btn btn-outline-secondary legal-print-button"
                         onclick="window.print()"
                     >
                         Распечатать соглашение

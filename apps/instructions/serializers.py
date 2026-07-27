@@ -2,7 +2,10 @@ from django.db import transaction
 
 from rest_framework import serializers
 
-from apps.subscriptions.access import has_instruction_access
+from apps.subscriptions.access import (
+    has_instruction_access,
+    has_purchased_instruction,
+)
 
 from .models import (
     Instruction,
@@ -282,7 +285,10 @@ class InstructionSerializer(serializers.ModelSerializer):
     def get_access_restricted(self, instance):
         request = self.context.get("request")
         user = getattr(request, "user", None)
-        return not has_instruction_access(user)
+        return not (
+            has_instruction_access(user)
+            and has_purchased_instruction(user, instance)
+        )
 
     def to_representation(self, instance):
         """

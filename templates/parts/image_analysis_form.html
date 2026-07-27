@@ -37,6 +37,15 @@
             </article>
 
             <article class="image-analysis-card">
+                {% if moderation_notice %}
+                    <div class="image-analysis-automoderation-message" role="alert">
+                        <i class="bi bi-shield-exclamation" aria-hidden="true"></i>
+                        <div>
+                            <strong>Автомодератор</strong>
+                            <p>{{ moderation_notice }}</p>
+                        </div>
+                    </div>
+                {% endif %}
                 {% if can_analyze_image %}
                     <div class="image-analysis-card__icon">
                         <i class="bi bi-camera" aria-hidden="true"></i>
@@ -62,6 +71,20 @@
                                 </div>
                             {% endif %}
                             {{ form.image.errors }}
+                            <button
+                                type="button"
+                                class="btn btn-outline-secondary image-analysis-paste-button"
+                                id="paste-image-button"
+                            >
+                                <i class="bi bi-clipboard2-plus me-1" aria-hidden="true"></i>
+                                Вставить изображение из буфера
+                            </button>
+                            <span
+                                class="image-analysis-paste-status"
+                                id="paste-image-status"
+                                role="status"
+                                aria-live="polite"
+                            ></span>
                         </div>
                         <div class="image-analysis-confirmation">
                             <div class="image-analysis-confirmation__warning">
@@ -75,6 +98,10 @@
                                         Анализ учитывается в лимите тарифа.
                                     {% endif %}
                                 </span>
+                            </div>
+                            <div class="image-analysis-confirmation__limit">
+                                <i class="bi bi-file-earmark-image" aria-hidden="true"></i>
+                                Максимальный размер загружаемого файла — 5 МБ.
                             </div>
                             <label class="form-check" for="{{ form.confirm_automotive_content.id_for_label }}">
                                 {{ form.confirm_automotive_content }}

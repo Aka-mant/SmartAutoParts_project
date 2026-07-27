@@ -15,10 +15,13 @@ from PIL import Image as PILImage
 from rest_framework.test import APIClient
 
 from apps.AI.models import (
+    AIContentPurchase,
+    AIGeneratedInstruction,
     AIImageAnalysis,
     AIRequest,
     AIToolRecommendation,
 )
+from apps.AI.services import AIRequestRejected, ModerationDecision
 from apps.instructions.models import Instruction, InstructionStep
 from apps.subscriptions.models import SubscriptionPlan, UserSubscription
 from apps.tools.models import PartTool, Tool, ToolCategory
@@ -168,14 +171,92 @@ class PartDetailPageTests(TestCase):
         self.assertContains(response, self.part.original_number)
         self.assertContains(response, "OEM-100-ALT")
         self.assertContains(response, "Lada")
-        self.assertContains(response, "Съёмник фильтра")
-        self.assertContains(response, self.instruction.title)
+        self.assertNotContains(response, "Съёмник фильтра")
+        self.assertNotContains(response, self.instruction.title)
+        self.assertContains(
+            response,
+            "Список инструментов появится после первичного запроса",
+        )
+        self.assertContains(
+            response,
+            "Инструкция появится здесь после первичного запроса",
+        )
+        self.assertContains(
+            response,
+            "Первичный запрос инструкции будет списан",
+        )
+        self.assertContains(
+            response,
+            "Первичный запрос инструментов будет списан",
+        )
         self.assertContains(response, 'width="440"')
         self.assertContains(response, 'height="330"')
+
+    def test_part_card_displays_only_purchased_content(self):
+        AIContentPurchase.objects.create(
+            user=self.user,
+            subscription=UserSubscription.objects.get(user=self.user),
+            content_type=AIContentPurchase.ContentType.INSTRUCTION,
+            content_key=f"instruction:{self.instruction.pk}",
+            part=self.part,
+            instruction=self.instruction,
+            source=AIContentPurchase.Source.DATABASE,
+        )
+        AIContentPurchase.objects.create(
+            user=self.user,
+            subscription=UserSubscription.objects.get(user=self.user),
+            content_type=AIContentPurchase.ContentType.TOOLS,
+            content_key=f"tools:{self.part.pk}",
+            part=self.part,
+            source=AIContentPurchase.Source.DATABASE,
+        )
+
+        response = self.client.get(self.part.get_absolute_url())
+
+        self.assertContains(response, "Съёмник фильтра")
+        self.assertContains(response, self.instruction.title)
         self.assertContains(
             response,
             self.instruction.get_absolute_url(),
         )
+
+    def test_purchase_survives_plan_change(self):
+        original_subscription = UserSubscription.objects.get(
+            user=self.user
+        )
+        AIContentPurchase.objects.create(
+            user=self.user,
+            subscription=original_subscription,
+            content_type=AIContentPurchase.ContentType.INSTRUCTION,
+            content_key=f"instruction:{self.instruction.pk}",
+            part=self.part,
+            instruction=self.instruction,
+            source=AIContentPurchase.Source.DATABASE,
+        )
+        original_subscription.is_active = False
+        original_subscription.save(update_fields=("is_active",))
+        replacement_plan = SubscriptionPlan.objects.create(
+            name="Новый тариф",
+            price="200.00",
+            duration_days=30,
+            max_ai_requests=20,
+            max_chat_requests=10,
+            max_instruction_requests=10,
+            has_chat_access=True,
+            has_instruction_generation=True,
+            is_public=False,
+        )
+        UserSubscription.objects.create(
+            user=self.user,
+            plan=replacement_plan,
+            start_date=timezone.now() - timedelta(hours=1),
+            end_date=timezone.now() + timedelta(days=30),
+            is_active=True,
+        )
+
+        response = self.client.get(self.part.get_absolute_url())
+
+        self.assertContains(response, self.instruction.title)
 
     def test_inactive_part_returns_404(self):
         self.part.is_active = False
@@ -316,7 +397,9 @@ class PartDetailPageTests(TestCase):
         self.assertEqual(response.status_code, 200)
         self.assertContains(response, "Безлимит")
         self.assertContains(response, "Запросить инструкцию")
-        self.assertContains(response, "Подобрать инструменты")
+        self.assertContains(response, "Открыть инструменты")
+        self.assertNotContains(response, "Подобрать инструменты")
+        self.assertNotContains(response, "data-confirm=")
         self.assertNotContains(response, "<textarea")
         self.assertNotContains(response, "<select")
         self.assertNotContains(
@@ -334,13 +417,49 @@ class PartDetailPageTests(TestCase):
                 kwargs={"slug": self.part.slug},
             ),
         )
-        self.assertContains(
+        self.assertNotContains(
             response,
             reverse(
                 "parts_web:request_tools",
                 kwargs={"slug": self.part.slug},
             ),
         )
+
+    def test_pending_ai_content_has_banners_and_no_repeat_tools_button(self):
+        user = get_user_model().objects.create_user(
+            username="pending-content-user",
+            email="pending-content@example.com",
+            password="safe-test-password",
+        )
+        self.accept_agreement(user)
+        self.activate_plan(user)
+        instruction_request = AIRequest.objects.create(
+            user=user,
+            part=self.part,
+            prompt="Подготовить инструкцию.",
+            request_type="repair_instruction_moderation_pending",
+        )
+        AIGeneratedInstruction.objects.create(
+            ai_request=instruction_request,
+            generated_content="Непроверенная инструкция.",
+        )
+        tools_request = AIRequest.objects.create(
+            user=user,
+            part=self.part,
+            prompt="Подобрать инструменты.",
+            request_type="tool_recommendation_moderation_pending",
+        )
+        AIToolRecommendation.objects.create(
+            ai_request=tools_request,
+            generated_content="Непроверенный набор инструментов.",
+        )
+        self.client.force_login(user)
+
+        response = self.client.get(self.part.get_absolute_url())
+
+        self.assertEqual(response.status_code, 200)
+        self.assertContains(response, "На модерации", count=4)
+        self.assertNotContains(response, "Подобрать инструменты")
 
     @patch("apps.parts.views.SmartAutoPartsAIService")
     def test_instruction_action_calls_ai_service(self, service_class):
@@ -459,8 +578,66 @@ class PartDetailPageTests(TestCase):
             response,
             'name="confirm_automotive_content"',
         )
+        self.assertContains(response, 'id="paste-image-button"')
+        self.assertContains(response, "Вставить изображение из буфера")
+        self.assertContains(response, "Максимальный размер")
+        self.assertContains(response, "5 МБ")
         self.assertNotContains(response, "<textarea")
         self.assertContains(response, "Проверить и распознать")
+
+    @patch("apps.parts.views.SmartAutoPartsAIService")
+    def test_image_moderation_reason_persists_until_next_request(
+        self,
+        service_class,
+    ):
+        superuser = get_user_model().objects.create_superuser(
+            username="image-moderation-root",
+            email="image-moderation-root@example.com",
+            password="safe-test-password",
+        )
+        self.accept_agreement(superuser)
+        service_class.return_value.analyze_part_image.side_effect = (
+            AIRequestRejected(
+                "На фотографии нет запчасти или инструмента.",
+                decision=ModerationDecision(
+                    allowed=False,
+                    category="not_automotive",
+                    reason="На фотографии нет запчасти или инструмента.",
+                ),
+            )
+        )
+        self.client.force_login(superuser)
+        url = reverse("parts_web:image_analysis")
+
+        self.client.post(
+            url,
+            {
+                "image": SimpleUploadedFile(
+                    "rejected.png",
+                    self.image_bytes,
+                    content_type="image/png",
+                ),
+                "confirm_automotive_content": "on",
+            },
+        )
+        first_response = self.client.get(url)
+        second_response = self.client.get(url)
+
+        for response in (first_response, second_response):
+            self.assertContains(
+                response,
+                "image-analysis-automoderation-message",
+            )
+            self.assertContains(
+                response,
+                "На фотографии нет запчасти или инструмента.",
+            )
+
+        next_response = self.client.post(url, {})
+        self.assertNotContains(
+            next_response,
+            "image-analysis-automoderation-message",
+        )
 
     @patch("apps.parts.views.SmartAutoPartsAIService")
     def test_image_upload_requires_confirmation(self, service_class):
@@ -627,6 +804,14 @@ class PartDetailPageTests(TestCase):
                 AIToolRecommendation.ModerationStatus.APPROVED
             ),
             reviewed_at=timezone.now(),
+        )
+        AIContentPurchase.objects.create(
+            user=user,
+            content_type=AIContentPurchase.ContentType.TOOLS,
+            content_key=f"tools:{self.part.pk}",
+            part=self.part,
+            source_request=approved_request,
+            source=AIContentPurchase.Source.AI,
         )
         self.client.force_login(user)
 

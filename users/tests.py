@@ -71,6 +71,76 @@ class UserAgreementTests(TestCase):
             ).exists()
         )
 
+    def test_administrator_and_superuser_do_not_accept_agreement(self):
+        for suffix, kwargs in (
+            ("admin", {"role": "admin", "is_staff": True}),
+            (
+                "superuser",
+                {
+                    "is_staff": True,
+                    "is_superuser": True,
+                },
+            ),
+        ):
+            user = get_user_model().objects.create_user(
+                username=f"agreement-{suffix}",
+                email=f"agreement-{suffix}@example.com",
+                password="safe-test-password",
+                **kwargs,
+            )
+            self.client.force_login(user)
+
+            dashboard = self.client.get(reverse("users:dashboard"))
+            agreement = self.client.get(
+                reverse("users:user_agreement")
+            )
+
+            self.assertEqual(dashboard.status_code, 200)
+            self.assertContains(
+                agreement,
+                "Для вашей роли принятие не требуется",
+            )
+            self.assertNotContains(
+                agreement,
+                'name="agreement_accepted"',
+            )
+
+
+class ProfileLanguageTests(TestCase):
+    def test_profile_language_is_select_with_ten_languages(self):
+        user = get_user_model().objects.create_user(
+            username="language-user",
+            email="language-user@example.com",
+            password="safe-test-password",
+        )
+        UserAgreementAcceptance.objects.create(
+            user=user,
+            agreement_version=settings.USER_AGREEMENT_VERSION,
+        )
+        self.client.force_login(user)
+
+        response = self.client.get(reverse("users:profile_update"))
+
+        self.assertEqual(response.status_code, 200)
+        self.assertContains(
+            response,
+            '<select name="preferred_language"',
+            html=False,
+        )
+        for language in (
+            "Китайский (мандарин)",
+            "Английский",
+            "Хинди",
+            "Испанский",
+            "Арабский",
+            "Бенгальский",
+            "Португальский",
+            "Русский",
+            "Урду",
+            "Индонезийский",
+        ):
+            self.assertContains(response, language)
+
 
 class DashboardAccessPresentationTests(TestCase):
     """Проверяет счётчики и служебные состояния личного кабинета."""
@@ -281,6 +351,19 @@ class RepairStepNavigationTests(TestCase):
         self.repair.refresh_from_db()
         self.assertEqual(self.repair.current_step, 2)
 
+    def test_owner_can_complete_repair(self):
+        self.client.force_login(self.user)
+
+        response = self.client.post(
+            self.url,
+            {"action": "complete"},
+        )
+
+        self.assertEqual(response.status_code, 302)
+        self.repair.refresh_from_db()
+        self.assertTrue(self.repair.completed)
+        self.assertEqual(self.repair.current_step, 3)
+
     def test_completed_repair_cannot_be_navigated(self):
         self.repair.completed = True
         self.repair.save()
@@ -298,7 +381,13 @@ class RepairStepNavigationTests(TestCase):
         self.assertEqual(response.status_code, 200)
         self.assertContains(response, "Предыдущий шаг")
         self.assertContains(response, "Следующий шаг")
+        self.assertContains(response, "Завершить ремонт")
         self.assertContains(response, "Шаг 1")
+        self.assertContains(response, "Распознать запчасть")
+        self.assertContains(
+            response,
+            reverse("parts_web:image_analysis"),
+        )
 
     def test_repair_history_shows_navigation_for_unfinished_repair(self):
         self.client.force_login(self.user)
@@ -310,4 +399,5 @@ class RepairStepNavigationTests(TestCase):
         self.assertEqual(response.status_code, 200)
         self.assertContains(response, "Предыдущий шаг")
         self.assertContains(response, "Следующий шаг")
+        self.assertContains(response, "Завершить ремонт")
         self.assertContains(response, "из 3")

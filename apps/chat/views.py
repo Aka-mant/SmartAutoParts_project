@@ -999,6 +999,7 @@ class ChatRoomPageView(SubscriberChatAccessMixin, View):
     """Показывает доступные комнаты и сообщения выбранной комнаты."""
 
     template_name = "chat/chat.html"
+    moderation_session_key = "community_chat_moderation_notice"
 
     def get(self, request):
         rooms = available_rooms_queryset(request.user)
@@ -1023,6 +1024,10 @@ class ChatRoomPageView(SubscriberChatAccessMixin, View):
                 "rooms": rooms,
                 "selected_room": room,
                 "room_messages": room_messages,
+                "moderation_notice": request.session.pop(
+                    self.moderation_session_key,
+                    None,
+                ),
             },
         )
 
@@ -1055,6 +1060,8 @@ class ChatRoomCreatePageView(SubscriberChatAccessMixin, View):
 class ChatMessageCreatePageView(SubscriberChatAccessMixin, View):
     """Модерирует и отправляет сообщение в доступную комнату."""
 
+    moderation_session_key = "community_chat_moderation_notice"
+
     def post(self, request, room_id):
         room = get_object_or_404(
             available_rooms_queryset(request.user),
@@ -1085,9 +1092,9 @@ class ChatMessageCreatePageView(SubscriberChatAccessMixin, View):
                 text=text,
             )
         except AIRequestRejected as error:
-            messages.error(
-                request,
-                f"Сообщение отклонено автоматической модерацией: {error}",
+            request.session[self.moderation_session_key] = (
+                "Сообщение отклонено автоматической модерацией: "
+                f"{error}"
             )
             return redirect(f"{reverse('chat_web:rooms')}?room={room.pk}")
         except (AIAccessDenied, AIServiceError):
@@ -1098,10 +1105,9 @@ class ChatMessageCreatePageView(SubscriberChatAccessMixin, View):
             return redirect(f"{reverse('chat_web:rooms')}?room={room.pk}")
 
         if not decision.allowed:
-            messages.error(
-                request,
+            request.session[self.moderation_session_key] = (
                 "Сообщение отклонено автоматической модерацией: "
-                f"{decision.reason}",
+                f"{decision.reason}"
             )
             return redirect(f"{reverse('chat_web:rooms')}?room={room.pk}")
 

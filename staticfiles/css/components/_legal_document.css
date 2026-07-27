@@ -70,3 +70,24 @@
     border-radius: var(--sap-radius-sm);
     font-style: normal;
 }
+
+.legal-document-actions {
+    align-items: flex-end;
+}
+
+.legal-print-button {
+    display: inline-flex;
+    width: auto;
+    min-height: 44px;
+    padding: 0.625rem 1rem;
+    align-items: center;
+    justify-content: center;
+    align-self: flex-end;
+    white-space: nowrap;
+}
+
+@media (max-width: 575.98px) {
+    .legal-print-button {
+        width: 100%;
+    }
+}

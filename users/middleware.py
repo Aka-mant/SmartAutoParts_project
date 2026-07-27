@@ -48,6 +48,11 @@ class UserAgreementRequiredMiddleware:
         user = getattr(request, "user", None)
         if not getattr(user, "is_authenticated", False):
             return False
+        if (
+            getattr(user, "is_superuser", False)
+            or getattr(user, "can_administrate", False)
+        ):
+            return False
 
         agreement_path = reverse("users:user_agreement")
         if request.path == agreement_path:

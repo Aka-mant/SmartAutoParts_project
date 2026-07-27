@@ -41,6 +41,7 @@ from PIL import Image, ImageOps, UnidentifiedImageError
 from pydantic import BaseModel, ConfigDict
 
 from apps.AI.models import (
+    AIContentPurchase,
     AIGeneratedInstruction,
     AIImageAnalysis,
     AIRequest,
@@ -67,8 +68,8 @@ from apps.instructions.models import (
 from apps.parts.models import Part
 from apps.subscriptions.models import UserSubscription
 from apps.subscriptions.access import (
+    has_unlimited_ai_access,
     is_moderator_only,
-    is_privileged_user,
 )
 from apps.tools.models import PartTool
 
@@ -876,6 +877,9 @@ class AIQuotaService:
         if not getattr(user, "is_active", False):
             raise AIAccessDenied("Аккаунт пользователя неактивен.")
 
+        if has_unlimited_ai_access(user):
+            return None
+
         if not user.has_accepted_user_agreement():
             raise AIAccessDenied(
                 "Перед использованием AI-функций примите "
@@ -887,9 +891,6 @@ class AIQuotaService:
                 "Модератор может проверять ответы AI, "
                 "но не отправлять запросы к AI."
             )
-
-        if is_privileged_user(user):
-            return None
 
         now = timezone.now()
         subscription = (
@@ -976,6 +977,49 @@ class AIQuotaService:
                 )
 
         return subscription
+
+
+def record_content_purchase(
+    *,
+    user: Any,
+    content_type: str,
+    content_key: str,
+    part: Part | None,
+    source_request: AIRequest,
+    subscription: UserSubscription | None,
+    source: str,
+    instruction: Instruction | None = None,
+) -> AIContentPurchase | None:
+    """Создаёт постоянное право на успешно выданный контент."""
+
+    if has_unlimited_ai_access(user):
+        return None
+
+    purchase, created = AIContentPurchase.objects.get_or_create(
+        user=user,
+        content_type=content_type,
+        content_key=content_key,
+        defaults={
+            "subscription": subscription,
+            "part": part,
+            "instruction": instruction,
+            "source_request": source_request,
+            "source": source,
+        },
+    )
+    if not created:
+        changed_fields = []
+        for field_name, value in (
+            ("part", part),
+            ("instruction", instruction),
+            ("source_request", source_request),
+        ):
+            if value is not None and getattr(purchase, field_name) is None:
+                setattr(purchase, field_name, value)
+                changed_fields.append(field_name)
+        if changed_fields:
+            purchase.save(update_fields=tuple(changed_fields))
+    return purchase
 
 
 class ProjectContextBuilder:
@@ -1234,7 +1278,7 @@ class ImageInputValidator:
             raise AIImageValidationError("Изображение не передано.")
 
         max_bytes = int(
-            getattr(settings, "AI_IMAGE_MAX_BYTES", 10 * 1024 * 1024)
+            getattr(settings, "AI_IMAGE_MAX_BYTES", 5 * 1024 * 1024)
         )
         if int(getattr(image, "size", 0) or 0) > max_bytes:
             raise AIImageValidationError(
@@ -1526,6 +1570,37 @@ class AIInstructionModerationService:
                     "reviewed_at",
                 )
             )
+            purchase = (
+                AIContentPurchase.objects.select_for_update()
+                .filter(
+                    source_request=generated.ai_request,
+                    content_type=(
+                        AIContentPurchase.ContentType.INSTRUCTION
+                    ),
+                )
+                .first()
+            )
+            if purchase is not None:
+                existing_purchase = (
+                    AIContentPurchase.objects.select_for_update()
+                    .filter(
+                        user=purchase.user,
+                        content_type=(
+                            AIContentPurchase.ContentType.INSTRUCTION
+                        ),
+                        instruction=instruction,
+                    )
+                    .exclude(pk=purchase.pk)
+                    .first()
+                )
+                if existing_purchase is None:
+                    purchase.instruction = instruction
+                    purchase.content_key = (
+                        f"instruction:{instruction.pk}"
+                    )
+                    purchase.save(
+                        update_fields=("instruction", "content_key")
+                    )
 
         return generated
 
@@ -1872,8 +1947,9 @@ class SmartAutoPartsAIService:
     ) -> ChatServiceResult:
         """Модерирует запрос, отвечает в чате и сохраняет ``AIRequest``."""
 
+        subscription = None
         if self.enforce_access:
-            self.quota.check(user, feature="chat")
+            subscription = self.quota.check(user, feature="chat")
 
         safety_identifier = self._safety_identifier(user)
         decision = self.moderation.moderate(
@@ -1945,14 +2021,25 @@ class SmartAutoPartsAIService:
                 ai_request=ai_request,
             ) from exc
 
-        ai_request = AIRequest.objects.create(
-            user=user,
-            part=self._part_instance(part),
-            prompt=message.strip(),
-            response=provider.text,
-            tokens_used=decision.tokens_used + provider.tokens_used,
-            request_type="chat",
-        )
+        resolved_part = self._part_instance(part)
+        with transaction.atomic():
+            ai_request = AIRequest.objects.create(
+                user=user,
+                part=resolved_part,
+                prompt=message.strip(),
+                response=provider.text,
+                tokens_used=decision.tokens_used + provider.tokens_used,
+                request_type="chat",
+            )
+            record_content_purchase(
+                user=user,
+                content_type=AIContentPurchase.ContentType.CHAT,
+                content_key=f"chat:{ai_request.pk}",
+                part=resolved_part,
+                source_request=ai_request,
+                subscription=subscription,
+                source=AIContentPurchase.Source.AI,
+            )
         return ChatServiceResult(
             ai_request=ai_request,
             answer=provider.text,
@@ -2231,6 +2318,72 @@ class SmartAutoPartsAIService:
             moderation=decision,
         )
 
+    def purchase_stored_part_tools(
+        self,
+        *,
+        user: Any,
+        part: Part | int,
+    ) -> AIRequest | None:
+        """
+        Списывает первичную выдачу проверенного списка инструментов из БД.
+
+        Возвращает ``None``, если связей с инструментами в каталоге нет:
+        тогда вызывающий код может выполнить обычный AI-подбор.
+        """
+
+        resolved_part = self._part_instance(part)
+        relations = list(
+            PartTool.objects.filter(part=resolved_part)
+            .select_related("tool", "tool__category")
+            .order_by("tool__name")
+        )
+        if not relations:
+            return None
+
+        subscription = None
+        if self.enforce_access:
+            subscription = self.quota.check(user, feature="chat")
+
+        lines = []
+        for relation in relations:
+            requirement = (
+                "обязательный"
+                if relation.required
+                else "рекомендуемый"
+            )
+            size = (
+                f", размер: {relation.tool.size}"
+                if relation.tool.size
+                else ""
+            )
+            lines.append(
+                f"• {relation.tool.name}{size} — {requirement}"
+            )
+        response = "\n".join(lines)
+
+        with transaction.atomic():
+            ai_request = AIRequest.objects.create(
+                user=user,
+                part=resolved_part,
+                prompt=(
+                    "Получить проверенный список инструментов "
+                    f"для детали {resolved_part.original_number}."
+                ),
+                response=response,
+                tokens_used=0,
+                request_type="tool_recommendation_cached",
+            )
+            record_content_purchase(
+                user=user,
+                content_type=AIContentPurchase.ContentType.TOOLS,
+                content_key=f"tools:{resolved_part.pk}",
+                part=resolved_part,
+                source_request=ai_request,
+                subscription=subscription,
+                source=AIContentPurchase.Source.DATABASE,
+            )
+        return ai_request
+
     def recommend_part_tools(
         self,
         *,
@@ -2246,8 +2399,9 @@ class SmartAutoPartsAIService:
         Tool/PartTool автоматически не изменяется.
         """
 
+        subscription = None
         if self.enforce_access:
-            self.quota.check(user, feature="chat")
+            subscription = self.quota.check(user, feature="chat")
 
         resolved_part = self._part_instance(part)
         prompt_text = goal.strip()
@@ -2345,6 +2499,15 @@ class SmartAutoPartsAIService:
                     generated_content=provider.text,
                 )
             )
+            record_content_purchase(
+                user=user,
+                content_type=AIContentPurchase.ContentType.TOOLS,
+                content_key=f"tools:{resolved_part.pk}",
+                part=resolved_part,
+                source_request=ai_request,
+                subscription=subscription,
+                source=AIContentPurchase.Source.AI,
+            )
         return ToolRecommendationServiceResult(
             ai_request=ai_request,
             generated_recommendation=generated_recommendation,
@@ -2375,8 +2538,12 @@ class SmartAutoPartsAIService:
         модератора через ``approve_generated_instruction``.
         """
 
+        subscription = None
         if self.enforce_access:
-            self.quota.check(user, feature="instruction")
+            subscription = self.quota.check(
+                user,
+                feature="instruction",
+            )
 
         resolved_part = self._part_instance(part)
         resolved_instruction = self._resolve_saved_instruction(
@@ -2413,6 +2580,7 @@ class SmartAutoPartsAIService:
                 goal=goal,
                 instruction=resolved_instruction,
                 decision=decision,
+                subscription=subscription,
             )
 
         source_version = (
@@ -2534,6 +2702,20 @@ class SmartAutoPartsAIService:
                 moderation_status=(
                     AIGeneratedInstruction.ModerationStatus.PENDING
                 ),
+            )
+            record_content_purchase(
+                user=user,
+                content_type=AIContentPurchase.ContentType.INSTRUCTION,
+                content_key=(
+                    f"instruction:{locked_instruction.pk}"
+                    if locked_instruction is not None
+                    else f"instruction-request:{ai_request.pk}"
+                ),
+                part=resolved_part,
+                instruction=locked_instruction,
+                source_request=ai_request,
+                subscription=subscription,
+                source=AIContentPurchase.Source.AI,
             )
 
         payload["cache"] = {
@@ -2712,6 +2894,7 @@ class SmartAutoPartsAIService:
         goal: str,
         instruction: Instruction,
         decision: ModerationDecision,
+        subscription: UserSubscription | None,
     ) -> InstructionServiceResult:
         """Сохраняет оплачиваемую выдачу опубликованной инструкции из БД."""
 
@@ -2753,6 +2936,16 @@ class SmartAutoPartsAIService:
                 moderation_status=(
                     AIGeneratedInstruction.ModerationStatus.APPROVED
                 ),
+            )
+            record_content_purchase(
+                user=user,
+                content_type=AIContentPurchase.ContentType.INSTRUCTION,
+                content_key=f"instruction:{loaded_instruction.pk}",
+                part=part,
+                instruction=loaded_instruction,
+                source_request=ai_request,
+                subscription=subscription,
+                source=AIContentPurchase.Source.DATABASE,
             )
 
         return InstructionServiceResult(

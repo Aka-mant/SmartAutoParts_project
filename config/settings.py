@@ -225,6 +225,9 @@ SIMPLE_JWT = {
 AI_INSTRUCTION_CACHE_TTL_DAYS = int(
     os.getenv("AI_INSTRUCTION_CACHE_TTL_DAYS", "365")
 )
+AI_IMAGE_MAX_BYTES = int(
+    os.getenv("AI_IMAGE_MAX_BYTES", str(5 * 1024 * 1024))
+)
 
 # Серверная конфигурация OpenAI. Ключ не должен попадать в HTML/JavaScript.
 OPENAI_API_KEY = os.getenv("OPENAI_API_KEY", "")

@@ -8,6 +8,7 @@ from django.urls import reverse
 from django.utils import timezone
 from rest_framework.test import APIClient
 
+from apps.AI.models import AIContentPurchase
 from apps.parts.models import Part, PartCategory
 from apps.subscriptions.models import SubscriptionPlan, UserSubscription
 
@@ -79,7 +80,17 @@ class InstructionPageTests(TestCase):
             is_published=False,
         )
         self.viewer = self.create_user("viewer")
-        self.activate_instruction_plan(self.viewer)
+        subscription = self.activate_instruction_plan(self.viewer)
+        self.purchase_instruction(
+            self.viewer,
+            self.free_instruction,
+            subscription,
+        )
+        self.purchase_instruction(
+            self.viewer,
+            self.premium_instruction,
+            subscription,
+        )
         self.client.force_login(self.viewer)
 
     def create_user(self, suffix="user"):
@@ -116,6 +127,22 @@ class InstructionPageTests(TestCase):
             start_date=now - timedelta(days=31 if expired else 1),
             end_date=now - timedelta(days=1) if expired else now + timedelta(days=29),
             is_active=True,
+        )
+
+    def purchase_instruction(
+        self,
+        user,
+        instruction,
+        subscription=None,
+    ):
+        return AIContentPurchase.objects.create(
+            user=user,
+            subscription=subscription,
+            content_type=AIContentPurchase.ContentType.INSTRUCTION,
+            content_key=f"instruction:{instruction.pk}",
+            part=instruction.part,
+            instruction=instruction,
+            source=AIContentPurchase.Source.DATABASE,
         )
 
     def test_list_contains_published_and_hides_draft(self):
@@ -181,7 +208,12 @@ class InstructionPageTests(TestCase):
 
     def test_active_subscription_unlocks_premium_instruction(self):
         user = self.create_user("active")
-        self.activate_instruction_plan(user)
+        subscription = self.activate_instruction_plan(user)
+        self.purchase_instruction(
+            user,
+            self.premium_instruction,
+            subscription,
+        )
         self.client.force_login(user)
 
         response = self.client.get(
@@ -217,6 +249,10 @@ class InstructionPageTests(TestCase):
             slug="диагностика-амортизатор-ngk-11",
             content="Проверьте амортизатор.",
             is_published=True,
+        )
+        self.purchase_instruction(
+            self.viewer,
+            instruction,
         )
 
         url = instruction.get_absolute_url()
@@ -296,7 +332,12 @@ class InstructionPageTests(TestCase):
 
     def test_step_repair_requires_tools_and_supports_navigation(self):
         user = self.create_user("repair-session")
-        self.activate_instruction_plan(user)
+        subscription = self.activate_instruction_plan(user)
+        self.purchase_instruction(
+            user,
+            self.free_instruction,
+            subscription,
+        )
         tool_category = ToolCategory.objects.create(
             name="Ключи",
             slug="repair-session-keys",
@@ -350,6 +391,25 @@ class InstructionPageTests(TestCase):
         )
         repair.refresh_from_db()
         self.assertEqual(repair.current_step, 2)
+
+    def test_active_plan_without_purchase_hides_instruction(self):
+        user = self.create_user("not-purchased")
+        self.activate_instruction_plan(user)
+        self.client.force_login(user)
+
+        list_response = self.client.get(
+            reverse("instructions_web:list")
+        )
+        detail_response = self.client.get(
+            self.free_instruction.get_absolute_url()
+        )
+
+        self.assertEqual(list_response.status_code, 200)
+        self.assertNotContains(
+            list_response,
+            self.free_instruction.title,
+        )
+        self.assertEqual(detail_response.status_code, 404)
 
 
 class HeaderIntegrationTests(TestCase):

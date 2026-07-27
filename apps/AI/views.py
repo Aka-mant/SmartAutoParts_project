@@ -28,6 +28,7 @@ from users.permissions import IsOwner
 from apps.parts.models import Part
 from apps.subscriptions.access import (
     get_active_subscription,
+    has_unlimited_ai_access,
     is_moderator_only,
     is_privileged_user,
 )
@@ -42,6 +43,7 @@ from .services import (
     SmartAutoPartsAIService,
 )
 from .models import (
+    AIContentPurchase,
     AIGeneratedInstruction,
     AIImageAnalysis,
     AIRequest,
@@ -108,6 +110,26 @@ class AIRequestOwnedQuerySetMixin(
     """
 
     owner_lookup = "user"
+
+    def get_queryset(self):
+        queryset = super().get_queryset()
+        user = self.request.user
+        if is_privileged_user(user):
+            return queryset
+        if not getattr(user, "is_authenticated", False):
+            return queryset.none()
+        return (
+            queryset.filter(
+                ~Q(request_type__in=("chat", "chat_blocked"))
+                | Q(
+                    content_purchases__user=user,
+                    content_purchases__content_type=(
+                        AIContentPurchase.ContentType.CHAT
+                    ),
+                )
+            )
+            .distinct()
+        )
 
 
 class AIGeneratedInstructionOwnedQuerySetMixin(
@@ -657,12 +679,13 @@ class AIChatPageView(LoginRequiredMixin, View):
 
     login_url = "users:login"
     template_name = "AI/chat.html"
+    moderation_session_key = "ai_chat_moderation_notice"
 
     @staticmethod
     def has_access(user):
         if is_moderator_only(user):
             return False
-        if is_privileged_user(user):
+        if has_unlimited_ai_access(user):
             return True
         subscription = get_active_subscription(user)
         return bool(
@@ -691,14 +714,22 @@ class AIChatPageView(LoginRequiredMixin, View):
         return super().dispatch(request, *args, **kwargs)
 
     def get(self, request):
-        privileged = is_privileged_user(request.user)
+        privileged = has_unlimited_ai_access(request.user)
         subscription = get_active_subscription(request.user)
-        conversations = list(
-            AIRequest.objects.filter(
-                user=request.user,
-                request_type__in=("chat", "chat_blocked"),
+        conversation_queryset = AIRequest.objects.filter(
+            user=request.user,
+            request_type="chat",
+        )
+        if not privileged:
+            conversation_queryset = conversation_queryset.filter(
+                content_purchases__user=request.user,
+                content_purchases__content_type=(
+                    AIContentPurchase.ContentType.CHAT
+                ),
             )
-            .select_related("part")
+        conversations = list(
+            conversation_queryset.select_related("part")
+            .distinct()
             .order_by("-created_at")[:30]
         )
         conversations.reverse()
@@ -752,13 +783,17 @@ class AIChatPageView(LoginRequiredMixin, View):
                 "parts": Part.objects.filter(is_active=True).order_by(
                     "name"
                 )[:200],
+                "moderation_notice": request.session.pop(
+                    self.moderation_session_key,
+                    None,
+                ),
                 **quota_context,
             },
         )
 
     def post(self, request):
         message = request.POST.get("message", "").strip()
-        part_id = request.POST.get("part", "").strip()
+        part_query = request.POST.get("part_query", "").strip()
         if not 3 <= len(message) <= 500:
             messages.error(
                 request,
@@ -778,14 +813,8 @@ class AIChatPageView(LoginRequiredMixin, View):
             return redirect("ai_web:chat")
 
         part = None
-        if part_id:
-            part = Part.objects.filter(
-                pk=part_id,
-                is_active=True,
-            ).first()
-            if part is None:
-                messages.error(request, "Выбранная деталь не найдена.")
-                return redirect("ai_web:chat")
+        if part_query:
+            part = self.resolve_part_query(part_query)
 
         try:
             SmartAutoPartsAIService().answer_chat(
@@ -793,10 +822,15 @@ class AIChatPageView(LoginRequiredMixin, View):
                 message=message,
                 part=part,
             )
+            if part_query and part is None:
+                messages.info(
+                    request,
+                    "Связанная деталь в базе не найдена. Запрос обработан "
+                    "без привязки к карточке; номера из сообщения учтены.",
+                )
         except AIRequestRejected as error:
-            messages.error(
-                request,
-                f"Запрос отклонён модерацией: {error}",
+            request.session[self.moderation_session_key] = (
+                f"Запрос отклонён: {error}"
             )
         except AIAccessDenied as error:
             messages.warning(request, str(error))
@@ -808,3 +842,37 @@ class AIChatPageView(LoginRequiredMixin, View):
             )
 
         return redirect("ai_web:chat")
+
+    @staticmethod
+    def resolve_part_query(query):
+        """Ищет связанную деталь только в существующем каталоге."""
+
+        cleaned = query.strip()
+        if not cleaned:
+            return None
+        normalized = "".join(
+            character
+            for character in cleaned.upper()
+            if character.isalnum()
+        )
+        queryset = Part.objects.filter(is_active=True)
+
+        exact = queryset.filter(
+            Q(original_number__iexact=cleaned)
+            | Q(normalized_original_number=normalized)
+            | Q(oem_numbers__number__iexact=cleaned)
+        ).first()
+        if exact is not None:
+            return exact
+
+        return (
+            queryset.filter(
+                Q(name__icontains=cleaned)
+                | Q(manufacturer__icontains=cleaned)
+                | Q(original_number__icontains=cleaned)
+                | Q(oem_numbers__number__icontains=cleaned)
+            )
+            .distinct()
+            .order_by("name", "pk")
+            .first()
+        )

@@ -22,7 +22,12 @@ from users.permissions import (
     IsModerator,
 )
 
-from apps.AI.models import AIImageAnalysis, AIToolRecommendation
+from apps.AI.models import (
+    AIContentPurchase,
+    AIGeneratedInstruction,
+    AIImageAnalysis,
+    AIToolRecommendation,
+)
 from apps.AI.services import (
     AIAccessDenied,
     AIRequestRejected,
@@ -32,9 +37,11 @@ from apps.AI.services import (
 from apps.instructions.models import Instruction
 from apps.subscriptions.access import (
     get_active_subscription,
+    has_unlimited_ai_access,
     has_part_card_access,
     is_moderator_only,
     is_privileged_user,
+    purchased_instruction_ids,
 )
 
 from .forms import PartImageAnalysisUploadForm
@@ -587,6 +594,15 @@ class PartDetailPageView(LoginRequiredMixin, DetailView):
         return super().dispatch(request, *args, **kwargs)
 
     def get_queryset(self):
+        instruction_queryset = Instruction.objects.filter(
+            is_published=True
+        ).order_by("title")
+        purchased_ids = purchased_instruction_ids(self.request.user)
+        if purchased_ids is not None:
+            instruction_queryset = instruction_queryset.filter(
+                pk__in=purchased_ids
+            )
+
         return (
             Part.objects.filter(is_active=True)
             .select_related("category")
@@ -597,9 +613,7 @@ class PartDetailPageView(LoginRequiredMixin, DetailView):
                 "part_tools__tool__category",
                 Prefetch(
                     "instructions",
-                    queryset=Instruction.objects.filter(
-                        is_published=True
-                    ).order_by("title"),
+                    queryset=instruction_queryset,
                     to_attr="public_instructions",
                 ),
             )
@@ -608,18 +622,81 @@ class PartDetailPageView(LoginRequiredMixin, DetailView):
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
         user = self.request.user
-        privileged = is_privileged_user(user)
+        content_privileged = is_privileged_user(user)
+        ai_unlimited = has_unlimited_ai_access(user)
         moderator_only = is_moderator_only(user)
         subscription = get_active_subscription(user)
+        actual_tools_purchase = AIContentPurchase.objects.filter(
+            user=user,
+            content_type=AIContentPurchase.ContentType.TOOLS,
+            part=self.object,
+        ).exists()
+        instruction_pending_queryset = AIGeneratedInstruction.objects.filter(
+            ai_request__part=self.object,
+            moderation_status=(
+                AIGeneratedInstruction.ModerationStatus.PENDING
+            ),
+        )
+        tools_pending_queryset = AIToolRecommendation.objects.filter(
+            ai_request__part=self.object,
+            moderation_status=(
+                AIToolRecommendation.ModerationStatus.PENDING
+            ),
+        )
+        if not content_privileged:
+            instruction_pending_queryset = instruction_pending_queryset.filter(
+                ai_request__user=user
+            )
+            tools_pending_queryset = tools_pending_queryset.filter(
+                ai_request__user=user
+            )
+        instruction_request_pending = instruction_pending_queryset.exists()
+        tools_request_pending = tools_pending_queryset.exists()
+        tools_purchased = content_privileged or actual_tools_purchase
+        tools_selected = bool(
+            actual_tools_purchase
+            or tools_request_pending
+            or (
+                content_privileged
+                and self.object.part_tools.exists()
+            )
+        )
+        instruction_purchase = None
+        if content_privileged:
+            purchased_instruction = next(
+                iter(self.object.public_instructions),
+                None,
+            )
+        else:
+            instruction_purchase = (
+                AIContentPurchase.objects.select_related("instruction")
+                .filter(
+                    user=user,
+                    content_type=(
+                        AIContentPurchase.ContentType.INSTRUCTION
+                    ),
+                    part=self.object,
+                )
+                .order_by("-purchased_at")
+                .first()
+            )
+            purchased_instruction = (
+                instruction_purchase.instruction
+                if instruction_purchase is not None
+                and instruction_purchase.instruction is not None
+                and instruction_purchase.instruction.is_published
+                else None
+            )
 
         context.update(
             {
-                "is_ai_privileged": privileged,
+                "is_ai_privileged": ai_unlimited,
+                "has_unrestricted_content": content_privileged,
                 "is_ai_moderator": moderator_only,
                 "can_request_instruction": bool(
                     not moderator_only
                     and (
-                    privileged
+                    ai_unlimited
                     or (
                         subscription
                         and subscription.plan.has_instruction_generation
@@ -633,7 +710,7 @@ class PartDetailPageView(LoginRequiredMixin, DetailView):
                 "can_request_tools": bool(
                     not moderator_only
                     and (
-                    privileged
+                    ai_unlimited
                     or (
                         subscription
                         and subscription.plan.has_chat_access
@@ -644,7 +721,7 @@ class PartDetailPageView(LoginRequiredMixin, DetailView):
                 "can_analyze_image": bool(
                     not moderator_only
                     and (
-                    privileged
+                    ai_unlimited
                     or (
                         subscription
                         and subscription.plan.has_image_analysis
@@ -655,23 +732,46 @@ class PartDetailPageView(LoginRequiredMixin, DetailView):
                     )
                     )
                 ),
+                "tools_purchased": tools_purchased,
+                "tools_selected": tools_selected,
+                "tools_request_pending": tools_request_pending,
+                "instruction_purchased": bool(
+                    (
+                        content_privileged
+                        and purchased_instruction is not None
+                    )
+                    or instruction_purchase is not None
+                ),
+                "instruction_request_pending": (
+                    instruction_request_pending
+                ),
+                "purchased_instruction": purchased_instruction,
                 "moderation_average_minutes": 30,
             }
         )
 
-        if getattr(user, "is_authenticated", False):
-            context["approved_tool_recommendation"] = (
+        if (
+            getattr(user, "is_authenticated", False)
+            and tools_purchased
+        ):
+            approved_recommendations = (
                 AIToolRecommendation.objects.select_related(
                     "ai_request",
                     "reviewed_by",
                 )
                 .filter(
-                    ai_request__user=user,
                     ai_request__part=self.object,
                     moderation_status=(
                         AIToolRecommendation.ModerationStatus.APPROVED
                     ),
                 )
+            )
+            if not content_privileged:
+                approved_recommendations = approved_recommendations.filter(
+                    ai_request__user=user
+                )
+            context["approved_tool_recommendation"] = (
+                approved_recommendations
                 .order_by("-reviewed_at", "-created_at")
                 .first()
             )
@@ -720,6 +820,37 @@ class PartInstructionRequestView(PartAIRequestMixin, View):
 
     def post(self, request, *args, **kwargs):
         part = self.get_part()
+        if not has_unlimited_ai_access(request.user):
+            purchase = (
+                AIContentPurchase.objects.select_related("instruction")
+                .filter(
+                    user=request.user,
+                    content_type=(
+                        AIContentPurchase.ContentType.INSTRUCTION
+                    ),
+                    part=part,
+                )
+                .order_by("-purchased_at")
+                .first()
+            )
+            if purchase is not None:
+                if (
+                    purchase.instruction is not None
+                    and purchase.instruction.is_published
+                ):
+                    messages.info(
+                        request,
+                        "Эта инструкция уже приобретена.",
+                    )
+                    return redirect(
+                        purchase.instruction.get_absolute_url()
+                    )
+                messages.info(
+                    request,
+                    "Приобретённая инструкция находится на модерации.",
+                )
+                return self.redirect_to_part(part)
+
         instruction = (
             Instruction.objects.filter(
                 part=part,
@@ -774,6 +905,20 @@ class PartToolRecommendationRequestView(PartAIRequestMixin, View):
 
     def post(self, request, *args, **kwargs):
         part = self.get_part()
+        if (
+            not has_unlimited_ai_access(request.user)
+            and AIContentPurchase.objects.filter(
+                user=request.user,
+                content_type=AIContentPurchase.ContentType.TOOLS,
+                part=part,
+            ).exists()
+        ):
+            messages.info(
+                request,
+                "Инструменты для этой детали уже приобретены.",
+            )
+            return self.redirect_to_part(part)
+
         goal = (
             "На основе проверяемых данных SmartAutoParts подбери обязательные "
             "и рекомендуемые инструменты, средства защиты и расходные "
@@ -785,7 +930,24 @@ class PartToolRecommendationRequestView(PartAIRequestMixin, View):
         )
 
         try:
-            SmartAutoPartsAIService().recommend_part_tools(
+            service = SmartAutoPartsAIService()
+            cached_request = None
+            if not has_unlimited_ai_access(request.user):
+                cached_request = service.purchase_stored_part_tools(
+                    user=request.user,
+                    part=part,
+                )
+            if cached_request is not None:
+                messages.success(
+                    request,
+                    "Проверенный список инструментов приобретён "
+                    "и открыт в карточке детали.",
+                )
+                return redirect(
+                    f"{part.get_absolute_url()}#part-tools"
+                )
+
+            service.recommend_part_tools(
                 user=request.user,
                 part=part,
                 goal=goal,
@@ -799,8 +961,8 @@ class PartToolRecommendationRequestView(PartAIRequestMixin, View):
 
         messages.success(
             request,
-            "Рекомендация отправлена техническому модератору. "
-            "После проверки она появится в блоке «Инструменты». "
+            "Контент приобретён. Проверенные инструменты из каталога "
+            "уже доступны; AI-рекомендация отправлена на модерацию. "
             "Среднее время проверки — до 30 минут.",
         )
         return self.redirect_to_part(part)
@@ -812,6 +974,7 @@ class PartImageAnalysisUploadView(LoginRequiredMixin, FormView):
     template_name = "parts/image_analysis_form.html"
     form_class = PartImageAnalysisUploadForm
     login_url = "users:login"
+    moderation_session_key = "image_analysis_moderation_notice"
 
     def dispatch(self, request, *args, **kwargs):
         if request.user.is_authenticated and is_moderator_only(request.user):
@@ -823,6 +986,10 @@ class PartImageAnalysisUploadView(LoginRequiredMixin, FormView):
             return redirect("users:dashboard")
         return super().dispatch(request, *args, **kwargs)
 
+    def post(self, request, *args, **kwargs):
+        request.session.pop(self.moderation_session_key, None)
+        return super().post(request, *args, **kwargs)
+
     def form_valid(self, form):
         try:
             result = SmartAutoPartsAIService().analyze_part_image(
@@ -830,9 +997,9 @@ class PartImageAnalysisUploadView(LoginRequiredMixin, FormView):
                 image=form.cleaned_data["image"],
             )
         except AIRequestRejected as error:
-            messages.error(
-                self.request,
-                f"Изображение отклонено автоматической модерацией: {error}",
+            self.request.session[self.moderation_session_key] = (
+                "Изображение отклонено автоматической модерацией: "
+                f"{error}"
             )
             return redirect("parts_web:image_analysis")
         except AIAccessDenied as error:
@@ -862,9 +1029,12 @@ class PartImageAnalysisUploadView(LoginRequiredMixin, FormView):
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
         user = self.request.user
-        privileged = is_privileged_user(user)
+        privileged = has_unlimited_ai_access(user)
         subscription = get_active_subscription(user)
         context["is_ai_privileged"] = privileged
+        context["moderation_notice"] = self.request.session.get(
+            self.moderation_session_key
+        )
         context["can_analyze_image"] = bool(
             not is_moderator_only(user)
             and (

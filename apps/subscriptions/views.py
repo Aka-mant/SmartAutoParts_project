@@ -32,7 +32,7 @@ from .models import (
 )
 from .access import (
     get_active_subscription,
-    is_privileged_user,
+    has_unlimited_ai_access,
 )
 from .serializers import (
     SubscriptionPaymentCreateSerializer,
@@ -186,7 +186,7 @@ class SubscriptionPlansPageView(ListView):
         context["active_subscription"] = get_active_subscription(
             self.request.user
         )
-        context["is_service_privileged"] = is_privileged_user(
+        context["is_service_privileged"] = has_unlimited_ai_access(
             self.request.user
         )
         return context
@@ -206,7 +206,7 @@ class SubscriptionCheckoutPageView(LoginRequiredMixin, View):
         )
 
     def dispatch(self, request, *args, **kwargs):
-        if request.user.is_authenticated and is_privileged_user(
+        if request.user.is_authenticated and has_unlimited_ai_access(
             request.user
         ):
             messages.info(

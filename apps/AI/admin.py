@@ -10,6 +10,7 @@ from django.urls import path, reverse
 from django.utils.html import format_html
 
 from .models import (
+    AIContentPurchase,
     AIGeneratedInstruction,
     AIImageAnalysis,
     AIRequest,
@@ -64,6 +65,58 @@ class AIRequestAdmin(admin.ModelAdmin):
     autocomplete_fields = ("user", "part")
     readonly_fields = ("created_at",)
     ordering = ("-created_at",)
+
+
+@admin.register(AIContentPurchase)
+class AIContentPurchaseAdmin(admin.ModelAdmin):
+    """Аудит приобретённого пользователями AI-контента."""
+
+    list_display = (
+        "id",
+        "user",
+        "content_type",
+        "part",
+        "instruction",
+        "source",
+        "subscription",
+        "purchased_at",
+    )
+    list_filter = ("content_type", "source", "purchased_at")
+    search_fields = (
+        "user__email",
+        "content_key",
+        "part__name",
+        "part__original_number",
+        "instruction__title",
+    )
+    autocomplete_fields = (
+        "user",
+        "subscription",
+        "part",
+        "instruction",
+        "source_request",
+    )
+    readonly_fields = (
+        "user",
+        "subscription",
+        "content_type",
+        "content_key",
+        "part",
+        "instruction",
+        "source_request",
+        "source",
+        "purchased_at",
+        "last_accessed_at",
+    )
+
+    def has_add_permission(self, request):
+        return False
+
+    def has_change_permission(self, request, obj=None):
+        return False
+
+    def has_delete_permission(self, request, obj=None):
+        return bool(getattr(request.user, "is_superuser", False))
 
 
 class ModerationForm(forms.Form):

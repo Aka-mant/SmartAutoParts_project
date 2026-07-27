@@ -21,7 +21,9 @@ from users.permissions import (
 )
 from apps.subscriptions.access import (
     has_instruction_access,
+    has_purchased_instruction,
     is_privileged_user,
+    purchased_instruction_ids,
 )
 from apps.parts.models import PartCategory
 from users.models import RepairHistory
@@ -53,7 +55,7 @@ from .serializers import (
 
 
 class PublishedInstructionQuerySetMixin:
-    """Скрывает инструкции API без действующего тарифа."""
+    """Открывает API только для приобретённых инструкций."""
 
     def get_queryset(self):
         queryset = super().get_queryset()
@@ -61,7 +63,10 @@ class PublishedInstructionQuerySetMixin:
             return queryset
         if not has_instruction_access(self.request.user):
             return queryset.none()
-        return queryset.filter(is_published=True)
+        return queryset.filter(
+            is_published=True,
+            pk__in=purchased_instruction_ids(self.request.user),
+        )
 
 
 class InstructionRelatedAccessMixin:
@@ -75,7 +80,12 @@ class InstructionRelatedAccessMixin:
         if not has_instruction_access(self.request.user):
             return queryset.none()
 
-        queryset = queryset.filter(instruction__is_published=True)
+        queryset = queryset.filter(
+            instruction__is_published=True,
+            instruction_id__in=purchased_instruction_ids(
+                self.request.user
+            ),
+        )
         return queryset
 
 
@@ -700,10 +710,7 @@ class InstructionListPageView(InstructionTariffAccessMixin, ListView):
 
     def get_queryset(self):
         queryset = (
-            Instruction.objects.filter(
-                created_by=self.request.user,
-                is_published=True
-            )
+            Instruction.objects.filter(is_published=True)
             .select_related("part", "part__category")
             .prefetch_related(
                 Prefetch(
@@ -714,6 +721,10 @@ class InstructionListPageView(InstructionTariffAccessMixin, ListView):
             .annotate(steps_count=Count("steps", distinct=True))
             .order_by("-published_at", "title")
         )
+        if not is_privileged_user(self.request.user):
+            queryset = queryset.filter(
+                pk__in=purchased_instruction_ids(self.request.user)
+            )
 
         query = self.request.GET.get("q", "").strip()
         difficulty = self.request.GET.get("difficulty", "").strip()
@@ -769,7 +780,7 @@ class InstructionDetailPageView(
     slug_url_kwarg = "slug"
 
     def get_queryset(self):
-        return (
+        queryset = (
             Instruction.objects.filter(is_published=True)
             .select_related(
                 "part",
@@ -795,11 +806,22 @@ class InstructionDetailPageView(
                 ),
             )
         )
+        if not is_privileged_user(self.request.user):
+            queryset = queryset.filter(
+                pk__in=purchased_instruction_ids(self.request.user)
+            )
+        return queryset
 
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
         instruction = context["instruction"]
-        can_access = has_instruction_access(self.request.user)
+        can_access = (
+            has_instruction_access(self.request.user)
+            and has_purchased_instruction(
+                self.request.user,
+                instruction,
+            )
+        )
         steps_count = len(instruction.steps.all())
         tools_count = len(instruction.instruction_tools.all())
         active_repair = None
@@ -837,13 +859,19 @@ class InstructionRepairStartView(InstructionTariffAccessMixin, View):
     login_url = "users:login"
 
     def post(self, request, slug):
+        instruction_ids = purchased_instruction_ids(request.user)
+        instruction_filters = {
+            "slug": slug,
+            "is_published": True,
+        }
+        if instruction_ids is not None:
+            instruction_filters["pk__in"] = instruction_ids
         instruction = get_object_or_404(
             Instruction.objects.prefetch_related(
                 "steps",
                 "instruction_tools",
             ),
-            slug=slug,
-            is_published=True,
+            **instruction_filters,
         )
         if not instruction.steps.exists():
             messages.error(
@@ -886,6 +914,15 @@ class InstructionRepairSessionView(InstructionTariffAccessMixin, View):
     login_url = "users:login"
 
     def get(self, request, pk):
+        instruction_ids = purchased_instruction_ids(request.user)
+        repair_filters = {
+            "pk": pk,
+            "user": request.user,
+            "completed": False,
+            "instruction__is_published": True,
+        }
+        if instruction_ids is not None:
+            repair_filters["instruction_id__in"] = instruction_ids
         repair = get_object_or_404(
             RepairHistory.objects.select_related(
                 "instruction",
@@ -894,10 +931,7 @@ class InstructionRepairSessionView(InstructionTariffAccessMixin, View):
                 "instruction__steps",
                 "instruction__instruction_tools__tool",
             ),
-            pk=pk,
-            user=request.user,
-            completed=False,
-            instruction__is_published=True,
+            **repair_filters,
         )
         steps = list(repair.instruction.steps.all())
         total_steps = len(steps)
@@ -936,14 +970,20 @@ class InstructionRepairNavigateView(InstructionTariffAccessMixin, View):
 
     def post(self, request, pk):
         with transaction.atomic():
+            instruction_ids = purchased_instruction_ids(request.user)
+            repair_filters = {
+                "pk": pk,
+                "user": request.user,
+                "completed": False,
+                "instruction__is_published": True,
+            }
+            if instruction_ids is not None:
+                repair_filters["instruction_id__in"] = instruction_ids
             repair = get_object_or_404(
                 RepairHistory.objects.select_for_update().select_related(
                     "instruction"
                 ),
-                pk=pk,
-                user=request.user,
-                completed=False,
-                instruction__is_published=True,
+                **repair_filters,
             )
             total_steps = repair.instruction.steps.count()
             if total_steps < 1:

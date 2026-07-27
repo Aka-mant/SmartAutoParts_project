@@ -238,6 +238,116 @@ class AIToolRecommendation(models.Model):
         return f"{_('AI tool recommendation')} #{self.pk}"
 
 
+class AIContentPurchase(models.Model):
+    """
+    Фиксирует однократное приобретение AI-контента пользователем.
+
+    Запись не зависит от последующей смены или продления тарифа. Она
+    подтверждает, что первичная выдача была учтена в лимите подписки.
+    """
+
+    class ContentType(models.TextChoices):
+        CHAT = "chat", _("AI chat response")
+        INSTRUCTION = "instruction", _("Repair instruction")
+        TOOLS = "tools", _("Tool selection")
+
+    class Source(models.TextChoices):
+        DATABASE = "database", _("Project database")
+        AI = "ai", _("AI generation")
+
+    user = models.ForeignKey(
+        settings.AUTH_USER_MODEL,
+        on_delete=models.CASCADE,
+        related_name="ai_content_purchases",
+        verbose_name=_("User"),
+    )
+    subscription = models.ForeignKey(
+        "subscriptions.UserSubscription",
+        on_delete=models.SET_NULL,
+        related_name="content_purchases",
+        null=True,
+        blank=True,
+        verbose_name=_("Subscription"),
+    )
+    content_type = models.CharField(
+        max_length=20,
+        choices=ContentType.choices,
+        db_index=True,
+        verbose_name=_("Content type"),
+    )
+    content_key = models.CharField(
+        max_length=160,
+        verbose_name=_("Content key"),
+        help_text=_("Stable identifier used to prevent a repeated purchase."),
+    )
+    part = models.ForeignKey(
+        Part,
+        on_delete=models.SET_NULL,
+        related_name="ai_content_purchases",
+        null=True,
+        blank=True,
+        verbose_name=_("Part"),
+    )
+    instruction = models.ForeignKey(
+        Instruction,
+        on_delete=models.SET_NULL,
+        related_name="ai_content_purchases",
+        null=True,
+        blank=True,
+        verbose_name=_("Instruction"),
+    )
+    source_request = models.ForeignKey(
+        AIRequest,
+        on_delete=models.SET_NULL,
+        related_name="content_purchases",
+        null=True,
+        blank=True,
+        verbose_name=_("Source AI request"),
+    )
+    source = models.CharField(
+        max_length=20,
+        choices=Source.choices,
+        default=Source.AI,
+        verbose_name=_("Content source"),
+    )
+    purchased_at = models.DateTimeField(
+        auto_now_add=True,
+        verbose_name=_("Purchased at"),
+    )
+    last_accessed_at = models.DateTimeField(
+        auto_now=True,
+        verbose_name=_("Last accessed at"),
+    )
+
+    class Meta:
+        db_table = "ai_aicontentpurchase"
+        ordering = ("-purchased_at",)
+        verbose_name = _("AI content purchase")
+        verbose_name_plural = _("AI content purchases")
+        constraints = (
+            models.UniqueConstraint(
+                fields=("user", "content_type", "content_key"),
+                name="ai_purchase_user_type_key_uniq",
+            ),
+        )
+        indexes = (
+            models.Index(
+                fields=("user", "content_type", "part"),
+                name="ai_purchase_user_part_idx",
+            ),
+            models.Index(
+                fields=("user", "content_type", "instruction"),
+                name="ai_purchase_user_instr_idx",
+            ),
+        )
+
+    def __str__(self):
+        return (
+            f"{self.user.email} — "
+            f"{self.get_content_type_display()} — {self.content_key}"
+        )
+
+
 class AIImageAnalysis(models.Model):
     """
     Модель анализа изображения искусственным интеллектом.

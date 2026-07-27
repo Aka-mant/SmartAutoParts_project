@@ -18,16 +18,19 @@
 .assistant-message span, .assistant-message time { display:block; font-size:.75rem; opacity:.76; }
 .assistant-message p { margin:.25rem 0; }
 .assistant-message--ai { align-self:flex-start; }
+.assistant-message--moderator { align-self:flex-start; color:#7f1d1d; background:#fee2e2; border:1px solid #fecaca; }
 .assistant-chat__empty { min-height:240px; display:grid; place-content:center; gap:.5rem; text-align:center; color:#788599; }
 .assistant-chat__empty i { font-size:2rem; }
 .assistant-form { display:grid; gap:.75rem; padding:1.25rem 1.5rem 1.5rem; border-top:1px solid #e6ebf1; }
+.assistant-form__hint { margin-top:-.35rem; color:#64748b; font-size:.78rem; }
+.assistant-form__charge-warning { display:flex; margin:0; align-items:flex-start; gap:.45rem; color:#92400e; font-size:.8rem; line-height:1.4; }
 .assistant-quota { display:flex; justify-content:space-between; gap:1rem; padding:.65rem 0; border-bottom:1px solid #e6ebf1; color:#536174; }
 .assistant-quota strong { color:#172033; white-space:nowrap; }
 .ai-request-status { display:grid; gap:.4rem; font-size:.82rem; color:#536174; }
 .ai-request-status .progress { height:.45rem; }
 .ai-request-status .progress-bar { width:0; transition:width .55s ease; }
 .community-chat-page .assistant-header, .community-chat { width:min(100%, 1100px); margin-inline:auto; }
-.community-chat { display:grid; height:clamp(440px, calc(100dvh - 250px), 720px); min-height:440px; grid-template-columns:minmax(190px, 240px) minmax(0,1fr); overflow:hidden; border:1px solid #dfe5ec; border-radius:1.25rem; background:#fff; box-shadow:0 1rem 3rem rgba(22,42,72,.08); }
+.community-chat { display:grid; height:clamp(528px, calc(100dvh - 160px), 864px); min-height:528px; grid-template-columns:minmax(190px, 240px) minmax(0,1fr); overflow:hidden; border:1px solid #dfe5ec; border-radius:1.25rem; background:#fff; box-shadow:0 1rem 3rem rgba(22,42,72,.08); }
 .community-chat__rooms { min-width:0; min-height:0; padding:1rem; overflow:auto; border-right:1px solid #e6ebf1; background:#f8fafc; }
 .community-chat__create { display:grid; gap:.6rem; padding-bottom:1rem; margin-bottom:1rem; border-bottom:1px solid #e1e7ee; }
 .community-chat__room { display:flex; gap:.55rem; padding:.7rem .75rem; border-radius:.75rem; color:#415065; text-decoration:none; }
@@ -39,6 +42,7 @@
 .community-chat__messages { min-width:0; min-height:0; overflow:auto; overscroll-behavior:contain; padding:1rem; display:flex; flex-direction:column; gap:.75rem; }
 .community-message { max-width:76%; padding:.75rem 1rem; border-radius:1rem; background:#edf2f7; }
 .community-message.is-own { align-self:flex-end; background:#e7f0ff; }
+.community-message--moderator { align-self:stretch; max-width:100%; color:#7f1d1d; background:#fee2e2; border:1px solid #fecaca; }
 .community-message p { margin:.2rem 0; }
 .community-message time { color:#7b8798; font-size:.75rem; }
 .community-chat__form { position:relative; z-index:2; display:grid; min-width:0; grid-template-columns:minmax(0,1fr) auto; gap:.75rem; padding:1rem 1.25rem; border-top:1px solid #e6ebf1; background:#fff; }
@@ -49,7 +53,7 @@
     .assistant-layout, .community-chat { grid-template-columns:1fr; }
     .community-chat__rooms { max-height:220px; border-right:0; border-bottom:1px solid #e6ebf1; }
     .community-chat { height:auto; min-height:0; overflow:visible; }
-    .community-chat__panel { height:clamp(430px, 68dvh, 640px); border-radius:0 0 1.25rem 1.25rem; }
+    .community-chat__panel { height:clamp(516px, 78dvh, 768px); border-radius:0 0 1.25rem 1.25rem; }
     .community-chat__rooms nav { display:flex; gap:.5rem; overflow-x:auto; }
     .community-chat__room { flex:0 0 auto; }
 }
@@ -62,7 +66,7 @@
     .assistant-message, .community-message { max-width:92%; }
     .community-chat { border-radius:1rem; }
     .community-chat__rooms { max-height:200px; padding:.75rem; }
-    .community-chat__panel { height:clamp(430px, 64dvh, 640px); border-radius:0 0 1rem 1rem; }
+    .community-chat__panel { height:clamp(516px, 74dvh, 768px); border-radius:0 0 1rem 1rem; }
     .community-chat__panel > header { align-items:flex-start; flex-direction:column; gap:.25rem; padding:.85rem 1rem; }
     .community-chat__messages { padding:.85rem; }
     .community-chat__form { grid-template-columns:1fr; padding:.85rem; }

@@ -34,9 +34,9 @@ from apps.AI.models import AIRequest
 from apps.parts.models import Part
 from apps.subscriptions.models import UserSubscription
 from apps.subscriptions.access import (
+    has_unlimited_ai_access,
     has_part_card_access,
     is_moderator_only,
-    is_privileged_user,
 )
 
 from .mixins.mixins import UserOwnedQuerySetMixin
@@ -79,12 +79,16 @@ class UserAgreementView(View):
 
     def get(self, request):
         version = settings.USER_AGREEMENT_VERSION
+        agreement_not_required = bool(
+            request.user.is_authenticated
+            and (
+                request.user.is_superuser
+                or request.user.can_administrate
+            )
+        )
         accepted = bool(
             request.user.is_authenticated
-            and UserAgreementAcceptance.objects.filter(
-                user=request.user,
-                agreement_version=version,
-            ).exists()
+            and request.user.has_accepted_user_agreement(version)
         )
         return render(
             request,
@@ -92,6 +96,7 @@ class UserAgreementView(View):
             {
                 "agreement_version": version,
                 "agreement_already_accepted": accepted,
+                "agreement_not_required": agreement_not_required,
                 "next_url": request.GET.get("next", ""),
             },
         )
@@ -104,6 +109,9 @@ class UserAgreementView(View):
                 "Войдите в аккаунт, чтобы принять соглашение.",
             )
             return redirect(f"{login_url}?next={request.get_full_path()}")
+
+        if request.user.is_superuser or request.user.can_administrate:
+            return redirect("users:dashboard")
 
         if request.POST.get("agreement_accepted") != "on":
             messages.error(
@@ -526,7 +534,7 @@ class UserDashboardView(LoginRequiredMixin, TemplateView):
         user = self.request.user
         profile, _ = Profile.objects.get_or_create(user=user)
         subscription = self.get_subscription()
-        privileged = is_privileged_user(user)
+        privileged = has_unlimited_ai_access(user)
         moderator_only = is_moderator_only(user)
 
         has_active_subscription = subscription is not None
@@ -1207,6 +1215,17 @@ class RepairStepNavigationView(LoginRequiredMixin, View):
                 new_step = max(1, current_step - 1)
             elif action == "next":
                 new_step = min(total_steps, current_step + 1)
+            elif action == "complete":
+                repair.current_step = total_steps
+                repair.completed = True
+                repair.save(
+                    update_fields=(
+                        "current_step",
+                        "completed",
+                        "progress_updated_at",
+                    )
+                )
+                completed = True
             else:
                 messages.error(
                     request,
@@ -1214,18 +1233,26 @@ class RepairStepNavigationView(LoginRequiredMixin, View):
                 )
                 return self._redirect_back(request)
 
-            repair.current_step = new_step
-            repair.save(
-                update_fields=(
-                    "current_step",
-                    "progress_updated_at",
+            if action != "complete":
+                repair.current_step = new_step
+                repair.save(
+                    update_fields=(
+                        "current_step",
+                        "progress_updated_at",
+                    )
                 )
-            )
+                completed = False
 
-        messages.success(
-            request,
-            f"Открыт шаг {new_step} из {total_steps}.",
-        )
+        if completed:
+            messages.success(
+                request,
+                "Ремонт отмечен как завершённый.",
+            )
+        else:
+            messages.success(
+                request,
+                f"Открыт шаг {new_step} из {total_steps}.",
+            )
         return self._redirect_back(request)
 
     @staticmethod

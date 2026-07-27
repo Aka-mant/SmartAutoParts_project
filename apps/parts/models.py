@@ -161,6 +161,47 @@ class Part(models.Model):
             kwargs={"slug": self.slug},
         )
 
+    @property
+    def localized_dimensions(self):
+        """Возвращает характеристики с русскими названиями полей."""
+
+        labels = {
+            "height": "Высота",
+            "width": "Ширина",
+            "length": "Длина",
+            "depth": "Глубина",
+            "diameter": "Диаметр",
+            "outer diameter": "Внешний диаметр",
+            "outer_diameter": "Внешний диаметр",
+            "inner diameter": "Внутренний диаметр",
+            "inner_diameter": "Внутренний диаметр",
+            "thickness": "Толщина",
+            "thread": "Резьба",
+            "material": "Материал",
+            "color": "Цвет",
+            "voltage": "Напряжение",
+            "power": "Мощность",
+            "torque": "Момент затяжки",
+            "size": "Размер",
+            "sizes": "Размеры",
+            "volume": "Объём",
+            "capacity": "Ёмкость",
+            "weight": "Вес",
+        }
+        values = self.dimensions if isinstance(self.dimensions, dict) else {}
+        localized = []
+        millimeter_suffix = "_" + "mm"
+        for key, value in values.items():
+            normalized_key = str(key).strip().lower()
+            label = labels.get(normalized_key)
+            if label is None and normalized_key.endswith(millimeter_suffix):
+                base_key = normalized_key.removesuffix(millimeter_suffix)
+                base_label = labels.get(base_key)
+                if base_label:
+                    label = f"{base_label}, мм"
+            localized.append((label or key, value))
+        return localized
+
     def save(self, *args, **kwargs):
         """
         Нормализует OEM-номер перед сохранением.

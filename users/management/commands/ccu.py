@@ -914,7 +914,7 @@ class Command(BaseCommand):
                 manufacturer=manufacturer,
                 description=(
                     f"{part_name} производителя {manufacturer}. "
-                    f"Перед покупкой необходимо сверить OEM-номер "
+                    f"Необходимо сверить OEM-номер "
                     f"и параметры совместимости автомобиля."
                 ),
                 seo_title=f"{full_name}: характеристики и совместимость",
@@ -926,9 +926,9 @@ class Command(BaseCommand):
                 ),
                 weight=self.random_decimal(*weight_range),
                 dimensions={
-                    "length_mm": random.randint(*length_range),
-                    "width_mm": random.randint(*width_range),
-                    "height_mm": random.randint(*height_range),
+                    "Длина, мм": random.randint(*length_range),
+                    "Ширина, мм": random.randint(*width_range),
+                    "Высота, мм": random.randint(*height_range),
                 },
                 is_active=random.random() < 0.9,
             )

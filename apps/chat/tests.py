@@ -283,6 +283,10 @@ class ChatWebPageTests(TestCase):
             ),
             {"message": "Недопустимый текст"},
         )
+        response = self.client.get(
+            reverse("chat_web:rooms"),
+            {"room": self.room.pk},
+        )
 
         self.assertFalse(
             ChatMessage.objects.filter(
@@ -290,6 +294,8 @@ class ChatWebPageTests(TestCase):
                 message="Недопустимый текст",
             ).exists()
         )
+        self.assertContains(response, "community-message--moderator")
+        self.assertContains(response, "Недопустимое сообщение.")
 
     def test_message_cannot_exceed_500_characters(self):
         response = self.client.post(

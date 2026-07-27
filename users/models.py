@@ -157,6 +157,9 @@ class User(AbstractUser):
     def has_accepted_user_agreement(self, version=None) -> bool:
         """Возвращает факт принятия указанной редакции соглашения."""
 
+        if self.is_superuser or self.can_administrate:
+            return True
+
         current_version = version or settings.USER_AGREEMENT_VERSION
         return self.agreement_acceptances.filter(
             agreement_version=current_version,
