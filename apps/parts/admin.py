@@ -82,7 +82,7 @@ class PartImageInline(admin.TabularInline):
         Возвращает уменьшенное изображение запчасти.
         """
 
-        if obj.pk and obj.image:
+        if obj.pk and obj.image_exists:
             return format_html(
                 '<img src="{}" '
                 'alt="{}" '
@@ -583,7 +583,7 @@ class PartImageAdmin(admin.ModelAdmin):
         Возвращает предварительный просмотр изображения.
         """
 
-        if obj.pk and obj.image:
+        if obj.pk and obj.image_exists:
             return format_html(
                 '<a href="{}" target="_blank">'
                 '<img src="{}" '

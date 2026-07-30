@@ -16,7 +16,7 @@
         <div class="part-detail-hero">
             <div class="part-gallery">
                 {% with primary_image=part.images.first %}
-                    {% if primary_image %}
+                    {% if primary_image and primary_image.image_exists %}
                         <img
                             src="{{ primary_image.image.url }}"
                             alt="{{ primary_image.alt_text|default:part.name }}"
@@ -37,14 +37,16 @@
                 {% if part.images.all|length > 1 %}
                     <div class="part-gallery__thumbs" aria-label="Дополнительные изображения">
                         {% for item in part.images.all %}
-                            <img
-                                src="{{ item.image.url }}"
-                                alt="{{ item.alt_text|default:part.name }}"
-                                width="76"
-                                height="62"
-                                loading="lazy"
-                                decoding="async"
-                            >
+                            {% if item.image_exists %}
+                                <img
+                                    src="{{ item.image.url }}"
+                                    alt="{{ item.alt_text|default:part.name }}"
+                                    width="76"
+                                    height="62"
+                                    loading="lazy"
+                                    decoding="async"
+                                >
+                            {% endif %}
                         {% endfor %}
                     </div>
                 {% endif %}

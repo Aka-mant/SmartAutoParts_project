@@ -35,7 +35,7 @@
             <div class="col-lg-4">
                 <article class="account-card profile-summary-card">
                     <div class="profile-avatar">
-                        {% if user.avatar %}
+                        {% if user.avatar_exists %}
                             <img
                                 src="{{ user.avatar.url }}"
                                 alt="Аватар пользователя"

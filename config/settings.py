@@ -13,6 +13,7 @@ import os
 
 from dotenv import load_dotenv
 from datetime import timedelta
+
 load_dotenv()
 
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
@@ -20,19 +21,45 @@ BASE_DIR = Path(__file__).resolve().parent.parent
 PROJECT_ROOT = BASE_DIR
 
 
+def env_bool(name, default=False):
+    """Возвращает логическое значение переменной окружения."""
+
+    value = os.getenv(name)
+    if value is None:
+        return default
+    return value.strip().lower() in {"1", "true", "yes", "on"}
+
+
+def env_list(name, default=""):
+    """Возвращает список значений переменной окружения через запятую."""
+
+    return [
+        item.strip()
+        for item in os.getenv(name, default).split(",")
+        if item.strip()
+    ]
+
+
 # Quick-start development settings - unsuitable for production
 # See https://docs.djangoproject.com/en/6.0/howto/deployment/checklist/
 
 # SECURITY WARNING: keep the secret key used in production secret!
-SECRET_KEY = (
-    'django-insecure-1i(l)7er!iq4u9fbep(55avmz^k%8#g$+'
-    'ra@8nbi0f(b==1+&z'
+SECRET_KEY = os.getenv(
+    "DJANGO_SECRET_KEY",
+    (
+        "django-insecure-1i(l)7er!iq4u9fbep(55avmz^k%8#g$+"
+        "ra@8nbi0f(b==1+&z"
+    ),
 )
 
 # SECURITY WARNING: don't run with debug turned on in production!
-DEBUG = True
+DEBUG = env_bool("DJANGO_DEBUG", True)
 
-ALLOWED_HOSTS = []
+ALLOWED_HOSTS = env_list(
+    "DJANGO_ALLOWED_HOSTS",
+    "127.0.0.1,localhost",
+)
+CSRF_TRUSTED_ORIGINS = env_list("DJANGO_CSRF_TRUSTED_ORIGINS")
 
 
 # Application definition
@@ -62,6 +89,7 @@ INSTALLED_APPS = [
 
 MIDDLEWARE = [
     'django.middleware.security.SecurityMiddleware',
+    'whitenoise.middleware.WhiteNoiseMiddleware',
     'django.contrib.sessions.middleware.SessionMiddleware',
     'django.middleware.common.CommonMiddleware',
     'django.middleware.csrf.CsrfViewMiddleware',
@@ -95,31 +123,56 @@ WSGI_APPLICATION = 'config.wsgi.application'
 # Database
 # https://docs.djangoproject.com/en/6.0/ref/settings/#databases
 
-DATABASES = {
-    'default': {
-        'ENGINE': 'django.db.backends.sqlite3',
-        'NAME': BASE_DIR / 'db.sqlite3',
+if os.getenv("DB_ENGINE", "sqlite").lower() == "postgresql":
+    DATABASES = {
+        "default": {
+            "ENGINE": "django.db.backends.postgresql",
+            "NAME": os.getenv("POSTGRES_DB", "smartautoparts"),
+            "USER": os.getenv("POSTGRES_USER", "smartautoparts"),
+            "PASSWORD": os.getenv(
+                "POSTGRES_PASSWORD",
+                "smartautoparts",
+            ),
+            "HOST": os.getenv("POSTGRES_HOST", "postgres"),
+            "PORT": os.getenv("POSTGRES_PORT", "5432"),
+            "CONN_MAX_AGE": int(os.getenv("DB_CONN_MAX_AGE", "60")),
+            "OPTIONS": {
+                "connect_timeout": int(
+                    os.getenv("DB_CONNECT_TIMEOUT", "10")
+                ),
+            },
+        }
     }
-}
+else:
+    DATABASES = {
+        "default": {
+            "ENGINE": "django.db.backends.sqlite3",
+            "NAME": BASE_DIR / "db.sqlite3",
+        }
+    }
 
-
-# POSTGRES_DATABASE_DOCKER = os.getenv('POSTGRES_DATABASE_DOCKER')
-# POSTGRES_USER = os.getenv('POSTGRES_USER')
-# POSTGRES_PORT_DOCKER = os.getenv('POSTGRES_PORT_DOCKER')
-# POSTGRES_HOST_DOCKER = os.getenv('POSTGRES_HOST_DOCKER')
-# POSTGRES_PASSWORD_DOCKER = os.getenv('POSTGRES_PASSWORD_DOCKER')
-#
-#
-# DATABASES = {
-#     'default': {
-#         'ENGINE': 'django.db.backends.postgresql',
-#         'NAME': POSTGRES_DATABASE_DOCKER,
-#         'USER': POSTGRES_USER,
-#         'PORT': POSTGRES_PORT_DOCKER,
-#         'HOST': POSTGRES_HOST_DOCKER,
-#         'PASSWORD': POSTGRES_PASSWORD_DOCKER,
-#     }
-# }
+REDIS_URL = os.getenv("REDIS_URL")
+if REDIS_URL:
+    CACHES = {
+        "default": {
+            "BACKEND": "django.core.cache.backends.redis.RedisCache",
+            "LOCATION": REDIS_URL,
+            "TIMEOUT": int(os.getenv("CACHE_TIMEOUT", "300")),
+            "KEY_PREFIX": os.getenv(
+                "CACHE_KEY_PREFIX",
+                "smartautoparts",
+            ),
+        }
+    }
+else:
+    CACHES = {
+        "default": {
+            "BACKEND": (
+                "django.core.cache.backends.locmem.LocMemCache"
+            ),
+            "LOCATION": "smartautoparts-local",
+        }
+    }
 
 # Password validation
 # https://docs.djangoproject.com/en/6.0/ref/settings/#auth-password-validators
@@ -171,7 +224,16 @@ USE_TZ = True
 
 MEDIA_URL = "/media/"
 
-MEDIA_ROOT = os.path.join(BASE_DIR, "media")
+MEDIA_ROOT = Path(
+    os.getenv(
+        "MEDIA_ROOT",
+        BASE_DIR / "media",
+    )
+)
+SERVE_MEDIA_FILES = env_bool(
+    "SERVE_MEDIA_FILES",
+    DEBUG,
+)
 
 
 STATIC_URL = "/static/"
@@ -181,6 +243,19 @@ STATICFILES_DIRS = [
 ]
 
 STATIC_ROOT = BASE_DIR / "staticfiles"
+
+STORAGES = {
+    "default": {
+        "BACKEND": (
+            "django.core.files.storage.FileSystemStorage"
+        ),
+    },
+    "staticfiles": {
+        "BACKEND": (
+            "whitenoise.storage.CompressedStaticFilesStorage"
+        ),
+    },
+}
 
 LOGIN_URL = "users:login"
 

@@ -1,0 +1,9 @@
+python -Xutf8 manage.py loaddata `
+    fixtures/users.json `
+    fixtures/parts.json `
+    fixtures/tools.json `
+    fixtures/instructions.json `
+    fixtures/subscriptions.json `
+    fixtures/chat.json `
+    fixtures/analytics.json `
+    fixtures/AI.json

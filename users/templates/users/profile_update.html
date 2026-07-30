@@ -98,7 +98,7 @@
 
                             <div class="profile-avatar-large">
 
-                                {% if request.user.avatar %}
+                                {% if request.user.avatar_exists %}
 
                                     <img
                                         src="{{ request.user.avatar.url }}"

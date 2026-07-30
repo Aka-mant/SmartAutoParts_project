@@ -142,7 +142,7 @@
                                 data-bs-toggle="dropdown"
                                 aria-expanded="false"
                             >
-                                {% if user.avatar %}
+                                {% if user.avatar_exists %}
                                     <img
                                         src="{{ user.avatar.url }}"
                                         alt="Аватар пользователя {{ user.username }}"

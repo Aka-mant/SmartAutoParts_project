@@ -7,3 +7,7 @@ python-dotenv==1.2.2
 Pillow==12.3.0
 openai==2.48.0
 pydantic==2.13.4
+gunicorn==23.0.0
+psycopg[binary]==3.2.13
+redis==6.4.0
+whitenoise==6.9.0

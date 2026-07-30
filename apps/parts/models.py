@@ -171,6 +171,9 @@ class Part(models.Model):
             "length": "Длина",
             "depth": "Глубина",
             "diameter": "Диаметр",
+            "diameter_1": "Диаметр 1",
+            "diameter_2": "Диаметр 2",
+            "diameter_3": "Диаметр 3",
             "outer diameter": "Внешний диаметр",
             "outer_diameter": "Внешний диаметр",
             "inner diameter": "Внутренний диаметр",
@@ -396,3 +399,14 @@ class PartImage(models.Model):
             f"{self.part.name} "
             f"{_('(main)') if self.is_main else ''}"
         ).strip()
+
+    @property
+    def image_exists(self) -> bool:
+        """Проверяет наличие файла изображения детали в хранилище."""
+
+        if not self.image or not self.image.name:
+            return False
+        try:
+            return self.image.storage.exists(self.image.name)
+        except (OSError, ValueError):
+            return False

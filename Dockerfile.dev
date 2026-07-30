@@ -1,0 +1,23 @@
+FROM python:3.14-slim
+
+ENV PYTHONDONTWRITEBYTECODE=1 \
+    PYTHONUNBUFFERED=1 \
+    PIP_DISABLE_PIP_VERSION_CHECK=1
+
+WORKDIR /app
+
+COPY requirements.txt requirements.txt
+COPY requirements requirements
+RUN pip install --upgrade pip \
+    && pip install --no-cache-dir -r requirements.txt
+
+COPY . .
+COPY docker/entrypoint.sh /usr/local/bin/entrypoint
+
+RUN sed -i 's/\r$//' /usr/local/bin/entrypoint \
+    && chmod +x /usr/local/bin/entrypoint
+
+EXPOSE 8000
+
+ENTRYPOINT ["entrypoint"]
+CMD ["python", "manage.py", "runserver", "0.0.0.0:8000"]

@@ -1,6 +1,6 @@
 <header class="dashboard-header">
     <div class="dashboard-header__avatar">
-        {% if request.user.avatar %}
+        {% if request.user.avatar_exists %}
             <img
                 src="{{ request.user.avatar.url }}"
                 alt="Аватар пользователя {{ request.user.username }}"

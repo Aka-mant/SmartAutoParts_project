@@ -216,6 +216,79 @@ python manage.py runserver
 
 ---
 
+# 🐳 Запуск проекта в Docker
+
+Docker Compose поднимает четыре части инфраструктуры:
+
+* Django под Gunicorn;
+* PostgreSQL 17;
+* Redis 7.4 для общего кэша и ограничения частоты запросов;
+* постоянные тома PostgreSQL, Redis, загруженных файлов и статики.
+
+Создайте локальный файл переменных окружения:
+
+```powershell
+Copy-Item .env.example .env
+```
+
+Перед первым запуском замените в `.env` значения
+`DJANGO_SECRET_KEY` и `POSTGRES_PASSWORD`. При использовании AI добавьте
+`OPENAI_API_KEY`.
+
+Соберите и запустите проект:
+
+```powershell
+docker compose up --build -d
+docker compose ps
+docker compose logs -f web
+```
+
+Сайт будет доступен по адресу `http://127.0.0.1:8000/`.
+Миграции и сборка статики выполняются автоматически при запуске
+контейнера `web`.
+
+Создание суперпользователя:
+
+```powershell
+docker compose exec web python manage.py createsuperuser
+```
+
+Запуск тестов:
+
+```powershell
+docker compose exec web python manage.py test
+```
+
+Проверка Redis:
+
+```powershell
+docker compose exec redis redis-cli ping
+```
+
+Остановка контейнеров без удаления данных:
+
+```powershell
+docker compose down
+```
+
+Полное удаление контейнеров и постоянных данных:
+
+```powershell
+docker compose down -v
+```
+
+Последняя команда удаляет базу PostgreSQL, кэш Redis, собранную статику
+и загруженные в Docker файлы.
+
+Для разработки с автоматической перезагрузкой можно собрать отдельный
+образ:
+
+```powershell
+docker build -f Dockerfile.dev -t smartautoparts-dev .
+```
+
+---
+
 # 📦 Описание приложений
 
 ---

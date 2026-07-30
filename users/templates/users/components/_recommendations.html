@@ -12,7 +12,7 @@
                 {% for part in recommended_parts %}
                     <div class="col-md-6 col-xl-3">
                         <div class="card h-100 border">
-                            {% if part.images.first %}
+                            {% if part.images.first.image_exists %}
                                 <img
                                     src="{{ part.images.first.image.url }}"
                                     class="card-img-top"

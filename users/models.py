@@ -102,6 +102,17 @@ class User(AbstractUser):
     def __str__(self):
         return self.email
 
+    @property
+    def avatar_exists(self) -> bool:
+        """Проверяет наличие файла аватара в файловом хранилище."""
+
+        if not self.avatar or not self.avatar.name:
+            return False
+        try:
+            return self.avatar.storage.exists(self.avatar.name)
+        except (OSError, ValueError):
+            return False
+
     def save(self, *args, **kwargs):
         """Синхронизирует служебные роли с доступом в Django Admin."""
 
