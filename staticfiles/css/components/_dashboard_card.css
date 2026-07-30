@@ -1,0 +1,7 @@
+.dashboard-card { height:100%; padding:1.4rem; background:var(--sap-surface, #fff); border:1px solid var(--sap-border, #e3e8ef); border-radius:1.1rem; box-shadow:0 10px 30px rgba(31,41,55,.06); }
+.dashboard-card__header { display:flex; justify-content:space-between; align-items:flex-start; gap:1rem; margin-bottom:1rem; }
+.dashboard-card__title { margin:0; font-size:1.12rem; font-weight:750; color:var(--sap-text, #172033); }
+.dashboard-card__description { margin:.3rem 0 0; color:var(--sap-muted, #687386); font-size:.92rem; }
+.dashboard-card__icon { width:42px; height:42px; display:grid; place-items:center; border-radius:.8rem; background:#eaf2fb; color:#245b8f; font-size:1.15rem; flex:0 0 auto; }
+.dashboard-card.is-soft { background:#f8fafc; }
+.dashboard-card.is-locked { position:relative; border-style:dashed; }

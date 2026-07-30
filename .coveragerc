@@ -1,0 +1,16 @@
+[run]
+source =
+    apps
+    users
+    config
+
+[report]
+omit =
+    */migrations/*
+    */tests.py
+    */tests/*
+    config/asgi.py
+    config/wsgi.py
+show_missing = True
+precision = 2
+fail_under = 98

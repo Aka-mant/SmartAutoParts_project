@@ -1,0 +1,24 @@
+{% extends "admin/change_form.html" %}
+{% load i18n admin_urls %}
+
+{% block object-tools-items %}
+    {% if original and original.moderation_status == "pending" %}
+        <li>
+            <a
+                href="{% url 'admin:AI_aitoolrecommendation_moderate' original.pk 'approve' %}"
+                style="background:#198754"
+            >
+                Одобрить рекомендацию
+            </a>
+        </li>
+        <li>
+            <a
+                href="{% url 'admin:AI_aitoolrecommendation_moderate' original.pk 'reject' %}"
+                style="background:#ba2121"
+            >
+                Отклонить
+            </a>
+        </li>
+    {% endif %}
+    {{ block.super }}
+{% endblock %}

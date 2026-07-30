@@ -18,25 +18,78 @@ class Migration(migrations.Migration):
         migrations.CreateModel(
             name='Instruction',
             fields=[
-                ('id', models.BigAutoField(auto_created=True, primary_key=True, serialize=False, verbose_name='ID')),
-                ('title', models.CharField(max_length=255, verbose_name='Title')),
-                ('slug', models.SlugField(help_text='SEO-friendly URL.', max_length=255, unique=True, verbose_name='Slug')),
-                ('short_description', models.TextField(blank=True, verbose_name='Short description')),
-                ('content', models.TextField(verbose_name='Content')),
-                ('difficulty', models.CharField(blank=True, max_length=50, verbose_name='Difficulty')),
-                ('estimated_time', models.PositiveIntegerField(blank=True, help_text='Estimated completion time in minutes.', null=True, verbose_name='Estimated time')),
-                ('premium_only', models.BooleanField(default=False, verbose_name='Premium only')),
-                ('version', models.PositiveIntegerField(default=1, verbose_name='Version')),
-                ('created_at', models.DateTimeField(auto_now_add=True, verbose_name='Created at')),
-                ('updated_at', models.DateTimeField(auto_now=True, verbose_name='Updated at')),
-                ('created_by', models.ForeignKey(blank=True, null=True, on_delete=django.db.models.deletion.SET_NULL, related_name='created_instructions', to=settings.AUTH_USER_MODEL, verbose_name='Created by')),
-                ('part', models.ForeignKey(on_delete=django.db.models.deletion.CASCADE, related_name='instructions', to='parts.part', verbose_name='Part')),
+                ('id',
+                 models.BigAutoField(
+                     auto_created=True,
+                     primary_key=True,
+                     serialize=False,
+                     verbose_name='ID')),
+                ('title',
+                 models.CharField(
+                     max_length=255,
+                     verbose_name='Title')),
+                ('slug',
+                 models.SlugField(
+                     help_text='SEO-friendly URL.',
+                     max_length=255,
+                     unique=True,
+                     verbose_name='Slug')),
+                ('short_description',
+                 models.TextField(
+                     blank=True,
+                     verbose_name='Short description')),
+                ('content',
+                 models.TextField(
+                     verbose_name='Content')),
+                ('difficulty',
+                 models.CharField(
+                     blank=True,
+                     max_length=50,
+                     verbose_name='Difficulty')),
+                ('estimated_time',
+                 models.PositiveIntegerField(
+                     blank=True,
+                     help_text='Estimated completion time in minutes.',
+                     null=True,
+                     verbose_name='Estimated time')),
+                ('premium_only',
+                 models.BooleanField(
+                     default=False,
+                     verbose_name='Premium only')),
+                ('version',
+                 models.PositiveIntegerField(
+                     default=1,
+                     verbose_name='Version')),
+                ('created_at',
+                 models.DateTimeField(
+                     auto_now_add=True,
+                     verbose_name='Created at')),
+                ('updated_at',
+                 models.DateTimeField(
+                     auto_now=True,
+                     verbose_name='Updated at')),
+                ('created_by',
+                 models.ForeignKey(
+                     blank=True,
+                     null=True,
+                     on_delete=django.db.models.deletion.SET_NULL,
+                     related_name='created_instructions',
+                     to=settings.AUTH_USER_MODEL,
+                     verbose_name='Created by')),
+                ('part',
+                 models.ForeignKey(
+                     on_delete=django.db.models.deletion.CASCADE,
+                     related_name='instructions',
+                     to='parts.part',
+                     verbose_name='Part')),
             ],
             options={
                 'verbose_name': 'Instruction',
                 'verbose_name_plural': 'Instructions',
                 'db_table': 'instructions_instruction',
-                'ordering': ('title',),
+                'ordering': (
+                    'title',
+                ),
             },
         ),
     ]

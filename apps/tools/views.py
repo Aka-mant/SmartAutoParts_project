@@ -11,6 +11,8 @@ from users.permissions import (
     IsAdmin,
     IsModerator,
 )
+from apps.AI.models import AIContentPurchase
+from apps.subscriptions.access import is_privileged_user
 
 from .models import (
     PartTool,
@@ -28,6 +30,23 @@ from .serializers import (
     ToolSerializer,
     ToolUpdateSerializer,
 )
+
+
+class PurchasedPartToolQuerySetMixin:
+    """Открывает связи детали с инструментами после первичной покупки."""
+
+    def get_queryset(self):
+        queryset = super().get_queryset()
+        if is_privileged_user(self.request.user):
+            return queryset
+        if not self.request.user.is_authenticated:
+            return queryset.none()
+        purchased_part_ids = AIContentPurchase.objects.filter(
+            user=self.request.user,
+            content_type=AIContentPurchase.ContentType.TOOLS,
+            part_id__isnull=False,
+        ).values_list("part_id", flat=True)
+        return queryset.filter(part_id__in=purchased_part_ids)
 
 
 class ToolCategoryListAPIView(ListAPIView):
@@ -218,7 +237,7 @@ class ToolDeleteAPIView(DestroyAPIView):
     ]
 
 
-class PartToolListAPIView(ListAPIView):
+class PartToolListAPIView(PurchasedPartToolQuerySetMixin, ListAPIView):
     """
     API-представление для получения
     списка связей между запчастями
@@ -259,7 +278,10 @@ class PartToolCreateAPIView(CreateAPIView):
     ]
 
 
-class PartToolRetrieveAPIView(RetrieveAPIView):
+class PartToolRetrieveAPIView(
+    PurchasedPartToolQuerySetMixin,
+    RetrieveAPIView,
+):
     """
     API-представление для получения
     информации о связи между

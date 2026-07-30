@@ -1,0 +1,35 @@
+/* =========================
+   GENERAL SECTIONS
+   ========================= */
+
+.content-section {
+    padding: clamp(4.5rem, 8vw, 7rem) 0;
+}
+
+
+.search-section,
+.reviews-section {
+    background: var(--sap-soft);
+}
+
+
+.section-heading {
+    max-width: 680px;
+    margin-bottom: 3rem;
+}
+
+
+.section-heading h2 {
+    margin-bottom: 1rem;
+    font-size: clamp(2rem, 4vw, 3rem);
+    font-weight: 780;
+    line-height: 1.15;
+    letter-spacing: -0.04em;
+}
+
+
+.section-heading p {
+    margin-bottom: 0;
+    color: var(--sap-muted);
+    font-size: 1.05rem;
+}

@@ -1,4 +1,11 @@
+from django.db import transaction
+
 from rest_framework import serializers
+
+from apps.subscriptions.access import (
+    has_instruction_access,
+    has_purchased_instruction,
+)
 
 from .models import (
     Instruction,
@@ -22,10 +29,12 @@ class InstructionVersionSerializer(serializers.ModelSerializer):
             "version_number",
             "content",
             "changelog",
+            "created_by",
             "created_at",
         )
         read_only_fields = (
             "id",
+            "created_by",
             "created_at",
         )
 
@@ -181,6 +190,7 @@ class InstructionToolSerializer(serializers.ModelSerializer):
             "id",
         )
 
+
 class InstructionToolCreateSerializer(serializers.ModelSerializer):
     """
     Сериализатор создания связи инструкции
@@ -235,6 +245,8 @@ class InstructionSerializer(serializers.ModelSerializer):
         read_only=True,
     )
 
+    access_restricted = serializers.SerializerMethodField()
+
     class Meta:
         model = Instruction
         fields = (
@@ -249,8 +261,12 @@ class InstructionSerializer(serializers.ModelSerializer):
             "premium_only",
             "version",
             "created_by",
+            "updated_by",
+            "is_published",
+            "published_at",
             "created_at",
             "updated_at",
+            "access_restricted",
             "versions",
             "steps",
             "images",
@@ -260,9 +276,37 @@ class InstructionSerializer(serializers.ModelSerializer):
             "id",
             "version",
             "created_by",
+            "updated_by",
+            "published_at",
             "created_at",
             "updated_at",
+            "access_restricted",
         )
+
+    def get_access_restricted(self, instance):
+        request = self.context.get("request")
+        user = getattr(request, "user", None)
+        return not (
+            has_instruction_access(user)
+            and has_purchased_instruction(user, instance)
+        )
+
+    def to_representation(self, instance):
+        """
+        Не отдаёт содержимое через API без активного тарифа.
+
+        Метаданные детали и инструкции остаются видимыми, чтобы клиент
+        мог показать корректное предложение выбрать тариф.
+        """
+
+        data = super().to_representation(instance)
+        if data["access_restricted"]:
+            data["content"] = ""
+            data["versions"] = []
+            data["steps"] = []
+            data["images"] = []
+            data["instruction_tools"] = []
+        return data
 
 
 class InstructionCreateSerializer(serializers.ModelSerializer):
@@ -281,6 +325,7 @@ class InstructionCreateSerializer(serializers.ModelSerializer):
             "difficulty",
             "estimated_time",
             "premium_only",
+            "is_published",
         )
 
 
@@ -299,6 +344,7 @@ class InstructionUpdateSerializer(serializers.ModelSerializer):
             "difficulty",
             "estimated_time",
             "premium_only",
+            "is_published",
         )
 
     def update(self, instance, validated_data):
@@ -306,10 +352,26 @@ class InstructionUpdateSerializer(serializers.ModelSerializer):
         Обновляет инструкцию и увеличивает
         номер версии.
         """
-        for attr, value in validated_data.items():
-            setattr(instance, attr, value)
+        with transaction.atomic():
+            InstructionVersion.objects.get_or_create(
+                instruction=instance,
+                version_number=instance.version,
+                defaults={
+                    "content": instance.content,
+                    "changelog": (
+                        "Архив версии перед ручным обновлением."
+                    ),
+                    "created_by": (
+                        instance.updated_by
+                        or instance.created_by
+                    ),
+                },
+            )
 
-        instance.version += 1
-        instance.save()
+            for attr, value in validated_data.items():
+                setattr(instance, attr, value)
+
+            instance.version += 1
+            instance.save()
 
         return instance

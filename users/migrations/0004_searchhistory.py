@@ -15,18 +15,46 @@ class Migration(migrations.Migration):
         migrations.CreateModel(
             name='SearchHistory',
             fields=[
-                ('id', models.BigAutoField(auto_created=True, primary_key=True, serialize=False, verbose_name='ID')),
-                ('original_number', models.CharField(blank=True, max_length=255, verbose_name='Original number')),
-                ('search_query', models.CharField(blank=True, max_length=500, verbose_name='Search query')),
-                ('result_found', models.BooleanField(default=False, verbose_name='Result found')),
-                ('searched_at', models.DateTimeField(auto_now_add=True, verbose_name='Searched at')),
-                ('user', models.ForeignKey(blank=True, null=True, on_delete=django.db.models.deletion.SET_NULL, related_name='search_history', to=settings.AUTH_USER_MODEL, verbose_name='User')),
+                ('id',
+                 models.BigAutoField(
+                     auto_created=True,
+                     primary_key=True,
+                     serialize=False,
+                     verbose_name='ID')),
+                ('original_number',
+                 models.CharField(
+                     blank=True,
+                     max_length=255,
+                     verbose_name='Original number')),
+                ('search_query',
+                 models.CharField(
+                     blank=True,
+                     max_length=500,
+                     verbose_name='Search query')),
+                ('result_found',
+                 models.BooleanField(
+                     default=False,
+                     verbose_name='Result found')),
+                ('searched_at',
+                 models.DateTimeField(
+                     auto_now_add=True,
+                     verbose_name='Searched at')),
+                ('user',
+                 models.ForeignKey(
+                     blank=True,
+                     null=True,
+                     on_delete=django.db.models.deletion.SET_NULL,
+                     related_name='search_history',
+                     to=settings.AUTH_USER_MODEL,
+                     verbose_name='User')),
             ],
             options={
                 'verbose_name': 'Search history',
                 'verbose_name_plural': 'Search history',
                 'db_table': 'users_searchhistory',
-                'ordering': ('-searched_at',),
+                'ordering': (
+                    '-searched_at',
+                ),
             },
         ),
     ]

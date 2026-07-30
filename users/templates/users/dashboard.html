@@ -14,6 +14,8 @@
 
         {% include "users/components/_quick_actions.html" %}
 
+        {% include "users/components/_continue_repair.html" %}
+
         <section class="dashboard-grid">
             <div class="dashboard-stack">
                 {% include "users/components/_recent_searches.html" %}
@@ -22,6 +24,7 @@
             </div>
 
             <aside class="dashboard-stack">
+                {% include "users/components/_ai_assistant.html" %}
                 {% include "users/components/_subscription_card.html" %}
             </aside>
         </section>

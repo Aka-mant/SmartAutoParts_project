@@ -1,0 +1,139 @@
+{% extends "base.html" %}
+
+{% block title %}Шаг {{ current_step }} — {{ instruction.title }}{% endblock %}
+
+{% block content %}
+<section class="repair-session-page">
+    <div class="container">
+        <nav class="catalog-breadcrumb" aria-label="Хлебные крошки">
+            <a href="{{ instruction.get_absolute_url }}">{{ instruction.title }}</a>
+            <i class="bi bi-chevron-right" aria-hidden="true"></i>
+            <span aria-current="page">Шаг {{ current_step }} из {{ total_steps }}</span>
+        </nav>
+
+        <header class="repair-session-header">
+            <div>
+                <span class="section-eyebrow">Пошаговый ремонт</span>
+                <h1>{{ instruction.part.name }}</h1>
+                <p>{{ instruction.title }}</p>
+            </div>
+            <span class="repair-session-oem">
+                OEM {{ instruction.part.original_number }}
+            </span>
+        </header>
+
+        <div
+            class="progress repair-session-progress"
+            role="progressbar"
+            aria-label="Прогресс ремонта"
+            aria-valuenow="{{ progress_percent }}"
+            aria-valuemin="0"
+            aria-valuemax="100"
+        >
+            <div
+                class="progress-bar progress-bar-striped progress-bar-animated"
+                style="width: {{ progress_percent }}%;"
+            >
+                {{ progress_percent }}%
+            </div>
+        </div>
+
+        <div class="repair-session-layout">
+            <main class="repair-session-step">
+                <div class="repair-session-step__number">
+                    Шаг {{ current_step }} из {{ total_steps }}
+                </div>
+                <h2>{{ step.title|default:"Выполните действие" }}</h2>
+                <div class="instruction-prose">
+                    {{ step.description|linebreaksbr }}
+                </div>
+
+                {% if step.warning %}
+                    <div class="instruction-warning">
+                        <i class="bi bi-exclamation-triangle-fill" aria-hidden="true"></i>
+                        <div>
+                            <strong>Важно</strong>
+                            <p>{{ step.warning }}</p>
+                        </div>
+                    </div>
+                {% endif %}
+
+                {% if step.estimated_minutes %}
+                    <p class="repair-session-step__time">
+                        <i class="bi bi-clock" aria-hidden="true"></i>
+                        Ориентировочно {{ step.estimated_minutes }} мин.
+                    </p>
+                {% endif %}
+
+                <div class="repair-session-actions">
+                    <form
+                        method="post"
+                        action="{% url 'instructions_web:repair_navigate' pk=repair.pk %}"
+                    >
+                        {% csrf_token %}
+                        <input type="hidden" name="action" value="previous">
+                        <button
+                            class="btn btn-outline-secondary"
+                            type="submit"
+                            {% if current_step <= 1 %}disabled{% endif %}
+                        >
+                            <i class="bi bi-arrow-left me-1" aria-hidden="true"></i>
+                            Предыдущий шаг
+                        </button>
+                    </form>
+
+                    {% if current_step < total_steps %}
+                        <form
+                            method="post"
+                            action="{% url 'instructions_web:repair_navigate' pk=repair.pk %}"
+                        >
+                            {% csrf_token %}
+                            <input type="hidden" name="action" value="next">
+                            <button class="btn btn-primary" type="submit">
+                                Следующий шаг
+                                <i class="bi bi-arrow-right ms-1" aria-hidden="true"></i>
+                            </button>
+                        </form>
+                    {% else %}
+                        <form
+                            method="post"
+                            action="{% url 'instructions_web:repair_navigate' pk=repair.pk %}"
+                        >
+                            {% csrf_token %}
+                            <input type="hidden" name="action" value="complete">
+                            <button class="btn btn-success" type="submit">
+                                <i class="bi bi-check2-circle me-1" aria-hidden="true"></i>
+                                Завершить ремонт
+                            </button>
+                        </form>
+                    {% endif %}
+                </div>
+            </main>
+
+            <aside class="repair-session-tools catalog-panel">
+                <h2><i class="bi bi-tools" aria-hidden="true"></i> Инструменты</h2>
+                <ul class="catalog-check-list">
+                    {% for relation in tools %}
+                        <li>
+                            <i class="bi bi-check-circle" aria-hidden="true"></i>
+                            <span>
+                                <strong>{{ relation.tool.name }}</strong>
+                                {% if relation.tool.size %} · {{ relation.tool.size }}{% endif %}
+                                {% if relation.usage_description %}
+                                    <small>{{ relation.usage_description }}</small>
+                                {% endif %}
+                            </span>
+                        </li>
+                    {% endfor %}
+                </ul>
+                <a
+                    class="btn btn-outline-primary w-100 mt-4"
+                    href="{{ instruction.get_absolute_url }}"
+                >
+                    Полная инструкция
+                </a>
+            </aside>
+        </div>
+    </div>
+</section>
+{% endblock %}

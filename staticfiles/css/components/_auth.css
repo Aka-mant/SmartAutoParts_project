@@ -1,0 +1,243 @@
+/* =========================
+   AUTHENTICATION
+   ========================= */
+
+.auth-section {
+    position: relative;
+    min-height: calc(100vh - 76px);
+    padding: clamp(4rem, 8vw, 7rem) 0;
+    overflow: hidden;
+    background:
+        radial-gradient(
+            circle at 10% 20%,
+            rgba(20, 184, 166, 0.12),
+            transparent 30%
+        ),
+        radial-gradient(
+            circle at 90% 10%,
+            rgba(37, 99, 235, 0.14),
+            transparent 32%
+        ),
+        var(--sap-soft);
+}
+
+.auth-section::before {
+    content: "";
+    position: absolute;
+    top: -15rem;
+    right: -15rem;
+    width: 35rem;
+    height: 35rem;
+    border: 1px solid rgba(37, 99, 235, 0.08);
+    border-radius: 50%;
+    box-shadow:
+        0 0 0 70px rgba(37, 99, 235, 0.025),
+        0 0 0 140px rgba(37, 99, 235, 0.02);
+    pointer-events: none;
+}
+
+.auth-wrapper {
+    position: relative;
+    z-index: 1;
+    display: flex;
+    justify-content: center;
+}
+
+.auth-card {
+    width: 100%;
+    max-width: 520px;
+    padding: clamp(1.5rem, 5vw, 3rem);
+    background: rgba(255, 255, 255, 0.96);
+    border: 1px solid var(--sap-border);
+    border-radius: var(--sap-radius-lg);
+    box-shadow: var(--sap-shadow);
+    backdrop-filter: blur(16px);
+}
+
+.auth-card-header {
+    margin-bottom: 2rem;
+}
+
+.auth-icon {
+    display: grid;
+    width: 4rem;
+    height: 4rem;
+    margin: 0 auto 1.25rem;
+    place-items: center;
+    color: #ffffff;
+    background:
+        linear-gradient(
+            135deg,
+            var(--sap-primary),
+            var(--sap-accent)
+        );
+    border-radius: 1.25rem;
+    box-shadow: 0 12px 28px rgba(37, 99, 235, 0.25);
+    font-size: 1.65rem;
+}
+
+.auth-card .section-eyebrow {
+    display: block;
+    margin-bottom: 0.7rem;
+}
+
+.auth-title {
+    margin-bottom: 0.85rem;
+    color: var(--sap-dark);
+    font-size: clamp(2rem, 5vw, 2.75rem);
+    font-weight: 800;
+    line-height: 1.1;
+    letter-spacing: -0.045em;
+}
+
+.auth-description {
+    max-width: 430px;
+    margin: 0 auto;
+    color: var(--sap-muted);
+}
+
+.auth-form .form-label {
+    margin-bottom: 0.55rem;
+    color: #334155;
+    font-size: 0.92rem;
+    font-weight: 700;
+}
+
+.auth-input-group {
+    position: relative;
+}
+
+.auth-input-group .form-control {
+    min-height: 58px;
+    padding-right: 3.25rem;
+    padding-left: 3.15rem;
+    color: var(--sap-dark);
+    background: #ffffff;
+    border: 1px solid var(--sap-border);
+    border-radius: 0.9rem;
+    box-shadow: none;
+    font-size: 1rem;
+}
+
+.auth-input-group .form-control:focus {
+    border-color: var(--sap-primary);
+    box-shadow: 0 0 0 0.25rem rgba(37, 99, 235, 0.13);
+}
+
+.auth-input-group .form-control::placeholder {
+    color: #94a3b8;
+}
+
+.auth-input-icon {
+    position: absolute;
+    z-index: 2;
+    top: 50%;
+    left: 1.1rem;
+    display: inline-flex;
+    color: var(--sap-muted);
+    font-size: 1.1rem;
+    transform: translateY(-50%);
+    pointer-events: none;
+}
+
+.password-toggle {
+    position: absolute;
+    z-index: 2;
+    top: 50%;
+    right: 0.75rem;
+    display: inline-grid;
+    width: 2.5rem;
+    height: 2.5rem;
+    padding: 0;
+    place-items: center;
+    color: var(--sap-muted);
+    background: transparent;
+    border: 0;
+    border-radius: 0.65rem;
+    transform: translateY(-50%);
+}
+
+.password-toggle:hover,
+.password-toggle:focus {
+    color: var(--sap-primary);
+    background: #eff6ff;
+}
+
+.auth-secondary-link {
+    color: var(--sap-primary);
+    font-size: 0.88rem;
+    font-weight: 650;
+    text-decoration: none;
+}
+
+.auth-secondary-link:hover {
+    color: var(--sap-primary-dark);
+    text-decoration: underline;
+}
+
+.auth-submit-button {
+    display: inline-flex;
+    width: 100%;
+    min-height: 56px;
+    align-items: center;
+    justify-content: center;
+    gap: 0.65rem;
+    border-radius: 0.9rem;
+    font-weight: 750;
+    box-shadow: 0 12px 25px rgba(37, 99, 235, 0.2);
+}
+
+.auth-submit-button:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 16px 30px rgba(37, 99, 235, 0.25);
+}
+
+.auth-divider {
+    display: flex;
+    align-items: center;
+    gap: 1rem;
+    margin: 1.75rem 0;
+    color: #94a3b8;
+    font-size: 0.85rem;
+}
+
+.auth-divider::before,
+.auth-divider::after {
+    content: "";
+    flex: 1;
+    height: 1px;
+    background: var(--sap-border);
+}
+
+.auth-register-text {
+    margin-bottom: 0;
+    color: var(--sap-muted);
+    text-align: center;
+}
+
+.auth-register-text a {
+    color: var(--sap-primary);
+    font-weight: 700;
+    text-decoration: none;
+}
+
+.auth-register-text a:hover {
+    color: var(--sap-primary-dark);
+    text-decoration: underline;
+}
+
+.auth-security {
+    display: flex;
+    gap: 0.55rem;
+    align-items: center;
+    justify-content: center;
+    margin-top: 1.75rem;
+    padding-top: 1.25rem;
+    color: var(--sap-muted);
+    border-top: 1px solid var(--sap-border);
+    font-size: 0.82rem;
+}
+
+.auth-security i {
+    color: var(--sap-accent);
+}

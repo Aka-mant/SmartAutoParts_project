@@ -1,0 +1,6 @@
+.upgrade-banner { display:flex; align-items:center; justify-content:space-between; gap:1.25rem; padding:1.4rem; border-radius:1.1rem; color:#fff; background:linear-gradient(135deg, #5d3fd3, #2d72b8); box-shadow:0 15px 35px rgba(76,63,170,.2); }
+.upgrade-banner__content { display:flex; align-items:flex-start; gap:1rem; }
+.upgrade-banner__icon { width:48px; height:48px; display:grid; place-items:center; border-radius:.9rem; background:rgba(255,255,255,.16); font-size:1.3rem; }
+.upgrade-banner__title { margin:0 0 .35rem; font-size:1.2rem; font-weight:800; }
+.upgrade-banner__text { margin:0; color:rgba(255,255,255,.82); }
+.upgrade-banner__button { flex:0 0 auto; }

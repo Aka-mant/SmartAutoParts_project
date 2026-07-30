@@ -1,0 +1,133 @@
+{% extends "base.html" %}
+
+{% block title %}Тарифы и AI-лимиты — SmartAutoParts{% endblock %}
+
+{% block content %}
+<section class="pricing-page">
+    <div class="container">
+        <header class="catalog-hero text-center">
+            <span class="section-eyebrow">Тарифные планы</span>
+            <h1>Выберите объём AI-помощи под свои задачи</h1>
+            <p>
+                В каждом плане общий лимит защищает расходы, а отдельные
+                лимиты точно показывают доступный объём чата, инструкций
+                и анализа фотографий.
+            </p>
+        </header>
+
+        {% if is_service_privileged %}
+            <div class="pricing-current" role="status">
+                <i class="bi bi-shield-check" aria-hidden="true"></i>
+                Для вашей роли все функции сервиса доступны без ограничений:
+                <strong>Безлимит</strong>.
+            </div>
+        {% else %}
+        {% if active_subscription %}
+            <div class="pricing-current" role="status">
+                <i class="bi bi-check-circle-fill" aria-hidden="true"></i>
+                Ваш текущий тариф:
+                <strong>{{ active_subscription.plan.name }}</strong>,
+                действует до {{ active_subscription.end_date|date:"d.m.Y" }}.
+            </div>
+        {% endif %}
+
+        <div class="pricing-grid">
+            {% for plan in plans %}
+                <article class="pricing-plan{% if forloop.counter == 2 %} pricing-plan--featured{% endif %}">
+                    {% if forloop.counter == 2 %}
+                        <span class="pricing-plan__badge">Оптимальный выбор</span>
+                    {% endif %}
+
+                    <div class="pricing-plan__header">
+                        <span class="pricing-plan__icon">
+                            {% if plan.has_image_analysis %}
+                                <i class="bi bi-stars" aria-hidden="true"></i>
+                            {% else %}
+                                <i class="bi bi-wrench-adjustable" aria-hidden="true"></i>
+                            {% endif %}
+                        </span>
+                        <div>
+                            <h2>{{ plan.name }}</h2>
+                            <p>{{ plan.description }}</p>
+                        </div>
+                    </div>
+
+                    <div class="pricing-plan__price">
+                        <strong>{{ plan.price|floatformat:"0" }} ₽</strong>
+                        <span>на {{ plan.duration_days }} дней</span>
+                    </div>
+
+                    <ul class="pricing-plan__features">
+                        <li>
+                            <i class="bi bi-cpu" aria-hidden="true"></i>
+                            <span>
+                                <strong>{{ plan.max_ai_requests }}</strong>
+                                AI-запросов всего
+                            </span>
+                        </li>
+                        <li>
+                            <i class="bi bi-chat-dots" aria-hidden="true"></i>
+                            <span>
+                                AI-чат:
+                                {% if plan.has_chat_access %}
+                                    <strong>{{ plan.max_chat_requests|default:plan.max_ai_requests }}</strong>
+                                    запросов
+                                {% else %}
+                                    недоступен
+                                {% endif %}
+                            </span>
+                        </li>
+                        <li>
+                            <i class="bi bi-list-check" aria-hidden="true"></i>
+                            <span>
+                                AI-инструкции:
+                                {% if plan.has_instruction_generation %}
+                                    <strong>{{ plan.max_instruction_requests }}</strong>
+                                {% else %}
+                                    недоступны
+                                {% endif %}
+                            </span>
+                        </li>
+                        <li>
+                            <i class="bi bi-camera" aria-hidden="true"></i>
+                            <span>
+                                Анализ фото:
+                                {% if plan.has_image_analysis %}
+                                    <strong>{{ plan.max_image_analyses }}</strong>
+                                {% else %}
+                                    недоступен
+                                {% endif %}
+                            </span>
+                        </li>
+                        <li>
+                            <i class="bi bi-shield-check" aria-hidden="true"></i>
+                            Модерация AI-запросов и безопасные рекомендации
+                        </li>
+                    </ul>
+
+                    {% if active_subscription.plan_id == plan.id %}
+                        <span class="btn btn-success w-100 disabled" aria-disabled="true">
+                            Текущий тариф
+                        </span>
+                    {% elif user.is_authenticated %}
+                        <a class="btn btn-primary w-100" href="{% url 'subscriptions_web:payment' plan.id %}">
+                            Выбрать {{ plan.name }}
+                        </a>
+                    {% else %}
+                        <a class="btn btn-primary w-100" href="{% url 'users:register' %}?plan={{ plan.id }}">
+                            Начать с тарифа {{ plan.name }}
+                        </a>
+                    {% endif %}
+                </article>
+            {% empty %}
+                <div class="catalog-empty">
+                    <i class="bi bi-gem" aria-hidden="true"></i>
+                    <h2>Тарифы временно недоступны</h2>
+                    <p>Попробуйте открыть страницу позднее.</p>
+                </div>
+            {% endfor %}
+        </div>
+        {% endif %}
+    </div>
+</section>
+{% endblock %}

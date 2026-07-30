@@ -140,6 +140,7 @@ class ProfileSerializer(serializers.ModelSerializer):
             "user_email",
         )
 
+
 class ProfileUpdateSerializer(serializers.ModelSerializer):
     """
     Сериализатор обновления профиля пользователя.
@@ -192,12 +193,16 @@ class RepairHistorySerializer(serializers.ModelSerializer):
             "user",
             "instruction",
             "completed",
+            "current_step",
             "notes",
             "created_at",
+            "progress_updated_at",
         )
         read_only_fields = (
             "id",
+            "current_step",
             "created_at",
+            "progress_updated_at",
         )
 
 

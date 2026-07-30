@@ -1,0 +1,197 @@
+{% extends "base.html" %}
+
+{% block title %}{{ instruction.title }} — SmartAutoParts{% endblock %}
+
+{% block content %}
+<section class="instruction-detail-page">
+    <div class="container">
+        <nav class="catalog-breadcrumb" aria-label="Хлебные крошки">
+            <a href="{% url 'instructions_web:list' %}">Инструкции</a>
+            <i class="bi bi-chevron-right" aria-hidden="true"></i>
+            <a href="{{ instruction.part.get_absolute_url }}">{{ instruction.part.name }}</a>
+            <i class="bi bi-chevron-right" aria-hidden="true"></i>
+            <span aria-current="page">{{ instruction.title }}</span>
+        </nav>
+
+        <header class="instruction-detail-header">
+            <div>
+                <div class="instruction-detail-header__badges">
+                    <span>{{ instruction.get_difficulty_display|default:"Сложность не указана" }}</span>
+                    {% if instruction.premium_only and not user.can_administrate %}
+                        <span class="is-premium"><i class="bi bi-gem"></i> По подписке</span>
+                    {% else %}
+                        <span><i class="bi bi-unlock"></i> Открытая</span>
+                    {% endif %}
+                </div>
+                <h1>{{ instruction.title }}</h1>
+                <p>{{ instruction.short_description }}</p>
+            </div>
+            <dl class="instruction-facts">
+                <div><dt>Деталь</dt><dd><a href="{{ instruction.part.get_absolute_url }}">{{ instruction.part.name }}</a></dd></div>
+                <div><dt>OEM</dt><dd>{{ instruction.part.original_number }}</dd></div>
+                <div><dt>Время</dt><dd>{% if instruction.estimated_time %}{{ instruction.estimated_time }} мин{% else %}Не указано{% endif %}</dd></div>
+                <div><dt>Версия</dt><dd>{{ instruction.version }}</dd></div>
+            </dl>
+        </header>
+
+        {% if can_access_content %}
+            <section class="instruction-repair-launch catalog-panel">
+                <div>
+                    <span class="section-eyebrow">Интерактивный режим</span>
+                    <h2>Выполняйте ремонт по одному шагу</h2>
+                    <p>
+                        Отмечайте прогресс и возвращайтесь к незавершённому
+                        ремонту из панели управления.
+                    </p>
+                </div>
+
+                {% if can_start_repair %}
+                    <form
+                        method="post"
+                        action="{% url 'instructions_web:start_repair' slug=instruction.slug %}"
+                    >
+                        {% csrf_token %}
+                        <button class="btn btn-primary" type="submit">
+                            <i class="bi bi-play-circle me-1" aria-hidden="true"></i>
+                            {% if active_repair %}
+                                Продолжить с шага {{ active_repair.current_step }}
+                            {% else %}
+                                Начать пошаговый ремонт
+                            {% endif %}
+                        </button>
+                    </form>
+                {% elif not user.is_authenticated %}
+                    <a
+                        class="btn btn-primary"
+                        href="{% url 'users:login' %}?next={{ request.path|urlencode }}"
+                    >
+                        Войти и начать
+                    </a>
+                {% else %}
+                    <span class="instruction-repair-launch__disabled">
+                        Режим станет доступен после публикации шагов и инструментов.
+                    </span>
+                {% endif %}
+            </section>
+
+            <div class="instruction-layout">
+                <main class="instruction-main">
+                    <section class="catalog-panel instruction-intro">
+                        <h2>Перед началом</h2>
+                        <div class="instruction-prose">{{ instruction.content|linebreaksbr }}</div>
+                    </section>
+
+                    <section class="instruction-steps" aria-labelledby="steps-heading">
+                        <div class="catalog-panel__heading">
+                            <div>
+                                <span class="section-eyebrow">Последовательность работ</span>
+                                <h2 id="steps-heading">Пошаговое выполнение</h2>
+                            </div>
+                            <span class="catalog-count">{{ instruction.steps.all|length }} шагов</span>
+                        </div>
+
+                        {% for step in instruction.steps.all %}
+                            <article class="instruction-step">
+                                <span class="instruction-step__number">{{ step.step_number }}</span>
+                                <div>
+                                    <div class="instruction-step__heading">
+                                        <h3>{{ step.title|default:"Выполните действие" }}</h3>
+                                        {% if step.estimated_minutes %}
+                                            <span><i class="bi bi-clock"></i> {{ step.estimated_minutes }} мин</span>
+                                        {% endif %}
+                                    </div>
+                                    <div class="instruction-prose">{{ step.description|linebreaksbr }}</div>
+                                    {% if step.warning %}
+                                        <div class="instruction-warning">
+                                            <i class="bi bi-exclamation-triangle-fill" aria-hidden="true"></i>
+                                            <div><strong>Важно</strong><p>{{ step.warning }}</p></div>
+                                        </div>
+                                    {% endif %}
+                                </div>
+                            </article>
+                        {% empty %}
+                            <div class="catalog-panel">
+                                <p class="mb-0">Структурированные шаги ещё не добавлены. Используйте описание выше.</p>
+                            </div>
+                        {% endfor %}
+                    </section>
+                </main>
+
+                <aside class="instruction-sidebar">
+                    <section class="catalog-panel">
+                        <h2><i class="bi bi-tools"></i> Инструменты</h2>
+                        <ul class="catalog-check-list">
+                            {% for relation in instruction.instruction_tools.all %}
+                                <li>
+                                    <i class="bi bi-check-circle"></i>
+                                    <span>
+                                        <strong>{{ relation.tool.name }}</strong>
+                                        {% if relation.tool.size %} · {{ relation.tool.size }}{% endif %}
+                                        {% if relation.usage_description %}<small>{{ relation.usage_description }}</small>{% endif %}
+                                    </span>
+                                </li>
+                            {% empty %}
+                                <li>Список инструментов не указан.</li>
+                            {% endfor %}
+                        </ul>
+                    </section>
+
+                    <section class="catalog-panel catalog-safety">
+                        <h2><i class="bi bi-shield-check"></i> Контроль безопасности</h2>
+                        <p>
+                            Остановите работу, если данные автомобиля или
+                            момент затяжки отличаются от указанных изготовителем.
+                        </p>
+                    </section>
+
+                    <a class="btn btn-outline-primary w-100" href="{{ instruction.part.get_absolute_url }}">
+                        Карточка детали
+                    </a>
+                </aside>
+            </div>
+
+            {% if instruction.images.all %}
+                <section class="instruction-gallery">
+                    <h2>Иллюстрации</h2>
+                    <div>
+                        {% for image in instruction.images.all %}
+                            <figure>
+                                <img src="{{ image.image.url }}" alt="{{ image.description|default:instruction.title }}">
+                                {% if image.description %}<figcaption>{{ image.description }}</figcaption>{% endif %}
+                            </figure>
+                        {% endfor %}
+                    </div>
+                </section>
+            {% endif %}
+        {% else %}
+            <section class="instruction-lock">
+                <span><i class="bi bi-lock-fill" aria-hidden="true"></i></span>
+                <div>
+                    <span class="section-eyebrow">Материал по подписке</span>
+                    <h2>Откройте полную пошаговую инструкцию</h2>
+                    <p>
+                        Тариф даёт доступ к проверенным шагам, инструментам,
+                        предупреждениям и обновлённым версиям инструкции.
+                    </p>
+                    <a class="btn btn-primary" href="{% url 'subscriptions_web:plans' %}">
+                        Сравнить тарифы
+                    </a>
+                    {% if not user.is_authenticated %}
+                        <a class="btn btn-outline-primary" href="{% url 'users:login' %}?next={{ request.path|urlencode }}">
+                            Войти
+                        </a>
+                    {% endif %}
+                </div>
+            </section>
+        {% endif %}
+
+        <footer class="instruction-version-note">
+            <i class="bi bi-patch-check" aria-hidden="true"></i>
+            <span>
+                Версия {{ instruction.version }} · обновлено {{ instruction.updated_at|date:"d.m.Y" }}.
+                AI-обновления публикуются только после модерации.
+            </span>
+        </footer>
+    </div>
+</section>
+{% endblock %}

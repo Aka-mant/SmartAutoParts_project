@@ -4,5 +4,5 @@
         <span class="subscription-card__status">Активен</span>
     </div>
     {% include "users/components/_usage_limits.html" %}
-    <a class="btn btn-primary w-100" href="#">Перейти на Premium</a>
+    <a class="btn btn-primary w-100" href="{% url 'subscriptions_web:plans' %}">Выбрать тариф</a>
 </article>

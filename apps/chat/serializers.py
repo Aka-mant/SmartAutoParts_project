@@ -205,6 +205,10 @@ class ChatMessageCreateSerializer(serializers.ModelSerializer):
             raise serializers.ValidationError(
                 "Сообщение не может быть пустым."
             )
+        if len(value) > 500:
+            raise serializers.ValidationError(
+                "Сообщение не должно превышать 500 символов."
+            )
 
         return value
 
@@ -263,6 +267,10 @@ class ChatMessageUpdateSerializer(serializers.ModelSerializer):
         if not value:
             raise serializers.ValidationError(
                 "Сообщение не может быть пустым."
+            )
+        if len(value) > 500:
+            raise serializers.ValidationError(
+                "Сообщение не должно превышать 500 символов."
             )
 
         return value
@@ -390,4 +398,3 @@ class ChatRoomUpdateSerializer(serializers.ModelSerializer):
             )
 
         return value
-

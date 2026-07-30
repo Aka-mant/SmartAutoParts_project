@@ -1,0 +1,159 @@
+{% extends "base.html" %}
+
+{% block title %}AI-помощник — SmartAutoParts{% endblock %}
+
+{% block content %}
+<section class="assistant-page">
+    <div class="container">
+        <nav class="catalog-breadcrumb" aria-label="Хлебные крошки">
+            <a href="{% url 'users:dashboard' %}">Панель управления</a>
+            <i class="bi bi-chevron-right" aria-hidden="true"></i>
+            <span aria-current="page">AI-помощник</span>
+        </nav>
+
+        <header class="assistant-header">
+            <div>
+                <span class="section-eyebrow">Техническая помощь</span>
+                <h1>AI-помощник SmartAutoParts</h1>
+                <p>
+                    Задавайте вопросы о совместимости, диагностике,
+                    обслуживании и безопасном ремонте автомобиля.
+                </p>
+            </div>
+            <a class="btn btn-outline-primary" href="{% url 'chat_web:rooms' %}">
+                <i class="bi bi-people me-1" aria-hidden="true"></i>
+                Чат сообщества
+            </a>
+        </header>
+
+        <div class="assistant-layout">
+            <article class="assistant-chat">
+                <div class="assistant-chat__messages" aria-live="polite">
+                    {% if moderation_notice %}
+                        <div class="assistant-message assistant-message--moderator" role="alert">
+                            <span>Автомодератор</span>
+                            <p>{{ moderation_notice }}</p>
+                        </div>
+                    {% endif %}
+                    {% for item in conversations %}
+                        <div class="assistant-message assistant-message--user">
+                            <span>Вы</span>
+                            <p>{{ item.prompt }}</p>
+                            <time datetime="{{ item.created_at|date:'c' }}">
+                                {{ item.created_at|date:"d.m.Y H:i" }}
+                            </time>
+                        </div>
+                        <div class="assistant-message assistant-message--ai">
+                            <span>AI-помощник</span>
+                            <p>{{ item.response|linebreaksbr }}</p>
+                        </div>
+                    {% empty %}
+                        <div class="assistant-chat__empty">
+                            <i class="bi bi-robot" aria-hidden="true"></i>
+                            <h2>Начните диалог</h2>
+                            <p>Опишите задачу и при необходимости выберите деталь.</p>
+                        </div>
+                    {% endfor %}
+                </div>
+
+                <form
+                    method="post"
+                    class="assistant-form ai-request-form"
+                    {% if not ai_unlimited %}
+                        data-confirm="Новый ответ AI будет списан с остатка вашего тарифа. Продолжить?"
+                    {% endif %}
+                >
+                    {% csrf_token %}
+                    <label for="ai-part-search">Связанная деталь</label>
+                    <input
+                        id="ai-part-search"
+                        name="part_query"
+                        type="search"
+                        class="form-control"
+                        list="ai-part-options"
+                        placeholder="Найти деталь по названию или оригинальному номеру"
+                        autocomplete="off"
+                    >
+                    <datalist id="ai-part-options">
+                        {% for part in parts %}
+                            <option value="{{ part.original_number }}">
+                                {{ part.name }}{% if part.manufacturer %} · {{ part.manufacturer }}{% endif %}
+                            </option>
+                        {% endfor %}
+                    </datalist>
+                    <small class="assistant-form__hint">
+                        Сначала ищем деталь в каталоге. Если совпадения нет,
+                        вопрос будет отправлен без привязки к карточке.
+                    </small>
+
+                    <label for="ai-message">Ваш вопрос</label>
+                    <textarea
+                        id="ai-message"
+                        name="message"
+                        class="form-control"
+                        rows="4"
+                        maxlength="500"
+                        required
+                        placeholder="До 500 символов. Например: как безопасно проверить совместимость детали?"
+                    ></textarea>
+                    {% if not ai_unlimited %}
+                        <p class="assistant-form__charge-warning">
+                            <i class="bi bi-exclamation-circle" aria-hidden="true"></i>
+                            Каждый новый ответ списывает 1 AI-запрос с остатка тарифа.
+                        </p>
+                    {% endif %}
+
+                    <div class="ai-request-status" hidden aria-live="polite">
+                        <div class="progress" role="progressbar" aria-valuemin="0" aria-valuemax="100">
+                            <div class="progress-bar progress-bar-striped progress-bar-animated"></div>
+                        </div>
+                        <span>Проверяем запрос и готовим ответ…</span>
+                    </div>
+
+                    <button class="btn btn-primary" type="submit">
+                        <i class="bi bi-send me-1" aria-hidden="true"></i>
+                        Отправить
+                    </button>
+                </form>
+            </article>
+
+            <aside class="assistant-safety catalog-panel">
+                <h2>
+                    <i class="bi bi-speedometer2" aria-hidden="true"></i>
+                    Остатки по тарифу
+                </h2>
+                {% if ai_unlimited %}
+                    <div class="assistant-quota">
+                        <span>Все AI-запросы</span>
+                        <strong>Безлимит</strong>
+                    </div>
+                    <div class="assistant-quota">
+                        <span>AI-чат и подбор инструментов</span>
+                        <strong>Безлимит</strong>
+                    </div>
+                {% else %}
+                    <div class="assistant-quota">
+                        <span>Все AI-запросы</span>
+                        <strong>{{ ai_total_remaining }} из {{ ai_total_limit }}</strong>
+                    </div>
+                    <div class="assistant-quota">
+                        <span>AI-чат и подбор инструментов</span>
+                        <strong>{{ ai_chat_remaining }} из {{ ai_chat_limit }}</strong>
+                    </div>
+                {% endif %}
+
+                <hr>
+                <h2><i class="bi bi-shield-check" aria-hidden="true"></i> Безопасность</h2>
+                <p>
+                    Ответ носит справочный характер. Точные значения и
+                    совместимость необходимо сверять по VIN и руководству
+                    производителя.
+                </p>
+                <a class="btn btn-outline-primary w-100" href="{% url 'users:part_search' %}">
+                    Найти запчасть
+                </a>
+            </aside>
+        </div>
+    </div>
+</section>
+{% endblock %}

@@ -7,5 +7,5 @@
         <div class="subscription-card__detail"><span>Действует до</span><strong>{{ subscription.end_date|date:"d.m.Y" }}</strong></div>
         <div class="subscription-card__detail"><span>AI-запросов</span><strong>{{ ai_requests_used|default:0 }} / {{ subscription.plan.max_ai_requests|default:"∞" }}</strong></div>
     </div>
-    <a class="btn btn-outline-dark w-100" href="{% url 'subscriptions:detail' %}">Управление подпиской</a>
+    <a class="btn btn-outline-dark w-100" href="{% url 'subscriptions_web:plans' %}">Управление подпиской</a>
 </article>

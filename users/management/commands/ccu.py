@@ -558,6 +558,7 @@ class Command(BaseCommand):
                 f"{model_name}: создано {count}"
             )
         )
+
     def create_users(self) -> list[User]:
         """
         Создает тестовых пользователей.
@@ -875,7 +876,9 @@ class Command(BaseCommand):
             "Топливный насос": ((100, 300), (60, 180), (60, 180), (0.5, 4.0)),
             "Амортизатор": ((350, 850), (40, 120), (40, 120), (2.0, 8.0)),
             "Шаровая опора": ((70, 180), (60, 160), (60, 160), (0.4, 2.5)),
-            "Ступичный подшипник": ((50, 180), (50, 180), (25, 90), (0.3, 3.5)),
+            "Ступичный подшипник": (
+                (50, 180), (50, 180), (25, 90), (0.3, 3.5)
+            ),
             "Датчик кислорода": ((80, 220), (20, 50), (20, 50), (0.05, 0.3)),
             "Катушка зажигания": ((80, 220), (25, 80), (25, 80), (0.1, 0.8)),
             "Фара": ((300, 900), (180, 500), (150, 450), (2.0, 8.0)),
@@ -914,7 +917,7 @@ class Command(BaseCommand):
                 manufacturer=manufacturer,
                 description=(
                     f"{part_name} производителя {manufacturer}. "
-                    f"Перед покупкой необходимо сверить OEM-номер "
+                    f"Необходимо сверить OEM-номер "
                     f"и параметры совместимости автомобиля."
                 ),
                 seo_title=f"{full_name}: характеристики и совместимость",
@@ -922,13 +925,14 @@ class Command(BaseCommand):
                     f"OEM-номер, совместимость и инструкции для {full_name}."
                 ),
                 seo_keywords=(
-                    f"{part_name}, {manufacturer}, {original_number}, автозапчасть"
+                    f"{part_name}, {manufacturer}, "
+                    f"{original_number}, автозапчасть"
                 ),
                 weight=self.random_decimal(*weight_range),
                 dimensions={
-                    "length_mm": random.randint(*length_range),
-                    "width_mm": random.randint(*width_range),
-                    "height_mm": random.randint(*height_range),
+                    "Длина, мм": random.randint(*length_range),
+                    "Ширина, мм": random.randint(*width_range),
+                    "Высота, мм": random.randint(*height_range),
                 },
                 is_active=random.random() < 0.9,
             )
@@ -953,7 +957,7 @@ class Command(BaseCommand):
         oem_numbers = []
         count = self.get_count()
 
-        for index in range(1, count + 1):
+        for _index in range(1, count + 1):
             part = random.choice(parts)
             manufacturer = random.choice(
                 self.PART_MANUFACTURERS
@@ -1074,7 +1078,7 @@ class Command(BaseCommand):
         count = self.get_count()
         parts_with_main_image = set()
 
-        for index in range(1, count + 1):
+        for _index in range(1, count + 1):
             part = random.choice(parts)
 
             is_main = part.pk not in parts_with_main_image
@@ -1170,10 +1174,6 @@ class Command(BaseCommand):
 
         tools = []
         count = self.get_count()
-        categories_by_prefix = {
-            category.name.rsplit(" ", 1)[0]: category
-            for category in categories
-        }
 
         metric_sizes = (
             "6 мм", "8 мм", "10 мм", "12 мм", "13 мм",
@@ -1749,7 +1749,10 @@ class Command(BaseCommand):
         now = timezone.now()
 
         attempts = 0
-        while len(subscriptions) < target_count and attempts < target_count * 30:
+        while (
+            len(subscriptions) < target_count
+            and attempts < target_count * 30
+        ):
             attempts += 1
             user = random.choice(users)
             plan = random.choice(plans)
@@ -1780,8 +1783,12 @@ class Command(BaseCommand):
                     user.role = UserRole.PREMIUM
                     user.save(update_fields=["role"])
             else:
+                expiration_offset = random.randint(
+                    plan.duration_days + 1,
+                    plan.duration_days + 365,
+                )
                 start_date = now - timedelta(
-                    days=random.randint(plan.duration_days + 1, 365),
+                    days=expiration_offset,
                 )
                 end_date = start_date + timedelta(days=plan.duration_days)
                 is_active = False
@@ -1966,7 +1973,10 @@ class Command(BaseCommand):
         )
 
         attempts = 0
-        while len(participants) < target_count and attempts < target_count * 30:
+        while (
+            len(participants) < target_count
+            and attempts < target_count * 30
+        ):
             attempts += 1
             room = random.choice(rooms)
             user = random.choice(users)
@@ -2326,13 +2336,18 @@ class Command(BaseCommand):
 
         prompt_templates = {
             "part_search": "Найди аналоги детали {part} по OEM-номеру {oem}.",
-            "repair_question": "Какие признаки неисправности характерны для {part}?",
-            "instruction_generation": "Создай пошаговую инструкцию по замене {part}.",
+            "repair_question": (
+                "Какие признаки неисправности характерны для {part}?"
+            ),
+            "instruction_generation": (
+                "Создай пошаговую инструкцию по замене {part}."
+            ),
             "compatibility_check": (
                 "Проверь совместимость детали {part} с автомобилем {brand}."
             ),
             "image_analysis": (
-                "Проанализируй изображение и проверь, похожа ли деталь на {part}."
+                "Проанализируй изображение и проверь, "
+                "похожа ли деталь на {part}."
             ),
         }
 
@@ -2347,14 +2362,16 @@ class Command(BaseCommand):
             ),
             "instruction_generation": (
                 "Работы выполняются после фиксации автомобиля, отключения "
-                "питания при необходимости и подготовки подходящих инструментов."
+                "питания при необходимости и подготовки "
+                "подходящих инструментов."
             ),
             "compatibility_check": (
                 "Совместимость подтверждается только после сверки OEM-номера, "
                 "модели, года выпуска, поколения и двигателя."
             ),
             "image_analysis": (
-                "Изображение позволяет выполнить предварительное распознавание, "
+                "Изображение позволяет выполнить предварительное "
+                "распознавание, "
                 "но итог необходимо подтвердить по маркировке и OEM-номеру."
             ),
         }
@@ -2503,7 +2520,7 @@ class Command(BaseCommand):
             "unknown",
         )
 
-        for index in range(1, count + 1):
+        for _index in range(1, count + 1):
             user = random.choice(allowed_users)
 
             detected_part = random.choice(

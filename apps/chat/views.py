@@ -1,6 +1,19 @@
-from django.db.models import Q, QuerySet
+import hashlib
 
-from rest_framework.exceptions import PermissionDenied
+from django.conf import settings
+from django.contrib import messages
+from django.contrib.auth.mixins import LoginRequiredMixin
+from django.core.cache import cache
+from django.db.models import Q, QuerySet
+from django.shortcuts import get_object_or_404, redirect, render
+from django.urls import reverse
+from django.utils import timezone
+from django.views import View
+
+from rest_framework.exceptions import (
+    PermissionDenied,
+    ValidationError,
+)
 from rest_framework.generics import (
     CreateAPIView,
     DestroyAPIView,
@@ -9,7 +22,14 @@ from rest_framework.generics import (
     UpdateAPIView,
 )
 from rest_framework.permissions import IsAuthenticated
+from rest_framework.throttling import UserRateThrottle
 
+from apps.AI.services import (
+    AIAccessDenied,
+    AIRequestRejected,
+    AIServiceError,
+    SmartAutoPartsAIService,
+)
 from .models import (
     ChatMessage,
     ChatParticipant,
@@ -36,10 +56,83 @@ def user_can_administrate(user) -> bool:
 
     return bool(
         user
-        and user.is_authenticated
-        and user.is_active
-        and user.can_administrate
+        and getattr(user, "is_authenticated", False)
+        and getattr(user, "is_active", False)
+        and getattr(user, "can_administrate", False)
     )
+
+
+def user_is_authenticated(user) -> bool:
+    """Безопасно проверяет активного авторизованного пользователя."""
+
+    return bool(
+        user
+        and getattr(user, "is_authenticated", False)
+        and getattr(user, "is_active", False)
+    )
+
+
+def is_chat_rate_limited(
+    request,
+    *,
+    scope: str,
+    limit: int,
+    window_seconds: int,
+) -> bool:
+    """Ограничивает частоту запросов по пользователю и IP."""
+
+    user_marker = (
+        f"user:{request.user.pk}"
+        if getattr(request.user, "is_authenticated", False)
+        else "anonymous"
+    )
+    ip_address = request.META.get("REMOTE_ADDR", "unknown")
+    bucket = int(timezone.now().timestamp()) // max(window_seconds, 1)
+    identity = hashlib.sha256(
+        f"{user_marker}:{ip_address}".encode("utf-8")
+    ).hexdigest()
+    key = f"chat-rate:{scope}:{identity}:{bucket}"
+
+    if cache.add(key, 1, timeout=window_seconds + 2):
+        return False
+    try:
+        return cache.incr(key) > limit
+    except ValueError:
+        cache.set(key, 1, timeout=window_seconds + 2)
+        return False
+
+
+def chat_request_is_limited(request, *, scope: str, limit: int) -> bool:
+    """Применяет минутный и короткий burst-лимит."""
+
+    return (
+        is_chat_rate_limited(
+            request,
+            scope=f"{scope}:window",
+            limit=limit,
+            window_seconds=settings.CHAT_RATE_WINDOW_SECONDS,
+        )
+        or is_chat_rate_limited(
+            request,
+            scope=f"{scope}:burst",
+            limit=settings.CHAT_BURST_RATE_LIMIT,
+            window_seconds=settings.CHAT_BURST_WINDOW_SECONDS,
+        )
+    )
+
+
+class ChatMessageRateThrottle(UserRateThrottle):
+    """DRF-защита API сообщений от частых запросов."""
+
+    rate = "12/min"
+
+
+def swagger_empty_queryset(view, model):
+    """Возвращает пустой queryset при инспекции представления drf-yasg."""
+
+    if getattr(view, "swagger_fake_view", False):
+        return model.objects.none()
+    return None
 
 
 def available_rooms_queryset(user) -> QuerySet:
@@ -72,6 +165,9 @@ def available_rooms_queryset(user) -> QuerySet:
     if user_can_administrate(user):
         return queryset
 
+    if not user_is_authenticated(user):
+        return queryset.none()
+
     return queryset.filter(
         Q(is_private=False)
         | Q(created_by=user)
@@ -98,6 +194,9 @@ def manageable_rooms_queryset(user) -> QuerySet:
     if user_can_administrate(user):
         return queryset
 
+    if not user_is_authenticated(user):
+        return queryset.none()
+
     return queryset.filter(
         created_by=user,
     )
@@ -120,6 +219,9 @@ def available_participants_queryset(user) -> QuerySet:
 
     if user_can_administrate(user):
         return queryset
+
+    if not user_is_authenticated(user):
+        return queryset.none()
 
     return queryset.filter(
         Q(room__is_private=False)
@@ -146,6 +248,9 @@ def manageable_participants_queryset(user) -> QuerySet:
     if user_can_administrate(user):
         return queryset
 
+    if not user_is_authenticated(user):
+        return queryset.none()
+
     return queryset.filter(
         room__created_by=user,
     )
@@ -168,6 +273,9 @@ def available_messages_queryset(user) -> QuerySet:
 
     if user_can_administrate(user):
         return queryset
+
+    if not user_is_authenticated(user):
+        return queryset.none()
 
     return queryset.filter(
         Q(room__is_private=False)
@@ -202,6 +310,10 @@ class ChatRoomListAPIView(ListAPIView):
         Возвращает комнаты, доступные
         текущему пользователю.
         """
+
+        schema_queryset = swagger_empty_queryset(self, ChatRoom)
+        if schema_queryset is not None:
+            return schema_queryset
 
         return available_rooms_queryset(
             self.request.user,
@@ -261,6 +373,10 @@ class ChatRoomRetrieveAPIView(RetrieveAPIView):
         текущему пользователю.
         """
 
+        schema_queryset = swagger_empty_queryset(self, ChatRoom)
+        if schema_queryset is not None:
+            return schema_queryset
+
         return available_rooms_queryset(
             self.request.user,
         )
@@ -288,6 +404,10 @@ class ChatRoomUpdateAPIView(UpdateAPIView):
         Возвращает комнаты, которыми
         текущий пользователь может управлять.
         """
+
+        schema_queryset = swagger_empty_queryset(self, ChatRoom)
+        if schema_queryset is not None:
+            return schema_queryset
 
         return manageable_rooms_queryset(
             self.request.user,
@@ -332,6 +452,10 @@ class ChatRoomDeleteAPIView(DestroyAPIView):
         текущий пользователь может удалить.
         """
 
+        schema_queryset = swagger_empty_queryset(self, ChatRoom)
+        if schema_queryset is not None:
+            return schema_queryset
+
         return manageable_rooms_queryset(
             self.request.user,
         )
@@ -362,6 +486,13 @@ class ChatParticipantListAPIView(ListAPIView):
         Возвращает участников комнат,
         доступных текущему пользователю.
         """
+
+        schema_queryset = swagger_empty_queryset(
+            self,
+            ChatParticipant,
+        )
+        if schema_queryset is not None:
+            return schema_queryset
 
         return available_participants_queryset(
             self.request.user,
@@ -397,6 +528,11 @@ class ChatParticipantCreateAPIView(CreateAPIView):
         """
 
         user = self.request.user
+        if not user.has_accepted_user_agreement():
+            raise ValidationError(
+                "Перед использованием чата примите "
+                "пользовательское соглашение."
+            )
         room = serializer.validated_data["room"]
 
         if (
@@ -431,6 +567,13 @@ class ChatParticipantRetrieveAPIView(RetrieveAPIView):
         доступных текущему пользователю.
         """
 
+        schema_queryset = swagger_empty_queryset(
+            self,
+            ChatParticipant,
+        )
+        if schema_queryset is not None:
+            return schema_queryset
+
         return available_participants_queryset(
             self.request.user,
         )
@@ -459,6 +602,13 @@ class ChatParticipantUpdateAPIView(UpdateAPIView):
         которыми пользователь может управлять.
         """
 
+        schema_queryset = swagger_empty_queryset(
+            self,
+            ChatParticipant,
+        )
+        if schema_queryset is not None:
+            return schema_queryset
+
         return manageable_participants_queryset(
             self.request.user,
         )
@@ -470,6 +620,11 @@ class ChatParticipantUpdateAPIView(UpdateAPIView):
         """
 
         user = self.request.user
+        if not user.has_accepted_user_agreement():
+            raise ValidationError(
+                "Перед использованием чата примите "
+                "пользовательское соглашение."
+            )
         instance = self.get_object()
 
         room = serializer.validated_data.get(
@@ -527,8 +682,18 @@ class ChatParticipantDeleteAPIView(DestroyAPIView):
             )
         )
 
+        schema_queryset = swagger_empty_queryset(
+            self,
+            ChatParticipant,
+        )
+        if schema_queryset is not None:
+            return schema_queryset
+
         if user_can_administrate(user):
             return queryset
+
+        if not user_is_authenticated(user):
+            return queryset.none()
 
         return queryset.filter(
             Q(room__created_by=user)
@@ -563,6 +728,10 @@ class ChatMessageListAPIView(ListAPIView):
         доступных текущему пользователю.
         """
 
+        schema_queryset = swagger_empty_queryset(self, ChatMessage)
+        if schema_queryset is not None:
+            return schema_queryset
+
         return available_messages_queryset(
             self.request.user,
         )
@@ -585,6 +754,7 @@ class ChatMessageCreateAPIView(CreateAPIView):
     permission_classes = [
         IsAuthenticated,
     ]
+    throttle_classes = [ChatMessageRateThrottle]
 
     def perform_create(self, serializer):
         """
@@ -594,6 +764,11 @@ class ChatMessageCreateAPIView(CreateAPIView):
         """
 
         user = self.request.user
+        if not user.has_accepted_user_agreement():
+            raise ValidationError(
+                "Перед использованием чата примите "
+                "пользовательское соглашение."
+            )
         room = serializer.validated_data["room"]
 
         has_room_access = (
@@ -607,9 +782,23 @@ class ChatMessageCreateAPIView(CreateAPIView):
                 "У вас нет доступа к этой комнате."
             )
 
-        serializer.save(
-            user=user,
-        )
+        text = serializer.validated_data["message"]
+        try:
+            decision = SmartAutoPartsAIService().moderate_request(
+                user=user,
+                text=text,
+            )
+        except AIServiceError as error:
+            raise ValidationError(
+                "Не удалось проверить сообщение. Повторите попытку позднее."
+            ) from error
+        if not decision.allowed:
+            raise ValidationError(
+                f"Сообщение отклонено автоматической модерацией: "
+                f"{decision.reason}"
+            )
+
+        serializer.save(user=user)
 
 
 class ChatMessageRetrieveAPIView(RetrieveAPIView):
@@ -631,6 +820,10 @@ class ChatMessageRetrieveAPIView(RetrieveAPIView):
         Возвращает сообщения комнат,
         доступных текущему пользователю.
         """
+
+        schema_queryset = swagger_empty_queryset(self, ChatMessage)
+        if schema_queryset is not None:
+            return schema_queryset
 
         return available_messages_queryset(
             self.request.user,
@@ -654,6 +847,7 @@ class ChatMessageUpdateAPIView(UpdateAPIView):
     permission_classes = [
         IsAuthenticated,
     ]
+    throttle_classes = [ChatMessageRateThrottle]
 
     def get_queryset(self):
         """
@@ -669,8 +863,15 @@ class ChatMessageUpdateAPIView(UpdateAPIView):
             "user",
         )
 
+        schema_queryset = swagger_empty_queryset(self, ChatMessage)
+        if schema_queryset is not None:
+            return schema_queryset
+
         if user_can_administrate(user):
             return queryset
+
+        if not user_is_authenticated(user):
+            return queryset.none()
 
         return queryset.filter(
             user=user,
@@ -686,6 +887,11 @@ class ChatMessageUpdateAPIView(UpdateAPIView):
         """
 
         user = self.request.user
+        if not user.has_accepted_user_agreement():
+            raise ValidationError(
+                "Перед использованием чата примите "
+                "пользовательское соглашение."
+            )
         instance = self.get_object()
 
         room = serializer.validated_data.get(
@@ -704,9 +910,23 @@ class ChatMessageUpdateAPIView(UpdateAPIView):
                 "У вас нет доступа к выбранной комнате."
             )
 
-        serializer.save(
-            user=instance.user,
-        )
+        text = serializer.validated_data["message"]
+        try:
+            decision = SmartAutoPartsAIService().moderate_request(
+                user=user,
+                text=text,
+            )
+        except AIServiceError as error:
+            raise ValidationError(
+                "Не удалось проверить сообщение. Повторите попытку позднее."
+            ) from error
+        if not decision.allowed:
+            raise ValidationError(
+                f"Сообщение отклонено автоматической модерацией: "
+                f"{decision.reason}"
+            )
+
+        serializer.save(user=instance.user)
 
 
 class ChatMessageDeleteAPIView(DestroyAPIView):
@@ -741,10 +961,159 @@ class ChatMessageDeleteAPIView(DestroyAPIView):
             "user",
         )
 
+        schema_queryset = swagger_empty_queryset(self, ChatMessage)
+        if schema_queryset is not None:
+            return schema_queryset
+
         if user_can_administrate(user):
             return queryset
+
+        if not user_is_authenticated(user):
+            return queryset.none()
 
         return queryset.filter(
             Q(user=user)
             | Q(room__created_by=user)
         ).distinct()
+
+
+# ============================================================================
+# HTML-интерфейс чата
+# ============================================================================
+
+
+class SubscriberChatAccessMixin(LoginRequiredMixin):
+    """Разрешает чат сообщества всем зарегистрированным пользователям."""
+
+    login_url = "users:login"
+
+    @staticmethod
+    def has_chat_access(user):
+        return bool(
+            getattr(user, "is_authenticated", False)
+            and getattr(user, "is_active", False)
+        )
+
+
+class ChatRoomPageView(SubscriberChatAccessMixin, View):
+    """Показывает доступные комнаты и сообщения выбранной комнаты."""
+
+    template_name = "chat/chat.html"
+    moderation_session_key = "community_chat_moderation_notice"
+
+    def get(self, request):
+        rooms = available_rooms_queryset(request.user)
+        room_id = request.GET.get("room")
+        room = None
+        if room_id:
+            room = get_object_or_404(rooms, pk=room_id)
+        elif rooms.exists():
+            room = rooms.first()
+
+        room_messages = (
+            available_messages_queryset(request.user)
+            .filter(room=room)
+            .order_by("created_at")
+            if room is not None
+            else ChatMessage.objects.none()
+        )
+        return render(
+            request,
+            self.template_name,
+            {
+                "rooms": rooms,
+                "selected_room": room,
+                "room_messages": room_messages,
+                "moderation_notice": request.session.pop(
+                    self.moderation_session_key,
+                    None,
+                ),
+            },
+        )
+
+
+class ChatRoomCreatePageView(SubscriberChatAccessMixin, View):
+    """Создаёт публичную или приватную комнату."""
+
+    def post(self, request):
+        name = request.POST.get("name", "").strip()
+        if not 3 <= len(name) <= 255:
+            messages.error(
+                request,
+                "Название комнаты должно содержать от 3 до 255 символов.",
+            )
+            return redirect("chat_web:rooms")
+
+        room = ChatRoom.objects.create(
+            name=name,
+            is_private=request.POST.get("is_private") == "on",
+            created_by=request.user,
+        )
+        ChatParticipant.objects.get_or_create(
+            room=room,
+            user=request.user,
+        )
+        messages.success(request, "Комната создана.")
+        return redirect(f"{reverse('chat_web:rooms')}?room={room.pk}")
+
+
+class ChatMessageCreatePageView(SubscriberChatAccessMixin, View):
+    """Модерирует и отправляет сообщение в доступную комнату."""
+
+    moderation_session_key = "community_chat_moderation_notice"
+
+    def post(self, request, room_id):
+        room = get_object_or_404(
+            available_rooms_queryset(request.user),
+            pk=room_id,
+        )
+        text = request.POST.get("message", "").strip()
+        if not 1 <= len(text) <= 500:
+            messages.error(
+                request,
+                "Сообщение должно содержать от 1 до 500 символов.",
+            )
+            return redirect(f"{reverse('chat_web:rooms')}?room={room.pk}")
+
+        if chat_request_is_limited(
+            request,
+            scope="community",
+            limit=settings.COMMUNITY_CHAT_RATE_LIMIT,
+        ):
+            messages.error(
+                request,
+                "Слишком много сообщений. Подождите немного и повторите.",
+            )
+            return redirect(f"{reverse('chat_web:rooms')}?room={room.pk}")
+
+        try:
+            decision = SmartAutoPartsAIService().moderate_request(
+                user=request.user,
+                text=text,
+            )
+        except AIRequestRejected as error:
+            request.session[self.moderation_session_key] = (
+                "Сообщение отклонено автоматической модерацией: "
+                f"{error}"
+            )
+            return redirect(f"{reverse('chat_web:rooms')}?room={room.pk}")
+        except (AIAccessDenied, AIServiceError):
+            messages.error(
+                request,
+                "Не удалось проверить сообщение. Повторите попытку позднее.",
+            )
+            return redirect(f"{reverse('chat_web:rooms')}?room={room.pk}")
+
+        if not decision.allowed:
+            request.session[self.moderation_session_key] = (
+                "Сообщение отклонено автоматической модерацией: "
+                f"{decision.reason}"
+            )
+            return redirect(f"{reverse('chat_web:rooms')}?room={room.pk}")
+
+        ChatMessage.objects.create(
+            room=room,
+            user=request.user,
+            message=text,
+        )
+        return redirect(f"{reverse('chat_web:rooms')}?room={room.pk}")

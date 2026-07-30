@@ -1,0 +1,509 @@
+{% extends "base.html" %}
+
+{% block title %}{{ part.seo_title|default:part.name }} — SmartAutoParts{% endblock %}
+
+{% block content %}
+<section class="part-detail-page">
+    <div class="container">
+        <nav class="catalog-breadcrumb" aria-label="Хлебные крошки">
+            <a href="{% url 'home' %}">Главная</a>
+            <i class="bi bi-chevron-right" aria-hidden="true"></i>
+            <a href="{% url 'users:part_search' %}?q={{ part.original_number|urlencode }}">Поиск</a>
+            <i class="bi bi-chevron-right" aria-hidden="true"></i>
+            <span aria-current="page">{{ part.name }}</span>
+        </nav>
+
+        <div class="part-detail-hero">
+            <div class="part-gallery">
+                {% with primary_image=part.images.first %}
+                    {% if primary_image %}
+                        <img
+                            src="{{ primary_image.image.url }}"
+                            alt="{{ primary_image.alt_text|default:part.name }}"
+                            class="part-gallery__main"
+                            width="440"
+                            height="330"
+                            decoding="async"
+                            fetchpriority="high"
+                        >
+                    {% else %}
+                        <div class="part-gallery__placeholder">
+                            <i class="bi bi-gear-wide-connected" aria-hidden="true"></i>
+                            <span>Изображение детали пока не добавлено</span>
+                        </div>
+                    {% endif %}
+                {% endwith %}
+
+                {% if part.images.all|length > 1 %}
+                    <div class="part-gallery__thumbs" aria-label="Дополнительные изображения">
+                        {% for item in part.images.all %}
+                            <img
+                                src="{{ item.image.url }}"
+                                alt="{{ item.alt_text|default:part.name }}"
+                                width="76"
+                                height="62"
+                                loading="lazy"
+                                decoding="async"
+                            >
+                        {% endfor %}
+                    </div>
+                {% endif %}
+            </div>
+
+            <article class="part-summary">
+                {% if part.category %}
+                    <span class="section-eyebrow">{{ part.category.name }}</span>
+                {% endif %}
+                <h1>{{ part.name }}</h1>
+                <div class="part-summary__oem">
+                    <span>Оригинальный номер (OEM)</span>
+                    <strong>{{ part.original_number }}</strong>
+                </div>
+                {% if part.manufacturer %}
+                    <p class="part-summary__manufacturer">
+                        <i class="bi bi-building" aria-hidden="true"></i>
+                        Производитель: <strong>{{ part.manufacturer }}</strong>
+                    </p>
+                {% endif %}
+                <p class="part-summary__description">
+                    {{ part.description|default:"Подробное описание детали пока не добавлено." }}
+                </p>
+                <div class="part-summary__actions">
+                    <a class="btn btn-primary" href="#part-instructions">
+                        <i class="bi bi-list-check me-1" aria-hidden="true"></i>
+                        Инструкции
+                    </a>
+                    <a class="btn btn-outline-primary" href="{% url 'users:part_search' %}">
+                        Новый поиск
+                    </a>
+                </div>
+            </article>
+        </div>
+
+        <section id="ai-requests" class="part-ai-panel">
+            <div class="part-ai-panel__heading">
+                <div>
+                    <span class="section-eyebrow">AI-помощник</span>
+                    <h2>Инструкция, инструменты и распознавание фото</h2>
+                    <p>
+                        {% if is_ai_privileged %}
+                            Запрос проходит модерацию. Для вашей роли
+                            AI-функции доступны без ограничений.
+                        {% elif is_ai_moderator %}
+                            Проверяйте подготовленные AI-материалы
+                            в интерфейсе модерации.
+                        {% else %}
+                            Запрос проходит модерацию и учитывается в лимите
+                            соответствующей AI-функции тарифа.
+                        {% endif %}
+                    </p>
+                </div>
+                {% if is_ai_privileged %}
+                    <span class="part-ai-panel__privilege">
+                        <i class="bi bi-shield-check" aria-hidden="true"></i>
+                        Безлимит
+                    </span>
+                {% endif %}
+            </div>
+
+            {% if user.is_authenticated %}
+                {% if is_ai_moderator %}
+                    <div class="part-ai-login">
+                        <i class="bi bi-shield-check" aria-hidden="true"></i>
+                        <div>
+                            <h3>Режим модератора</h3>
+                            <p>
+                                Модератор проверяет ответы AI и не может
+                                отправлять новые AI-запросы.
+                            </p>
+                        </div>
+                        <a class="btn btn-outline-primary" href="{% url 'admin:index' %}">
+                            Перейти к модерации
+                        </a>
+                    </div>
+                {% else %}
+                <div class="part-ai-grid">
+                    <article class="part-ai-card">
+                        <span class="part-ai-card__icon">
+                            <i class="bi bi-journal-plus" aria-hidden="true"></i>
+                        </span>
+                        <h3>Инструкция по ремонту</h3>
+                        {% if instruction_request_pending %}
+                            <span class="part-moderation-banner">
+                                <i class="bi bi-hourglass-split" aria-hidden="true"></i>
+                                На модерации
+                            </span>
+                        {% endif %}
+
+                        {% if instruction_purchased and not is_ai_privileged %}
+                            {% if purchased_instruction %}
+                                <a
+                                    class="btn btn-primary part-ai-card__action"
+                                    href="{{ purchased_instruction.get_absolute_url }}"
+                                >
+                                    <i class="bi bi-journal-check me-1" aria-hidden="true"></i>
+                                    Открыть инструкцию
+                                </a>
+                            {% else %}
+                                <span class="part-ai-card__pending">
+                                    <i class="bi bi-clock-history" aria-hidden="true"></i>
+                                    Инструкция куплена и находится на модерации
+                                </span>
+                            {% endif %}
+                        {% elif can_request_instruction %}
+                            <form
+                                method="post"
+                                action="{% url 'parts_web:request_instruction' slug=part.slug %}"
+                                class="part-ai-card__action ai-request-form"
+                                {% if not is_ai_privileged %}
+                                    data-confirm="Первичный запрос инструкции будет списан с остатка вашего тарифа. Продолжить?"
+                                {% endif %}
+                            >
+                                {% csrf_token %}
+                                {% if not is_ai_privileged %}
+                                    <p class="part-ai-charge-warning">
+                                        <i class="bi bi-exclamation-circle" aria-hidden="true"></i>
+                                        Первый запрос спишет 1 инструкцию с остатка тарифа.
+                                    </p>
+                                {% endif %}
+                                <div class="ai-request-status" hidden aria-live="polite">
+                                    <div class="progress"><div class="progress-bar progress-bar-striped progress-bar-animated"></div></div>
+                                    <span>Готовим инструкцию…</span>
+                                </div>
+                                <button class="btn btn-primary" type="submit">
+                                    <i class="bi bi-stars me-1" aria-hidden="true"></i>
+                                    Запросить инструкцию
+                                </button>
+                            </form>
+                        {% else %}
+                            <a
+                                class="btn btn-outline-primary part-ai-card__action"
+                                href="{% url 'subscriptions_web:plans' %}"
+                            >
+                                <i class="bi bi-lock me-1" aria-hidden="true"></i>
+                                Выбрать тариф
+                            </a>
+                        {% endif %}
+                    </article>
+
+                    <article class="part-ai-card">
+                        <span class="part-ai-card__icon is-tools">
+                            <i class="bi bi-tools" aria-hidden="true"></i>
+                        </span>
+                        <h3>Подбор инструментов</h3>
+                        {% if tools_request_pending %}
+                            <span class="part-moderation-banner">
+                                <i class="bi bi-hourglass-split" aria-hidden="true"></i>
+                                На модерации
+                            </span>
+                        {% endif %}
+
+                        {% if tools_selected %}
+                            <a
+                                class="btn btn-outline-primary part-ai-card__action"
+                                href="#part-tools"
+                            >
+                                <i class="bi bi-tools me-1" aria-hidden="true"></i>
+                                Открыть инструменты
+                            </a>
+                        {% elif can_request_tools %}
+                            <form
+                                method="post"
+                                action="{% url 'parts_web:request_tools' slug=part.slug %}"
+                                class="part-ai-card__action ai-request-form"
+                                {% if not is_ai_privileged %}
+                                    data-confirm="Первичный запрос инструментов будет списан с остатка вашего тарифа. Продолжить?"
+                                {% endif %}
+                            >
+                                {% csrf_token %}
+                                {% if not is_ai_privileged %}
+                                    <p class="part-ai-charge-warning">
+                                        <i class="bi bi-exclamation-circle" aria-hidden="true"></i>
+                                        Первый запрос спишет 1 запрос с остатка тарифа.
+                                    </p>
+                                {% endif %}
+                                <div class="ai-request-status" hidden aria-live="polite">
+                                    <div class="progress"><div class="progress-bar progress-bar-striped progress-bar-animated"></div></div>
+                                    <span>Подбираем инструменты…</span>
+                                </div>
+                                <button class="btn btn-outline-primary" type="submit">
+                                    <i class="bi bi-cpu me-1" aria-hidden="true"></i>
+                                    Подобрать инструменты
+                                </button>
+                            </form>
+                        {% else %}
+                            <a
+                                class="btn btn-outline-primary part-ai-card__action"
+                                href="{% url 'subscriptions_web:plans' %}"
+                            >
+                                <i class="bi bi-lock me-1" aria-hidden="true"></i>
+                                Выбрать тариф
+                            </a>
+                        {% endif %}
+                    </article>
+
+                    <article class="part-ai-card">
+                        <span class="part-ai-card__icon is-image">
+                            <i class="bi bi-camera" aria-hidden="true"></i>
+                        </span>
+                        <h3>Распознать запчасть</h3>
+
+                        {% if can_analyze_image %}
+                            <a
+                                class="btn btn-outline-primary part-ai-card__action"
+                                href="{% url 'parts_web:image_analysis' %}"
+                            >
+                                <i class="bi bi-image me-1" aria-hidden="true"></i>
+                                Загрузить фото
+                            </a>
+                        {% else %}
+                            <a
+                                class="btn btn-outline-primary part-ai-card__action"
+                                href="{% url 'subscriptions_web:plans' %}"
+                            >
+                                <i class="bi bi-lock me-1" aria-hidden="true"></i>
+                                Выбрать тариф
+                            </a>
+                        {% endif %}
+                    </article>
+                </div>
+                <p class="part-ai-moderation-note">
+                    <i class="bi bi-clock-history" aria-hidden="true"></i>
+                    Новые инструкции и подборы инструментов проходят
+                    техническую проверку. Среднее время — до 30 минут.
+                </p>
+                {% endif %}
+            {% else %}
+                <div class="part-ai-login">
+                    <i class="bi bi-person-lock" aria-hidden="true"></i>
+                    <div>
+                        <h3>Войдите для отправки AI-запроса</h3>
+                        <p>После входа система проверит тариф и доступный лимит.</p>
+                    </div>
+                    <a
+                        class="btn btn-primary"
+                        href="{% url 'users:login' %}?next={{ request.path|urlencode }}"
+                    >
+                        Войти
+                    </a>
+                </div>
+            {% endif %}
+        </section>
+
+        <div class="part-info-grid">
+            <section class="catalog-panel">
+                <h2><i class="bi bi-upc-scan" aria-hidden="true"></i> Номера детали</h2>
+                <div class="catalog-tags">
+                    <span>{{ part.original_number }}</span>
+                    {% for oem in part.oem_numbers.all %}
+                        <span>{{ oem.number }}{% if oem.manufacturer %} · {{ oem.manufacturer }}{% endif %}</span>
+                    {% empty %}
+                        <small>Дополнительные OEM-номера не указаны.</small>
+                    {% endfor %}
+                </div>
+            </section>
+
+            <section class="catalog-panel">
+                <h2><i class="bi bi-rulers" aria-hidden="true"></i> Характеристики</h2>
+                <dl class="catalog-specs">
+                    <div><dt>Вес</dt><dd>{% if part.weight %}{{ part.weight }} кг{% else %}—{% endif %}</dd></div>
+                    {% if part.dimensions %}
+                        {% for key, value in part.localized_dimensions %}
+                            <div><dt>{{ key }}</dt><dd>{{ value }}</dd></div>
+                        {% endfor %}
+                    {% else %}
+                        <div><dt>Размеры</dt><dd>—</dd></div>
+                    {% endif %}
+                </dl>
+            </section>
+        </div>
+
+        <section class="catalog-panel catalog-panel--wide">
+            <div class="catalog-panel__heading">
+                <div>
+                    <span class="section-eyebrow">Проверка применимости</span>
+                    <h2>Совместимость с автомобилями</h2>
+                </div>
+                <span class="catalog-count">{{ part.compatibilities.all|length }} вариантов</span>
+            </div>
+            {% if part.compatibilities.all %}
+                <div class="table-responsive">
+                    <table class="table catalog-table align-middle">
+                        <thead>
+                            <tr>
+                                <th>Марка</th><th>Модель</th><th>Поколение</th>
+                                <th>Двигатель</th><th>Годы</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            {% for item in part.compatibilities.all %}
+                                <tr>
+                                    <td>{{ item.brand|default:"—" }}</td>
+                                    <td>{{ item.model|default:"—" }}</td>
+                                    <td>{{ item.generation|default:"—" }}</td>
+                                    <td>{{ item.engine|default:"—" }}</td>
+                                    <td>
+                                        {% if item.year_from or item.year_to %}
+                                            {{ item.year_from|default:"…" }}–{{ item.year_to|default:"…" }}
+                                        {% else %}—{% endif %}
+                                    </td>
+                                </tr>
+                            {% endfor %}
+                        </tbody>
+                    </table>
+                </div>
+            {% else %}
+                <p class="catalog-muted mb-0">
+                    Данные совместимости ещё не добавлены. Перед установкой
+                    обязательно сверьте деталь по VIN.
+                </p>
+            {% endif %}
+        </section>
+
+        <section id="part-tools" class="catalog-panel catalog-panel--wide">
+            <div class="catalog-panel__heading">
+                <div>
+                    <span class="section-eyebrow">Подготовка к ремонту</span>
+                    <h2>Инструменты для этой детали</h2>
+                </div>
+                {% if tools_request_pending %}
+                    <span class="part-moderation-banner">
+                        <i class="bi bi-hourglass-split" aria-hidden="true"></i>
+                        На модерации
+                    </span>
+                {% elif tools_selected %}
+                    <span class="catalog-access-badge">
+                        <i class="bi bi-check-circle" aria-hidden="true"></i>
+                        Подобрано
+                    </span>
+                {% elif can_request_tools %}
+                    <form
+                        method="post"
+                        action="{% url 'parts_web:request_tools' slug=part.slug %}"
+                        class="ai-request-form catalog-panel__action"
+                        {% if not is_ai_privileged %}
+                            data-confirm="Первичный запрос инструментов будет списан с остатка вашего тарифа. Продолжить?"
+                        {% endif %}
+                    >
+                        {% csrf_token %}
+                        <div class="ai-request-status" hidden aria-live="polite">
+                            <div class="progress"><div class="progress-bar progress-bar-striped progress-bar-animated"></div></div>
+                            <span>Подбираем инструменты…</span>
+                        </div>
+                        <button class="btn btn-outline-primary" type="submit">
+                            Подобрать инструменты
+                        </button>
+                    </form>
+                {% elif not is_ai_moderator %}
+                    <a class="btn btn-outline-primary" href="{% url 'subscriptions_web:plans' %}">
+                        Выбрать тариф
+                    </a>
+                {% endif %}
+            </div>
+
+            {% if tools_purchased %}
+                <div class="instruction-mini-grid">
+                    {% for relation in part.part_tools.all %}
+                        <article class="instruction-mini-card">
+                            <span class="instruction-mini-card__icon">
+                                <i class="bi bi-tools" aria-hidden="true"></i>
+                            </span>
+                            <span>
+                                <strong>{{ relation.tool.name }}</strong>
+                                <small>
+                                    {% if relation.tool.size %}Размер: {{ relation.tool.size }} · {% endif %}
+                                    {% if relation.required %}Обязательный{% else %}Рекомендуемый{% endif %}
+                                </small>
+                            </span>
+                            <i class="bi bi-check-circle text-success" aria-hidden="true"></i>
+                        </article>
+                    {% empty %}
+                        <div class="catalog-empty catalog-empty--compact">
+                            <i class="bi bi-tools" aria-hidden="true"></i>
+                            <p>Проверенный список инструментов пока не добавлен.</p>
+                        </div>
+                    {% endfor %}
+                </div>
+
+                {% if approved_tool_recommendation %}
+                    <article class="catalog-tool-recommendation">
+                        <div class="catalog-tool-recommendation__heading">
+                            <span>
+                                <i class="bi bi-patch-check" aria-hidden="true"></i>
+                                Проверенный подбор
+                            </span>
+                            <small>{{ approved_tool_recommendation.reviewed_at|date:"d.m.Y H:i" }}</small>
+                        </div>
+                        <div class="catalog-tool-recommendation__content">
+                            {{ approved_tool_recommendation.generated_content|linebreaksbr }}
+                        </div>
+                    </article>
+                {% endif %}
+            {% else %}
+                <div class="catalog-empty catalog-empty--compact">
+                    <i class="bi bi-lock" aria-hidden="true"></i>
+                    <p>
+                        Список инструментов появится после первичного запроса
+                        и списания с остатка тарифа.
+                    </p>
+                </div>
+            {% endif %}
+        </section>
+
+        <section class="catalog-panel catalog-panel--wide catalog-safety">
+            <h2><i class="bi bi-shield-check" aria-hidden="true"></i> Безопасность</h2>
+            <p>
+                Карточка носит справочный характер. Перед ремонтом
+                сверяйте применимость по VIN и соблюдайте требования
+                производителя автомобиля.
+            </p>
+        </section>
+
+        <section id="part-instructions" class="catalog-panel catalog-panel--wide">
+            <div class="catalog-panel__heading">
+                <div>
+                    <span class="section-eyebrow">Ремонт и обслуживание</span>
+                    <h2>Инструкции для этой детали</h2>
+                </div>
+                {% if instruction_request_pending %}
+                    <span class="part-moderation-banner">
+                        <i class="bi bi-hourglass-split" aria-hidden="true"></i>
+                        На модерации
+                    </span>
+                {% else %}
+                    <a href="{% url 'instructions_web:list' %}?q={{ part.original_number|urlencode }}">
+                        Все инструкции
+                    </a>
+                {% endif %}
+            </div>
+            <div class="instruction-mini-grid">
+                {% for instruction in part.public_instructions %}
+                    <a class="instruction-mini-card" href="{{ instruction.get_absolute_url }}">
+                        <span class="instruction-mini-card__icon">
+                            <i class="bi bi-list-ol" aria-hidden="true"></i>
+                        </span>
+                        <span>
+                            <strong>{{ instruction.title }}</strong>
+                            <small>
+                                {{ instruction.get_difficulty_display|default:"Сложность не указана" }}
+                                {% if instruction.estimated_time %} · {{ instruction.estimated_time }} мин{% endif %}
+                            </small>
+                        </span>
+                        {% if instruction.premium_only and not user.can_administrate %}
+                            <i class="bi bi-gem" title="По подписке"></i>
+                        {% endif %}
+                    </a>
+                {% empty %}
+                    <div class="catalog-empty catalog-empty--compact">
+                        <i class="bi bi-journal-text" aria-hidden="true"></i>
+                        <p>
+                            Инструкция появится здесь после первичного запроса
+                            и списания с остатка тарифа.
+                        </p>
+                    </div>
+                {% endfor %}
+            </div>
+        </section>
+    </div>
+</section>
+{% endblock %}

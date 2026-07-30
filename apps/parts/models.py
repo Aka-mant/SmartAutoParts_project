@@ -1,4 +1,5 @@
 from django.db import models
+from django.urls import reverse
 from django.utils.translation import gettext_lazy as _
 
 
@@ -154,6 +155,53 @@ class Part(models.Model):
     def __str__(self):
         return f"{self.name} ({self.original_number})"
 
+    def get_absolute_url(self):
+        return reverse(
+            "parts_web:detail",
+            kwargs={"slug": self.slug},
+        )
+
+    @property
+    def localized_dimensions(self):
+        """Возвращает характеристики с русскими названиями полей."""
+
+        labels = {
+            "height": "Высота",
+            "width": "Ширина",
+            "length": "Длина",
+            "depth": "Глубина",
+            "diameter": "Диаметр",
+            "outer diameter": "Внешний диаметр",
+            "outer_diameter": "Внешний диаметр",
+            "inner diameter": "Внутренний диаметр",
+            "inner_diameter": "Внутренний диаметр",
+            "thickness": "Толщина",
+            "thread": "Резьба",
+            "material": "Материал",
+            "color": "Цвет",
+            "voltage": "Напряжение",
+            "power": "Мощность",
+            "torque": "Момент затяжки",
+            "size": "Размер",
+            "sizes": "Размеры",
+            "volume": "Объём",
+            "capacity": "Ёмкость",
+            "weight": "Вес",
+        }
+        values = self.dimensions if isinstance(self.dimensions, dict) else {}
+        localized = []
+        millimeter_suffix = "_" + "mm"
+        for key, value in values.items():
+            normalized_key = str(key).strip().lower()
+            label = labels.get(normalized_key)
+            if label is None and normalized_key.endswith(millimeter_suffix):
+                base_key = normalized_key.removesuffix(millimeter_suffix)
+                base_label = labels.get(base_key)
+                if base_label:
+                    label = f"{base_label}, мм"
+            localized.append((label or key, value))
+        return localized
+
     def save(self, *args, **kwargs):
         """
         Нормализует OEM-номер перед сохранением.
@@ -212,6 +260,7 @@ class OEMNumber(models.Model):
 
     def __str__(self):
         return self.number
+
 
 class Compatibility(models.Model):
     """
@@ -327,7 +376,8 @@ class PartImage(models.Model):
     is_main = models.BooleanField(
         default=False,
         verbose_name=_("Main image"),
-        help_text=_("Indicates whether this image is the primary image for the part."),
+        help_text=_(
+            "Indicates whether this image is the primary image for the part."),
     )
 
     uploaded_at = models.DateTimeField(
@@ -346,4 +396,3 @@ class PartImage(models.Model):
             f"{self.part.name} "
             f"{_('(main)') if self.is_main else ''}"
         ).strip()
-

@@ -16,18 +16,45 @@ class Migration(migrations.Migration):
         migrations.CreateModel(
             name='RepairHistory',
             fields=[
-                ('id', models.BigAutoField(auto_created=True, primary_key=True, serialize=False, verbose_name='ID')),
-                ('completed', models.BooleanField(default=False, verbose_name='Completed')),
-                ('notes', models.TextField(blank=True, help_text='User notes about the completed repair.', verbose_name='Notes')),
-                ('created_at', models.DateTimeField(auto_now_add=True, verbose_name='Created at')),
-                ('instruction', models.ForeignKey(on_delete=django.db.models.deletion.CASCADE, related_name='repair_history', to='instructions.instruction', verbose_name='Instruction')),
-                ('user', models.ForeignKey(on_delete=django.db.models.deletion.CASCADE, related_name='repair_history', to=settings.AUTH_USER_MODEL, verbose_name='User')),
+                ('id',
+                 models.BigAutoField(
+                     auto_created=True,
+                     primary_key=True,
+                     serialize=False,
+                     verbose_name='ID')),
+                ('completed',
+                 models.BooleanField(
+                     default=False,
+                     verbose_name='Completed')),
+                ('notes',
+                 models.TextField(
+                     blank=True,
+                     help_text='User notes about the completed repair.',
+                     verbose_name='Notes')),
+                ('created_at',
+                 models.DateTimeField(
+                     auto_now_add=True,
+                     verbose_name='Created at')),
+                ('instruction',
+                 models.ForeignKey(
+                     on_delete=django.db.models.deletion.CASCADE,
+                     related_name='repair_history',
+                     to='instructions.instruction',
+                     verbose_name='Instruction')),
+                ('user',
+                 models.ForeignKey(
+                     on_delete=django.db.models.deletion.CASCADE,
+                     related_name='repair_history',
+                     to=settings.AUTH_USER_MODEL,
+                     verbose_name='User')),
             ],
             options={
                 'verbose_name': 'Repair history',
                 'verbose_name_plural': 'Repair history',
                 'db_table': 'users_repairhistory',
-                'ordering': ('-created_at',),
+                'ordering': (
+                    '-created_at',
+                ),
             },
         ),
     ]

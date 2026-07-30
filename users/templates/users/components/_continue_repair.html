@@ -46,15 +46,64 @@
                 </div>
             </div>
 
-            {% if active_repair.instruction.slug %}
-                <a
-                    href="{% url 'instructions:instruction_detail' active_repair.instruction.slug %}"
-                    class="btn btn-success"
+            <div class="repair-step-navigation">
+                <form
+                    method="post"
+                    action="{% url 'users:repair_step_navigation' active_repair.object.pk %}"
                 >
-                    <i class="bi bi-play-circle me-2"></i>
-                    Продолжить ремонт
-                </a>
-            {% endif %}
+                    {% csrf_token %}
+                    <input type="hidden" name="action" value="previous">
+                    <input type="hidden" name="next" value="{{ request.get_full_path }}">
+                    <button
+                        type="submit"
+                        class="btn btn-outline-secondary"
+                        {% if active_repair.current_step <= 1 %}disabled{% endif %}
+                    >
+                        <i class="bi bi-arrow-left me-1"></i>
+                        Предыдущий шаг
+                    </button>
+                </form>
+
+                {% if active_repair.instruction.slug %}
+                    <a
+                        href="{{ active_repair.instruction.get_absolute_url }}"
+                        class="btn btn-success"
+                    >
+                        <i class="bi bi-play-circle me-2"></i>
+                        Открыть инструкцию
+                    </a>
+                {% endif %}
+
+                <form
+                    method="post"
+                    action="{% url 'users:repair_step_navigation' active_repair.object.pk %}"
+                >
+                    {% csrf_token %}
+                    <input type="hidden" name="action" value="next">
+                    <input type="hidden" name="next" value="{{ request.get_full_path }}">
+                    <button
+                        type="submit"
+                        class="btn btn-primary"
+                        {% if active_repair.total_steps == 0 or active_repair.current_step >= active_repair.total_steps %}disabled{% endif %}
+                    >
+                        Следующий шаг
+                        <i class="bi bi-arrow-right ms-1"></i>
+                    </button>
+                </form>
+
+                <form
+                    method="post"
+                    action="{% url 'users:repair_step_navigation' active_repair.object.pk %}"
+                >
+                    {% csrf_token %}
+                    <input type="hidden" name="action" value="complete">
+                    <input type="hidden" name="next" value="{{ request.get_full_path }}">
+                    <button type="submit" class="btn btn-outline-success">
+                        <i class="bi bi-check2-circle me-1"></i>
+                        Завершить ремонт
+                    </button>
+                </form>
+            </div>
         </div>
     </div>
 {% endif %}

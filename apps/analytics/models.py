@@ -33,7 +33,10 @@ class UserActivity(models.Model):
         null=True,
         blank=True,
         verbose_name=_("Metadata"),
-        help_text=_("Additional information about the performed action in JSON format."),
+        help_text=_(
+            "Additional information about the performed action "
+            "in JSON format."
+        ),
     )
 
     created_at = models.DateTimeField(

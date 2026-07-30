@@ -2,7 +2,7 @@
 
 <header class="site-header sticky-top">
     <nav
-        class="navbar navbar-expand-lg navbar-dark shadow-sm"
+        class="navbar navbar-expand-sap navbar-dark shadow-sm"
         aria-label="Основная навигация"
     >
         <div class="container">
@@ -60,49 +60,62 @@
                         </a>
                     </li>
 
+                    {% if user.is_authenticated %}
+                        <li class="nav-item">
+                            <a
+                                class="nav-link"
+                                href="{% url 'instructions_web:list' %}"
+                            >
+                                <i
+                                    class="bi bi-journal-check me-1"
+                                    aria-hidden="true"
+                                ></i>
+
+                                Инструкции
+                            </a>
+                        </li>
+                    {% endif %}
+
+                    {% if not user.can_administrate %}
+                        <li class="nav-item">
+                            <a
+                                class="nav-link"
+                                href="{% url 'subscriptions_web:plans' %}"
+                            >
+                                <i
+                                    class="bi bi-gem me-1"
+                                    aria-hidden="true"
+                                ></i>
+
+                                Тарифы
+                            </a>
+                        </li>
+                    {% endif %}
+
                     <li class="nav-item">
                         <a
                             class="nav-link"
-                            href="{% url 'home' %}#features"
+                            href="{% url 'home' %}#process"
                         >
                             <i
-                                class="bi bi-grid me-1"
+                                class="bi bi-diagram-3 me-1"
                                 aria-hidden="true"
                             ></i>
 
-                            Возможности
-                        </a>
-                    </li>
-
-                    <li class="nav-item">
-                        <a
-                            class="nav-link"
-                            href="{% url 'home' %}#pricing"
-                        >
-                            <i
-                                class="bi bi-gem me-1"
-                                aria-hidden="true"
-                            ></i>
-
-                            Тарифы
-                        </a>
-                    </li>
-
-                    <li class="nav-item">
-                        <a
-                            class="nav-link"
-                            href="{% url 'home' %}#reviews"
-                        >
-                            <i
-                                class="bi bi-chat-square-quote me-1"
-                                aria-hidden="true"
-                            ></i>
-
-                            Отзывы
+                            Как это работает
                         </a>
                     </li>
 
                     {% if user.is_authenticated %}
+                        {% if user.role != "moderator" or user.can_administrate %}
+                            <li class="nav-item">
+                                <a class="nav-link" href="{% url 'ai_web:chat' %}">
+                                    <i class="bi bi-robot me-1" aria-hidden="true"></i>
+                                    AI-помощник
+                                </a>
+                            </li>
+                        {% endif %}
+
                         <li class="nav-item">
                             <a
                                 class="nav-link"
@@ -113,7 +126,7 @@
                                     aria-hidden="true"
                                 ></i>
 
-                                Dashboard
+                                Панель управления
                             </a>
                         </li>
 
@@ -184,6 +197,28 @@
                                     <hr class="dropdown-divider">
                                 </li>
 
+                                {% if user.role != "moderator" or user.can_administrate %}
+                                    <li>
+                                        <a
+                                            class="dropdown-item"
+                                            href="{% url 'ai_web:chat' %}"
+                                        >
+                                            <i class="bi bi-robot me-2" aria-hidden="true"></i>
+                                            AI-помощник
+                                        </a>
+                                    </li>
+                                {% endif %}
+
+                                <li>
+                                    <a
+                                        class="dropdown-item"
+                                        href="{% url 'chat_web:rooms' %}"
+                                    >
+                                        <i class="bi bi-people me-2" aria-hidden="true"></i>
+                                        Чат сообщества
+                                    </a>
+                                </li>
+
                                 <li>
                                     <a
                                         class="dropdown-item"
@@ -194,7 +229,7 @@
                                             aria-hidden="true"
                                         ></i>
 
-                                        Dashboard
+                                        Панель управления
                                     </a>
                                 </li>
 
@@ -239,6 +274,22 @@
                                         История поиска
                                     </a>
                                 </li>
+
+                                {% if user.role != "moderator" or user.can_administrate %}
+                                    <li>
+                                        <a
+                                            class="dropdown-item"
+                                            href="{% url 'parts_web:image_analysis' %}"
+                                        >
+                                            <i
+                                                class="bi bi-camera me-2"
+                                                aria-hidden="true"
+                                            ></i>
+
+                                            Распознать запчасть
+                                        </a>
+                                    </li>
+                                {% endif %}
 
                                 <li>
                                     <a

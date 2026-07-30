@@ -1,46 +1,38 @@
-{% if has_chat_access %}
-    <div class="card border-0 shadow-sm h-100">
-        <div class="card-body p-4">
-            <div class="d-flex align-items-center mb-3">
-                <div class="rounded-3 bg-success-subtle text-success p-3 me-3">
-                    <i class="bi bi-robot fs-3"></i>
-                </div>
-
-                <div>
-                    <h2 class="h5 mb-1">AI-ассистент</h2>
-                    <p class="text-muted small mb-0">
-                        Получите помощь по подбору и ремонту деталей.
-                    </p>
-                </div>
+<div class="card border-0 shadow-sm h-100">
+    <div class="card-body p-4">
+        <div class="d-flex align-items-center mb-3">
+            <div class="rounded-3 bg-success-subtle text-success p-3 me-3">
+                <i class="bi bi-robot fs-3" aria-hidden="true"></i>
             </div>
+            <div>
+                <h2 class="h5 mb-1">AI-помощник</h2>
+                <p class="text-muted small mb-0">
+                    Технические ответы и общение с сообществом.
+                </p>
+            </div>
+        </div>
 
-            {% if last_ai_request %}
-                <div class="border rounded-3 p-3 mb-3 bg-body-tertiary">
-                    <div class="text-muted small mb-1">
-                        Последний запрос
-                    </div>
-
-                    <div class="fw-semibold">
-                        {{ last_ai_request.prompt|truncatechars:120 }}
-                    </div>
-
-                    <div class="text-muted small mt-2">
-                        {{ last_ai_request.created_at|date:"d.m.Y H:i" }}
-                    </div>
-                </div>
+        <div class="d-grid gap-2">
+            {% if is_ai_moderator %}
+                <a href="{% url 'admin:index' %}" class="btn btn-outline-success">
+                    <i class="bi bi-shield-check me-2" aria-hidden="true"></i>
+                    Перейти к модерации
+                </a>
+            {% elif has_chat_access %}
+                <a href="{% url 'ai_web:chat' %}" class="btn btn-success">
+                    <i class="bi bi-robot me-2" aria-hidden="true"></i>
+                    Открыть AI-помощник
+                </a>
             {% else %}
-                <div class="alert alert-light border">
-                    Вы ещё не отправляли запросы AI-ассистенту.
-                </div>
+                <a href="{% url 'subscriptions_web:plans' %}" class="btn btn-primary">
+                    Выбрать тариф
+                </a>
             {% endif %}
 
-            <a
-                href="{% url 'ai:chat' %}"
-                class="btn btn-success"
-            >
-                <i class="bi bi-chat-dots me-2"></i>
-                Открыть AI-чат
+            <a href="{% url 'chat_web:rooms' %}" class="btn btn-outline-success">
+                <i class="bi bi-people me-2" aria-hidden="true"></i>
+                Чат сообщества
             </a>
         </div>
     </div>
-{% endif %}
+</div>

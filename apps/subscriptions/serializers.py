@@ -7,6 +7,45 @@ from .models import (
 )
 
 
+def validate_plan_limits(attrs, instance=None):
+    """Проверяет согласованность общего и функциональных AI-лимитов."""
+
+    def value(name, default=None):
+        if name in attrs:
+            return attrs[name]
+        if instance is not None:
+            return getattr(instance, name)
+        return default
+
+    total = value("max_ai_requests", 0)
+    feature_fields = (
+        ("max_chat_requests", "has_chat_access", "AI-чат"),
+        (
+            "max_instruction_requests",
+            "has_instruction_generation",
+            "AI-инструкции",
+        ),
+        ("max_image_analyses", "has_image_analysis", "анализ фото"),
+    )
+    errors = {}
+
+    for limit_field, access_field, label in feature_fields:
+        limit = value(limit_field)
+        enabled = value(access_field, False)
+        if limit is not None and total is not None and limit > total:
+            errors[limit_field] = (
+                "Лимит функции не может превышать общий AI-лимит."
+            )
+        if not enabled and limit not in (None, 0):
+            errors[limit_field] = (
+                f"Отключите лимит: функция «{label}» недоступна."
+            )
+
+    if errors:
+        raise serializers.ValidationError(errors)
+    return attrs
+
+
 class SubscriptionPlanSerializer(serializers.ModelSerializer):
     """
     Сериализатор тарифного плана подписки.
@@ -24,8 +63,14 @@ class SubscriptionPlanSerializer(serializers.ModelSerializer):
             "price",
             "duration_days",
             "max_ai_requests",
+            "max_chat_requests",
+            "max_instruction_requests",
+            "max_image_analyses",
             "has_chat_access",
+            "has_instruction_generation",
             "has_image_analysis",
+            "is_public",
+            "sort_order",
             "created_at",
         )
         read_only_fields = (
@@ -48,8 +93,14 @@ class SubscriptionPlanCreateSerializer(serializers.ModelSerializer):
             "price",
             "duration_days",
             "max_ai_requests",
+            "max_chat_requests",
+            "max_instruction_requests",
+            "max_image_analyses",
             "has_chat_access",
+            "has_instruction_generation",
             "has_image_analysis",
+            "is_public",
+            "sort_order",
         )
 
     def validate_price(self, value):
@@ -75,6 +126,9 @@ class SubscriptionPlanCreateSerializer(serializers.ModelSerializer):
             )
 
         return value
+
+    def validate(self, attrs):
+        return validate_plan_limits(attrs)
 
 
 class SubscriptionPlanUpdateSerializer(serializers.ModelSerializer):
@@ -91,8 +145,14 @@ class SubscriptionPlanUpdateSerializer(serializers.ModelSerializer):
             "price",
             "duration_days",
             "max_ai_requests",
+            "max_chat_requests",
+            "max_instruction_requests",
+            "max_image_analyses",
             "has_chat_access",
+            "has_instruction_generation",
             "has_image_analysis",
+            "is_public",
+            "sort_order",
         )
 
     def validate_price(self, value):
@@ -118,6 +178,9 @@ class SubscriptionPlanUpdateSerializer(serializers.ModelSerializer):
             )
 
         return value
+
+    def validate(self, attrs):
+        return validate_plan_limits(attrs, self.instance)
 
 
 class UserSubscriptionSerializer(serializers.ModelSerializer):

@@ -11,6 +11,7 @@ from .views import (
     RepairHistoryDeleteAPIView,
     RepairHistoryListAPIView,
     RepairHistoryPageView,
+    RepairStepNavigationView,
     RepairHistoryRetrieveAPIView,
     RepairHistoryUpdateAPIView,
     SearchHistoryListAPIView,
@@ -22,6 +23,7 @@ from .views import (
     UserLoginView,
     UserLogoutView,
     UserRegistrationPageView,
+    UserAgreementView,
     UserRetrieveAPIView,
     UserTokenObtainPairView,
     UserUpdateAPIView,
@@ -33,6 +35,12 @@ app_name = UsersConfig.name
 
 
 urlpatterns = [
+    path(
+        "user-agreement/",
+        UserAgreementView.as_view(),
+        name="user_agreement",
+    ),
+
     # HTML-аутентификация
     path(
         "login/",
@@ -58,7 +66,7 @@ urlpatterns = [
         UserDashboardView.as_view(),
         name="dashboard",
     ),
-# Поиск запчастей
+    # Поиск запчастей
     path(
         "search/",
         PartSearchPageView.as_view(),
@@ -85,6 +93,11 @@ urlpatterns = [
         "repair-history/",
         RepairHistoryPageView.as_view(),
         name="repair_history_list",
+    ),
+    path(
+        "repair-history/<int:pk>/step/",
+        RepairStepNavigationView.as_view(),
+        name="repair_step_navigation",
     ),
 
     # JWT-аутентификация

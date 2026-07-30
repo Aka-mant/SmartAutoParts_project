@@ -27,7 +27,11 @@
             {% if search_history %}
                 <div class="history-list">
                     {% for item in search_history %}
-                        <article class="history-item">
+                        <a
+                            href="{{ item.get_search_results_url }}"
+                            class="history-item history-item-link"
+                            aria-label="Открыть результаты поиска: {{ item.original_number|default:item.search_query }}"
+                        >
                             <div class="history-icon history-icon-search">
                                 <i class="bi bi-search"></i>
                             </div>
@@ -60,7 +64,14 @@
                                     {{ item.searched_at|date:"d.m.Y H:i" }}
                                 </time>
                             </div>
-                        </article>
+
+                            <span
+                                class="history-link-arrow"
+                                aria-hidden="true"
+                            >
+                                <i class="bi bi-chevron-right"></i>
+                            </span>
+                        </a>
                     {% endfor %}
                 </div>
 
@@ -78,7 +89,7 @@
                     </p>
 
                     <a
-                        href="{% url 'home' %}"
+                        href="{% url 'users:part_search' %}"
                         class="btn btn-primary"
                     >
                         Найти запчасть

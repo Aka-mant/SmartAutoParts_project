@@ -1,0 +1,102 @@
+{% extends "admin/base_site.html" %}
+{% load i18n admin_urls %}
+
+{% block breadcrumbs %}
+    <div class="breadcrumbs">
+        <a href="{% url 'admin:index' %}">Главная</a>
+        &rsaquo;
+        <a href="{% url 'admin:app_list' app_label=opts.app_label %}">
+            {{ opts.app_config.verbose_name }}
+        </a>
+        &rsaquo;
+        <a href="{% url 'admin:AI_aigeneratedinstruction_changelist' %}">
+            {{ opts.verbose_name_plural|capfirst }}
+        </a>
+        &rsaquo;
+        <a href="{% url 'admin:AI_aigeneratedinstruction_change' original.pk %}">
+            {{ original }}
+        </a>
+        &rsaquo;
+        Модерация
+    </div>
+{% endblock %}
+
+{% block content %}
+    <div id="content-main">
+        <h1>{{ title }}</h1>
+
+        <fieldset class="module aligned">
+            <h2>Проверяемая инструкция</h2>
+            <div class="form-row">
+                <div>
+                    <strong>Запрос:</strong>
+                    {{ original.ai_request.prompt }}
+                </div>
+            </div>
+            <div class="form-row">
+                <div>
+                    <strong>Деталь:</strong>
+                    {{ original.ai_request.part|default:"Не указана" }}
+                </div>
+            </div>
+            <div class="form-row">
+                <div>
+                    <strong>Предлагаемая версия:</strong>
+                    {{ original.version_number }}
+                </div>
+            </div>
+            <div class="form-row">
+                <pre style="max-height:55vh;overflow:auto;white-space:pre-wrap;">{{ generated_content }}</pre>
+            </div>
+        </fieldset>
+
+        <form method="post" novalidate>
+            {% csrf_token %}
+
+            {% if form.non_field_errors %}
+                <ul class="errorlist nonfield">
+                    {% for error in form.non_field_errors %}
+                        <li>{{ error }}</li>
+                    {% endfor %}
+                </ul>
+            {% endif %}
+
+            <fieldset class="module aligned">
+                <div class="form-row{% if form.moderation_note.errors %} errors{% endif %}">
+                    {{ form.moderation_note.errors }}
+                    <div class="flex-container">
+                        {{ form.moderation_note.label_tag }}
+                        {{ form.moderation_note }}
+                    </div>
+                    {% if decision == "reject" %}
+                        <div class="help">Причина отклонения обязательна.</div>
+                    {% endif %}
+                </div>
+            </fieldset>
+
+            <div class="submit-row">
+                {% if decision == "approve" %}
+                    <input
+                        type="submit"
+                        value="Одобрить и опубликовать"
+                        class="default"
+                        style="background:#198754"
+                    >
+                {% else %}
+                    <input
+                        type="submit"
+                        value="Отклонить инструкцию"
+                        class="default"
+                        style="background:#ba2121"
+                    >
+                {% endif %}
+                <a
+                    href="{% url 'admin:AI_aigeneratedinstruction_change' original.pk %}"
+                    class="button cancel-link"
+                >
+                    Отмена
+                </a>
+            </div>
+        </form>
+    </div>
+{% endblock %}

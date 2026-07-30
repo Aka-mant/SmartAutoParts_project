@@ -17,6 +17,7 @@ class Migration(migrations.Migration):
         migrations.AddField(
             model_name='tool',
             name='ozon_url',
-            field=models.URLField(blank=True, max_length=1000, verbose_name='Ozon URL'),
+            field=models.URLField(
+                blank=True, max_length=1000, verbose_name='Ozon URL'),
         ),
     ]

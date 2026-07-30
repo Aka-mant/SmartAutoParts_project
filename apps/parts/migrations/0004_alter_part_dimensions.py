@@ -13,6 +13,10 @@ class Migration(migrations.Migration):
         migrations.AlterField(
             model_name='part',
             name='dimensions',
-            field=models.JSONField(blank=True, help_text='Part sizes in JSON format.', null=True, verbose_name='Sizes'),
+            field=models.JSONField(
+                blank=True,
+                help_text='Part sizes in JSON format.',
+                null=True,
+                verbose_name='Sizes'),
         ),
     ]

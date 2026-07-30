@@ -1,0 +1,33 @@
+/* =========================
+   PRINT
+   ========================= */
+
+@media print {
+    .site-header,
+    .footer,
+    .legal-document button,
+    .legal-document .btn {
+        display: none !important;
+    }
+
+
+    body {
+        color: #000000;
+        background: #ffffff;
+    }
+
+
+    .legal-document {
+        max-width: none;
+        padding: 0;
+        border: 0;
+        border-radius: 0;
+        box-shadow: none;
+    }
+
+
+    .legal-document p,
+    .legal-document li {
+        color: #000000;
+    }
+}

@@ -1,0 +1,149 @@
+{% extends "base.html" %}
+
+{% block title %}Распознавание запчасти — SmartAutoParts{% endblock %}
+
+{% block content %}
+<section class="image-analysis-page">
+    <div class="container">
+        <nav class="catalog-breadcrumb" aria-label="Хлебные крошки">
+            <a href="{% url 'home' %}">Главная</a>
+            <i class="bi bi-chevron-right" aria-hidden="true"></i>
+            <span aria-current="page">Распознавание запчасти</span>
+        </nav>
+
+        <div class="image-analysis-layout">
+            <article class="image-analysis-intro">
+                <span class="section-eyebrow">AI-анализ изображения</span>
+                <h1>Загрузите фотографию запчасти или инструмента</h1>
+                <p>
+                    До сохранения файл проходит локальную проверку формата
+                    и автоматическую мультимодальную модерацию. Только после
+                    этого AI сопоставляет деталь с каталогом SmartAutoParts.
+                </p>
+                <ul>
+                    <li>
+                        <i class="bi bi-shield-check" aria-hidden="true"></i>
+                        Проверка выполняется до записи изображения
+                    </li>
+                    <li>
+                        <i class="bi bi-database-check" aria-hidden="true"></i>
+                        Результат сверяется с каталогом и OEM-номерами
+                    </li>
+                    <li>
+                        <i class="bi bi-eye" aria-hidden="true"></i>
+                        Совпадение является рекомендацией и требует проверки
+                    </li>
+                </ul>
+            </article>
+
+            <article class="image-analysis-card">
+                {% if moderation_notice %}
+                    <div class="image-analysis-automoderation-message" role="alert">
+                        <i class="bi bi-shield-exclamation" aria-hidden="true"></i>
+                        <div>
+                            <strong>Автомодератор</strong>
+                            <p>{{ moderation_notice }}</p>
+                        </div>
+                    </div>
+                {% endif %}
+                {% if can_analyze_image %}
+                    <div class="image-analysis-card__icon">
+                        <i class="bi bi-camera" aria-hidden="true"></i>
+                    </div>
+                    <h2>Выберите изображение</h2>
+
+                    {% if is_ai_privileged %}
+                        <p class="image-analysis-privilege">
+                            <i class="bi bi-shield-check" aria-hidden="true"></i>
+                            Безлимит
+                        </p>
+                    {% endif %}
+
+                    <form method="post" enctype="multipart/form-data" class="ai-request-form">
+                        {% csrf_token %}
+                        {{ form.non_field_errors }}
+                        <div class="mb-3">
+                            {{ form.image.label_tag }}
+                            {{ form.image }}
+                            {% if form.image.help_text %}
+                                <div class="form-text">
+                                    {{ form.image.help_text }}
+                                </div>
+                            {% endif %}
+                            {{ form.image.errors }}
+                            <button
+                                type="button"
+                                class="btn btn-outline-secondary image-analysis-paste-button"
+                                id="paste-image-button"
+                            >
+                                <i class="bi bi-clipboard2-plus me-1" aria-hidden="true"></i>
+                                Вставить изображение из буфера
+                            </button>
+                            <span
+                                class="image-analysis-paste-status"
+                                id="paste-image-status"
+                                role="status"
+                                aria-live="polite"
+                            ></span>
+                        </div>
+                        <div class="image-analysis-confirmation">
+                            <div class="image-analysis-confirmation__warning">
+                                <i class="bi bi-exclamation-triangle" aria-hidden="true"></i>
+                                <span>
+                                    Фотографии без автомобильной запчасти или
+                                    инструмента будут отклонены.
+                                    {% if is_ai_privileged %}
+                                        Для вашей роли анализ доступен без ограничений.
+                                    {% else %}
+                                        Анализ учитывается в лимите тарифа.
+                                    {% endif %}
+                                </span>
+                            </div>
+                            <div class="image-analysis-confirmation__limit">
+                                <i class="bi bi-file-earmark-image" aria-hidden="true"></i>
+                                Максимальный размер загружаемого файла — 5 МБ.
+                            </div>
+                            <label class="form-check" for="{{ form.confirm_automotive_content.id_for_label }}">
+                                {{ form.confirm_automotive_content }}
+                                <span class="form-check-label">
+                                    {{ form.confirm_automotive_content.label }}
+                                </span>
+                            </label>
+                            {{ form.confirm_automotive_content.errors }}
+                        </div>
+                        <div class="ai-request-status" hidden aria-live="polite">
+                            <div class="progress" role="progressbar" aria-valuemin="0" aria-valuemax="100">
+                                <div class="progress-bar progress-bar-striped progress-bar-animated"></div>
+                            </div>
+                            <span>Проверяем фото, выполняем анализ и готовим результат…</span>
+                        </div>
+                        <button class="btn btn-primary w-100" type="submit">
+                            <i class="bi bi-stars me-1" aria-hidden="true"></i>
+                            Проверить и распознать
+                        </button>
+                        <p class="image-analysis-moderation-note">
+                            Автоматическая проверка обычно занимает до 1 минуты.
+                            Результат будет показан сразу после завершения.
+                        </p>
+                    </form>
+                {% else %}
+                    <div class="image-analysis-card__icon is-locked">
+                        <i class="bi bi-lock" aria-hidden="true"></i>
+                    </div>
+                    <h2>Функция недоступна на текущем тарифе</h2>
+                    <p>
+                        Выберите тариф с анализом изображений, чтобы загрузить
+                        фотографию и найти соответствующую деталь.
+                    </p>
+                    <a
+                        class="btn btn-primary w-100"
+                        href="{% url 'subscriptions_web:plans' %}"
+                    >
+                        Посмотреть тарифы
+                    </a>
+                {% endif %}
+            </article>
+        </div>
+    </div>
+</section>
+{% endblock %}

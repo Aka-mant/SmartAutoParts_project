@@ -22,11 +22,14 @@ from .views import (
     AIImageAnalysisRetrieveAPIView,
     AIImageAnalysisUpdateAPIView,
     AIImageAnalysisDeleteAPIView,
+
+    # HTML
+    AIChatPageView,
 )
 
 app_name = AiConfig.name
 
-urlpatterns = [
+api_urlpatterns = [
     # ==========================
     # AI-запросы
     # ==========================
@@ -114,3 +117,10 @@ urlpatterns = [
         name="image_analysis_delete",
     ),
 ]
+
+web_urlpatterns = [
+    path("chat/", AIChatPageView.as_view(), name="chat"),
+]
+
+# Совместимость с прямым include("apps.AI.urls").
+urlpatterns = api_urlpatterns

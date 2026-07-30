@@ -1,0 +1,14 @@
+.history-icon-search {
+    color: var(--sap-primary, #2563eb);
+    background: #eff6ff;
+}
+
+.history-status.success {
+    color: #166534;
+    background: #dcfce7;
+}
+
+.history-status.danger {
+    color: #991b1b;
+    background: #fee2e2;
+}

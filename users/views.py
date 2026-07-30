@@ -1,16 +1,18 @@
 from datetime import timedelta
 
+from django.conf import settings
 from django.contrib.auth import views as auth_views
 from django.contrib.auth.forms import AuthenticationForm
 from django.contrib.auth.mixins import LoginRequiredMixin
 from django.views.generic import DetailView, ListView, TemplateView
 from django.urls import reverse_lazy
-from django.shortcuts import redirect, render
+from django.shortcuts import get_object_or_404, redirect, render
 from django.contrib.auth.mixins import UserPassesTestMixin
 from django.core.exceptions import FieldError
 from django.db import transaction
-from django.db.models import Q
+from django.db.models import Count, Q
 from django.utils import timezone
+from django.utils.http import url_has_allowed_host_and_scheme
 from django.views import View
 from django.contrib import messages
 
@@ -31,6 +33,11 @@ from rest_framework_simplejwt.views import TokenObtainPairView
 from apps.AI.models import AIRequest
 from apps.parts.models import Part
 from apps.subscriptions.models import UserSubscription
+from apps.subscriptions.access import (
+    has_unlimited_ai_access,
+    has_part_card_access,
+    is_moderator_only,
+)
 
 from .mixins.mixins import UserOwnedQuerySetMixin
 from .models import (
@@ -38,6 +45,7 @@ from .models import (
     RepairHistory,
     SearchHistory,
     User,
+    UserAgreementAcceptance,
 )
 from .permissions import (
     IsAdmin,
@@ -62,6 +70,84 @@ from .forms import (
 )
 
 
+class UserAgreementView(View):
+    """Показывает соглашение и фиксирует принятие текущей редакции."""
+
+    template_name = "legal/user_agreement.html"
+
+    def get(self, request):
+        version = settings.USER_AGREEMENT_VERSION
+        agreement_not_required = bool(
+            request.user.is_authenticated
+            and (
+                request.user.is_superuser
+                or request.user.can_administrate
+            )
+        )
+        accepted = bool(
+            request.user.is_authenticated
+            and request.user.has_accepted_user_agreement(version)
+        )
+        return render(
+            request,
+            self.template_name,
+            {
+                "agreement_version": version,
+                "agreement_already_accepted": accepted,
+                "agreement_not_required": agreement_not_required,
+                "next_url": request.GET.get("next", ""),
+            },
+        )
+
+    def post(self, request):
+        if not request.user.is_authenticated:
+            login_url = reverse_lazy("users:login")
+            messages.warning(
+                request,
+                "Войдите в аккаунт, чтобы принять соглашение.",
+            )
+            return redirect(f"{login_url}?next={request.get_full_path()}")
+
+        if request.user.is_superuser or request.user.can_administrate:
+            return redirect("users:dashboard")
+
+        if request.POST.get("agreement_accepted") != "on":
+            messages.error(
+                request,
+                "Для продолжения необходимо принять "
+                "пользовательское соглашение.",
+            )
+            return self.get(request)
+
+        version = settings.USER_AGREEMENT_VERSION
+        UserAgreementAcceptance.objects.get_or_create(
+            user=request.user,
+            agreement_version=version,
+            defaults={
+                "ip_address": request.META.get("REMOTE_ADDR") or None,
+                "user_agent": request.META.get(
+                    "HTTP_USER_AGENT",
+                    "",
+                )[:500],
+            },
+        )
+        request.session[
+            "accepted_user_agreement_version"
+        ] = version
+
+        next_url = request.POST.get("next", "")
+        if not url_has_allowed_host_and_scheme(
+            next_url,
+            allowed_hosts={request.get_host()},
+            require_https=request.is_secure(),
+        ):
+            next_url = reverse_lazy("users:dashboard")
+
+        messages.success(
+            request,
+            "Пользовательское соглашение принято.",
+        )
+        return redirect(next_url)
 
 
 class UserDashboardView(LoginRequiredMixin, TemplateView):
@@ -78,7 +164,7 @@ class UserDashboardView(LoginRequiredMixin, TemplateView):
     redirect_field_name = "next"
 
     free_search_limit = 10
-    free_ai_limit = 3
+    free_ai_limit = 0
 
     recent_searches_limit = 4
     recent_repairs_limit = 4
@@ -133,8 +219,8 @@ class UserDashboardView(LoginRequiredMixin, TemplateView):
         )
 
         can_view_all = (
-                self.request.user.is_superuser
-                or self.request.user.is_staff
+            self.request.user.is_superuser
+            or self.request.user.is_staff
 
         )
 
@@ -226,7 +312,9 @@ class UserDashboardView(LoginRequiredMixin, TemplateView):
         current_step = getattr(repair, "current_step", None)
 
         if current_step is not None:
-            return current_step
+            if total_steps <= 0:
+                return 0
+            return min(max(current_step, 1), total_steps)
 
         return 1 if total_steps > 0 else 0
 
@@ -238,6 +326,7 @@ class UserDashboardView(LoginRequiredMixin, TemplateView):
         return (
             AIRequest.objects
             .filter(user=self.request.user)
+            .exclude(request_type__endswith="_blocked")
             .order_by("-created_at")
         )
 
@@ -263,12 +352,12 @@ class UserDashboardView(LoginRequiredMixin, TemplateView):
         Возвращает количество запросов анализа изображений.
         """
 
-        try:
-            queryset = self.get_ai_requests_queryset().filter(
-                request_type="image",
-            )
-        except FieldError:
-            return 0
+        queryset = self.get_ai_requests_queryset().filter(
+            request_type__in=(
+                "image_analysis",
+                "image_analysis_rejected",
+            ),
+        )
 
         if subscription is not None:
             queryset = queryset.filter(
@@ -280,6 +369,40 @@ class UserDashboardView(LoginRequiredMixin, TemplateView):
                 created_at__date=timezone.localdate(),
             )
 
+        return queryset.count()
+
+    def get_feature_requests_used(self, subscription, feature):
+        """Возвращает расход лимита отдельной AI-функции."""
+
+        queryset = self.get_ai_requests_queryset()
+        if feature == "chat":
+            queryset = queryset.filter(
+                Q(request_type="chat")
+                | Q(request_type__startswith="tool_recommendation")
+            )
+        elif feature == "instruction":
+            queryset = queryset.filter(
+                request_type__startswith="repair_instruction",
+            )
+        elif feature == "image_analysis":
+            queryset = queryset.filter(
+                request_type__in=(
+                    "image_analysis",
+                    "image_analysis_rejected",
+                )
+            )
+        else:
+            return 0
+
+        if subscription is not None:
+            queryset = queryset.filter(
+                created_at__gte=subscription.start_date,
+                created_at__lt=subscription.end_date,
+            )
+        else:
+            queryset = queryset.filter(
+                created_at__date=timezone.localdate(),
+            )
         return queryset.count()
 
     def get_searches_used(self):
@@ -365,22 +488,22 @@ class UserDashboardView(LoginRequiredMixin, TemplateView):
 
         if car_brand:
             compatibility_filter &= Q(
-                compatibilities__car_make__iexact=car_brand,
+                compatibilities__brand__iexact=car_brand,
             )
 
         if car_model:
             compatibility_filter &= Q(
-                compatibilities__car_model__iexact=car_model,
+                compatibilities__model__iexact=car_model,
             )
 
         if car_year:
             compatibility_filter &= (
-                Q(compatibilities__car_year_from__isnull=True)
-                | Q(compatibilities__car_year_from__lte=car_year)
+                Q(compatibilities__year_from__isnull=True)
+                | Q(compatibilities__year_from__lte=car_year)
             )
             compatibility_filter &= (
-                Q(compatibilities__car_year_to__isnull=True)
-                | Q(compatibilities__car_year_to__gte=car_year)
+                Q(compatibilities__year_to__isnull=True)
+                | Q(compatibilities__year_to__gte=car_year)
             )
 
         try:
@@ -410,6 +533,8 @@ class UserDashboardView(LoginRequiredMixin, TemplateView):
         user = self.request.user
         profile, _ = Profile.objects.get_or_create(user=user)
         subscription = self.get_subscription()
+        privileged = has_unlimited_ai_access(user)
+        moderator_only = is_moderator_only(user)
 
         has_active_subscription = subscription is not None
         searches_used = self.get_searches_used()
@@ -417,21 +542,62 @@ class UserDashboardView(LoginRequiredMixin, TemplateView):
         image_analysis_used = self.get_image_analysis_used(
             subscription,
         )
+        chat_requests_used = self.get_feature_requests_used(
+            subscription,
+            "chat",
+        )
+        instruction_requests_used = self.get_feature_requests_used(
+            subscription,
+            "instruction",
+        )
 
-        if subscription is not None:
+        if privileged:
+            ai_limit = 0
+            chat_limit = 0
+            instruction_limit = 0
+            image_analysis_limit = 0
+            has_chat_access = True
+            has_instruction_access = True
+            has_image_analysis_access = True
+        elif moderator_only:
+            ai_limit = 0
+            chat_limit = 0
+            instruction_limit = 0
+            image_analysis_limit = 0
+            has_chat_access = False
+            has_instruction_access = False
+            has_image_analysis_access = False
+        elif subscription is not None:
             ai_limit = subscription.plan.max_ai_requests
+            chat_limit = subscription.plan.get_feature_limit("chat")
+            instruction_limit = subscription.plan.get_feature_limit(
+                "instruction"
+            )
+            image_analysis_limit = subscription.plan.get_feature_limit(
+                "image_analysis"
+            )
             has_chat_access = subscription.plan.has_chat_access
+            has_instruction_access = (
+                subscription.plan.has_instruction_generation
+            )
             has_image_analysis_access = (
                 subscription.plan.has_image_analysis
             )
         else:
             ai_limit = self.free_ai_limit
+            chat_limit = 0
+            instruction_limit = 0
+            image_analysis_limit = 0
             has_chat_access = False
+            has_instruction_access = False
             has_image_analysis_access = False
 
         context.update(
             {
                 "dashboard_user": user,
+                "is_service_privileged": privileged,
+                "is_ai_moderator": moderator_only,
+                "has_community_chat_access": True,
                 "profile": profile,
                 "has_active_subscription": (
                     has_active_subscription
@@ -456,6 +622,7 @@ class UserDashboardView(LoginRequiredMixin, TemplateView):
                     else False
                 ),
                 "has_chat_access": has_chat_access,
+                "has_instruction_access": has_instruction_access,
                 "has_image_analysis_access": (
                     has_image_analysis_access
                 ),
@@ -483,6 +650,35 @@ class UserDashboardView(LoginRequiredMixin, TemplateView):
                     limit=ai_limit,
                 ),
                 "image_analysis_used": image_analysis_used,
+                "chat_requests_used": chat_requests_used,
+                "chat_limit": chat_limit,
+                "chat_requests_remaining": self.calculate_remaining(
+                    used=chat_requests_used,
+                    limit=chat_limit,
+                ),
+                "chat_requests_percent": self.calculate_percent(
+                    used=chat_requests_used,
+                    limit=chat_limit,
+                ),
+                "instruction_requests_used": instruction_requests_used,
+                "instruction_limit": instruction_limit,
+                "instruction_requests_remaining": self.calculate_remaining(
+                    used=instruction_requests_used,
+                    limit=instruction_limit,
+                ),
+                "instruction_requests_percent": self.calculate_percent(
+                    used=instruction_requests_used,
+                    limit=instruction_limit,
+                ),
+                "image_analysis_limit": image_analysis_limit,
+                "image_analysis_remaining": self.calculate_remaining(
+                    used=image_analysis_used,
+                    limit=image_analysis_limit,
+                ),
+                "image_analysis_percent": self.calculate_percent(
+                    used=image_analysis_used,
+                    limit=image_analysis_limit,
+                ),
                 "last_ai_request": (
                     self.get_ai_requests_queryset().first()
                 ),
@@ -850,7 +1046,6 @@ class UserLoginView(auth_views.LoginView):
     redirect_authenticated_user = True
     next_page = reverse_lazy("users:dashboard")
 
-
     def get_form(self, form_class=None):
         """
         Добавляет оформление полям формы авторизации.
@@ -964,7 +1159,9 @@ class RepairHistoryPageView(LoginRequiredMixin, ListView):
             .select_related(
                 "user",
                 "instruction",
+                "instruction__part",
             )
+            .annotate(total_steps=Count("instruction__steps", distinct=True))
             .order_by("-created_at")
         )
 
@@ -972,6 +1169,102 @@ class RepairHistoryPageView(LoginRequiredMixin, ListView):
             return queryset
 
         return queryset.filter(user=self.request.user)
+
+
+class RepairStepNavigationView(LoginRequiredMixin, View):
+    """
+    Переключает текущий шаг незавершённого ремонта.
+
+    Обычный пользователь может изменять только собственный ремонт,
+    суперпользователь — любую запись.
+    """
+
+    login_url = "users:login"
+
+    def post(self, request, pk):
+        with transaction.atomic():
+            queryset = (
+                RepairHistory.objects
+                .select_for_update()
+                .select_related("instruction")
+                .filter(completed=False)
+            )
+
+            if not request.user.is_superuser:
+                queryset = queryset.filter(user=request.user)
+
+            repair = get_object_or_404(queryset, pk=pk)
+            total_steps = repair.instruction.steps.count()
+
+            if total_steps < 1:
+                messages.error(
+                    request,
+                    "В инструкции пока нет шагов.",
+                )
+                return self._redirect_back(request)
+
+            current_step = min(
+                max(repair.current_step, 1),
+                total_steps,
+            )
+            action = request.POST.get("action")
+
+            if action == "previous":
+                new_step = max(1, current_step - 1)
+            elif action == "next":
+                new_step = min(total_steps, current_step + 1)
+            elif action == "complete":
+                repair.current_step = total_steps
+                repair.completed = True
+                repair.save(
+                    update_fields=(
+                        "current_step",
+                        "completed",
+                        "progress_updated_at",
+                    )
+                )
+                completed = True
+            else:
+                messages.error(
+                    request,
+                    "Неизвестное действие навигации.",
+                )
+                return self._redirect_back(request)
+
+            if action != "complete":
+                repair.current_step = new_step
+                repair.save(
+                    update_fields=(
+                        "current_step",
+                        "progress_updated_at",
+                    )
+                )
+                completed = False
+
+        if completed:
+            messages.success(
+                request,
+                "Ремонт отмечен как завершённый.",
+            )
+        else:
+            messages.success(
+                request,
+                f"Открыт шаг {new_step} из {total_steps}.",
+            )
+        return self._redirect_back(request)
+
+    @staticmethod
+    def _redirect_back(request):
+        next_url = request.POST.get("next", "")
+
+        if next_url and url_has_allowed_host_and_scheme(
+            next_url,
+            allowed_hosts={request.get_host()},
+            require_https=request.is_secure(),
+        ):
+            return redirect(next_url)
+
+        return redirect("users:dashboard")
 
 
 class UserRegistrationPageView(
@@ -1158,6 +1451,9 @@ class PartSearchPageView(ListView):
             context["paginator"].count
             if context.get("paginator")
             else 0
+        )
+        context["can_view_part_cards"] = has_part_card_access(
+            self.request.user
         )
 
         return context

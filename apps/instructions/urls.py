@@ -1,6 +1,5 @@
 from django.urls import path
 
-from .apps import InstructionsConfig
 from .views import (
     # Instruction
     InstructionListAPIView,
@@ -36,11 +35,18 @@ from .views import (
     InstructionToolRetrieveAPIView,
     InstructionToolUpdateAPIView,
     InstructionToolDeleteAPIView,
+
+    # HTML
+    InstructionDetailPageView,
+    InstructionListPageView,
+    InstructionRepairNavigateView,
+    InstructionRepairSessionView,
+    InstructionRepairStartView,
 )
 
-app_name = InstructionsConfig.name
+app_name = "instructions_api"
 
-urlpatterns = [
+api_urlpatterns = [
     # ==========================
     # Instructions
     # ==========================
@@ -186,3 +192,30 @@ urlpatterns = [
         name="instruction_tool_delete",
     ),
 ]
+
+web_urlpatterns = [
+    path("", InstructionListPageView.as_view(), name="list"),
+    path(
+        "repair/<int:pk>/",
+        InstructionRepairSessionView.as_view(),
+        name="repair",
+    ),
+    path(
+        "repair/<int:pk>/navigate/",
+        InstructionRepairNavigateView.as_view(),
+        name="repair_navigate",
+    ),
+    path(
+        "<str:slug>/start-repair/",
+        InstructionRepairStartView.as_view(),
+        name="start_repair",
+    ),
+    path(
+        "<str:slug>/",
+        InstructionDetailPageView.as_view(),
+        name="detail",
+    ),
+]
+
+# Совместимость с прямым include("apps.instructions.urls").
+urlpatterns = api_urlpatterns

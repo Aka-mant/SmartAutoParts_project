@@ -3,6 +3,21 @@ from django import forms
 from .models import Profile, User
 
 
+PREFERRED_LANGUAGE_CHOICES = (
+    ("", "Выберите язык"),
+    ("Китайский (мандарин)", "Китайский (мандарин)"),
+    ("Английский", "Английский"),
+    ("Хинди", "Хинди"),
+    ("Испанский", "Испанский"),
+    ("Арабский", "Арабский"),
+    ("Бенгальский", "Бенгальский"),
+    ("Португальский", "Португальский"),
+    ("Русский", "Русский"),
+    ("Урду", "Урду"),
+    ("Индонезийский", "Индонезийский"),
+)
+
+
 class UserProfileUpdateForm(forms.ModelForm):
     """
     Форма редактирования основной информации пользователя.
@@ -109,6 +124,18 @@ class ProfileUpdateForm(forms.ModelForm):
     и краткую информацию о пользователе.
     """
 
+    preferred_language = forms.ChoiceField(
+        label="Предпочитаемый язык",
+        required=False,
+        choices=PREFERRED_LANGUAGE_CHOICES,
+        widget=forms.Select(
+            attrs={
+                "class": "form-select",
+                "autocomplete": "language",
+            }
+        ),
+    )
+
     class Meta:
         model = Profile
         fields = (
@@ -133,12 +160,6 @@ class ProfileUpdateForm(forms.ModelForm):
                     "class": "form-control",
                     "placeholder": "Например: Москва",
                     "autocomplete": "address-level2",
-                }
-            ),
-            "preferred_language": forms.TextInput(
-                attrs={
-                    "class": "form-control",
-                    "placeholder": "Например: Русский",
                 }
             ),
             "car_brand": forms.TextInput(
@@ -193,4 +214,3 @@ class ProfileUpdateForm(forms.ModelForm):
             )
 
         return car_year
-    

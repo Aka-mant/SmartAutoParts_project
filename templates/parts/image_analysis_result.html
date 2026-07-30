@@ -1,0 +1,133 @@
+{% extends "base.html" %}
+
+{% block title %}Результат распознавания — SmartAutoParts{% endblock %}
+
+{% block content %}
+<section class="image-analysis-page">
+    <div class="container">
+        <nav class="catalog-breadcrumb" aria-label="Хлебные крошки">
+            <a href="{% url 'home' %}">Главная</a>
+            <i class="bi bi-chevron-right" aria-hidden="true"></i>
+            <a href="{% url 'parts_web:image_analysis' %}">
+                Распознавание
+            </a>
+            <i class="bi bi-chevron-right" aria-hidden="true"></i>
+            <span aria-current="page">Результат №{{ analysis.pk }}</span>
+        </nav>
+
+        <div class="image-result-grid">
+            <article class="image-result-photo">
+                <img
+                    src="{{ analysis.image.url }}"
+                    alt="Загруженная фотография запчасти"
+                    loading="lazy"
+                    decoding="async"
+                >
+                <span class="image-result-safe">
+                    <i class="bi bi-shield-check" aria-hidden="true"></i>
+                    Автоматическая модерация пройдена
+                </span>
+            </article>
+
+            <article class="image-result-card">
+                <span class="section-eyebrow">Результат анализа</span>
+                <h1>
+                    {% if analysis.detected_part %}
+                        {{ analysis.detected_part.name }}
+                    {% else %}
+                        Точное совпадение не найдено
+                    {% endif %}
+                </h1>
+
+                <div class="image-result-confidence">
+                    <span>Уверенность распознавания</span>
+                    <strong>
+                        {% if analysis.confidence_score is not None %}
+                            {{ analysis.confidence_score }}%
+                        {% else %}
+                            —
+                        {% endif %}
+                    </strong>
+                </div>
+
+                {% if analysis.analysis_result.suggested_original_number %}
+                    <div class="image-result-oem">
+                        <span>Предполагаемый оригинальный номер</span>
+                        <strong>{{ analysis.analysis_result.suggested_original_number }}</strong>
+                        <a
+                            class="btn btn-primary btn-sm"
+                            href="{% url 'users:part_search' %}?q={{ analysis.analysis_result.suggested_original_number|urlencode }}"
+                        >
+                            Найти по этому номеру
+                        </a>
+                    </div>
+                {% endif %}
+
+                {% with output=analysis.analysis_result.model_output %}
+                    {% if output.description %}
+                        <p>{{ output.description }}</p>
+                    {% endif %}
+
+                    <dl class="image-result-specs">
+                        <div>
+                            <dt>Категория</dt>
+                            <dd>{{ output.part_category|default:"—" }}</dd>
+                        </div>
+                        <div>
+                            <dt>Производитель</dt>
+                            <dd>{{ output.manufacturer|default:"—" }}</dd>
+                        </div>
+                        <div>
+                            <dt>Состояние</dt>
+                            <dd>{{ output.condition|default:"—" }}</dd>
+                        </div>
+                        <div>
+                            <dt>Основание совпадения</dt>
+                            <dd>{{ output.match_basis|default:"—" }}</dd>
+                        </div>
+                    </dl>
+
+                    {% if output.visible_oem_numbers %}
+                        <div class="image-result-tags">
+                            <strong>Распознанные OEM-номера</strong>
+                            <div>
+                                {% for number in output.visible_oem_numbers %}
+                                    <span>{{ number }}</span>
+                                {% endfor %}
+                            </div>
+                        </div>
+                    {% endif %}
+
+                    {% if output.safety_notes %}
+                        <div class="image-result-warning">
+                            <strong>Безопасность</strong>
+                            <ul>
+                                {% for note in output.safety_notes %}
+                                    <li>{{ note }}</li>
+                                {% endfor %}
+                            </ul>
+                        </div>
+                    {% endif %}
+                {% endwith %}
+
+                <div class="image-result-actions">
+                    {% if analysis.detected_part %}
+                        <a
+                            class="btn btn-primary"
+                            href="{{ analysis.detected_part.get_absolute_url }}"
+                        >
+                            Открыть карточку детали
+                        </a>
+                    {% endif %}
+                    <a
+                        class="btn btn-outline-primary"
+                        href="{% url 'parts_web:image_analysis' %}"
+                    >
+                        Проверить другое фото
+                    </a>
+                </div>
+            </article>
+        </div>
+    </div>
+</section>
+{% endblock %}

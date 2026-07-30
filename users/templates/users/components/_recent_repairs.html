@@ -31,7 +31,9 @@
                         >
                             <div class="min-w-0">
                                 <div class="fw-semibold text-break">
-                                    {{ repair.instruction.title }}
+                                    <a href="{{ repair.instruction.get_absolute_url }}">
+                                        {{ repair.instruction.title }}
+                                    </a>
                                 </div>
 
                                 {% if repair.instruction.part %}

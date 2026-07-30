@@ -7,12 +7,11 @@ from rest_framework.generics import (
     RetrieveAPIView,
     UpdateAPIView,
 )
-from rest_framework.permissions import IsAuthenticated
-
 from users.permissions import (
     IsAdmin,
     IsModerator,
     IsOwner,
+    IsSuperuser,
 )
 
 from .models import (
@@ -109,7 +108,7 @@ class UserActivityListAPIView(
     )
     serializer_class = UserActivitySerializer
     permission_classes = [
-        IsAuthenticated,
+        IsSuperuser,
     ]
 
 
@@ -125,7 +124,7 @@ class UserActivityCreateAPIView(CreateAPIView):
     queryset = UserActivity.objects.all()
     serializer_class = UserActivityCreateSerializer
     permission_classes = [
-        IsAuthenticated,
+        IsSuperuser,
     ]
 
     def perform_create(self, serializer):
@@ -163,7 +162,7 @@ class UserActivityRetrieveAPIView(
     )
     serializer_class = UserActivitySerializer
     permission_classes = [
-        IsAuthenticated,
+        IsSuperuser,
         IsOwner,
     ]
 
@@ -189,7 +188,7 @@ class UserActivityUpdateAPIView(
     )
     serializer_class = UserActivityUpdateSerializer
     permission_classes = [
-        IsAuthenticated,
+        IsSuperuser,
         IsOwner,
     ]
 
@@ -226,7 +225,7 @@ class UserActivityDeleteAPIView(
         "user",
     )
     permission_classes = [
-        IsAuthenticated,
+        IsSuperuser,
         IsOwner,
     ]
 
@@ -251,7 +250,7 @@ class SearchLogListAPIView(
     )
     serializer_class = SearchLogSerializer
     permission_classes = [
-        IsAuthenticated,
+        IsSuperuser,
     ]
 
 
@@ -267,7 +266,7 @@ class SearchLogCreateAPIView(CreateAPIView):
     queryset = SearchLog.objects.all()
     serializer_class = SearchLogCreateSerializer
     permission_classes = [
-        IsAuthenticated,
+        IsSuperuser,
     ]
 
     def perform_create(self, serializer):
@@ -306,7 +305,7 @@ class SearchLogRetrieveAPIView(
     )
     serializer_class = SearchLogSerializer
     permission_classes = [
-        IsAuthenticated,
+        IsSuperuser,
         IsOwner,
     ]
 
@@ -332,7 +331,7 @@ class SearchLogUpdateAPIView(
     )
     serializer_class = SearchLogUpdateSerializer
     permission_classes = [
-        IsAuthenticated,
+        IsSuperuser,
         IsOwner,
     ]
 
@@ -372,7 +371,7 @@ class SearchLogDeleteAPIView(
         "user",
     )
     permission_classes = [
-        IsAuthenticated,
+        IsSuperuser,
         IsOwner,
     ]
 
@@ -391,7 +390,7 @@ class PopularPartListAPIView(ListAPIView):
     )
     serializer_class = PopularPartSerializer
     permission_classes = [
-        IsAuthenticated,
+        IsSuperuser,
     ]
 
 
@@ -412,7 +411,7 @@ class PopularPartCreateAPIView(CreateAPIView):
     )
     serializer_class = PopularPartCreateSerializer
     permission_classes = [
-        IsAuthenticated,
+        IsSuperuser,
         IsModerator,
     ]
 
@@ -432,7 +431,7 @@ class PopularPartRetrieveAPIView(RetrieveAPIView):
     )
     serializer_class = PopularPartSerializer
     permission_classes = [
-        IsAuthenticated,
+        IsSuperuser,
     ]
 
 
@@ -453,7 +452,7 @@ class PopularPartUpdateAPIView(UpdateAPIView):
     )
     serializer_class = PopularPartUpdateSerializer
     permission_classes = [
-        IsAuthenticated,
+        IsSuperuser,
         IsModerator,
     ]
 
@@ -473,6 +472,6 @@ class PopularPartDeleteAPIView(DestroyAPIView):
         "part",
     )
     permission_classes = [
-        IsAuthenticated,
+        IsSuperuser,
         IsAdmin,
     ]
