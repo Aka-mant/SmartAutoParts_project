@@ -103,7 +103,9 @@ class AIImageValidationError(AIServiceError):
 class AIContentBlocked(AIServiceError):
     """OpenAI или локальная политика заблокировали содержимое."""
 
-    def __init__(
+    # Категории служат метаданными и намеренно не входят в Exception.args,
+    # чтобы текст исключения оставался пригодным для показа пользователю.
+    def __init__(  # noqa: B042
         self,
         message: str,
         *,
@@ -116,7 +118,9 @@ class AIContentBlocked(AIServiceError):
 class AIRequestRejected(AIServiceError):
     """Запрос отклонён модерацией и записан в историю."""
 
-    def __init__(
+    # Решение и объект запроса служат метаданными и намеренно не входят
+    # в Exception.args, чтобы не менять пользовательский текст исключения.
+    def __init__(  # noqa: B042
         self,
         message: str,
         *,
@@ -960,7 +964,9 @@ class AIQuotaService:
                     Q(request_type="chat")
                     | Q(request_type__startswith="tool_recommendation")
                 ),
-                "instruction": Q(request_type__startswith="repair_instruction"),
+                "instruction": Q(
+                    request_type__startswith="repair_instruction"
+                ),
                 "image_analysis": Q(
                     request_type__in=(
                         "image_analysis",
@@ -2659,13 +2665,16 @@ class SmartAutoPartsAIService:
             proposed_version = 1
 
             if resolved_instruction is not None:
-                locked_instruction = Instruction.objects.select_for_update().get(
-                    pk=resolved_instruction.pk,
+                locked_instruction = (
+                    Instruction.objects.select_for_update().get(
+                        pk=resolved_instruction.pk,
+                    )
                 )
                 if locked_instruction.version != source_version:
                     raise AIServiceError(
                         "Инструкция была изменена во время генерации. "
-                        "Повторите запрос, чтобы использовать актуальную версию."
+                        "Повторите запрос, чтобы использовать "
+                        "актуальную версию."
                     )
 
                 proposed_version = locked_instruction.version + 1
@@ -3096,7 +3105,8 @@ class SmartAutoPartsAIService:
 
         if not output.title or not output.summary:
             raise AIProviderError(
-                "Сгенерированная инструкция не содержит заголовок или описание."
+                "Сгенерированная инструкция не содержит заголовок "
+                "или описание."
             )
         if len(output.steps) < 3:
             raise AIProviderError(
@@ -3170,7 +3180,10 @@ class SmartAutoPartsAIService:
                 lines.extend(
                     [
                         "",
-                        f"Ориентировочное время: {step.estimated_minutes} мин.",
+                        (
+                            "Ориентировочное время: "
+                            f"{step.estimated_minutes} мин."
+                        ),
                     ]
                 )
             lines.append("")

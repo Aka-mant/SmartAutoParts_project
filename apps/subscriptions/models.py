@@ -36,28 +36,36 @@ class SubscriptionPlan(models.Model):
     max_ai_requests = models.PositiveIntegerField(
         default=0,
         verbose_name=_("Maximum AI requests"),
-        help_text=_("Maximum number of AI requests available within the subscription."),
+        help_text=_(
+            "Maximum number of AI requests available "
+            "within the subscription."
+        ),
     )
 
     max_chat_requests = models.PositiveIntegerField(
         null=True,
         blank=True,
         verbose_name=_("Maximum chat requests"),
-        help_text=_("Chat request limit. Empty value inherits the total AI limit."),
+        help_text=_(
+            "Chat request limit. Empty value inherits the total AI limit."),
     )
 
     max_instruction_requests = models.PositiveIntegerField(
         null=True,
         blank=True,
         verbose_name=_("Maximum instruction requests"),
-        help_text=_("Instruction request limit. Empty value inherits the total AI limit."),
+        help_text=_(
+            "Instruction request limit. Empty value inherits "
+            "the total AI limit."
+        ),
     )
 
     max_image_analyses = models.PositiveIntegerField(
         null=True,
         blank=True,
         verbose_name=_("Maximum image analyses"),
-        help_text=_("Image analysis limit. Empty value inherits the total AI limit."),
+        help_text=_(
+            "Image analysis limit. Empty value inherits the total AI limit."),
     )
 
     has_chat_access = models.BooleanField(
@@ -69,7 +77,10 @@ class SubscriptionPlan(models.Model):
     has_instruction_generation = models.BooleanField(
         default=True,
         verbose_name=_("Instruction generation"),
-        help_text=_("Allows generating and retrieving AI repair instructions."),
+        help_text=_(
+            "Allows generating and retrieving "
+            "AI repair instructions."
+        ),
     )
 
     has_image_analysis = models.BooleanField(

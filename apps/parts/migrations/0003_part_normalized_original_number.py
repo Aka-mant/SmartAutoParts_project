@@ -13,6 +13,11 @@ class Migration(migrations.Migration):
         migrations.AddField(
             model_name='part',
             name='normalized_original_number',
-            field=models.CharField(blank=True, db_index=True, editable=False, max_length=255, verbose_name='Normalized original number'),
+            field=models.CharField(
+                blank=True,
+                db_index=True,
+                editable=False,
+                max_length=255,
+                verbose_name='Normalized original number'),
         ),
     ]

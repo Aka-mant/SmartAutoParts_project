@@ -15,19 +15,50 @@ class Migration(migrations.Migration):
         migrations.CreateModel(
             name='UserAgreementAcceptance',
             fields=[
-                ('id', models.BigAutoField(auto_created=True, primary_key=True, serialize=False, verbose_name='ID')),
-                ('agreement_version', models.CharField(max_length=32, verbose_name='Agreement version')),
-                ('accepted_at', models.DateTimeField(auto_now_add=True, verbose_name='Accepted at')),
-                ('ip_address', models.GenericIPAddressField(blank=True, null=True, verbose_name='IP address')),
-                ('user_agent', models.CharField(blank=True, max_length=500, verbose_name='User agent')),
-                ('user', models.ForeignKey(on_delete=django.db.models.deletion.CASCADE, related_name='agreement_acceptances', to=settings.AUTH_USER_MODEL, verbose_name='User')),
+                ('id',
+                 models.BigAutoField(
+                     auto_created=True,
+                     primary_key=True,
+                     serialize=False,
+                     verbose_name='ID')),
+                ('agreement_version',
+                 models.CharField(
+                     max_length=32,
+                     verbose_name='Agreement version')),
+                ('accepted_at',
+                 models.DateTimeField(
+                     auto_now_add=True,
+                     verbose_name='Accepted at')),
+                ('ip_address',
+                 models.GenericIPAddressField(
+                     blank=True,
+                     null=True,
+                     verbose_name='IP address')),
+                ('user_agent',
+                 models.CharField(
+                     blank=True,
+                     max_length=500,
+                     verbose_name='User agent')),
+                ('user',
+                 models.ForeignKey(
+                     on_delete=django.db.models.deletion.CASCADE,
+                     related_name='agreement_acceptances',
+                     to=settings.AUTH_USER_MODEL,
+                     verbose_name='User')),
             ],
             options={
                 'verbose_name': 'User agreement acceptance',
                 'verbose_name_plural': 'User agreement acceptances',
                 'db_table': 'users_useragreementacceptance',
-                'ordering': ('-accepted_at',),
-                'constraints': [models.UniqueConstraint(fields=('user', 'agreement_version'), name='unique_user_agreement_version_acceptance')],
+                'ordering': (
+                    '-accepted_at',
+                ),
+                'constraints': [
+                    models.UniqueConstraint(
+                        fields=(
+                            'user',
+                            'agreement_version'),
+                        name='unique_user_agreement_version_acceptance')],
             },
         ),
     ]

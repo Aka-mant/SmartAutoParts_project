@@ -70,8 +70,6 @@ from .forms import (
 )
 
 
-
-
 class UserAgreementView(View):
     """Показывает соглашение и фиксирует принятие текущей редакции."""
 
@@ -116,7 +114,8 @@ class UserAgreementView(View):
         if request.POST.get("agreement_accepted") != "on":
             messages.error(
                 request,
-                "Для продолжения необходимо принять пользовательское соглашение.",
+                "Для продолжения необходимо принять "
+                "пользовательское соглашение.",
             )
             return self.get(request)
 
@@ -220,8 +219,8 @@ class UserDashboardView(LoginRequiredMixin, TemplateView):
         )
 
         can_view_all = (
-                self.request.user.is_superuser
-                or self.request.user.is_staff
+            self.request.user.is_superuser
+            or self.request.user.is_staff
 
         )
 
@@ -1046,7 +1045,6 @@ class UserLoginView(auth_views.LoginView):
     authentication_form = AuthenticationForm
     redirect_authenticated_user = True
     next_page = reverse_lazy("users:dashboard")
-
 
     def get_form(self, form_class=None):
         """

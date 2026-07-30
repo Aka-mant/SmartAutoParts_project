@@ -73,7 +73,9 @@ def has_instruction_access(user: Any) -> bool:
 
 
 def has_part_card_access(user: Any) -> bool:
-    """Проверяет доступ к карточкам деталей."""
+    """
+    Проверяет доступ к карточкам деталей.
+    """
 
     return bool(
         is_privileged_user(user)

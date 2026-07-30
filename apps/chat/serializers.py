@@ -398,4 +398,3 @@ class ChatRoomUpdateSerializer(serializers.ModelSerializer):
             )
 
         return value
-

@@ -261,6 +261,7 @@ class OEMNumber(models.Model):
     def __str__(self):
         return self.number
 
+
 class Compatibility(models.Model):
     """
     Модель совместимости запчасти.
@@ -375,7 +376,8 @@ class PartImage(models.Model):
     is_main = models.BooleanField(
         default=False,
         verbose_name=_("Main image"),
-        help_text=_("Indicates whether this image is the primary image for the part."),
+        help_text=_(
+            "Indicates whether this image is the primary image for the part."),
     )
 
     uploaded_at = models.DateTimeField(
@@ -394,4 +396,3 @@ class PartImage(models.Model):
             f"{self.part.name} "
             f"{_('(main)') if self.is_main else ''}"
         ).strip()
-

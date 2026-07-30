@@ -118,7 +118,8 @@ class AIGeneratedInstruction(models.Model):
         default=False,
         verbose_name=_("Returned from cache"),
         help_text=_(
-            "The saved published instruction was returned without regeneration."
+            "The saved published instruction was returned "
+            "without regeneration."
         ),
     )
 

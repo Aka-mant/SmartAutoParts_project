@@ -17,8 +17,10 @@ def set_existing_publication_dates(apps, schema_editor):
 class Migration(migrations.Migration):
 
     dependencies = [
-        migrations.swappable_dependency(settings.AUTH_USER_MODEL),
-        ("instructions", "0003_instructionstep_instructions_step_instruction_number_uniq"),
+        migrations.swappable_dependency(
+            settings.AUTH_USER_MODEL),
+        ("instructions",
+         "0003_instructionstep_instructions_step_instruction_number_uniq"),
     ]
 
     operations = [

@@ -190,6 +190,7 @@ class InstructionToolSerializer(serializers.ModelSerializer):
             "id",
         )
 
+
 class InstructionToolCreateSerializer(serializers.ModelSerializer):
     """
     Сериализатор создания связи инструкции

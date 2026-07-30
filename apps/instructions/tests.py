@@ -21,7 +21,7 @@ from .models import (
     InstructionTool,
     InstructionVersion,
 )
-from .serializers import InstructionUpdateSerializer
+from .serializers import InstructionSerializer, InstructionUpdateSerializer
 
 
 class InstructionPageTests(TestCase):
@@ -125,7 +125,8 @@ class InstructionPageTests(TestCase):
             user=user,
             plan=plan,
             start_date=now - timedelta(days=31 if expired else 1),
-            end_date=now - timedelta(days=1) if expired else now + timedelta(days=29),
+            end_date=now -
+            timedelta(days=1) if expired else now + timedelta(days=29),
             is_active=True,
         )
 
@@ -410,6 +411,129 @@ class InstructionPageTests(TestCase):
             self.free_instruction.title,
         )
         self.assertEqual(detail_response.status_code, 404)
+
+    def test_repair_navigation_error_and_completion_branches(self):
+        user = self.create_user("repair-branches")
+        subscription = self.activate_instruction_plan(user)
+        self.purchase_instruction(
+            user,
+            self.free_instruction,
+            subscription,
+        )
+        self.client.force_login(user)
+        start_url = reverse(
+            "instructions_web:start_repair",
+            kwargs={"slug": self.free_instruction.slug},
+        )
+
+        self.free_instruction.steps.all().delete()
+        without_steps = self.client.post(start_url)
+        self.assertEqual(without_steps.status_code, 302)
+
+        first_step = InstructionStep.objects.create(
+            instruction=self.free_instruction,
+            step_number=1,
+            title="Первый",
+            description="Первый шаг.",
+        )
+        without_tools = self.client.post(start_url)
+        self.assertEqual(without_tools.status_code, 302)
+
+        tool_category = ToolCategory.objects.create(
+            name="Ветви ремонта",
+            slug="repair-branches-tools",
+        )
+        tool = Tool.objects.create(
+            category=tool_category,
+            name="Тестовый ключ",
+        )
+        InstructionTool.objects.create(
+            instruction=self.free_instruction,
+            tool=tool,
+        )
+        InstructionStep.objects.create(
+            instruction=self.free_instruction,
+            step_number=2,
+            title="Второй",
+            description="Второй шаг.",
+        )
+        self.client.post(start_url)
+        repair = RepairHistory.objects.get(
+            user=user,
+            instruction=self.free_instruction,
+        )
+        navigation_url = reverse(
+            "instructions_web:repair_navigate",
+            kwargs={"pk": repair.pk},
+        )
+
+        premature = self.client.post(
+            navigation_url,
+            {"action": "complete"},
+        )
+        self.assertEqual(premature.status_code, 302)
+        invalid = self.client.post(
+            navigation_url,
+            {"action": "unknown"},
+        )
+        self.assertEqual(invalid.status_code, 302)
+        self.client.post(navigation_url, {"action": "previous"})
+        self.client.post(navigation_url, {"action": "next"})
+        completed = self.client.post(
+            navigation_url,
+            {"action": "complete"},
+        )
+        repair.refresh_from_db()
+        self.assertEqual(completed.status_code, 302)
+        self.assertTrue(repair.completed)
+        self.assertEqual(first_step.step_number, 1)
+
+    def test_instruction_api_create_and_update_assigns_editor(self):
+        editor = get_user_model().objects.create_superuser(
+            username="instruction-api-editor",
+            email="instruction-api-editor@example.com",
+            password="password",
+        )
+        client = APIClient()
+        client.force_authenticate(editor)
+        created = client.post(
+            reverse("instructions_api:instruction_create"),
+            {
+                "part": self.part.pk,
+                "title": "Создано через API",
+                "slug": "created-through-api",
+                "content": "Полный текст инструкции.",
+                "difficulty": "easy",
+                "is_published": True,
+            },
+            format="json",
+        )
+        self.assertEqual(created.status_code, 201)
+        instruction = Instruction.objects.get(slug="created-through-api")
+        self.assertEqual(instruction.created_by, editor)
+
+        updated = client.patch(
+            reverse(
+                "instructions_api:instruction_update",
+                kwargs={"pk": instruction.pk},
+            ),
+            {"content": "Исправленный полный текст."},
+            format="json",
+        )
+        self.assertEqual(updated.status_code, 200)
+        instruction.refresh_from_db()
+        self.assertEqual(instruction.updated_by, editor)
+
+    def test_api_representation_hides_restricted_content(self):
+        user = self.create_user("restricted-serializer")
+        request = type("Request", (), {"user": user})()
+        data = InstructionSerializer(
+            self.free_instruction,
+            context={"request": request},
+        ).data
+        self.assertTrue(data["access_restricted"])
+        self.assertEqual(data["content"], "")
+        self.assertEqual(data["steps"], [])
 
 
 class HeaderIntegrationTests(TestCase):

@@ -1,3 +1,5 @@
+# flake8: noqa: E501
+
 from django.db import migrations, models
 
 

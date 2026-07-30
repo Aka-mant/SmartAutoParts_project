@@ -140,6 +140,7 @@ class ProfileSerializer(serializers.ModelSerializer):
             "user_email",
         )
 
+
 class ProfileUpdateSerializer(serializers.ModelSerializer):
     """
     Сериализатор обновления профиля пользователя.

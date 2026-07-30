@@ -146,6 +146,7 @@ class Instruction(models.Model):
             self.published_at = timezone.now()
         super().save(*args, **kwargs)
 
+
 class InstructionVersion(models.Model):
     """
     Модель версии инструкции.
@@ -313,6 +314,7 @@ class InstructionImage(models.Model):
             f"{_('Image')} #{self.pk}"
         )
 
+
 class InstructionTool(models.Model):
     """
     Модель связи инструкции с инструментом.
@@ -340,7 +342,10 @@ class InstructionTool(models.Model):
     usage_description = models.TextField(
         blank=True,
         verbose_name=_("Usage description"),
-        help_text=_("Description of how this tool is used in the instruction."),
+        help_text=_(
+            "Description of how this tool is used "
+            "in the instruction."
+        ),
     )
 
     class Meta:
@@ -351,4 +356,3 @@ class InstructionTool(models.Model):
 
     def __str__(self):
         return f"{self.instruction.title} → {self.tool.name}"
-

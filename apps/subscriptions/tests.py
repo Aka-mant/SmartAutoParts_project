@@ -20,7 +20,12 @@ from .models import (
     SubscriptionPlan,
     UserSubscription,
 )
-from .serializers import SubscriptionPlanCreateSerializer
+from .serializers import (
+    SubscriptionPaymentCreateSerializer,
+    SubscriptionPaymentUpdateSerializer,
+    SubscriptionPlanCreateSerializer,
+    UserSubscriptionCreateSerializer,
+)
 
 
 class SubscriptionPlanPageTests(TestCase):
@@ -362,3 +367,71 @@ class AIQuotaFeatureTests(TestCase):
 
         with self.assertRaises(AIAccessDenied):
             AIQuotaService().check(moderator, feature="chat")
+
+
+class SubscriptionSerializerBranchTests(TestCase):
+    """Проверяет даты, валюты и владельцев платежей."""
+
+    def setUp(self):
+        self.owner = get_user_model().objects.create_user(
+            username="payment-owner",
+            email="payment-owner@example.com",
+            password="password",
+        )
+        self.other = get_user_model().objects.create_user(
+            username="payment-other",
+            email="payment-other@example.com",
+            password="password",
+        )
+        plan = SubscriptionPlan.objects.create(
+            name="Платёжный тест",
+            price="10.00",
+            duration_days=30,
+            max_ai_requests=1,
+            is_public=False,
+        )
+        self.subscription = UserSubscription.objects.create(
+            user=self.owner,
+            plan=plan,
+            start_date=timezone.now() - timedelta(days=1),
+            end_date=timezone.now() + timedelta(days=1),
+        )
+
+    def test_subscription_dates_and_payment_fields(self):
+        from rest_framework import serializers
+
+        validator = UserSubscriptionCreateSerializer()
+        with self.assertRaises(serializers.ValidationError):
+            validator.validate(
+                {
+                    "start_date": timezone.now(),
+                    "end_date": timezone.now() - timedelta(days=1),
+                }
+            )
+        self.assertIn(
+            "start_date",
+            validator.validate(
+                {
+                    "start_date": timezone.now(),
+                    "end_date": timezone.now() + timedelta(days=1),
+                }
+            ),
+        )
+
+        request = type("Request", (), {"user": self.other})()
+        for serializer_class in (
+            SubscriptionPaymentCreateSerializer,
+            SubscriptionPaymentUpdateSerializer,
+        ):
+            serializer = serializer_class(
+                context={"request": request}
+            )
+            with self.subTest(serializer=serializer_class.__name__):
+                with self.assertRaises(serializers.ValidationError):
+                    serializer.validate_subscription(self.subscription)
+                with self.assertRaises(serializers.ValidationError):
+                    serializer.validate_currency("RU")
+                self.assertEqual(
+                    serializer.validate_currency(" rub "),
+                    "RUB",
+                )

@@ -66,7 +66,7 @@ urlpatterns = [
         UserDashboardView.as_view(),
         name="dashboard",
     ),
-# Поиск запчастей
+    # Поиск запчастей
     path(
         "search/",
         PartSearchPageView.as_view(),

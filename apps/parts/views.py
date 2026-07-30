@@ -1,3 +1,20 @@
+from .serializers import (
+    CompatibilityCreateSerializer,
+    CompatibilitySerializer,
+    CompatibilityUpdateSerializer,
+    OEMNumberCreateSerializer,
+    OEMNumberSerializer,
+    OEMNumberUpdateSerializer,
+    PartCategoryCreateSerializer,
+    PartCategorySerializer,
+    PartCategoryUpdateSerializer,
+    PartCreateSerializer,
+    PartImageCreateSerializer,
+    PartImageSerializer,
+    PartImageUpdateSerializer,
+    PartSerializer,
+    PartUpdateSerializer,
+)
 import logging
 
 from django.contrib import messages
@@ -55,23 +72,6 @@ from .models import (
 
 
 logger = logging.getLogger(__name__)
-from .serializers import (
-    CompatibilityCreateSerializer,
-    CompatibilitySerializer,
-    CompatibilityUpdateSerializer,
-    OEMNumberCreateSerializer,
-    OEMNumberSerializer,
-    OEMNumberUpdateSerializer,
-    PartCategoryCreateSerializer,
-    PartCategorySerializer,
-    PartCategoryUpdateSerializer,
-    PartCreateSerializer,
-    PartImageCreateSerializer,
-    PartImageSerializer,
-    PartImageUpdateSerializer,
-    PartSerializer,
-    PartUpdateSerializer,
-)
 
 
 class HasPartCardAccess(BasePermission):
@@ -696,40 +696,40 @@ class PartDetailPageView(LoginRequiredMixin, DetailView):
                 "can_request_instruction": bool(
                     not moderator_only
                     and (
-                    ai_unlimited
-                    or (
-                        subscription
-                        and subscription.plan.has_instruction_generation
-                        and subscription.plan.get_feature_limit(
-                            "instruction"
+                        ai_unlimited
+                        or (
+                            subscription
+                            and subscription.plan.has_instruction_generation
+                            and subscription.plan.get_feature_limit(
+                                "instruction"
+                            )
+                            > 0
                         )
-                        > 0
-                    )
                     )
                 ),
                 "can_request_tools": bool(
                     not moderator_only
                     and (
-                    ai_unlimited
-                    or (
-                        subscription
-                        and subscription.plan.has_chat_access
-                        and subscription.plan.get_feature_limit("chat") > 0
-                    )
+                        ai_unlimited
+                        or (
+                            subscription
+                            and subscription.plan.has_chat_access
+                            and subscription.plan.get_feature_limit("chat") > 0
+                        )
                     )
                 ),
                 "can_analyze_image": bool(
                     not moderator_only
                     and (
-                    ai_unlimited
-                    or (
-                        subscription
-                        and subscription.plan.has_image_analysis
-                        and subscription.plan.get_feature_limit(
-                            "image_analysis"
+                        ai_unlimited
+                        or (
+                            subscription
+                            and subscription.plan.has_image_analysis
+                            and subscription.plan.get_feature_limit(
+                                "image_analysis"
+                            )
+                            > 0
                         )
-                        > 0
-                    )
                     )
                 ),
                 "tools_purchased": tools_purchased,
@@ -1038,15 +1038,15 @@ class PartImageAnalysisUploadView(LoginRequiredMixin, FormView):
         context["can_analyze_image"] = bool(
             not is_moderator_only(user)
             and (
-            privileged
-            or (
-                subscription
-                and subscription.plan.has_image_analysis
-                and subscription.plan.get_feature_limit(
-                    "image_analysis"
+                privileged
+                or (
+                    subscription
+                    and subscription.plan.has_image_analysis
+                    and subscription.plan.get_feature_limit(
+                        "image_analysis"
+                    )
+                    > 0
                 )
-                > 0
-            )
             )
         )
         return context

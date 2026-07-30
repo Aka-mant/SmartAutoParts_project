@@ -6,12 +6,17 @@ from django.db import migrations, models
 class Migration(migrations.Migration):
 
     dependencies = [
-        ('instructions', '0002_instructionimage_instructionstep_instructiontool_and_more'),
+        ('instructions',
+         '0002_instructionimage_instructionstep_instructiontool_and_more'),
     ]
 
     operations = [
         migrations.AddConstraint(
             model_name='instructionstep',
-            constraint=models.UniqueConstraint(fields=('instruction', 'step_number'), name='instructions_step_instruction_number_uniq'),
+            constraint=models.UniqueConstraint(
+                fields=(
+                    'instruction',
+                    'step_number'),
+                name='instructions_step_instruction_number_uniq'),
         ),
     ]

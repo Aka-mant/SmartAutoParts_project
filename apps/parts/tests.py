@@ -7,12 +7,14 @@ from unittest.mock import patch
 
 from django.conf import settings
 from django.contrib.auth import get_user_model
+from django.contrib import admin
 from django.core.files.uploadedfile import SimpleUploadedFile
 from django.test import TestCase, override_settings
 from django.urls import reverse
 from django.utils import timezone
 from PIL import Image as PILImage
 from rest_framework.test import APIClient
+from rest_framework import serializers as drf_serializers
 
 from apps.AI.models import (
     AIContentPurchase,
@@ -21,9 +23,18 @@ from apps.AI.models import (
     AIRequest,
     AIToolRecommendation,
 )
-from apps.AI.services import AIRequestRejected, ModerationDecision
+from apps.AI.services import (
+    AIAccessDenied,
+    AIProviderError,
+    AIRequestRejected,
+    ModerationDecision,
+)
 from apps.instructions.models import Instruction, InstructionStep
 from apps.subscriptions.models import SubscriptionPlan, UserSubscription
+from apps.subscriptions.access import (
+    has_purchased_instruction,
+    has_purchased_tools,
+)
 from apps.tools.models import PartTool, Tool, ToolCategory
 from users.models import UserAgreementAcceptance
 
@@ -34,6 +45,19 @@ from .models import (
     PartCategory,
     PartImage,
 )
+from .serializers import (
+    CompatibilityCreateSerializer,
+    CompatibilityUpdateSerializer,
+    OEMNumberCreateSerializer,
+    OEMNumberUpdateSerializer,
+    PartCategoryCreateSerializer,
+    PartCategoryUpdateSerializer,
+    PartImageCreateSerializer,
+    PartImageUpdateSerializer,
+    PartCreateSerializer,
+    PartUpdateSerializer,
+)
+from .admin import PartAdmin, PartImageAdmin, PartImageInline
 
 
 class PartDetailPageTests(TestCase):
@@ -151,7 +175,8 @@ class PartDetailPageTests(TestCase):
             user=user,
             plan=self.plan,
             start_date=now - timedelta(days=31 if expired else 1),
-            end_date=now - timedelta(days=1) if expired else now + timedelta(days=29),
+            end_date=now -
+            timedelta(days=1) if expired else now + timedelta(days=29),
             is_active=True,
         )
 
@@ -495,7 +520,10 @@ class PartDetailPageTests(TestCase):
             self.instruction.get_absolute_url(),
             fetch_redirect_response=False,
         )
-        service_class.return_value.generate_repair_instruction.assert_called_once()
+        (
+            service_class.return_value
+            .generate_repair_instruction.assert_called_once()
+        )
         call = (
             service_class.return_value
             .generate_repair_instruction.call_args.kwargs
@@ -828,4 +856,529 @@ class PartDetailPageTests(TestCase):
         self.assertGreater(
             rendered.index("catalog-tool-recommendation"),
             rendered.index("instruction-mini-grid"),
+        )
+
+
+class PartAIErrorBranchTests(TestCase):
+    """Проверяет обработку ошибок AI-запросов карточки детали."""
+
+    @classmethod
+    def setUpTestData(cls):
+        cls.user = get_user_model().objects.create_superuser(
+            username="part-ai-errors",
+            email="part-ai-errors@example.com",
+            password="password",
+        )
+        category = PartCategory.objects.create(
+            name="AI ошибки",
+            slug="part-ai-errors",
+        )
+        cls.part = Part.objects.create(
+            category=category,
+            name="Деталь ошибок",
+            slug="part-ai-error-item",
+            original_number="ERR-1",
+            manufacturer="Тест",
+            description="Описание",
+        )
+
+    def setUp(self):
+        self.client.force_login(self.user)
+
+    @patch("apps.parts.views.SmartAutoPartsAIService")
+    def test_instruction_request_handles_all_ai_errors(
+        self,
+        service_class,
+    ):
+        url = reverse(
+            "parts_web:request_instruction",
+            kwargs={"slug": self.part.slug},
+        )
+        decision = ModerationDecision(
+            allowed=False,
+            category="blocked",
+            reason="Отклонено",
+        )
+        errors = (
+            AIRequestRejected("Отклонено", decision=decision),
+            AIAccessDenied("Нет доступа"),
+            AIProviderError("Ошибка провайдера"),
+        )
+        for error in errors:
+            generation = (
+                service_class.return_value.generate_repair_instruction
+            )
+            generation.side_effect = error
+            response = self.client.post(url)
+            self.assertEqual(response.status_code, 302)
+
+    @patch("apps.parts.views.SmartAutoPartsAIService")
+    def test_tool_request_handles_cache_success_and_error(
+        self,
+        service_class,
+    ):
+        url = reverse(
+            "parts_web:request_tools",
+            kwargs={"slug": self.part.slug},
+        )
+        service_class.return_value.purchase_stored_part_tools.return_value = (
+            SimpleNamespace(pk=1)
+        )
+        self.assertEqual(self.client.post(url).status_code, 302)
+
+        service_class.return_value.purchase_stored_part_tools.return_value = (
+            None
+        )
+        service_class.return_value.recommend_part_tools.side_effect = (
+            AIProviderError("Ошибка")
+        )
+        self.assertEqual(self.client.post(url).status_code, 302)
+
+    @patch("apps.parts.views.SmartAutoPartsAIService")
+    def test_image_upload_handles_access_and_provider_errors(
+        self,
+        service_class,
+    ):
+        buffer = BytesIO()
+        PILImage.new("RGB", (100, 100), "blue").save(
+            buffer,
+            format="PNG",
+        )
+        url = reverse("parts_web:image_analysis")
+
+        for error, expected_url in (
+            (
+                AIAccessDenied("Нет доступа"),
+                reverse("subscriptions_web:plans"),
+            ),
+            (
+                AIProviderError("Ошибка"),
+                reverse("parts_web:image_analysis"),
+            ),
+        ):
+            service_class.return_value.analyze_part_image.side_effect = error
+            upload = SimpleUploadedFile(
+                "part.png",
+                buffer.getvalue(),
+                content_type="image/png",
+            )
+            response = self.client.post(
+                url,
+                {
+                    "image": upload,
+                    "confirm_automotive_content": "on",
+                },
+            )
+            self.assertRedirects(
+                response,
+                expected_url,
+                fetch_redirect_response=False,
+            )
+
+    def test_purchased_instruction_and_tools_skip_duplicate_requests(self):
+        regular = get_user_model().objects.create_user(
+            username="part-purchased",
+            email="part-purchased@example.com",
+            password="password",
+        )
+        UserAgreementAcceptance.objects.create(
+            user=regular,
+            agreement_version=settings.USER_AGREEMENT_VERSION,
+        )
+        instruction = Instruction.objects.create(
+            part=self.part,
+            title="Купленная инструкция",
+            slug="purchased-instruction",
+            content="Проверенный текст",
+            is_published=True,
+        )
+        AIContentPurchase.objects.create(
+            user=regular,
+            content_type=AIContentPurchase.ContentType.INSTRUCTION,
+            content_key=f"instruction:{instruction.pk}",
+            part=self.part,
+            instruction=instruction,
+        )
+        AIContentPurchase.objects.create(
+            user=regular,
+            content_type=AIContentPurchase.ContentType.TOOLS,
+            content_key=f"tools:{self.part.pk}",
+            part=self.part,
+        )
+        self.client.force_login(regular)
+
+        instruction_response = self.client.post(
+            reverse(
+                "parts_web:request_instruction",
+                kwargs={"slug": self.part.slug},
+            )
+        )
+        tools_response = self.client.post(
+            reverse(
+                "parts_web:request_tools",
+                kwargs={"slug": self.part.slug},
+            )
+        )
+        self.assertRedirects(
+            instruction_response,
+            instruction.get_absolute_url(),
+            fetch_redirect_response=False,
+        )
+        self.assertEqual(tools_response.status_code, 302)
+
+    def test_moderator_is_redirected_from_image_analysis(self):
+        moderator = get_user_model().objects.create_user(
+            username="part-image-moderator",
+            email="part-image-moderator@example.com",
+            password="password",
+            role="moderator",
+        )
+        UserAgreementAcceptance.objects.create(
+            user=moderator,
+            agreement_version=settings.USER_AGREEMENT_VERSION,
+        )
+        self.client.force_login(moderator)
+        response = self.client.get(reverse("parts_web:image_analysis"))
+        self.assertRedirects(
+            response,
+            reverse("users:dashboard"),
+            fetch_redirect_response=False,
+        )
+
+    @patch("apps.parts.views.SmartAutoPartsAIService")
+    def test_successful_new_instruction_and_cached_tools_messages(
+        self,
+        service_class,
+    ):
+        generated = SimpleNamespace(instruction=None)
+        service_class.return_value.generate_repair_instruction.return_value = (
+            SimpleNamespace(
+                cached=False,
+                generated_instruction=generated,
+            )
+        )
+        instruction_response = self.client.post(
+            reverse(
+                "parts_web:request_instruction",
+                kwargs={"slug": self.part.slug},
+            )
+        )
+        self.assertEqual(instruction_response.status_code, 302)
+
+        regular = get_user_model().objects.create_user(
+            username="cached-tools-regular",
+            email="cached-tools-regular@example.com",
+            password="password",
+        )
+        UserAgreementAcceptance.objects.create(
+            user=regular,
+            agreement_version=settings.USER_AGREEMENT_VERSION,
+        )
+        plan = SubscriptionPlan.objects.create(
+            name="Инструменты тест",
+            price="1.00",
+            duration_days=30,
+            max_ai_requests=5,
+            max_chat_requests=5,
+            has_chat_access=True,
+            is_public=False,
+        )
+        UserSubscription.objects.create(
+            user=regular,
+            plan=plan,
+            start_date=timezone.now() - timedelta(days=1),
+            end_date=timezone.now() + timedelta(days=1),
+        )
+        self.client.force_login(regular)
+        service_class.return_value.purchase_stored_part_tools.return_value = (
+            SimpleNamespace(pk=1)
+        )
+        tools_response = self.client.post(
+            reverse(
+                "parts_web:request_tools",
+                kwargs={"slug": self.part.slug},
+            )
+        )
+        self.assertEqual(tools_response.status_code, 302)
+
+
+class PartSerializerBranchTests(TestCase):
+    """Проверяет ограничения уникальности сериализаторов каталога."""
+
+    @classmethod
+    def setUpTestData(cls):
+        cls.category = PartCategory.objects.create(
+            name="Сериализаторы",
+            slug="serializer-category",
+        )
+        cls.other_category = PartCategory.objects.create(
+            name="Другая",
+            slug="serializer-other",
+        )
+        cls.part = Part.objects.create(
+            category=cls.category,
+            name="Первая деталь",
+            slug="serializer-part",
+            original_number="SER-1",
+            manufacturer="Тест",
+        )
+        cls.other_part = Part.objects.create(
+            category=cls.category,
+            name="Вторая деталь",
+            slug="serializer-part-two",
+            original_number="SER-2",
+            manufacturer="Тест",
+        )
+        cls.oem = OEMNumber.objects.create(
+            part=cls.part,
+            number="OEM-SER-1",
+            manufacturer="Тест",
+        )
+        cls.other_oem = OEMNumber.objects.create(
+            part=cls.other_part,
+            number="OEM-SER-2",
+            manufacturer="Тест",
+        )
+        cls.main_image = PartImage.objects.create(
+            part=cls.part,
+            image=SimpleUploadedFile("main.jpg", b"image"),
+            is_main=True,
+        )
+        cls.other_image = PartImage.objects.create(
+            part=cls.part,
+            image=SimpleUploadedFile("other.jpg", b"image"),
+            is_main=False,
+        )
+
+    def test_duplicate_identifiers_are_rejected(self):
+        serializers_to_check = (
+            PartCategoryCreateSerializer(
+                data={"name": "Дубликат", "slug": self.category.slug}
+            ),
+            PartCategoryUpdateSerializer(
+                self.other_category,
+                data={"slug": self.category.slug},
+                partial=True,
+            ),
+            OEMNumberCreateSerializer(
+                data={
+                    "part": self.part.pk,
+                    "number": self.oem.number,
+                    "manufacturer": "Тест",
+                }
+            ),
+            OEMNumberUpdateSerializer(
+                self.other_oem,
+                data={"number": self.oem.number},
+                partial=True,
+            ),
+            PartCreateSerializer(
+                data={
+                    "category": self.category.pk,
+                    "name": "Дубликат",
+                    "slug": self.part.slug,
+                    "original_number": self.part.original_number,
+                    "manufacturer": "Тест",
+                }
+            ),
+            PartUpdateSerializer(
+                self.other_part,
+                data={
+                    "slug": self.part.slug,
+                    "original_number": self.part.original_number,
+                },
+                partial=True,
+            ),
+        )
+        for serializer in serializers_to_check:
+            with self.subTest(serializer=serializer.__class__.__name__):
+                self.assertFalse(serializer.is_valid())
+
+    def test_ranges_main_images_and_purchase_helpers(self):
+        compatibility = CompatibilityCreateSerializer(
+            data={
+                "part": self.part.pk,
+                "brand": "Lada",
+                "model": "Vesta",
+                "year_from": 2024,
+                "year_to": 2020,
+            }
+        )
+        self.assertFalse(compatibility.is_valid())
+
+        image = PartImageCreateSerializer(
+            data={
+                "part": self.part.pk,
+                "image": SimpleUploadedFile("new.jpg", b"image"),
+                "is_main": True,
+            }
+        )
+        self.assertFalse(image.is_valid())
+        update = PartImageUpdateSerializer(
+            self.other_image,
+            data={"is_main": True},
+            partial=True,
+        )
+        self.assertFalse(update.is_valid())
+
+        anonymous = SimpleNamespace(is_authenticated=False)
+        self.assertFalse(has_purchased_instruction(anonymous, 1))
+        self.assertFalse(has_purchased_tools(anonymous, 1))
+        self.assertTrue(has_purchased_instruction(self._root_user(), 1))
+        self.assertTrue(has_purchased_tools(self._root_user(), 1))
+        buyer = get_user_model().objects.create_user(
+            username="purchase-helper",
+            email="purchase-helper@example.com",
+            password="password",
+        )
+        self.assertFalse(has_purchased_tools(buyer, self.part))
+        AIContentPurchase.objects.create(
+            user=buyer,
+            content_type=AIContentPurchase.ContentType.TOOLS,
+            content_key=f"tools:{self.part.pk}",
+            part=self.part,
+        )
+        self.assertTrue(has_purchased_tools(buyer, self.part))
+
+    def test_custom_validation_methods_are_called_directly(self):
+        with self.assertRaises(drf_serializers.ValidationError):
+            PartCategoryCreateSerializer().validate_slug(self.category.slug)
+        self.assertEqual(
+            PartCategoryCreateSerializer().validate_slug("free-category"),
+            "free-category",
+        )
+        with self.assertRaises(drf_serializers.ValidationError):
+            PartCategoryUpdateSerializer(
+                instance=self.other_category
+            ).validate_slug(self.category.slug)
+
+        with self.assertRaises(drf_serializers.ValidationError):
+            OEMNumberCreateSerializer().validate(
+                {"part": self.part, "number": self.oem.number}
+            )
+        self.assertEqual(
+            OEMNumberCreateSerializer().validate(
+                {"part": self.part, "number": "FREE-OEM"}
+            )["number"],
+            "FREE-OEM",
+        )
+        with self.assertRaises(drf_serializers.ValidationError):
+            OEMNumberUpdateSerializer(
+                instance=self.other_oem
+            ).validate_number(self.oem.number)
+
+        with self.assertRaises(drf_serializers.ValidationError):
+            PartCreateSerializer().validate_original_number(
+                self.part.original_number
+            )
+        with self.assertRaises(drf_serializers.ValidationError):
+            PartCreateSerializer().validate_slug(self.part.slug)
+        updater = PartUpdateSerializer(instance=self.other_part)
+        with self.assertRaises(drf_serializers.ValidationError):
+            updater.validate_original_number(self.part.original_number)
+        with self.assertRaises(drf_serializers.ValidationError):
+            updater.validate_slug(self.part.slug)
+
+        with self.assertRaises(drf_serializers.ValidationError):
+            PartImageCreateSerializer().validate(
+                {"part": self.part, "is_main": True}
+            )
+        image_updater = PartImageUpdateSerializer(
+            instance=self.other_image
+        )
+        with self.assertRaises(drf_serializers.ValidationError):
+            image_updater.validate({"is_main": True})
+        self.assertEqual(
+            OEMNumberUpdateSerializer(
+                instance=self.other_oem
+            ).validate_number("FREE-OEM"),
+            "FREE-OEM",
+        )
+        self.assertEqual(
+            PartCreateSerializer().validate_original_number("FREE-PART"),
+            "FREE-PART",
+        )
+        self.assertEqual(
+            PartCreateSerializer().validate_slug("free-part"),
+            "free-part",
+        )
+        self.assertEqual(
+            updater.validate_slug("free-update"),
+            "free-update",
+        )
+        self.assertEqual(
+            PartImageCreateSerializer().validate(
+                {"part": self.other_part, "is_main": False}
+            )["part"],
+            self.other_part,
+        )
+
+        compatibility = Compatibility.objects.create(
+            part=self.part,
+            brand="Lada",
+            model="Vesta",
+            year_from=2020,
+            year_to=2024,
+        )
+        with self.assertRaises(drf_serializers.ValidationError):
+            CompatibilityUpdateSerializer(
+                instance=compatibility
+            ).validate({"year_from": 2025, "year_to": 2020})
+
+    def test_localized_dimensions_and_compatibility_year_labels(self):
+        self.part.dimensions = {
+            "length_mm": 100,
+            "custom": "значение",
+        }
+        self.assertIn(
+            ("Длина, мм", 100),
+            self.part.localized_dimensions,
+        )
+        compatibility = Compatibility.objects.create(
+            part=self.part,
+            brand="Lada",
+            model="Vesta",
+            year_from=2020,
+            year_to=2024,
+        )
+        self.assertIn("2020-2024", str(compatibility))
+        compatibility.year_from = None
+        self.assertIn("до 2024", str(compatibility))
+
+    def test_admin_image_previews_and_related_count(self):
+        inline = PartImageInline(Part, admin.site)
+        image_admin = PartImageAdmin(PartImage, admin.site)
+        part_admin = PartAdmin(Part, admin.site)
+
+        self.assertEqual(
+            inline.image_preview(SimpleNamespace(pk=None, image=None)),
+            "—",
+        )
+        self.assertEqual(
+            image_admin.image_preview(
+                SimpleNamespace(pk=None, image=None)
+            ),
+            "—",
+        )
+        self.assertEqual(
+            part_admin.images_count(self.part),
+            2,
+        )
+        self.assertIn(
+            "<img",
+            str(inline.image_preview(self.main_image)),
+        )
+        self.assertIn(
+            "<img",
+            str(image_admin.image_preview(self.main_image)),
+        )
+
+    @staticmethod
+    def _root_user():
+        """Возвращает привилегированного пользователя без записи в БД."""
+        return SimpleNamespace(
+            is_authenticated=True,
+            is_active=True,
+            is_superuser=True,
+            can_administrate=True,
         )

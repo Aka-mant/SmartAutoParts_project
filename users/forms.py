@@ -214,4 +214,3 @@ class ProfileUpdateForm(forms.ModelForm):
             )
 
         return car_year
-    

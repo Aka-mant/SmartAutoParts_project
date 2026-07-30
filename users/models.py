@@ -22,7 +22,6 @@ class UserRole(models.TextChoices):
     ADMIN = "admin", _("Администратор")
 
 
-
 class User(AbstractUser):
     """
     Модель пользователя системы.
@@ -110,7 +109,6 @@ class User(AbstractUser):
             self.is_staff = True
         return super().save(*args, **kwargs)
 
-
     @property
     def has_paid_access(self) -> bool:
         """
@@ -134,9 +132,9 @@ class User(AbstractUser):
         """
 
         return (
-                self.role == UserRole.MODERATOR
-                or self.role == UserRole.ADMIN
-                or self.is_superuser
+            self.role == UserRole.MODERATOR
+            or self.role == UserRole.ADMIN
+            or self.is_superuser
         )
 
     @property
@@ -150,8 +148,8 @@ class User(AbstractUser):
         системным суперпользователям Django.
         """
         return (
-                self.role == UserRole.ADMIN
-                or self.is_superuser
+            self.role == UserRole.ADMIN
+            or self.is_superuser
         )
 
     def has_accepted_user_agreement(self, version=None) -> bool:
@@ -164,7 +162,6 @@ class User(AbstractUser):
         return self.agreement_acceptances.filter(
             agreement_version=current_version,
         ).exists()
-
 
 
 class Profile(models.Model):
@@ -415,4 +412,3 @@ class RepairHistory(models.Model):
     def __str__(self):
         status = _("Completed") if self.completed else _("In progress")
         return f"{self.user.email} — {self.instruction.title} ({status})"
-

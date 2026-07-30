@@ -79,6 +79,7 @@ class ToolCategoryUpdateSerializer(serializers.ModelSerializer):
 
         return value
 
+
 class ToolSerializer(serializers.ModelSerializer):
     """
     Сериализатор инструмента.
