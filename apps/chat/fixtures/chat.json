@@ -1,0 +1,1148 @@
+[
+{
+    "model": "chat.chatroom",
+    "pk": 1,
+    "fields": {
+        "name": "Ремонт двигателя #1",
+        "is_private": false,
+        "created_by": 40,
+        "created_at": "2026-07-17T17:24:34.780Z"
+    }
+},
+{
+    "model": "chat.chatroom",
+    "pk": 2,
+    "fields": {
+        "name": "Диагностика #2",
+        "is_private": true,
+        "created_by": 8,
+        "created_at": "2026-07-17T17:24:34.780Z"
+    }
+},
+{
+    "model": "chat.chatroom",
+    "pk": 3,
+    "fields": {
+        "name": "Инструменты #3",
+        "is_private": false,
+        "created_by": 37,
+        "created_at": "2026-07-17T17:24:34.781Z"
+    }
+},
+{
+    "model": "chat.chatroom",
+    "pk": 4,
+    "fields": {
+        "name": "OEM-номера #4",
+        "is_private": false,
+        "created_by": 13,
+        "created_at": "2026-07-17T17:24:34.781Z"
+    }
+},
+{
+    "model": "chat.chatroom",
+    "pk": 5,
+    "fields": {
+        "name": "Тормозная система #5",
+        "is_private": false,
+        "created_by": 23,
+        "created_at": "2026-07-17T17:24:34.781Z"
+    }
+},
+{
+    "model": "chat.chatroom",
+    "pk": 6,
+    "fields": {
+        "name": "Общий чат #6",
+        "is_private": true,
+        "created_by": 25,
+        "created_at": "2026-07-17T17:24:34.781Z"
+    }
+},
+{
+    "model": "chat.chatroom",
+    "pk": 7,
+    "fields": {
+        "name": "Ремонт двигателя #7",
+        "is_private": false,
+        "created_by": 21,
+        "created_at": "2026-07-17T17:24:34.781Z"
+    }
+},
+{
+    "model": "chat.chatroom",
+    "pk": 8,
+    "fields": {
+        "name": "Инструменты #8",
+        "is_private": false,
+        "created_by": 36,
+        "created_at": "2026-07-17T17:24:34.781Z"
+    }
+},
+{
+    "model": "chat.chatroom",
+    "pk": 9,
+    "fields": {
+        "name": "Поиск запчастей #9",
+        "is_private": false,
+        "created_by": 25,
+        "created_at": "2026-07-17T17:24:34.782Z"
+    }
+},
+{
+    "model": "chat.chatroom",
+    "pk": 10,
+    "fields": {
+        "name": "Общий чат #10",
+        "is_private": false,
+        "created_by": 21,
+        "created_at": "2026-07-17T17:24:34.782Z"
+    }
+},
+{
+    "model": "chat.chatroom",
+    "pk": 11,
+    "fields": {
+        "name": "Автоэлектрика #11",
+        "is_private": true,
+        "created_by": 7,
+        "created_at": "2026-07-17T17:24:34.782Z"
+    }
+},
+{
+    "model": "chat.chatroom",
+    "pk": 12,
+    "fields": {
+        "name": "Поиск запчастей #12",
+        "is_private": false,
+        "created_by": 36,
+        "created_at": "2026-07-17T17:24:34.782Z"
+    }
+},
+{
+    "model": "chat.chatroom",
+    "pk": 13,
+    "fields": {
+        "name": "Поиск запчастей #13",
+        "is_private": false,
+        "created_by": 18,
+        "created_at": "2026-07-17T17:24:34.782Z"
+    }
+},
+{
+    "model": "chat.chatroom",
+    "pk": 14,
+    "fields": {
+        "name": "Диагностика #14",
+        "is_private": false,
+        "created_by": 32,
+        "created_at": "2026-07-17T17:24:34.782Z"
+    }
+},
+{
+    "model": "chat.chatroom",
+    "pk": 15,
+    "fields": {
+        "name": "Обсуждение инструкций #15",
+        "is_private": false,
+        "created_by": 13,
+        "created_at": "2026-07-17T17:24:34.783Z"
+    }
+},
+{
+    "model": "chat.chatroom",
+    "pk": 16,
+    "fields": {
+        "name": "OEM-номера #16",
+        "is_private": true,
+        "created_by": 32,
+        "created_at": "2026-07-17T17:24:34.783Z"
+    }
+},
+{
+    "model": "chat.chatroom",
+    "pk": 17,
+    "fields": {
+        "name": "Подвеска автомобиля #17",
+        "is_private": false,
+        "created_by": 49,
+        "created_at": "2026-07-17T17:24:34.783Z"
+    }
+},
+{
+    "model": "chat.chatroom",
+    "pk": 18,
+    "fields": {
+        "name": "Диагностика #18",
+        "is_private": false,
+        "created_by": 46,
+        "created_at": "2026-07-17T17:24:34.783Z"
+    }
+},
+{
+    "model": "chat.chatroom",
+    "pk": 19,
+    "fields": {
+        "name": "Премиум-поддержка #19",
+        "is_private": true,
+        "created_by": 3,
+        "created_at": "2026-07-17T17:24:34.783Z"
+    }
+},
+{
+    "model": "chat.chatroom",
+    "pk": 20,
+    "fields": {
+        "name": "Советы механиков #20",
+        "is_private": false,
+        "created_by": 15,
+        "created_at": "2026-07-17T17:24:34.783Z"
+    }
+},
+{
+    "model": "chat.chatroom",
+    "pk": 21,
+    "fields": {
+        "name": "Тормозная система #21",
+        "is_private": false,
+        "created_by": 32,
+        "created_at": "2026-07-17T17:24:34.783Z"
+    }
+},
+{
+    "model": "chat.chatroom",
+    "pk": 22,
+    "fields": {
+        "name": "Поиск запчастей #22",
+        "is_private": false,
+        "created_by": 48,
+        "created_at": "2026-07-17T17:24:34.783Z"
+    }
+},
+{
+    "model": "chat.chatroom",
+    "pk": 23,
+    "fields": {
+        "name": "Общий чат #23",
+        "is_private": false,
+        "created_by": 29,
+        "created_at": "2026-07-17T17:24:34.783Z"
+    }
+},
+{
+    "model": "chat.chatroom",
+    "pk": 24,
+    "fields": {
+        "name": "Ремонт двигателя #24",
+        "is_private": true,
+        "created_by": 2,
+        "created_at": "2026-07-17T17:24:34.784Z"
+    }
+},
+{
+    "model": "chat.chatroom",
+    "pk": 25,
+    "fields": {
+        "name": "Премиум-поддержка #25",
+        "is_private": false,
+        "created_by": 41,
+        "created_at": "2026-07-17T17:24:34.784Z"
+    }
+},
+{
+    "model": "chat.chatroom",
+    "pk": 26,
+    "fields": {
+        "name": "Ремонт двигателя #26",
+        "is_private": false,
+        "created_by": 1,
+        "created_at": "2026-07-17T17:24:34.784Z"
+    }
+},
+{
+    "model": "chat.chatroom",
+    "pk": 27,
+    "fields": {
+        "name": "Советы механиков #27",
+        "is_private": false,
+        "created_by": 44,
+        "created_at": "2026-07-17T17:24:34.784Z"
+    }
+},
+{
+    "model": "chat.chatroom",
+    "pk": 28,
+    "fields": {
+        "name": "Подвеска автомобиля #28",
+        "is_private": false,
+        "created_by": 7,
+        "created_at": "2026-07-17T17:24:34.784Z"
+    }
+},
+{
+    "model": "chat.chatroom",
+    "pk": 29,
+    "fields": {
+        "name": "Обсуждение инструкций #29",
+        "is_private": false,
+        "created_by": 26,
+        "created_at": "2026-07-17T17:24:34.784Z"
+    }
+},
+{
+    "model": "chat.chatroom",
+    "pk": 30,
+    "fields": {
+        "name": "Премиум-поддержка #30",
+        "is_private": false,
+        "created_by": 21,
+        "created_at": "2026-07-17T17:24:34.784Z"
+    }
+},
+{
+    "model": "chat.chatroom",
+    "pk": 31,
+    "fields": {
+        "name": "Тормозная система #31",
+        "is_private": true,
+        "created_by": 17,
+        "created_at": "2026-07-17T17:24:34.784Z"
+    }
+},
+{
+    "model": "chat.chatroom",
+    "pk": 32,
+    "fields": {
+        "name": "Диагностика #32",
+        "is_private": false,
+        "created_by": 13,
+        "created_at": "2026-07-17T17:24:34.784Z"
+    }
+},
+{
+    "model": "chat.chatroom",
+    "pk": 33,
+    "fields": {
+        "name": "Ремонт двигателя #33",
+        "is_private": true,
+        "created_by": 5,
+        "created_at": "2026-07-17T17:24:34.784Z"
+    }
+},
+{
+    "model": "chat.chatroom",
+    "pk": 34,
+    "fields": {
+        "name": "Общий чат #34",
+        "is_private": false,
+        "created_by": 13,
+        "created_at": "2026-07-17T17:24:34.785Z"
+    }
+},
+{
+    "model": "chat.chatroom",
+    "pk": 35,
+    "fields": {
+        "name": "Диагностика #35",
+        "is_private": true,
+        "created_by": 6,
+        "created_at": "2026-07-17T17:24:34.785Z"
+    }
+},
+{
+    "model": "chat.chatroom",
+    "pk": 36,
+    "fields": {
+        "name": "Обсуждение инструкций #36",
+        "is_private": false,
+        "created_by": 17,
+        "created_at": "2026-07-17T17:24:34.785Z"
+    }
+},
+{
+    "model": "chat.chatroom",
+    "pk": 37,
+    "fields": {
+        "name": "Тормозная система #37",
+        "is_private": false,
+        "created_by": 34,
+        "created_at": "2026-07-17T17:24:34.785Z"
+    }
+},
+{
+    "model": "chat.chatroom",
+    "pk": 38,
+    "fields": {
+        "name": "OEM-номера #38",
+        "is_private": false,
+        "created_by": 17,
+        "created_at": "2026-07-17T17:24:34.785Z"
+    }
+},
+{
+    "model": "chat.chatroom",
+    "pk": 39,
+    "fields": {
+        "name": "Общий чат #39",
+        "is_private": false,
+        "created_by": 27,
+        "created_at": "2026-07-17T17:24:34.785Z"
+    }
+},
+{
+    "model": "chat.chatroom",
+    "pk": 40,
+    "fields": {
+        "name": "Инструменты #40",
+        "is_private": false,
+        "created_by": 40,
+        "created_at": "2026-07-17T17:24:34.785Z"
+    }
+},
+{
+    "model": "chat.chatroom",
+    "pk": 41,
+    "fields": {
+        "name": "Советы механиков #41",
+        "is_private": false,
+        "created_by": 13,
+        "created_at": "2026-07-17T17:24:34.785Z"
+    }
+},
+{
+    "model": "chat.chatroom",
+    "pk": 42,
+    "fields": {
+        "name": "Дмитрий",
+        "is_private": true,
+        "created_by": 50,
+        "created_at": "2026-07-30T16:26:10.151Z"
+    }
+},
+{
+    "model": "chat.chatparticipant",
+    "pk": 1,
+    "fields": {
+        "room": 1,
+        "user": 40,
+        "joined_at": "2026-07-17T17:24:34.786Z"
+    }
+},
+{
+    "model": "chat.chatparticipant",
+    "pk": 2,
+    "fields": {
+        "room": 2,
+        "user": 8,
+        "joined_at": "2026-07-17T17:24:34.786Z"
+    }
+},
+{
+    "model": "chat.chatparticipant",
+    "pk": 3,
+    "fields": {
+        "room": 3,
+        "user": 37,
+        "joined_at": "2026-07-17T17:24:34.786Z"
+    }
+},
+{
+    "model": "chat.chatparticipant",
+    "pk": 4,
+    "fields": {
+        "room": 4,
+        "user": 13,
+        "joined_at": "2026-07-17T17:24:34.786Z"
+    }
+},
+{
+    "model": "chat.chatparticipant",
+    "pk": 5,
+    "fields": {
+        "room": 5,
+        "user": 23,
+        "joined_at": "2026-07-17T17:24:34.786Z"
+    }
+},
+{
+    "model": "chat.chatparticipant",
+    "pk": 6,
+    "fields": {
+        "room": 6,
+        "user": 25,
+        "joined_at": "2026-07-17T17:24:34.786Z"
+    }
+},
+{
+    "model": "chat.chatparticipant",
+    "pk": 7,
+    "fields": {
+        "room": 7,
+        "user": 21,
+        "joined_at": "2026-07-17T17:24:34.786Z"
+    }
+},
+{
+    "model": "chat.chatparticipant",
+    "pk": 8,
+    "fields": {
+        "room": 8,
+        "user": 36,
+        "joined_at": "2026-07-17T17:24:34.787Z"
+    }
+},
+{
+    "model": "chat.chatparticipant",
+    "pk": 9,
+    "fields": {
+        "room": 9,
+        "user": 25,
+        "joined_at": "2026-07-17T17:24:34.787Z"
+    }
+},
+{
+    "model": "chat.chatparticipant",
+    "pk": 10,
+    "fields": {
+        "room": 10,
+        "user": 21,
+        "joined_at": "2026-07-17T17:24:34.787Z"
+    }
+},
+{
+    "model": "chat.chatparticipant",
+    "pk": 11,
+    "fields": {
+        "room": 11,
+        "user": 7,
+        "joined_at": "2026-07-17T17:24:34.787Z"
+    }
+},
+{
+    "model": "chat.chatparticipant",
+    "pk": 12,
+    "fields": {
+        "room": 12,
+        "user": 36,
+        "joined_at": "2026-07-17T17:24:34.788Z"
+    }
+},
+{
+    "model": "chat.chatparticipant",
+    "pk": 13,
+    "fields": {
+        "room": 13,
+        "user": 18,
+        "joined_at": "2026-07-17T17:24:34.788Z"
+    }
+},
+{
+    "model": "chat.chatparticipant",
+    "pk": 14,
+    "fields": {
+        "room": 14,
+        "user": 32,
+        "joined_at": "2026-07-17T17:24:34.788Z"
+    }
+},
+{
+    "model": "chat.chatparticipant",
+    "pk": 15,
+    "fields": {
+        "room": 15,
+        "user": 13,
+        "joined_at": "2026-07-17T17:24:34.788Z"
+    }
+},
+{
+    "model": "chat.chatparticipant",
+    "pk": 16,
+    "fields": {
+        "room": 16,
+        "user": 32,
+        "joined_at": "2026-07-17T17:24:34.788Z"
+    }
+},
+{
+    "model": "chat.chatparticipant",
+    "pk": 17,
+    "fields": {
+        "room": 17,
+        "user": 49,
+        "joined_at": "2026-07-17T17:24:34.789Z"
+    }
+},
+{
+    "model": "chat.chatparticipant",
+    "pk": 18,
+    "fields": {
+        "room": 18,
+        "user": 46,
+        "joined_at": "2026-07-17T17:24:34.789Z"
+    }
+},
+{
+    "model": "chat.chatparticipant",
+    "pk": 19,
+    "fields": {
+        "room": 19,
+        "user": 3,
+        "joined_at": "2026-07-17T17:24:34.789Z"
+    }
+},
+{
+    "model": "chat.chatparticipant",
+    "pk": 20,
+    "fields": {
+        "room": 20,
+        "user": 15,
+        "joined_at": "2026-07-17T17:24:34.789Z"
+    }
+},
+{
+    "model": "chat.chatparticipant",
+    "pk": 21,
+    "fields": {
+        "room": 21,
+        "user": 32,
+        "joined_at": "2026-07-17T17:24:34.789Z"
+    }
+},
+{
+    "model": "chat.chatparticipant",
+    "pk": 22,
+    "fields": {
+        "room": 22,
+        "user": 48,
+        "joined_at": "2026-07-17T17:24:34.789Z"
+    }
+},
+{
+    "model": "chat.chatparticipant",
+    "pk": 23,
+    "fields": {
+        "room": 23,
+        "user": 29,
+        "joined_at": "2026-07-17T17:24:34.789Z"
+    }
+},
+{
+    "model": "chat.chatparticipant",
+    "pk": 24,
+    "fields": {
+        "room": 24,
+        "user": 2,
+        "joined_at": "2026-07-17T17:24:34.789Z"
+    }
+},
+{
+    "model": "chat.chatparticipant",
+    "pk": 25,
+    "fields": {
+        "room": 25,
+        "user": 41,
+        "joined_at": "2026-07-17T17:24:34.789Z"
+    }
+},
+{
+    "model": "chat.chatparticipant",
+    "pk": 26,
+    "fields": {
+        "room": 26,
+        "user": 1,
+        "joined_at": "2026-07-17T17:24:34.790Z"
+    }
+},
+{
+    "model": "chat.chatparticipant",
+    "pk": 27,
+    "fields": {
+        "room": 27,
+        "user": 44,
+        "joined_at": "2026-07-17T17:24:34.790Z"
+    }
+},
+{
+    "model": "chat.chatparticipant",
+    "pk": 28,
+    "fields": {
+        "room": 28,
+        "user": 7,
+        "joined_at": "2026-07-17T17:24:34.790Z"
+    }
+},
+{
+    "model": "chat.chatparticipant",
+    "pk": 29,
+    "fields": {
+        "room": 29,
+        "user": 26,
+        "joined_at": "2026-07-17T17:24:34.790Z"
+    }
+},
+{
+    "model": "chat.chatparticipant",
+    "pk": 30,
+    "fields": {
+        "room": 30,
+        "user": 21,
+        "joined_at": "2026-07-17T17:24:34.790Z"
+    }
+},
+{
+    "model": "chat.chatparticipant",
+    "pk": 31,
+    "fields": {
+        "room": 31,
+        "user": 17,
+        "joined_at": "2026-07-17T17:24:34.790Z"
+    }
+},
+{
+    "model": "chat.chatparticipant",
+    "pk": 32,
+    "fields": {
+        "room": 32,
+        "user": 13,
+        "joined_at": "2026-07-17T17:24:34.790Z"
+    }
+},
+{
+    "model": "chat.chatparticipant",
+    "pk": 33,
+    "fields": {
+        "room": 33,
+        "user": 5,
+        "joined_at": "2026-07-17T17:24:34.790Z"
+    }
+},
+{
+    "model": "chat.chatparticipant",
+    "pk": 34,
+    "fields": {
+        "room": 34,
+        "user": 13,
+        "joined_at": "2026-07-17T17:24:34.790Z"
+    }
+},
+{
+    "model": "chat.chatparticipant",
+    "pk": 35,
+    "fields": {
+        "room": 35,
+        "user": 6,
+        "joined_at": "2026-07-17T17:24:34.790Z"
+    }
+},
+{
+    "model": "chat.chatparticipant",
+    "pk": 36,
+    "fields": {
+        "room": 36,
+        "user": 17,
+        "joined_at": "2026-07-17T17:24:34.791Z"
+    }
+},
+{
+    "model": "chat.chatparticipant",
+    "pk": 37,
+    "fields": {
+        "room": 37,
+        "user": 34,
+        "joined_at": "2026-07-17T17:24:34.791Z"
+    }
+},
+{
+    "model": "chat.chatparticipant",
+    "pk": 38,
+    "fields": {
+        "room": 38,
+        "user": 17,
+        "joined_at": "2026-07-17T17:24:34.791Z"
+    }
+},
+{
+    "model": "chat.chatparticipant",
+    "pk": 39,
+    "fields": {
+        "room": 39,
+        "user": 27,
+        "joined_at": "2026-07-17T17:24:34.791Z"
+    }
+},
+{
+    "model": "chat.chatparticipant",
+    "pk": 40,
+    "fields": {
+        "room": 40,
+        "user": 40,
+        "joined_at": "2026-07-17T17:24:34.791Z"
+    }
+},
+{
+    "model": "chat.chatparticipant",
+    "pk": 41,
+    "fields": {
+        "room": 41,
+        "user": 13,
+        "joined_at": "2026-07-17T17:24:34.791Z"
+    }
+},
+{
+    "model": "chat.chatparticipant",
+    "pk": 42,
+    "fields": {
+        "room": 42,
+        "user": 50,
+        "joined_at": "2026-07-30T16:26:10.154Z"
+    }
+},
+{
+    "model": "chat.chatparticipant",
+    "pk": 43,
+    "fields": {
+        "room": 16,
+        "user": 50,
+        "joined_at": "2026-07-31T16:04:35.660Z"
+    }
+},
+{
+    "model": "chat.chatparticipant",
+    "pk": 44,
+    "fields": {
+        "room": 42,
+        "user": 53,
+        "joined_at": "2026-07-31T16:05:19.195Z"
+    }
+},
+{
+    "model": "chat.chatmessage",
+    "pk": 1,
+    "fields": {
+        "room": 13,
+        "user": 18,
+        "message": "Какой инструмент лучше подойдет для ремонта?",
+        "is_edited": false,
+        "created_at": "2026-04-27T23:07:34.809Z"
+    }
+},
+{
+    "model": "chat.chatmessage",
+    "pk": 2,
+    "fields": {
+        "room": 32,
+        "user": 13,
+        "message": "Кто-нибудь использовал эту инструкцию?",
+        "is_edited": false,
+        "created_at": "2026-05-31T07:44:34.810Z"
+    }
+},
+{
+    "model": "chat.chatmessage",
+    "pk": 3,
+    "fields": {
+        "room": 39,
+        "user": 27,
+        "message": "Где посмотреть список необходимых инструментов?",
+        "is_edited": false,
+        "created_at": "2026-05-10T09:21:34.811Z"
+    }
+},
+{
+    "model": "chat.chatmessage",
+    "pk": 4,
+    "fields": {
+        "room": 11,
+        "user": 7,
+        "message": "Спасибо, проблема решена.",
+        "is_edited": false,
+        "created_at": "2026-05-20T08:18:34.811Z"
+    }
+},
+{
+    "model": "chat.chatmessage",
+    "pk": 5,
+    "fields": {
+        "room": 35,
+        "user": 6,
+        "message": "Подскажите, где найти подходящую запчасть?",
+        "is_edited": false,
+        "created_at": "2026-06-08T06:02:34.812Z"
+    }
+},
+{
+    "model": "chat.chatmessage",
+    "pk": 6,
+    "fields": {
+        "room": 19,
+        "user": 3,
+        "message": "У меня не совпадает OEM-номер.",
+        "is_edited": false,
+        "created_at": "2026-05-14T11:04:34.812Z"
+    }
+},
+{
+    "model": "chat.chatmessage",
+    "pk": 7,
+    "fields": {
+        "room": 19,
+        "user": 3,
+        "message": "Есть ли инструкция для этой модели автомобиля?",
+        "is_edited": false,
+        "created_at": "2026-06-17T01:45:34.813Z"
+    }
+},
+{
+    "model": "chat.chatmessage",
+    "pk": 8,
+    "fields": {
+        "room": 16,
+        "user": 32,
+        "message": "Есть ли более подробное изображение шага?",
+        "is_edited": true,
+        "created_at": "2026-06-11T15:19:34.813Z"
+    }
+},
+{
+    "model": "chat.chatmessage",
+    "pk": 9,
+    "fields": {
+        "room": 26,
+        "user": 1,
+        "message": "Подскажите, где найти подходящую запчасть?",
+        "is_edited": false,
+        "created_at": "2026-04-18T05:18:34.814Z"
+    }
+},
+{
+    "model": "chat.chatmessage",
+    "pk": 10,
+    "fields": {
+        "room": 29,
+        "user": 26,
+        "message": "Нужен ли специальный съемник?",
+        "is_edited": false,
+        "created_at": "2026-05-12T10:09:34.814Z"
+    }
+},
+{
+    "model": "chat.chatmessage",
+    "pk": 11,
+    "fields": {
+        "room": 11,
+        "user": 7,
+        "message": "Есть ли более подробное изображение шага?",
+        "is_edited": true,
+        "created_at": "2026-06-23T19:48:34.815Z"
+    }
+},
+{
+    "model": "chat.chatmessage",
+    "pk": 12,
+    "fields": {
+        "room": 19,
+        "user": 3,
+        "message": "Можно ли выполнить этот ремонт самостоятельно?",
+        "is_edited": false,
+        "created_at": "2026-05-10T10:43:34.815Z"
+    }
+},
+{
+    "model": "chat.chatmessage",
+    "pk": 13,
+    "fields": {
+        "room": 16,
+        "user": 32,
+        "message": "Спасибо, проблема решена.",
+        "is_edited": false,
+        "created_at": "2026-06-28T23:18:34.816Z"
+    }
+},
+{
+    "model": "chat.chatmessage",
+    "pk": 14,
+    "fields": {
+        "room": 12,
+        "user": 36,
+        "message": "Спасибо, проблема решена.",
+        "is_edited": false,
+        "created_at": "2026-06-17T15:03:34.816Z"
+    }
+},
+{
+    "model": "chat.chatmessage",
+    "pk": 15,
+    "fields": {
+        "room": 39,
+        "user": 27,
+        "message": "Подскажите момент затяжки болтов.",
+        "is_edited": false,
+        "created_at": "2026-05-28T15:17:34.817Z"
+    }
+},
+{
+    "model": "chat.chatmessage",
+    "pk": 16,
+    "fields": {
+        "room": 40,
+        "user": 40,
+        "message": "Подойдет ли эта запчасть для моего двигателя?",
+        "is_edited": false,
+        "created_at": "2026-06-02T01:05:34.818Z"
+    }
+},
+{
+    "model": "chat.chatmessage",
+    "pk": 17,
+    "fields": {
+        "room": 33,
+        "user": 5,
+        "message": "После замены появилась ошибка на панели.",
+        "is_edited": false,
+        "created_at": "2026-06-22T12:37:34.818Z"
+    }
+},
+{
+    "model": "chat.chatmessage",
+    "pk": 18,
+    "fields": {
+        "room": 2,
+        "user": 8,
+        "message": "Как проверить совместимость?",
+        "is_edited": true,
+        "created_at": "2026-07-12T20:31:34.819Z"
+    }
+},
+{
+    "model": "chat.chatmessage",
+    "pk": 19,
+    "fields": {
+        "room": 23,
+        "user": 29,
+        "message": "У меня не совпадает OEM-номер.",
+        "is_edited": false,
+        "created_at": "2026-06-28T02:36:34.819Z"
+    }
+},
+{
+    "model": "chat.chatmessage",
+    "pk": 20,
+    "fields": {
+        "room": 27,
+        "user": 44,
+        "message": "Как проверить совместимость?",
+        "is_edited": false,
+        "created_at": "2026-06-26T01:30:34.820Z"
+    }
+},
+{
+    "model": "chat.chatmessage",
+    "pk": 21,
+    "fields": {
+        "room": 23,
+        "user": 29,
+        "message": "Кто-нибудь использовал эту инструкцию?",
+        "is_edited": false,
+        "created_at": "2026-07-04T23:32:34.821Z"
+    }
+},
+{
+    "model": "chat.chatmessage",
+    "pk": 22,
+    "fields": {
+        "room": 37,
+        "user": 34,
+        "message": "Можно ли выполнить этот ремонт самостоятельно?",
+        "is_edited": false,
+        "created_at": "2026-05-25T00:24:34.821Z"
+    }
+},
+{
+    "model": "chat.chatmessage",
+    "pk": 23,
+    "fields": {
+        "room": 9,
+        "user": 25,
+        "message": "Подскажите момент затяжки болтов.",
+        "is_edited": false,
+        "created_at": "2026-06-10T08:46:34.822Z"
+    }
+},
+{
+    "model": "chat.chatmessage",
+    "pk": 24,
+    "fields": {
+        "room": 37,
+        "user": 34,
+        "message": "Есть ли инструкция для этой модели автомобиля?",
+        "is_edited": false,
+        "created_at": "2026-07-09T23:20:34.822Z"
+    }
+},
+{
+    "model": "chat.chatmessage",
+    "pk": 25,
+    "fields": {
+        "room": 14,
+        "user": 32,
+        "message": "После замены появилась ошибка на панели.",
+        "is_edited": true,
+        "created_at": "2026-04-22T06:06:34.823Z"
+    }
+},
+{
+    "model": "chat.chatmessage",
+    "pk": 26,
+    "fields": {
+        "room": 32,
+        "user": 13,
+        "message": "Можно ли выполнить этот ремонт самостоятельно?",
+        "is_edited": true,
+        "created_at": "2026-05-28T11:41:34.823Z"
+    }
+},
+{
+    "model": "chat.chatmessage",
+    "pk": 27,
+    "fields": {
+        "room": 21,
+        "user": 32,
+        "message": "Кто-нибудь использовал эту инструкцию?",
+        "is_edited": false,
+        "created_at": "2026-04-21T11:38:34.824Z"
+    }
+},
+{
+    "model": "chat.chatmessage",
+    "pk": 28,
+    "fields": {
+        "room": 35,
+        "user": 6,
+        "message": "Подскажите момент затяжки болтов.",
+        "is_edited": false,
+        "created_at": "2026-06-15T04:54:34.824Z"
+    }
+},
+{
+    "model": "chat.chatmessage",
+    "pk": 29,
+    "fields": {
+        "room": 4,
+        "user": 51,
+        "message": "E210, хруст при повороте вправо",
+        "is_edited": false,
+        "created_at": "2026-07-29T15:23:51.231Z"
+    }
+},
+{
+    "model": "chat.chatmessage",
+    "pk": 30,
+    "fields": {
+        "room": 16,
+        "user": 50,
+        "message": "гул на 60 км/ч",
+        "is_edited": false,
+        "created_at": "2026-07-30T16:25:09.552Z"
+    }
+}
+]
