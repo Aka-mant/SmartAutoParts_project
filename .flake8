@@ -1,0 +1,18 @@
+[flake8]
+max-line-length = 79
+exclude =
+    .git,
+    .venv,
+    venv,
+    env,
+    __pycache__,
+    .pytest_cache,
+    .mypy_cache,
+    build,
+    dist,
+    site-packages
+
+# Правила pydocstyle анализируют английскую грамматику и некорректно
+# проверяют русские докстринги, в частности повелительное наклонение D401.
+# Наличие русского текста в докстрингах проверяется отдельным AST-тестом.
+extend-ignore = D

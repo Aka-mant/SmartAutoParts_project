@@ -28,7 +28,7 @@
 @import url("components/_image_viewer.css");
 @import url("components/_image_analysis.css");
 @import url("components/_instructions.css");
-@import url("components/_ai_assistant.css");
+@import url("components/_ai_assistant.css?v=20260731-6");
 
 
 /* =========================================================
@@ -54,3 +54,66 @@
    ========================================================= */
 
 @import url("media/_print.css");
+
+
+/* =========================================================
+   Компактная форма отправки сообщений.
+   Правила расположены после импортов, чтобы общие и
+   адаптивные стили не растягивали форму и кнопку.
+   ========================================================= */
+
+.community-chat__panel > header {
+    grid-row: 1;
+}
+
+.community-chat__members {
+    grid-row: 2;
+}
+
+.community-chat__messages {
+    grid-row: 3;
+}
+
+.community-chat__form {
+    grid-row: 4;
+    grid-template-columns: minmax(0, 1fr) !important;
+    grid-auto-rows: max-content !important;
+    align-content: start !important;
+    align-self: end !important;
+    gap: 0.5rem !important;
+    padding: 0.85rem 1.25rem 1rem !important;
+}
+
+.community-chat__form textarea.form-control {
+    grid-column: 1 !important;
+    height: 86px !important;
+    min-height: 74px !important;
+    max-height: 140px !important;
+}
+
+.community-chat__form .ai-request-status {
+    grid-column: 1 !important;
+}
+
+button.btn.btn-primary.chat-send-button {
+    display: inline-flex !important;
+    width: fit-content !important;
+    min-width: 0 !important;
+    max-width: 100% !important;
+    height: auto !important;
+    min-height: 2.5rem !important;
+    padding: 0.5rem 1rem !important;
+    align-items: center;
+    justify-content: center;
+    justify-self: end !important;
+    align-self: end !important;
+    flex: 0 0 auto !important;
+    font-size: 0.9rem !important;
+    line-height: 1.2 !important;
+    white-space: nowrap;
+}
+
+.community-chat__form > button.btn.btn-primary.chat-send-button {
+    grid-column: 1 !important;
+    margin: 0 !important;
+}
