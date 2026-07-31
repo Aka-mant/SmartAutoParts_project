@@ -320,17 +320,14 @@
 }
 
 .instruction-gallery {
+    width: 100%;
+    min-width: 0;
     margin-top: 2rem;
+    overflow: hidden;
 }
 
 .instruction-gallery h2 {
     margin-bottom: 1rem;
-}
-
-.instruction-gallery > div {
-    display: grid;
-    grid-template-columns: repeat(3, minmax(0, 1fr));
-    gap: 1rem;
 }
 
 .instruction-gallery figure {
@@ -347,10 +344,68 @@
     object-fit: cover;
 }
 
+.instruction-gallery .instruction-photo-gallery {
+    display: block;
+    width: min(100%, 820px);
+    max-width: 100%;
+    min-width: 0;
+    margin-right: auto;
+    margin-left: auto;
+    box-sizing: border-box;
+}
+
+.instruction-gallery .part-gallery__stage {
+    width: 100%;
+    min-width: 0;
+}
+
+.instruction-gallery .part-gallery__main {
+    display: block;
+    width: 100%;
+    max-width: 100%;
+    height: auto;
+    max-height: min(68vh, 620px);
+    margin-inline: auto;
+    object-fit: contain;
+}
+
+.instruction-gallery .part-gallery__thumbs {
+    display: flex;
+    width: 100%;
+    max-width: 100%;
+    padding-bottom: 0.35rem;
+    overflow-x: auto;
+    justify-content: flex-start;
+}
+
+.instruction-gallery .part-gallery__thumbs img {
+    width: 76px;
+    height: 62px;
+    aspect-ratio: auto;
+    object-fit: cover;
+}
+
 .instruction-gallery figcaption {
     padding: 0.8rem;
     color: var(--sap-muted);
     font-size: 0.85rem;
+}
+
+@media (max-width: 575.98px) {
+    .instruction-gallery .instruction-photo-gallery {
+        width: 100%;
+    }
+
+    .instruction-gallery .part-gallery__main {
+        min-height: 220px;
+        max-height: 58vh;
+        padding: 0.35rem;
+    }
+
+    .instruction-gallery .part-gallery__control {
+        width: 2.45rem;
+        height: 2.45rem;
+    }
 }
 
 .instruction-lock {
@@ -530,8 +585,7 @@
 }
 
 @media (max-width: 767.98px) {
-    .instruction-card-grid,
-    .instruction-gallery > div {
+    .instruction-card-grid {
         grid-template-columns: 1fr;
     }
 }

@@ -1,0 +1,153 @@
+{% extends "base.html" %}
+
+{% block title %}{{ tool.name }} — SmartAutoParts{% endblock %}
+
+{% block content %}
+<section class="part-detail-page tool-detail-page">
+    <div class="container">
+        <nav class="catalog-breadcrumb" aria-label="Хлебные крошки">
+            <a href="{% url 'home' %}">Главная</a>
+            <i class="bi bi-chevron-right" aria-hidden="true"></i>
+            {% if tool.category %}
+                <span>{{ tool.category.name }}</span>
+                <i class="bi bi-chevron-right" aria-hidden="true"></i>
+            {% endif %}
+            <span aria-current="page">{{ tool.name }}</span>
+        </nav>
+
+        <div class="part-detail-hero">
+            <div
+                class="part-gallery"
+                data-photo-gallery
+                tabindex="0"
+                aria-label="Фотографии инструмента"
+            >
+                {% if tool_gallery_images %}
+                    {% with primary_image=tool_gallery_images.0 %}
+                        <div class="part-gallery__stage">
+                            <button
+                                class="part-gallery__control part-gallery__control--previous"
+                                type="button"
+                                data-gallery-previous
+                                aria-label="Предыдущее фото"
+                            >
+                                <i class="bi bi-chevron-left"></i>
+                            </button>
+                            <img
+                                src="{{ primary_image.url }}"
+                                alt="{{ primary_image.alt }}"
+                                class="part-gallery__main"
+                                data-gallery-main
+                                width="440"
+                                height="330"
+                                decoding="async"
+                                fetchpriority="high"
+                            >
+                            <button
+                                class="part-gallery__control part-gallery__control--next"
+                                type="button"
+                                data-gallery-next
+                                aria-label="Следующее фото"
+                            >
+                                <i class="bi bi-chevron-right"></i>
+                            </button>
+                            <button
+                                class="part-gallery__fullscreen"
+                                type="button"
+                                data-gallery-fullscreen
+                                aria-label="Открыть фото на весь экран"
+                                aria-pressed="false"
+                            >
+                                <i class="bi bi-arrows-fullscreen"></i>
+                            </button>
+                            <span
+                                class="part-gallery__counter"
+                                data-gallery-counter
+                            ></span>
+                        </div>
+                    {% endwith %}
+
+                    <div
+                        class="part-gallery__thumbs"
+                        aria-label="Выбор фотографии"
+                    >
+                        {% for item in tool_gallery_images %}
+                            <button
+                                type="button"
+                                data-gallery-thumbnail
+                                data-image-url="{{ item.url }}"
+                                data-image-alt="{{ item.alt }}"
+                                aria-label="Открыть фотографию {{ forloop.counter }}"
+                            >
+                                <img
+                                    src="{{ item.url }}"
+                                    alt=""
+                                    width="76"
+                                    height="62"
+                                    loading="lazy"
+                                    decoding="async"
+                                >
+                            </button>
+                        {% endfor %}
+                    </div>
+                {% else %}
+                    <div class="part-gallery__placeholder">
+                        <i class="bi bi-tools" aria-hidden="true"></i>
+                        <span>Изображение инструмента пока не добавлено</span>
+                    </div>
+                {% endif %}
+            </div>
+
+            <article class="part-summary">
+                {% if tool.category %}
+                    <span class="section-eyebrow">
+                        {{ tool.category.name }}
+                    </span>
+                {% endif %}
+                <h1>{{ tool.name }}</h1>
+                {% if tool.size %}
+                    <div class="part-summary__oem">
+                        <span>Размер или исполнение</span>
+                        <strong>{{ tool.size }}</strong>
+                    </div>
+                {% endif %}
+                <div class="part-summary__description">
+                    {{ tool.description|default:"Полное описание инструмента пока не добавлено."|linebreaks }}
+                </div>
+                <div class="part-summary__actions">
+                    {% if tool.ozon_url %}
+                        <a
+                            class="btn btn-primary"
+                            href="{{ tool.ozon_url }}"
+                            target="_blank"
+                            rel="noopener noreferrer nofollow"
+                        >
+                            <i class="bi bi-box-arrow-up-right me-1"></i>
+                            Открыть на Ozon
+                        </a>
+                    {% endif %}
+                    <a
+                        class="btn btn-outline-primary"
+                        href="javascript:history.back()"
+                    >
+                        Назад
+                    </a>
+                </div>
+            </article>
+        </div>
+
+        <section class="catalog-panel catalog-panel--wide catalog-safety">
+            <h2>
+                <i class="bi bi-shield-check" aria-hidden="true"></i>
+                Безопасность
+            </h2>
+            <p>
+                Используйте инструмент только по назначению. Перед работой
+                проверьте его состояние, соответствие размера крепежу и
+                требования производителя автомобиля.
+            </p>
+        </section>
+
+    </div>
+</section>
+{% endblock %}

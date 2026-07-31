@@ -1,4 +1,5 @@
 from django.db import models
+from django.urls import reverse
 from django.utils.translation import gettext_lazy as _
 
 from apps.parts.models import Part
@@ -96,6 +97,77 @@ class Tool(models.Model):
 
     def __str__(self):
         return self.name
+
+    def get_absolute_url(self):
+        """Возвращает адрес полной карточки инструмента."""
+
+        return reverse(
+            "tools_web:detail",
+            kwargs={"pk": self.pk},
+        )
+
+    @property
+    def image_exists(self) -> bool:
+        """Проверяет наличие основного файла изображения."""
+
+        if not self.image or not self.image.name:
+            return False
+        try:
+            return self.image.storage.exists(self.image.name)
+        except (OSError, ValueError):
+            return False
+
+
+class ToolImage(models.Model):
+    """Хранит дополнительные изображения инструмента."""
+
+    tool = models.ForeignKey(
+        Tool,
+        on_delete=models.CASCADE,
+        related_name="images",
+        verbose_name=_("Tool"),
+    )
+
+    image = models.ImageField(
+        upload_to="tools/images/",
+        verbose_name=_("Image"),
+    )
+
+    alt_text = models.CharField(
+        max_length=255,
+        blank=True,
+        verbose_name=_("Alternative text"),
+    )
+
+    is_main = models.BooleanField(
+        default=False,
+        verbose_name=_("Main image"),
+    )
+
+    uploaded_at = models.DateTimeField(
+        auto_now_add=True,
+        verbose_name=_("Uploaded at"),
+    )
+
+    class Meta:
+        db_table = "tools_toolimage"
+        ordering = ("-is_main", "id")
+        verbose_name = _("Tool image")
+        verbose_name_plural = _("Tool images")
+
+    def __str__(self):
+        return f"{self.tool.name}: {self.image.name}"
+
+    @property
+    def image_exists(self) -> bool:
+        """Проверяет наличие файла изображения в хранилище."""
+
+        if not self.image or not self.image.name:
+            return False
+        try:
+            return self.image.storage.exists(self.image.name)
+        except (OSError, ValueError):
+            return False
 
 
 class PartTool(models.Model):

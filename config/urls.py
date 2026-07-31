@@ -13,6 +13,7 @@ from rest_framework import permissions
 from apps.instructions import urls as instruction_urls
 from apps.parts import urls as part_urls
 from apps.subscriptions import urls as subscription_urls
+from apps.tools import urls as tool_urls
 from apps.AI import urls as ai_urls
 from apps.chat import urls as chat_urls
 
@@ -70,6 +71,13 @@ urlpatterns = [
         include(
             (chat_urls.web_urlpatterns, "chat_web"),
             namespace="chat_web",
+        ),
+    ),
+    path(
+        "tools/",
+        include(
+            (tool_urls.web_urlpatterns, "tools_web"),
+            namespace="tools_web",
         ),
     ),
     path(

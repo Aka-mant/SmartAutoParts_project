@@ -60,9 +60,84 @@
             <article class="community-chat__panel">
                 {% if selected_room %}
                     <header>
-                        <h2>{{ selected_room.name }}</h2>
-                        <span>{% if selected_room.is_private %}Приватная комната{% else %}Открытая комната{% endif %}</span>
+                        <div>
+                            <h2>{{ selected_room.name }}</h2>
+                            <span>{% if selected_room.is_private %}Приватная комната{% else %}Открытая комната{% endif %}</span>
+                        </div>
+                        {% if selected_room.is_private %}
+                            <span class="community-chat__member-count">
+                                <i class="bi bi-people" aria-hidden="true"></i>
+                                {{ room_participants|length }}
+                            </span>
+                        {% endif %}
                     </header>
+                    {% if can_manage_participants %}
+                        <details class="community-chat__members">
+                            <summary>
+                                <i class="bi bi-person-plus" aria-hidden="true"></i>
+                                Управление участниками
+                            </summary>
+                            <form
+                                method="post"
+                                action="{% url 'chat_web:participant_add' selected_room.pk %}"
+                                class="community-chat__member-add"
+                            >
+                                {% csrf_token %}
+                                <label for="chat-user-identifier">
+                                    Имя пользователя или email
+                                </label>
+                                <div>
+                                    <input
+                                        id="chat-user-identifier"
+                                        name="user_identifier"
+                                        class="form-control"
+                                        list="available-chat-users"
+                                        autocomplete="off"
+                                        required
+                                    >
+                                    <datalist id="available-chat-users">
+                                        {% for chat_user in available_chat_users %}
+                                            <option value="{{ chat_user.username }}">
+                                                {{ chat_user.email }}
+                                            </option>
+                                        {% endfor %}
+                                    </datalist>
+                                    <button class="btn btn-outline-primary" type="submit">
+                                        Добавить
+                                    </button>
+                                </div>
+                            </form>
+                            <div class="community-chat__member-list">
+                                {% for participant in room_participants %}
+                                    <div class="community-chat__member">
+                                        <span>
+                                            <strong>{{ participant.user.username }}</strong>
+                                            <small>{{ participant.user.email }}</small>
+                                        </span>
+                                        {% if participant.user_id == selected_room.created_by_id %}
+                                            <span class="badge text-bg-light">Создатель</span>
+                                        {% else %}
+                                            <form
+                                                method="post"
+                                                action="{% url 'chat_web:participant_remove' selected_room.pk participant.pk %}"
+                                            >
+                                                {% csrf_token %}
+                                                <button
+                                                    class="btn btn-sm btn-outline-danger"
+                                                    type="submit"
+                                                    aria-label="Удалить пользователя {{ participant.user.username }}"
+                                                >
+                                                    <i class="bi bi-person-x" aria-hidden="true"></i>
+                                                </button>
+                                            </form>
+                                        {% endif %}
+                                    </div>
+                                {% empty %}
+                                    <p class="catalog-muted mb-0">Участников пока нет.</p>
+                                {% endfor %}
+                            </div>
+                        </details>
+                    {% endif %}
                     <div class="community-chat__messages" aria-live="polite">
                         {% if moderation_notice %}
                             <div class="community-message community-message--moderator" role="alert">

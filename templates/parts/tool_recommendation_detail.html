@@ -1,0 +1,61 @@
+{% extends "base.html" %}
+
+{% block title %}
+    Проверенный подбор инструментов — SmartAutoParts
+{% endblock %}
+
+{% block content %}
+<section class="part-detail-page">
+    <div class="container">
+        <nav class="catalog-breadcrumb" aria-label="Хлебные крошки">
+            <a href="{% url 'home' %}">Главная</a>
+            <i class="bi bi-chevron-right" aria-hidden="true"></i>
+            <a href="{{ recommendation.ai_request.part.get_absolute_url }}">
+                {{ recommendation.ai_request.part.name }}
+            </a>
+            <i class="bi bi-chevron-right" aria-hidden="true"></i>
+            <span aria-current="page">Подбор инструментов</span>
+        </nav>
+
+        <article class="catalog-panel catalog-panel--wide">
+            <header class="catalog-panel__heading">
+                <div>
+                    <span class="section-eyebrow">Проверено модератором</span>
+                    <h1>Подбор инструментов</h1>
+                    <p class="catalog-muted mb-0">
+                        Для детали
+                        <strong>{{ recommendation.ai_request.part.name }}</strong>
+                        {% if recommendation.ai_request.part.original_number %}
+                            · OEM
+                            {{ recommendation.ai_request.part.original_number }}
+                        {% endif %}
+                    </p>
+                </div>
+                <span class="catalog-access-badge">
+                    <i class="bi bi-patch-check" aria-hidden="true"></i>
+                    Проверено
+                </span>
+            </header>
+
+            <div class="tool-recommendation-full">
+                {{ recommendation.generated_content|linebreaks }}
+            </div>
+
+            <footer class="tool-recommendation-full__footer">
+                {% if recommendation.reviewed_at %}
+                    <small>
+                        Проверено:
+                        {{ recommendation.reviewed_at|date:"d.m.Y H:i" }}
+                    </small>
+                {% endif %}
+                <a
+                    class="btn btn-outline-primary"
+                    href="{{ recommendation.ai_request.part.get_absolute_url }}#part-tools"
+                >
+                    Вернуться к карточке детали
+                </a>
+            </footer>
+        </article>
+    </div>
+</section>
+{% endblock %}

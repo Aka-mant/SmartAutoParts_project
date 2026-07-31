@@ -181,14 +181,64 @@
                                 class="card h-100 border-0 shadow-sm
                                        search-result-card"
                             >
-                                {% with main_image=part.images.first %}
-                                    {% if main_image and main_image.image_exists %}
-                                        <img
-                                            src="{{ main_image.image.url }}"
-                                            class="card-img-top part-result-image"
-                                            alt="{{ main_image.alt_text|default:part.name }}"
+                                {% if part.search_gallery_images %}
+                                    {% with main_image=part.search_gallery_images.0 %}
+                                        <div
+                                            class="part-gallery part-gallery--card"
+                                            data-photo-gallery
+                                            tabindex="0"
+                                            aria-label="Фотографии детали {{ part.name }}"
                                         >
-                                    {% else %}
+                                            <div class="part-gallery__stage">
+                                                <button
+                                                    class="part-gallery__control part-gallery__control--previous"
+                                                    type="button"
+                                                    data-gallery-previous
+                                                    aria-label="Предыдущее фото"
+                                                >
+                                                    <i class="bi bi-chevron-left"></i>
+                                                </button>
+                                                <img
+                                                    src="{{ main_image.url }}"
+                                                    class="card-img-top part-result-image part-gallery__main"
+                                                    alt="{{ main_image.alt }}"
+                                                    data-gallery-main
+                                                >
+                                                <button
+                                                    class="part-gallery__control part-gallery__control--next"
+                                                    type="button"
+                                                    data-gallery-next
+                                                    aria-label="Следующее фото"
+                                                >
+                                                    <i class="bi bi-chevron-right"></i>
+                                                </button>
+                                                <button
+                                                    class="part-gallery__fullscreen"
+                                                    type="button"
+                                                    data-gallery-fullscreen
+                                                    aria-label="Открыть фото на весь экран"
+                                                    aria-pressed="false"
+                                                >
+                                                    <i class="bi bi-arrows-fullscreen"></i>
+                                                </button>
+                                                <span
+                                                    class="part-gallery__counter"
+                                                    data-gallery-counter
+                                                ></span>
+                                            </div>
+                                            <div class="visually-hidden">
+                                                {% for image in part.search_gallery_images %}
+                                                    <button
+                                                        type="button"
+                                                        data-gallery-thumbnail
+                                                        data-image-url="{{ image.url }}"
+                                                        data-image-alt="{{ image.alt }}"
+                                                    ></button>
+                                                {% endfor %}
+                                            </div>
+                                        </div>
+                                    {% endwith %}
+                                {% else %}
                                         <div
                                             class="part-result-placeholder
                                                    d-flex align-items-center
@@ -199,8 +249,7 @@
                                                 aria-hidden="true"
                                             ></i>
                                         </div>
-                                    {% endif %}
-                                {% endwith %}
+                                {% endif %}
 
                                 <div class="card-body d-flex flex-column">
                                     <div
@@ -232,10 +281,6 @@
                                         </p>
                                     {% endif %}
 
-                                    <p class="card-text text-muted">
-                                        {{ part.description|default:"Описание отсутствует."|truncatechars:150 }}
-                                    </p>
-
                                     <div class="mt-auto">
                                         {% if can_view_part_cards %}
                                             <a
@@ -243,7 +288,7 @@
                                                 class="btn btn-outline-primary w-100"
                                             >
                                                 <i class="bi bi-info-circle me-1"></i>
-                                                Карточка детали
+                                                Полное описание
                                             </a>
                                         {% elif user.is_authenticated %}
                                             <a

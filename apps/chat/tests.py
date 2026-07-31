@@ -541,6 +541,134 @@ class ChatWebPageTests(TestCase):
             ).exists()
         )
 
+    def test_private_room_owner_can_manage_participants(self):
+        member = get_user_model().objects.create_user(
+            email="member-web@example.com",
+            username="member-web",
+            password="test-password",
+        )
+        private_room = ChatRoom.objects.create(
+            name="Закрытый гараж",
+            is_private=True,
+            created_by=self.user,
+        )
+        owner_participant = ChatParticipant.objects.create(
+            room=private_room,
+            user=self.user,
+        )
+
+        page = self.client.get(
+            reverse("chat_web:rooms"),
+            {"room": private_room.pk},
+        )
+        self.assertContains(page, "Управление участниками")
+        self.assertContains(page, member.username)
+
+        added = self.client.post(
+            reverse(
+                "chat_web:participant_add",
+                kwargs={"room_id": private_room.pk},
+            ),
+            {"user_identifier": member.email.upper()},
+        )
+        self.assertEqual(added.status_code, 302)
+        participant = ChatParticipant.objects.get(
+            room=private_room,
+            user=member,
+        )
+
+        removed = self.client.post(
+            reverse(
+                "chat_web:participant_remove",
+                kwargs={
+                    "room_id": private_room.pk,
+                    "participant_id": participant.pk,
+                },
+            )
+        )
+        self.assertEqual(removed.status_code, 302)
+        self.assertFalse(
+            ChatParticipant.objects.filter(pk=participant.pk).exists()
+        )
+
+        creator_removal = self.client.post(
+            reverse(
+                "chat_web:participant_remove",
+                kwargs={
+                    "room_id": private_room.pk,
+                    "participant_id": owner_participant.pk,
+                },
+            )
+        )
+        self.assertEqual(creator_removal.status_code, 302)
+        self.assertTrue(
+            ChatParticipant.objects.filter(pk=owner_participant.pk).exists()
+        )
+
+    def test_private_room_participant_management_validates_access(self):
+        member = get_user_model().objects.create_user(
+            email="private-member@example.com",
+            username="private-member",
+            password="test-password",
+        )
+        inactive = get_user_model().objects.create_user(
+            email="inactive-member@example.com",
+            username="inactive-member",
+            password="test-password",
+            is_active=False,
+        )
+        private_room = ChatRoom.objects.create(
+            name="Приватный бокс",
+            is_private=True,
+            created_by=self.user,
+        )
+        ChatParticipant.objects.create(room=private_room, user=self.user)
+
+        empty = self.client.post(
+            reverse(
+                "chat_web:participant_add",
+                kwargs={"room_id": private_room.pk},
+            ),
+            {"user_identifier": ""},
+        )
+        self.assertEqual(empty.status_code, 302)
+
+        missing = self.client.post(
+            reverse(
+                "chat_web:participant_add",
+                kwargs={"room_id": private_room.pk},
+            ),
+            {"user_identifier": inactive.username},
+        )
+        self.assertEqual(missing.status_code, 302)
+        self.assertFalse(
+            ChatParticipant.objects.filter(
+                room=private_room,
+                user=inactive,
+            ).exists()
+        )
+
+        ChatParticipant.objects.create(room=private_room, user=member)
+        UserAgreementAcceptance.objects.create(
+            user=member,
+            agreement_version=settings.USER_AGREEMENT_VERSION,
+        )
+        self.client.force_login(member)
+        forbidden = self.client.post(
+            reverse(
+                "chat_web:participant_add",
+                kwargs={"room_id": private_room.pk},
+            ),
+            {"user_identifier": inactive.email},
+        )
+        self.assertEqual(forbidden.status_code, 404)
+
+        page = self.client.get(
+            reverse("chat_web:rooms"),
+            {"room": private_room.pk},
+        )
+        self.assertNotContains(page, "Управление участниками")
+
     @patch("apps.chat.views.SmartAutoPartsAIService")
     def test_web_message_handles_moderation_exceptions(self, service_class):
         url = reverse(

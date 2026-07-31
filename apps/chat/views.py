@@ -2,6 +2,7 @@ import hashlib
 
 from django.conf import settings
 from django.contrib import messages
+from django.contrib.auth import get_user_model
 from django.contrib.auth.mixins import LoginRequiredMixin
 from django.core.cache import cache
 from django.db.models import Q, QuerySet
@@ -1017,6 +1018,32 @@ class ChatRoomPageView(SubscriberChatAccessMixin, View):
             if room is not None
             else ChatMessage.objects.none()
         )
+        can_manage_participants = bool(
+            room
+            and room.is_private
+            and (
+                user_can_administrate(request.user)
+                or room.created_by_id == request.user.pk
+            )
+        )
+        room_participants = (
+            room.participants.select_related("user").order_by(
+                "user__username",
+            )
+            if room is not None and room.is_private
+            else ChatParticipant.objects.none()
+        )
+        available_users = get_user_model().objects.none()
+        if can_manage_participants:
+            participant_ids = room_participants.values_list(
+                "user_id",
+                flat=True,
+            )
+            available_users = (
+                get_user_model().objects.filter(is_active=True)
+                .exclude(pk__in=participant_ids)
+                .order_by("username", "email")
+            )
         return render(
             request,
             self.template_name,
@@ -1024,12 +1051,97 @@ class ChatRoomPageView(SubscriberChatAccessMixin, View):
                 "rooms": rooms,
                 "selected_room": room,
                 "room_messages": room_messages,
+                "room_participants": room_participants,
+                "available_chat_users": available_users,
+                "can_manage_participants": can_manage_participants,
                 "moderation_notice": request.session.pop(
                     self.moderation_session_key,
                     None,
                 ),
             },
         )
+
+
+class ChatParticipantAddPageView(SubscriberChatAccessMixin, View):
+    """Добавляет пользователя в закрытую комнату сообщества."""
+
+    def post(self, request, room_id):
+        room = get_object_or_404(
+            manageable_rooms_queryset(request.user),
+            pk=room_id,
+            is_private=True,
+        )
+        identifier = request.POST.get("user_identifier", "").strip()
+        if not identifier:
+            messages.error(request, "Укажите пользователя для добавления.")
+            return self.redirect_to_room(room)
+
+        user_model = get_user_model()
+        user = (
+            user_model.objects.filter(is_active=True)
+            .filter(
+                Q(username__iexact=identifier)
+                | Q(email__iexact=identifier)
+            )
+            .first()
+        )
+        if user is None:
+            messages.error(
+                request,
+                "Активный пользователь с таким именем или email не найден.",
+            )
+            return self.redirect_to_room(room)
+
+        _, created = ChatParticipant.objects.get_or_create(
+            room=room,
+            user=user,
+        )
+        if created:
+            messages.success(
+                request,
+                f"Пользователь {user.username} добавлен в закрытый чат.",
+            )
+        else:
+            messages.info(
+                request,
+                f"Пользователь {user.username} уже состоит в этом чате.",
+            )
+        return self.redirect_to_room(room)
+
+    @staticmethod
+    def redirect_to_room(room):
+        """Возвращает владельца в выбранную комнату."""
+
+        return redirect(f"{reverse('chat_web:rooms')}?room={room.pk}")
+
+
+class ChatParticipantRemovePageView(SubscriberChatAccessMixin, View):
+    """Удаляет пользователя из закрытой комнаты сообщества."""
+
+    def post(self, request, room_id, participant_id):
+        room = get_object_or_404(
+            manageable_rooms_queryset(request.user),
+            pk=room_id,
+            is_private=True,
+        )
+        participant = get_object_or_404(
+            ChatParticipant.objects.select_related("user"),
+            pk=participant_id,
+            room=room,
+        )
+        if participant.user_id == room.created_by_id:
+            messages.error(
+                request,
+                "Создателя нельзя удалить из собственной комнаты.",
+            )
+        else:
+            username = participant.user.username
+            participant.delete()
+            messages.success(
+                request,
+                f"Пользователь {username} удалён из закрытого чата.",
+            )
+        return redirect(f"{reverse('chat_web:rooms')}?room={room.pk}")
 
 
 class ChatRoomCreatePageView(SubscriberChatAccessMixin, View):

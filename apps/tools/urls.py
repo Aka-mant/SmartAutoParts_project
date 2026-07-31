@@ -15,6 +15,12 @@ from .views import (
     ToolRetrieveAPIView,
     ToolUpdateAPIView,
     ToolDeleteAPIView,
+    ToolDetailPageView,
+    ToolImageCreateAPIView,
+    ToolImageDeleteAPIView,
+    ToolImageListAPIView,
+    ToolImageRetrieveAPIView,
+    ToolImageUpdateAPIView,
 
     # PartTool
     PartToolListAPIView,
@@ -26,7 +32,7 @@ from .views import (
 
 app_name = ToolsConfig.name
 
-urlpatterns = [
+api_urlpatterns = [
     # ==========================
     # Категории инструментов
     # ==========================
@@ -85,6 +91,33 @@ urlpatterns = [
         name="tool_delete",
     ),
 
+    # Изображения инструментов
+    path(
+        "images/",
+        ToolImageListAPIView.as_view(),
+        name="tool_image_list",
+    ),
+    path(
+        "images/create/",
+        ToolImageCreateAPIView.as_view(),
+        name="tool_image_create",
+    ),
+    path(
+        "images/<int:pk>/",
+        ToolImageRetrieveAPIView.as_view(),
+        name="tool_image_detail",
+    ),
+    path(
+        "images/<int:pk>/update/",
+        ToolImageUpdateAPIView.as_view(),
+        name="tool_image_update",
+    ),
+    path(
+        "images/<int:pk>/delete/",
+        ToolImageDeleteAPIView.as_view(),
+        name="tool_image_delete",
+    ),
+
     # ==========================
     # Связи запчастей и инструментов
     # ==========================
@@ -114,3 +147,13 @@ urlpatterns = [
         name="part_tool_delete",
     ),
 ]
+
+web_urlpatterns = [
+    path(
+        "<int:pk>/",
+        ToolDetailPageView.as_view(),
+        name="detail",
+    ),
+]
+
+urlpatterns = api_urlpatterns

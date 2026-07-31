@@ -1,0 +1,62 @@
+<div
+    id="project-image-viewer"
+    class="image-viewer"
+    role="dialog"
+    aria-modal="true"
+    aria-labelledby="project-image-viewer-title"
+    hidden
+>
+    <button
+        class="image-viewer__backdrop"
+        type="button"
+        data-viewer-close
+        aria-label="Закрыть просмотр"
+    ></button>
+
+    <section class="image-viewer__frame">
+        <header class="image-viewer__header">
+            <h2 id="project-image-viewer-title">Просмотр изображений</h2>
+            <span class="image-viewer__counter" data-viewer-counter></span>
+            <button
+                class="image-viewer__close"
+                type="button"
+                data-viewer-close
+                aria-label="Закрыть просмотр"
+            >
+                <i class="bi bi-x-lg" aria-hidden="true"></i>
+            </button>
+        </header>
+
+        <div class="image-viewer__stage">
+            <button
+                class="image-viewer__control image-viewer__control--previous"
+                type="button"
+                data-viewer-previous
+                aria-label="Предыдущее изображение"
+            >
+                <i class="bi bi-chevron-left" aria-hidden="true"></i>
+            </button>
+
+            <img
+                class="image-viewer__image"
+                data-viewer-image
+                alt=""
+            >
+
+            <button
+                class="image-viewer__control image-viewer__control--next"
+                type="button"
+                data-viewer-next
+                aria-label="Следующее изображение"
+            >
+                <i class="bi bi-chevron-right" aria-hidden="true"></i>
+            </button>
+        </div>
+
+        <div
+            class="image-viewer__thumbnails"
+            data-viewer-thumbnails
+            aria-label="Навигация по изображениям"
+        ></div>
+    </section>
+</div>

@@ -1,6 +1,6 @@
 from rest_framework import serializers
 
-from .models import ToolCategory, Tool, PartTool
+from .models import PartTool, Tool, ToolCategory, ToolImage
 
 
 class ToolCategorySerializer(serializers.ModelSerializer):
@@ -92,6 +92,16 @@ class ToolSerializer(serializers.ModelSerializer):
         source="category.name",
         read_only=True,
     )
+    images = serializers.SerializerMethodField()
+
+    @staticmethod
+    def get_images(obj):
+        """Возвращает дополнительные изображения инструмента."""
+
+        return ToolImageSerializer(
+            obj.images.all(),
+            many=True,
+        ).data
 
     class Meta:
         model = Tool
@@ -104,6 +114,7 @@ class ToolSerializer(serializers.ModelSerializer):
             "size",
             "image",
             "ozon_url",
+            "images",
             "created_at",
         )
         read_only_fields = (
@@ -144,6 +155,38 @@ class ToolUpdateSerializer(serializers.ModelSerializer):
             "image",
             "ozon_url",
         )
+
+
+class ToolImageSerializer(serializers.ModelSerializer):
+    """Сериализует изображение галереи инструмента."""
+
+    class Meta:
+        model = ToolImage
+        fields = (
+            "id",
+            "tool",
+            "image",
+            "alt_text",
+            "is_main",
+            "uploaded_at",
+        )
+        read_only_fields = ("id", "uploaded_at")
+
+
+class ToolImageCreateSerializer(serializers.ModelSerializer):
+    """Создаёт изображение галереи инструмента."""
+
+    class Meta:
+        model = ToolImage
+        fields = ("tool", "image", "alt_text", "is_main")
+
+
+class ToolImageUpdateSerializer(serializers.ModelSerializer):
+    """Обновляет изображение галереи инструмента."""
+
+    class Meta:
+        model = ToolImage
+        fields = ("image", "alt_text", "is_main")
 
 
 class PartToolSerializer(serializers.ModelSerializer):

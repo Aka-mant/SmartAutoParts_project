@@ -7,17 +7,26 @@ from rest_framework.generics import (
 )
 from rest_framework.permissions import IsAuthenticated
 
+from django.contrib import messages
+from django.contrib.auth.mixins import LoginRequiredMixin
+from django.shortcuts import redirect
+from django.views.generic import DetailView
+
 from users.permissions import (
     IsAdmin,
     IsModerator,
 )
 from apps.AI.models import AIContentPurchase
-from apps.subscriptions.access import is_privileged_user
+from apps.subscriptions.access import (
+    has_part_card_access,
+    is_privileged_user,
+)
 
 from .models import (
     PartTool,
     Tool,
     ToolCategory,
+    ToolImage,
 )
 from .serializers import (
     PartToolCreateSerializer,
@@ -27,6 +36,9 @@ from .serializers import (
     ToolCategorySerializer,
     ToolCategoryUpdateSerializer,
     ToolCreateSerializer,
+    ToolImageCreateSerializer,
+    ToolImageSerializer,
+    ToolImageUpdateSerializer,
     ToolSerializer,
     ToolUpdateSerializer,
 )
@@ -150,7 +162,7 @@ class ToolListAPIView(ListAPIView):
 
     queryset = Tool.objects.select_related(
         "category",
-    )
+    ).prefetch_related("images")
     serializer_class = ToolSerializer
     permission_classes = [
         IsAuthenticated,
@@ -186,8 +198,8 @@ class ToolRetrieveAPIView(RetrieveAPIView):
     пользователям.
     """
 
-    queryset = Tool.objects.select_related(
-        "category",
+    queryset = Tool.objects.select_related("category").prefetch_related(
+        "images",
     )
     serializer_class = ToolSerializer
     permission_classes = [
@@ -235,6 +247,45 @@ class ToolDeleteAPIView(DestroyAPIView):
         IsAuthenticated,
         IsAdmin,
     ]
+
+
+class ToolImageListAPIView(ListAPIView):
+    """Возвращает изображения инструментов."""
+
+    queryset = ToolImage.objects.select_related("tool")
+    serializer_class = ToolImageSerializer
+    permission_classes = [IsAuthenticated]
+
+
+class ToolImageCreateAPIView(CreateAPIView):
+    """Создаёт изображение инструмента."""
+
+    queryset = ToolImage.objects.all()
+    serializer_class = ToolImageCreateSerializer
+    permission_classes = [IsAuthenticated, IsModerator]
+
+
+class ToolImageRetrieveAPIView(RetrieveAPIView):
+    """Возвращает выбранное изображение инструмента."""
+
+    queryset = ToolImage.objects.select_related("tool")
+    serializer_class = ToolImageSerializer
+    permission_classes = [IsAuthenticated]
+
+
+class ToolImageUpdateAPIView(UpdateAPIView):
+    """Обновляет выбранное изображение инструмента."""
+
+    queryset = ToolImage.objects.select_related("tool")
+    serializer_class = ToolImageUpdateSerializer
+    permission_classes = [IsAuthenticated, IsModerator]
+
+
+class ToolImageDeleteAPIView(DestroyAPIView):
+    """Удаляет выбранное изображение инструмента."""
+
+    queryset = ToolImage.objects.select_related("tool")
+    permission_classes = [IsAuthenticated, IsAdmin]
 
 
 class PartToolListAPIView(PurchasedPartToolQuerySetMixin, ListAPIView):
@@ -345,3 +396,54 @@ class PartToolDeleteAPIView(DestroyAPIView):
         IsAuthenticated,
         IsAdmin,
     ]
+
+
+class ToolDetailPageView(LoginRequiredMixin, DetailView):
+    """Показывает полное описание и галерею инструмента."""
+
+    login_url = "users:login"
+    model = Tool
+    template_name = "tools/tool_detail.html"
+    context_object_name = "tool"
+
+    def dispatch(self, request, *args, **kwargs):
+        if (
+            request.user.is_authenticated
+            and not has_part_card_access(request.user)
+        ):
+            messages.warning(
+                request,
+                "Для просмотра карточки инструмента выберите тариф.",
+            )
+            return redirect("subscriptions_web:plans")
+        return super().dispatch(request, *args, **kwargs)
+
+    def get_queryset(self):
+        return (
+            Tool.objects.select_related("category")
+            .prefetch_related(
+                "images",
+                "tool_parts__part__category",
+            )
+        )
+
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        gallery = []
+        if self.object.image_exists:
+            gallery.append(
+                {
+                    "url": self.object.image.url,
+                    "alt": self.object.name,
+                }
+            )
+        gallery.extend(
+            {
+                "url": item.image.url,
+                "alt": item.alt_text or self.object.name,
+            }
+            for item in self.object.images.all()
+            if item.image_exists
+        )
+        context["tool_gallery_images"] = gallery
+        return context

@@ -21,6 +21,11 @@ html {
 
 
 body {
+    display: flex;
+    min-height: 100vh;
+    min-height: 100dvh;
+    flex-direction: column;
+    overflow-x: clip;
     background: var(--sap-surface);
     color: var(--sap-dark);
     font-family:
@@ -34,6 +39,36 @@ body {
     text-rendering: optimizeLegibility;
 }
 
+.site-header,
+.site-main,
+.footer {
+    width: 100%;
+    max-width: 100%;
+}
+
+.site-main {
+    min-width: 0;
+    flex: 1 0 auto;
+}
+
+.footer {
+    flex: 0 0 auto;
+}
+
+input[type="checkbox"],
+.form-check-input[type="checkbox"] {
+    border-color: #64748b;
+    box-shadow:
+        0 0 0 1px rgba(15, 23, 42, 0.14),
+        0 3px 9px rgba(15, 23, 42, 0.24);
+}
+
+input[type="checkbox"]:focus,
+.form-check-input[type="checkbox"]:focus {
+    box-shadow:
+        0 0 0 0.2rem rgba(37, 99, 235, 0.25),
+        0 4px 12px rgba(15, 23, 42, 0.26);
+}
 
 a {
     transition:

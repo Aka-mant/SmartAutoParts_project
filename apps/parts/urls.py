@@ -42,6 +42,7 @@ from .views import (
     PartImageAnalysisUploadView,
     PartInstructionRequestView,
     PartToolRecommendationRequestView,
+    ToolRecommendationDetailView,
 )
 
 app_name = "parts_api"
@@ -213,6 +214,11 @@ web_urlpatterns = [
         "<str:slug>/request-tools/",
         PartToolRecommendationRequestView.as_view(),
         name="request_tools",
+    ),
+    path(
+        "tool-recommendations/<int:pk>/",
+        ToolRecommendationDetailView.as_view(),
+        name="tool_recommendation_detail",
     ),
     path("<str:slug>/", PartDetailPageView.as_view(), name="detail"),
 ]

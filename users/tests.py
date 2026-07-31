@@ -29,6 +29,136 @@ from apps.subscriptions.models import SubscriptionPlan, UserSubscription
 from apps.tools.models import Tool
 
 
+class UserRegistrationPageTests(TestCase):
+    """Проверяет все серверные ветви страницы регистрации."""
+
+    def test_registration_page_is_available_to_guest(self):
+        response = self.client.get(reverse("users:register"))
+
+        self.assertEqual(response.status_code, 200)
+        self.assertContains(response, "Регистрация")
+
+    def test_registration_rejects_different_passwords(self):
+        response = self.client.post(
+            reverse("users:register"),
+            {
+                "username": "different-passwords",
+                "email": "different@example.com",
+                "password": "Strong-password-123",
+                "password_confirm": "Another-password-123",
+            },
+        )
+
+        self.assertEqual(response.status_code, 400)
+        self.assertContains(
+            response,
+            "Пароли не совпадают.",
+            status_code=400,
+        )
+
+    def test_registration_renders_serializer_errors(self):
+        response = self.client.post(
+            reverse("users:register"),
+            {
+                "username": "x",
+                "email": "not-an-email",
+                "password": "123",
+                "password_confirm": "123",
+            },
+        )
+
+        self.assertEqual(response.status_code, 400)
+        self.assertFalse(
+            get_user_model().objects.filter(username="x").exists()
+        )
+
+    def test_registration_creates_user_and_redirects_to_login(self):
+        response = self.client.post(
+            reverse("users:register"),
+            {
+                "username": "new-registration-user",
+                "email": "new-registration@example.com",
+                "password": "Strong-registration-password-123",
+                "password_confirm": "Strong-registration-password-123",
+            },
+        )
+
+        self.assertRedirects(
+            response,
+            reverse("users:login"),
+            fetch_redirect_response=False,
+        )
+        user = get_user_model().objects.get(
+            username="new-registration-user"
+        )
+        self.assertTrue(
+            user.check_password("Strong-registration-password-123")
+        )
+
+    def test_administrator_cannot_delete_self_but_can_delete_user(self):
+        administrator = get_user_model().objects.create_superuser(
+            username="delete-admin",
+            email="delete-admin@example.com",
+            password="safe-test-password",
+        )
+        removable_user = get_user_model().objects.create_user(
+            username="removable-user",
+            email="removable-user@example.com",
+            password="safe-test-password",
+        )
+        api_client = APIClient()
+        api_client.force_authenticate(administrator)
+
+        self_delete = api_client.delete(
+            reverse(
+                "users:user_delete",
+                kwargs={"pk": administrator.pk},
+            )
+        )
+        self.assertEqual(self_delete.status_code, 403)
+        self.assertTrue(
+            get_user_model().objects.filter(pk=administrator.pk).exists()
+        )
+
+        user_delete = api_client.delete(
+            reverse(
+                "users:user_delete",
+                kwargs={"pk": removable_user.pk},
+            )
+        )
+        self.assertEqual(user_delete.status_code, 204)
+        self.assertFalse(
+            get_user_model().objects.filter(pk=removable_user.pk).exists()
+        )
+
+    def test_search_with_only_punctuation_is_recorded_as_empty(self):
+        user = get_user_model().objects.create_user(
+            username="punctuation-search-user",
+            email="punctuation-search@example.com",
+            password="safe-test-password",
+        )
+        UserAgreementAcceptance.objects.create(
+            user=user,
+            agreement_version=settings.USER_AGREEMENT_VERSION,
+        )
+        self.client.force_login(user)
+
+        response = self.client.get(
+            reverse("users:part_search"),
+            {"q": "!!!"},
+        )
+
+        self.assertEqual(response.status_code, 200)
+        self.assertFalse(response.context["parts"])
+        self.assertTrue(
+            SearchHistory.objects.filter(
+                user=user,
+                search_query="!!!",
+                result_found=False,
+            ).exists()
+        )
+
+
 class UserAgreementTests(TestCase):
     """Проверяет обязательное и версионируемое принятие соглашения."""
 

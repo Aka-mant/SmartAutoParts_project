@@ -1,6 +1,12 @@
-from django.test import TestCase
+from tempfile import TemporaryDirectory
+from unittest.mock import patch
 
-from .models import Tool
+from django.contrib.auth import get_user_model
+from django.core.files.uploadedfile import SimpleUploadedFile
+from django.test import TestCase, override_settings
+from django.urls import reverse
+
+from .models import Tool, ToolCategory, ToolImage
 from .serializers import (
     ToolCreateSerializer,
     ToolSerializer,
@@ -23,3 +29,79 @@ class ToolSerializerTests(TestCase):
         )
         self.assertIn("ozon_url", ToolCreateSerializer().fields)
         self.assertIn("ozon_url", ToolUpdateSerializer().fields)
+
+
+class ToolPageAndImageTests(TestCase):
+    """Проверяет доступ, галерею и файловые ветви инструментов."""
+
+    def setUp(self):
+        self.media_directory = TemporaryDirectory()
+        self.media_override = override_settings(
+            MEDIA_ROOT=self.media_directory.name,
+        )
+        self.media_override.enable()
+        self.addCleanup(self.media_override.disable)
+        self.addCleanup(self.media_directory.cleanup)
+        self.category = ToolCategory.objects.create(
+            name="Ключи",
+            slug="test-keys",
+        )
+        self.tool = Tool.objects.create(
+            category=self.category,
+            name="Тестовый ключ",
+            image=SimpleUploadedFile("main.jpg", b"main-image"),
+        )
+        self.extra_image = ToolImage.objects.create(
+            tool=self.tool,
+            image=SimpleUploadedFile("extra.jpg", b"extra-image"),
+            alt_text="Дополнительный ракурс",
+        )
+
+    def test_superuser_sees_complete_tool_gallery(self):
+        user = get_user_model().objects.create_superuser(
+            username="tool-admin",
+            email="tool-admin@example.com",
+            password="safe-test-password",
+        )
+        self.client.force_login(user)
+
+        response = self.client.get(self.tool.get_absolute_url())
+
+        self.assertEqual(response.status_code, 200)
+        self.assertContains(response, "Тестовый ключ")
+        self.assertContains(response, "Дополнительный ракурс")
+        self.assertEqual(len(response.context["tool_gallery_images"]), 2)
+        self.assertEqual(str(self.tool), self.tool.name)
+        self.assertIn(self.tool.name, str(self.extra_image))
+
+    def test_user_without_tariff_is_redirected_from_tool_card(self):
+        user = get_user_model().objects.create_user(
+            username="tool-free-user",
+            email="tool-free-user@example.com",
+            password="safe-test-password",
+        )
+        self.client.force_login(user)
+
+        response = self.client.get(
+            reverse("tools_web:detail", kwargs={"pk": self.tool.pk})
+        )
+
+        self.assertRedirects(
+            response,
+            reverse("subscriptions_web:plans"),
+            fetch_redirect_response=False,
+        )
+
+    def test_image_exists_handles_empty_and_storage_errors(self):
+        empty_tool = Tool.objects.create(name="Без изображения")
+        empty_image = ToolImage(tool=empty_tool)
+        self.assertFalse(empty_tool.image_exists)
+        self.assertFalse(empty_image.image_exists)
+
+        with patch.object(
+            self.tool.image.storage,
+            "exists",
+            side_effect=OSError,
+        ):
+            self.assertFalse(self.tool.image_exists)
+            self.assertFalse(self.extra_image.image_exists)

@@ -44,7 +44,7 @@
 
     <link
         rel="stylesheet"
-        href="{% static 'css/style.css' %}"
+        href="{% static 'css/style.css' %}?v=20260731-2"
     >
 
 
@@ -92,6 +92,7 @@
     </main>
 
     {% include "includes/footer.html" %}
+    {% include "includes/image_viewer.html" %}
 
     <script
         src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"
@@ -104,7 +105,11 @@
     ></script>
 
     <script
-        src="{% static 'js/site.js' %}"
+        src="{% static 'js/image_viewer.js' %}?v=20260730-5"
+    ></script>
+
+    <script
+        src="{% static 'js/site.js' %}?v=20260730-5"
     ></script>
 
     {% block extra_js %}

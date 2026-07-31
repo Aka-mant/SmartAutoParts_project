@@ -28,15 +28,19 @@
                     </p>
                 </div>
 
-                <div
-                    id="registrationAlert"
-                    class="alert d-none"
-                    role="alert"
-                ></div>
+                {% if registration_errors.non_field_errors %}
+                    <div class="alert alert-danger" role="alert">
+                        {% for error in registration_errors.non_field_errors %}
+                            <div>{{ error }}</div>
+                        {% endfor %}
+                    </div>
+                {% endif %}
 
                 <form
                     id="registrationForm"
                     class="auth-form"
+                    method="post"
+                    action="{% url 'users:register' %}"
                     novalidate
                 >
                     {% csrf_token %}
@@ -58,6 +62,7 @@
                                 type="text"
                                 id="id_username"
                                 name="username"
+                                value="{{ registration_data.username|default:'' }}"
                                 class="form-control form-control-lg"
                                 placeholder="Введите имя пользователя"
                                 autocomplete="username"
@@ -65,10 +70,11 @@
                             >
                         </div>
 
-                        <div
-                            id="usernameError"
-                            class="invalid-feedback d-block"
-                        ></div>
+                        {% for error in registration_errors.username %}
+                            <div class="invalid-feedback d-block">
+                                {{ error }}
+                            </div>
+                        {% endfor %}
                     </div>
 
                     <div class="mb-3">
@@ -88,6 +94,7 @@
                                 type="email"
                                 id="id_email"
                                 name="email"
+                                value="{{ registration_data.email|default:'' }}"
                                 class="form-control form-control-lg"
                                 placeholder="example@email.com"
                                 autocomplete="email"
@@ -95,10 +102,11 @@
                             >
                         </div>
 
-                        <div
-                            id="emailError"
-                            class="invalid-feedback d-block"
-                        ></div>
+                        {% for error in registration_errors.email %}
+                            <div class="invalid-feedback d-block">
+                                {{ error }}
+                            </div>
+                        {% endfor %}
                     </div>
 
 
@@ -126,10 +134,11 @@
                             >
                         </div>
 
-                        <div
-                            id="passwordError"
-                            class="invalid-feedback d-block"
-                        ></div>
+                        {% for error in registration_errors.password %}
+                            <div class="invalid-feedback d-block">
+                                {{ error }}
+                            </div>
+                        {% endfor %}
                     </div>
 
                     <div class="mb-4">
@@ -156,10 +165,11 @@
                             >
                         </div>
 
-                        <div
-                            id="passwordConfirmError"
-                            class="invalid-feedback d-block"
-                        ></div>
+                        {% for error in registration_errors.password_confirm %}
+                            <div class="invalid-feedback d-block">
+                                {{ error }}
+                            </div>
+                        {% endfor %}
                     </div>
 
                     <button
@@ -187,133 +197,4 @@
     </div>
 </section>
 
-<script>
-    document.addEventListener("DOMContentLoaded", () => {
-        const form = document.getElementById("registrationForm");
-        const alertBox = document.getElementById(
-            "registrationAlert"
-        );
-        const submitButton = form.querySelector(
-            'button[type="submit"]'
-        );
-
-        const errorElements = {
-            username: document.getElementById("usernameError"),
-            email: document.getElementById("emailError"),
-            password: document.getElementById("passwordError"),
-            password_confirm: document.getElementById(
-                "passwordConfirmError"
-            ),
-        };
-
-        const clearErrors = () => {
-            Object.values(errorElements).forEach((element) => {
-                if (element) {
-                    element.textContent = "";
-                }
-            });
-
-            alertBox.className = "alert d-none";
-            alertBox.textContent = "";
-        };
-
-        const showGeneralError = (message) => {
-            alertBox.className = "alert alert-danger";
-            alertBox.textContent = message;
-        };
-
-        form.addEventListener("submit", async (event) => {
-            event.preventDefault();
-            clearErrors();
-
-            const password = form.password.value;
-            const passwordConfirm = form.password_confirm.value;
-
-            if (password !== passwordConfirm) {
-                errorElements.password_confirm.textContent =
-                    "Пароли не совпадают.";
-                return;
-            }
-
-            const payload = {
-                username: form.username.value.trim(),
-                email: form.email.value.trim(),
-                first_name: form.first_name.value.trim(),
-                last_name: form.last_name.value.trim(),
-                password: password,
-                password_confirm: passwordConfirm,
-            };
-
-            submitButton.disabled = true;
-            submitButton.innerHTML = `
-                <span
-                    class="spinner-border spinner-border-sm"
-                    aria-hidden="true"
-                ></span>
-                Регистрация...
-            `;
-
-            try {
-                const response = await fetch(
-                    "{% url 'users:user_register' %}",
-                    {
-                        method: "POST",
-                        headers: {
-                            "Content-Type": "application/json",
-                            "Accept": "application/json",
-                            "X-CSRFToken": document.querySelector(
-                                "[name=csrfmiddlewaretoken]"
-                            ).value,
-                        },
-                        body: JSON.stringify(payload),
-                    }
-                );
-
-                const data = await response.json();
-
-                if (!response.ok) {
-                    Object.entries(data).forEach(([field, messages]) => {
-                        const target = errorElements[field];
-
-                        if (target) {
-                            target.textContent = Array.isArray(messages)
-                                ? messages.join(" ")
-                                : messages;
-                        } else {
-                            showGeneralError(
-                                Array.isArray(messages)
-                                    ? messages.join(" ")
-                                    : messages
-                            );
-                        }
-                    });
-
-                    return;
-                }
-
-                alertBox.className = "alert alert-success";
-                alertBox.textContent =
-                    "Регистрация выполнена. Выполняется переход...";
-
-                form.reset();
-
-                window.setTimeout(() => {
-                    window.location.href =
-                        "{% url 'users:login' %}";
-                }, 1200);
-            } catch (error) {
-                showGeneralError(
-                    "Не удалось выполнить регистрацию. " +
-                    "Проверьте подключение и повторите попытку."
-                );
-            } finally {
-                submitButton.disabled = false;
-                submitButton.innerHTML = `
-                    <i class="bi bi-person-plus"></i>
-                    Зарегистрироваться
-                `;
-            }
-        });
-    });
-</script>
 {% endblock %}

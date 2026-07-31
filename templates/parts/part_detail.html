@@ -14,40 +14,77 @@
         </nav>
 
         <div class="part-detail-hero">
-            <div class="part-gallery">
-                {% with primary_image=part.images.first %}
-                    {% if primary_image and primary_image.image_exists %}
+            <div
+                class="part-gallery"
+                data-photo-gallery
+                tabindex="0"
+                aria-label="Фотографии детали"
+            >
+                {% if part_gallery_images %}
+                    {% with primary_image=part_gallery_images.0 %}
+                        <div class="part-gallery__stage">
+                            <button
+                                class="part-gallery__control part-gallery__control--previous"
+                                type="button"
+                                data-gallery-previous
+                                aria-label="Предыдущее фото"
+                            >
+                                <i class="bi bi-chevron-left"></i>
+                            </button>
                         <img
-                            src="{{ primary_image.image.url }}"
-                            alt="{{ primary_image.alt_text|default:part.name }}"
+                            src="{{ primary_image.url }}"
+                            alt="{{ primary_image.alt }}"
                             class="part-gallery__main"
+                            data-gallery-main
                             width="440"
                             height="330"
                             decoding="async"
                             fetchpriority="high"
                         >
-                    {% else %}
-                        <div class="part-gallery__placeholder">
-                            <i class="bi bi-gear-wide-connected" aria-hidden="true"></i>
-                            <span>Изображение детали пока не добавлено</span>
+                            <button
+                                class="part-gallery__control part-gallery__control--next"
+                                type="button"
+                                data-gallery-next
+                                aria-label="Следующее фото"
+                            >
+                                <i class="bi bi-chevron-right"></i>
+                            </button>
+                            <button
+                                class="part-gallery__fullscreen"
+                                type="button"
+                                data-gallery-fullscreen
+                                aria-label="Открыть фото на весь экран"
+                                aria-pressed="false"
+                            >
+                                <i class="bi bi-arrows-fullscreen"></i>
+                            </button>
+                            <span class="part-gallery__counter" data-gallery-counter></span>
                         </div>
-                    {% endif %}
-                {% endwith %}
-
-                {% if part.images.all|length > 1 %}
-                    <div class="part-gallery__thumbs" aria-label="Дополнительные изображения">
-                        {% for item in part.images.all %}
-                            {% if item.image_exists %}
+                    {% endwith %}
+                    <div class="part-gallery__thumbs" aria-label="Выбор фотографии">
+                        {% for item in part_gallery_images %}
+                            <button
+                                type="button"
+                                data-gallery-thumbnail
+                                data-image-url="{{ item.url }}"
+                                data-image-alt="{{ item.alt }}"
+                                aria-label="Открыть фотографию {{ forloop.counter }}"
+                            >
                                 <img
-                                    src="{{ item.image.url }}"
-                                    alt="{{ item.alt_text|default:part.name }}"
+                                    src="{{ item.url }}"
+                                    alt=""
                                     width="76"
                                     height="62"
                                     loading="lazy"
                                     decoding="async"
                                 >
-                            {% endif %}
+                            </button>
                         {% endfor %}
+                    </div>
+                {% else %}
+                    <div class="part-gallery__placeholder">
+                        <i class="bi bi-gear-wide-connected" aria-hidden="true"></i>
+                        <span>Изображение детали пока не добавлено</span>
                     </div>
                 {% endif %}
             </div>
@@ -362,6 +399,15 @@
             {% endif %}
         </section>
 
+        <section class="catalog-panel catalog-panel--wide catalog-safety">
+            <h2><i class="bi bi-shield-check" aria-hidden="true"></i> Безопасность</h2>
+            <p>
+                Карточка носит справочный характер. Перед ремонтом
+                сверяйте применимость по VIN и соблюдайте требования
+                производителя автомобиля.
+            </p>
+        </section>
+
         <section id="part-tools" class="catalog-panel catalog-panel--wide">
             <div class="catalog-panel__heading">
                 <div>
@@ -374,10 +420,20 @@
                         На модерации
                     </span>
                 {% elif tools_selected %}
-                    <span class="catalog-access-badge">
-                        <i class="bi bi-check-circle" aria-hidden="true"></i>
-                        Подобрано
-                    </span>
+                    {% if approved_tool_recommendation %}
+                        <a
+                            class="catalog-access-badge"
+                            href="{% url 'parts_web:tool_recommendation_detail' pk=approved_tool_recommendation.pk %}"
+                        >
+                            <i class="bi bi-check-circle" aria-hidden="true"></i>
+                            Полное описание подбора
+                        </a>
+                    {% else %}
+                        <span class="catalog-access-badge">
+                            <i class="bi bi-check-circle" aria-hidden="true"></i>
+                            Подобрано
+                        </span>
+                    {% endif %}
                 {% elif can_request_tools %}
                     <form
                         method="post"
@@ -404,9 +460,12 @@
             </div>
 
             {% if tools_purchased %}
-                <div class="instruction-mini-grid">
+                <div id="part-tools-list" class="instruction-mini-grid">
                     {% for relation in part.part_tools.all %}
-                        <article class="instruction-mini-card">
+                        <a
+                            class="instruction-mini-card"
+                            href="{{ relation.tool.get_absolute_url }}"
+                        >
                             <span class="instruction-mini-card__icon">
                                 <i class="bi bi-tools" aria-hidden="true"></i>
                             </span>
@@ -418,7 +477,11 @@
                                 </small>
                             </span>
                             <i class="bi bi-check-circle text-success" aria-hidden="true"></i>
-                        </article>
+                            <span class="instruction-mini-card__link">
+                                Полное описание
+                                <i class="bi bi-arrow-right"></i>
+                            </span>
+                        </a>
                     {% empty %}
                         <div class="catalog-empty catalog-empty--compact">
                             <i class="bi bi-tools" aria-hidden="true"></i>
@@ -427,20 +490,6 @@
                     {% endfor %}
                 </div>
 
-                {% if approved_tool_recommendation %}
-                    <article class="catalog-tool-recommendation">
-                        <div class="catalog-tool-recommendation__heading">
-                            <span>
-                                <i class="bi bi-patch-check" aria-hidden="true"></i>
-                                Проверенный подбор
-                            </span>
-                            <small>{{ approved_tool_recommendation.reviewed_at|date:"d.m.Y H:i" }}</small>
-                        </div>
-                        <div class="catalog-tool-recommendation__content">
-                            {{ approved_tool_recommendation.generated_content|linebreaksbr }}
-                        </div>
-                    </article>
-                {% endif %}
             {% else %}
                 <div class="catalog-empty catalog-empty--compact">
                     <i class="bi bi-lock" aria-hidden="true"></i>
@@ -450,15 +499,6 @@
                     </p>
                 </div>
             {% endif %}
-        </section>
-
-        <section class="catalog-panel catalog-panel--wide catalog-safety">
-            <h2><i class="bi bi-shield-check" aria-hidden="true"></i> Безопасность</h2>
-            <p>
-                Карточка носит справочный характер. Перед ремонтом
-                сверяйте применимость по VIN и соблюдайте требования
-                производителя автомобиля.
-            </p>
         </section>
 
         <section id="part-instructions" class="catalog-panel catalog-panel--wide">

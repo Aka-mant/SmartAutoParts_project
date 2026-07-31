@@ -293,7 +293,7 @@ SmartAutoParts_project/
 ├── Dockerfile.dev
 ├── docker-compose.yml
 ├── manage.py
-└── README.md
+└── SmartAutoParts_README.md
 ```
 
 ### `users`

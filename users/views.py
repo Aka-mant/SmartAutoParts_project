@@ -1,4 +1,5 @@
 from datetime import timedelta
+import re
 
 from django.conf import settings
 from django.contrib.auth import views as auth_views
@@ -10,7 +11,8 @@ from django.shortcuts import get_object_or_404, redirect, render
 from django.contrib.auth.mixins import UserPassesTestMixin
 from django.core.exceptions import FieldError
 from django.db import transaction
-from django.db.models import Count, Q
+from django.db.models import CharField, Count, Q
+from django.db.models.functions import Cast
 from django.utils import timezone
 from django.utils.http import url_has_allowed_host_and_scheme
 from django.views import View
@@ -1269,7 +1271,7 @@ class RepairStepNavigationView(LoginRequiredMixin, View):
 
 class UserRegistrationPageView(
     UserPassesTestMixin,
-    TemplateView,
+    View,
 ):
     """
     HTML-страница регистрации нового пользователя.
@@ -1285,6 +1287,55 @@ class UserRegistrationPageView(
 
     def handle_no_permission(self):
         return redirect("users:profile_detail")
+
+    def get(self, request, *args, **kwargs):
+        """Отображает форму регистрации."""
+
+        return render(request, self.template_name)
+
+    def post(self, request, *args, **kwargs):
+        """Проверяет форму и создаёт новую учётную запись."""
+
+        form_data = {
+            "username": request.POST.get("username", "").strip(),
+            "email": request.POST.get("email", "").strip(),
+            "password": request.POST.get("password", ""),
+        }
+        password_confirm = request.POST.get("password_confirm", "")
+
+        if form_data["password"] != password_confirm:
+            return render(
+                request,
+                self.template_name,
+                {
+                    "registration_errors": {
+                        "password_confirm": (
+                            "Пароли не совпадают.",
+                        ),
+                    },
+                    "registration_data": form_data,
+                },
+                status=400,
+            )
+
+        serializer = UserCreateSerializer(data=form_data)
+        if not serializer.is_valid():
+            return render(
+                request,
+                self.template_name,
+                {
+                    "registration_errors": serializer.errors,
+                    "registration_data": form_data,
+                },
+                status=400,
+            )
+
+        serializer.save()
+        messages.success(
+            request,
+            "Регистрация завершена. Теперь войдите в аккаунт.",
+        )
+        return redirect("users:login")
 
 
 class ProfileUpdatePageView(LoginRequiredMixin, View):
@@ -1406,7 +1457,7 @@ class PartSearchPageView(ListView):
 
     def get_queryset(self):
         """
-        Возвращает найденные активные запчасти.
+        Возвращает детали по любым доступным атрибутам.
         """
 
         search_query = self.request.GET.get("q", "").strip()
@@ -1417,17 +1468,75 @@ class PartSearchPageView(ListView):
         normalized_query = self.normalize_search_query(search_query)
 
         queryset = (
-            Part.objects
-            .filter(is_active=True)
-            .filter(
-                Q(normalized_original_number__icontains=normalized_query)
-                | Q(name__icontains=search_query)
-                | Q(manufacturer__icontains=search_query)
-                | Q(description__icontains=search_query)
+            Part.objects.filter(is_active=True)
+            .annotate(
+                searchable_weight=Cast("weight", CharField()),
+                searchable_dimensions=Cast("dimensions", CharField()),
             )
             .select_related("category")
+            .prefetch_related("images")
             .distinct()
         )
+
+        search_fields = (
+            "name__icontains",
+            "slug__icontains",
+            "original_number__icontains",
+            "manufacturer__icontains",
+            "description__icontains",
+            "seo_title__icontains",
+            "seo_description__icontains",
+            "seo_keywords__icontains",
+            "category__name__icontains",
+            "category__slug__icontains",
+            "category__description__icontains",
+            "oem_numbers__number__icontains",
+            "oem_numbers__manufacturer__icontains",
+            "compatibilities__brand__icontains",
+            "compatibilities__model__icontains",
+            "compatibilities__generation__icontains",
+            "compatibilities__engine__icontains",
+            "instructions__title__icontains",
+            "instructions__short_description__icontains",
+            "instructions__content__icontains",
+            "part_tools__tool__name__icontains",
+            "part_tools__tool__description__icontains",
+            "part_tools__tool__size__icontains",
+            "part_tools__tool__category__name__icontains",
+            "searchable_weight__icontains",
+            "searchable_dimensions__icontains",
+        )
+        search_tokens = re.findall(r"[\w-]+", search_query, flags=re.UNICODE)
+        if not search_tokens:
+            self.save_search_history(
+                search_query=search_query,
+                result_found=False,
+            )
+            return Part.objects.none()
+
+        for token in search_tokens:
+            token_filter = Q(
+                normalized_original_number__icontains=normalized_query
+            )
+            token_variants = {
+                token,
+                token.lower(),
+                token.upper(),
+                token.capitalize(),
+                token.title(),
+            }
+            for variant in token_variants:
+                for field_name in search_fields:
+                    token_filter |= Q(**{field_name: variant})
+
+            if token.isdigit():
+                numeric_value = int(token)
+                token_filter |= (
+                    Q(compatibilities__year_from=numeric_value)
+                    | Q(compatibilities__year_to=numeric_value)
+                )
+
+            queryset = queryset.filter(token_filter)
 
         self.save_search_history(
             search_query=search_query,
@@ -1455,6 +1564,15 @@ class PartSearchPageView(ListView):
         context["can_view_part_cards"] = has_part_card_access(
             self.request.user
         )
+        for part in context.get("parts", ()):
+            part.search_gallery_images = [
+                {
+                    "url": image.image.url,
+                    "alt": image.alt_text or part.name,
+                }
+                for image in part.images.all()
+                if image.image_exists
+            ]
 
         return context
 

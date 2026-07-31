@@ -5,10 +5,19 @@ document.addEventListener("DOMContentLoaded", () => {
 
     oemInputs.forEach((input) => {
         input.addEventListener("input", () => {
+            const value = input.value;
+            const isOemQuery = (
+                /^[\x00-\x7F]*$/.test(value)
+                && /\d/.test(value)
+            );
+            if (!isOemQuery) {
+                return;
+            }
+
             const selectionStart = input.selectionStart;
             const selectionEnd = input.selectionEnd;
 
-            input.value = input.value.toUpperCase();
+            input.value = value.toUpperCase();
 
             if (selectionStart !== null && selectionEnd !== null) {
                 input.setSelectionRange(selectionStart, selectionEnd);
@@ -157,4 +166,5 @@ document.addEventListener("DOMContentLoaded", () => {
             }
         });
     }
+
 });

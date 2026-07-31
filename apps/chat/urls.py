@@ -23,6 +23,8 @@ from .views import (
     ChatMessageUpdateAPIView,
     ChatMessageDeleteAPIView,
     ChatMessageCreatePageView,
+    ChatParticipantAddPageView,
+    ChatParticipantRemovePageView,
     ChatRoomCreatePageView,
     ChatRoomPageView,
 )
@@ -129,6 +131,16 @@ web_urlpatterns = [
         "rooms/<int:room_id>/messages/create/",
         ChatMessageCreatePageView.as_view(),
         name="message_create",
+    ),
+    path(
+        "rooms/<int:room_id>/participants/add/",
+        ChatParticipantAddPageView.as_view(),
+        name="participant_add",
+    ),
+    path(
+        "rooms/<int:room_id>/participants/<int:participant_id>/remove/",
+        ChatParticipantRemovePageView.as_view(),
+        name="participant_remove",
     ),
 ]
 

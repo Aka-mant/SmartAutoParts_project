@@ -1,6 +1,15 @@
 from django.contrib import admin
 
-from .models import PartTool, Tool, ToolCategory
+from .models import PartTool, Tool, ToolCategory, ToolImage
+
+
+class ToolImageInline(admin.TabularInline):
+    """Позволяет редактировать галерею в карточке инструмента."""
+
+    model = ToolImage
+    extra = 0
+    fields = ("image", "alt_text", "is_main", "uploaded_at")
+    readonly_fields = ("uploaded_at",)
 
 
 @admin.register(ToolCategory)
@@ -17,6 +26,18 @@ class ToolAdmin(admin.ModelAdmin):
     search_fields = ("name", "description", "size")
     autocomplete_fields = ("category",)
     readonly_fields = ("created_at",)
+    inlines = (ToolImageInline,)
+
+
+@admin.register(ToolImage)
+class ToolImageAdmin(admin.ModelAdmin):
+    """Управляет дополнительными изображениями инструментов."""
+
+    list_display = ("id", "tool", "is_main", "uploaded_at")
+    list_filter = ("is_main", "uploaded_at")
+    search_fields = ("tool__name", "alt_text")
+    autocomplete_fields = ("tool",)
+    readonly_fields = ("uploaded_at",)
 
 
 @admin.register(PartTool)

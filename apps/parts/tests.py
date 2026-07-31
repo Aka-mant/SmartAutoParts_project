@@ -807,8 +807,13 @@ class PartDetailPageTests(TestCase):
         )
         self.accept_agreement(user)
         self.activate_plan(user)
+        other_user = get_user_model().objects.create_user(
+            username="pending-tool-user",
+            email="pending-tool-user@example.com",
+            password="safe-test-password",
+        )
         pending_request = AIRequest.objects.create(
-            user=user,
+            user=other_user,
             part=self.part,
             prompt="Первый запрос.",
             response="Непроверенный инструмент.",
@@ -825,7 +830,7 @@ class PartDetailPageTests(TestCase):
             response="Проверенный съёмник фильтра.",
             request_type="tool_recommendation_approved",
         )
-        AIToolRecommendation.objects.create(
+        approved_recommendation = AIToolRecommendation.objects.create(
             ai_request=approved_request,
             generated_content=approved_request.response,
             moderation_status=(
@@ -846,16 +851,20 @@ class PartDetailPageTests(TestCase):
         response = self.client.get(self.part.get_absolute_url())
 
         self.assertEqual(response.status_code, 200)
-        self.assertContains(
-            response,
-            "Проверенный съёмник фильтра.",
+        recommendation_url = reverse(
+            "parts_web:tool_recommendation_detail",
+            kwargs={"pk": approved_recommendation.pk},
         )
+        self.assertContains(response, recommendation_url)
+        self.assertContains(response, "Полное описание подбора")
+        self.assertNotContains(response, "Проверенный съёмник фильтра.")
         self.assertNotContains(response, "Непроверенный инструмент.")
-        rendered = response.content.decode()
-        self.assertIn("catalog-tool-recommendation", rendered)
-        self.assertGreater(
-            rendered.index("catalog-tool-recommendation"),
-            rendered.index("instruction-mini-grid"),
+
+        detail_response = self.client.get(recommendation_url)
+        self.assertEqual(detail_response.status_code, 200)
+        self.assertContains(
+            detail_response,
+            "Проверенный съёмник фильтра.",
         )
 
 

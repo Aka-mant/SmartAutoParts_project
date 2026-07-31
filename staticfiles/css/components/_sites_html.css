@@ -24,14 +24,21 @@ body {
 }
 
 .site-main {
-    overflow: hidden;
+    overflow-x: clip;
+    overflow-y: visible;
 }
 
 .site-header .navbar {
+    width: 100%;
+    max-width: 100vw;
     min-height: 74px;
     background: rgba(7, 17, 38, 0.9);
     border-bottom-color: rgba(255, 255, 255, 0.09);
     backdrop-filter: blur(18px);
+}
+
+.site-header .navbar > .container {
+    min-width: 0;
 }
 
 .site-header .navbar-brand {

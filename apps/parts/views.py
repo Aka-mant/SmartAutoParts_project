@@ -621,6 +621,14 @@ class PartDetailPageView(LoginRequiredMixin, DetailView):
 
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
+        context["part_gallery_images"] = [
+            {
+                "url": item.image.url,
+                "alt": item.alt_text or self.object.name,
+            }
+            for item in self.object.images.all()
+            if item.image_exists
+        ]
         user = self.request.user
         content_privileged = is_privileged_user(user)
         ai_unlimited = has_unlimited_ai_access(user)
@@ -777,6 +785,32 @@ class PartDetailPageView(LoginRequiredMixin, DetailView):
             )
 
         return context
+
+
+class ToolRecommendationDetailView(LoginRequiredMixin, DetailView):
+    """Показывает полное описание проверенного подбора инструментов."""
+
+    login_url = "users:login"
+    model = AIToolRecommendation
+    template_name = "parts/tool_recommendation_detail.html"
+    context_object_name = "recommendation"
+
+    def get_queryset(self):
+        queryset = (
+            AIToolRecommendation.objects.select_related(
+                "ai_request__part",
+                "reviewed_by",
+            )
+            .filter(
+                moderation_status=(
+                    AIToolRecommendation.ModerationStatus.APPROVED
+                ),
+                ai_request__part__is_active=True,
+            )
+        )
+        if not is_privileged_user(self.request.user):
+            queryset = queryset.filter(ai_request__user=self.request.user)
+        return queryset
 
 
 class PartAIRequestMixin(LoginRequiredMixin):

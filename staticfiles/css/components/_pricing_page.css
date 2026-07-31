@@ -53,7 +53,12 @@
 
 .payment-summary,
 .payment-form {
+    width: 100%;
+    max-width: 100%;
+    min-width: 0;
     padding: clamp(1.4rem, 3vw, 2.25rem);
+    overflow: hidden;
+    box-sizing: border-box;
     background: #fff;
     border: 1px solid var(--sap-border);
     border-radius: var(--sap-radius-lg);
@@ -67,26 +72,33 @@
 
 .payment-summary h1,
 .payment-form h2 {
+    max-width: 100%;
     margin: 0.55rem 0 0.65rem;
+    overflow-wrap: anywhere;
     font-weight: 800;
     letter-spacing: -0.035em;
 }
 
 .payment-summary > p,
 .payment-form header > p {
+    max-width: 100%;
     color: var(--sap-muted);
+    overflow-wrap: anywhere;
 }
 
 .payment-summary__price {
     display: flex;
     margin: 1.75rem 0;
     align-items: baseline;
+    flex-wrap: wrap;
     gap: 0.65rem;
 }
 
 .payment-summary__price strong {
+    max-width: 100%;
     font-size: clamp(2rem, 5vw, 3rem);
     line-height: 1;
+    overflow-wrap: anywhere;
 }
 
 .payment-summary__price span {
@@ -103,11 +115,16 @@
 
 .payment-summary li {
     display: flex;
+    min-width: 0;
+    align-items: flex-start;
     gap: 0.65rem;
     color: #334155;
+    overflow-wrap: anywhere;
 }
 
 .payment-summary li i {
+    flex: 0 0 auto;
+    margin-top: 0.2rem;
     color: var(--sap-accent);
 }
 
@@ -346,7 +363,12 @@
 
     .payment-summary,
     .payment-form {
-        padding: 1.15rem;
+        padding: 1.35rem;
         border-radius: 1rem;
+    }
+
+    .payment-summary__price {
+        align-items: flex-start;
+        flex-direction: column;
     }
 }

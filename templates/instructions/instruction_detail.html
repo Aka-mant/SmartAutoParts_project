@@ -125,7 +125,11 @@
                                 <li>
                                     <i class="bi bi-check-circle"></i>
                                     <span>
-                                        <strong>{{ relation.tool.name }}</strong>
+                                        <strong>
+                                            <a href="{{ relation.tool.get_absolute_url }}">
+                                                {{ relation.tool.name }}
+                                            </a>
+                                        </strong>
                                         {% if relation.tool.size %} · {{ relation.tool.size }}{% endif %}
                                         {% if relation.usage_description %}<small>{{ relation.usage_description }}</small>{% endif %}
                                     </span>
@@ -153,13 +157,68 @@
             {% if instruction.images.all %}
                 <section class="instruction-gallery">
                     <h2>Иллюстрации</h2>
-                    <div>
+                    <div
+                        class="part-gallery instruction-photo-gallery"
+                        data-photo-gallery
+                        tabindex="0"
+                        aria-label="Иллюстрации инструкции"
+                    >
+                        {% with main_image=instruction.images.all.0 %}
+                            <div class="part-gallery__stage">
+                                <button
+                                    class="part-gallery__control part-gallery__control--previous"
+                                    type="button"
+                                    data-gallery-previous
+                                    aria-label="Предыдущее фото"
+                                >
+                                    <i class="bi bi-chevron-left"></i>
+                                </button>
+                                <img
+                                    class="part-gallery__main"
+                                    src="{{ main_image.image.url }}"
+                                    alt="{{ main_image.description|default:instruction.title }}"
+                                    data-gallery-main
+                                >
+                                <button
+                                    class="part-gallery__control part-gallery__control--next"
+                                    type="button"
+                                    data-gallery-next
+                                    aria-label="Следующее фото"
+                                >
+                                    <i class="bi bi-chevron-right"></i>
+                                </button>
+                                <button
+                                    class="part-gallery__fullscreen"
+                                    type="button"
+                                    data-gallery-fullscreen
+                                    aria-label="Открыть фото на весь экран"
+                                    aria-pressed="false"
+                                >
+                                    <i class="bi bi-arrows-fullscreen"></i>
+                                </button>
+                                <span
+                                    class="part-gallery__counter"
+                                    data-gallery-counter
+                                ></span>
+                            </div>
+                        {% endwith %}
+                        <div class="part-gallery__thumbs">
                         {% for image in instruction.images.all %}
-                            <figure>
-                                <img src="{{ image.image.url }}" alt="{{ image.description|default:instruction.title }}">
-                                {% if image.description %}<figcaption>{{ image.description }}</figcaption>{% endif %}
-                            </figure>
+                            <button
+                                type="button"
+                                data-gallery-thumbnail
+                                data-image-url="{{ image.image.url }}"
+                                data-image-alt="{{ image.description|default:instruction.title }}"
+                                aria-label="Открыть иллюстрацию {{ forloop.counter }}"
+                            >
+                                <img
+                                    src="{{ image.image.url }}"
+                                    alt=""
+                                    loading="lazy"
+                                >
+                            </button>
                         {% endfor %}
+                        </div>
                     </div>
                 </section>
             {% endif %}
