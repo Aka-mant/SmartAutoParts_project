@@ -120,6 +120,16 @@ class SubscriptionPlanPageTests(TestCase):
         self.assertFalse(serializer.is_valid())
         self.assertIn("max_chat_requests", serializer.errors)
 
+    def test_unknown_feature_uses_total_ai_limit(self):
+        """Возвращает общий лимит для расширяемой неизвестной AI-функции."""
+
+        self.hidden_plan.max_ai_requests = 7
+
+        self.assertEqual(
+            self.hidden_plan.get_feature_limit("future_feature"),
+            7,
+        )
+
     def test_plan_api_hides_non_public_plans(self):
         user = get_user_model().objects.create_user(
             username="api-subscriber",

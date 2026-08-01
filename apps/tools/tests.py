@@ -5,9 +5,15 @@ from django.contrib.auth import get_user_model
 from django.core.files.uploadedfile import SimpleUploadedFile
 from django.test import TestCase, override_settings
 from django.urls import reverse
+from rest_framework.exceptions import ValidationError
 
-from .models import Tool, ToolCategory, ToolImage
+from apps.parts.models import Part
+
+from .models import PartTool, Tool, ToolCategory, ToolImage
 from .serializers import (
+    PartToolCreateSerializer,
+    ToolCategoryCreateSerializer,
+    ToolCategoryUpdateSerializer,
     ToolCreateSerializer,
     ToolSerializer,
     ToolUpdateSerializer,
@@ -29,6 +35,58 @@ class ToolSerializerTests(TestCase):
         )
         self.assertIn("ozon_url", ToolCreateSerializer().fields)
         self.assertIn("ozon_url", ToolUpdateSerializer().fields)
+
+
+class ToolSerializerValidationTests(TestCase):
+    """Проверяет успешные и конфликтующие связи каталога инструментов."""
+
+    def setUp(self):
+        self.category = ToolCategory.objects.create(
+            name="Диагностическое оборудование",
+            slug="diagnostic-equipment",
+        )
+        self.part = Part.objects.create(
+            name="Датчик тестовой системы",
+            slug="test-system-sensor",
+            original_number="TEST-SENSOR-001",
+        )
+        self.tool = Tool.objects.create(
+            category=self.category,
+            name="Тестовый мультиметр",
+        )
+
+    def test_category_serializers_accept_available_slug(self):
+        """Разрешает новый slug при создании и обновлении категории."""
+
+        create_serializer = ToolCategoryCreateSerializer()
+        self.assertEqual(
+            create_serializer.validate_slug("new-diagnostic-tools"),
+            "new-diagnostic-tools",
+        )
+
+        update_serializer = ToolCategoryUpdateSerializer(
+            instance=self.category,
+        )
+        self.assertEqual(
+            update_serializer.validate_slug("updated-diagnostic-tools"),
+            "updated-diagnostic-tools",
+        )
+
+    def test_part_tool_serializer_accepts_new_relation(self):
+        """Разрешает первичную связь детали с инструментом."""
+
+        attrs = {
+            "part": self.part,
+            "tool": self.tool,
+            "required": True,
+        }
+        serializer = PartToolCreateSerializer()
+
+        self.assertEqual(serializer.validate(attrs), attrs)
+
+        PartTool.objects.create(part=self.part, tool=self.tool)
+        with self.assertRaises(ValidationError):
+            serializer.validate(attrs)
 
 
 class ToolPageAndImageTests(TestCase):
